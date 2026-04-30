@@ -1,0 +1,846 @@
+== Step 0 verification ==
+- python_version                       : 3.14.4
+- .venv/ exists                        : yes
+- requirements.txt exists              : yes
+- pip install completed without errors : yes
+- "import anthropic, pandas, tqdm, rapidfuzz, orjson"  : OK
+- FTS5 sanity check                    : OK
+
+== Phase 0 verification ==
+- asset_profile.json exists                          : yes
+- type_designation derived from CSV (not folder name): yes
+- expected_tiers contains at least one tier           : yes
+- pages_read_in_phase0                                : 5
+- entities_aggregated                                 : 5
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 4 verification ==
+- count(components)             : 0
+- count(part_types)             : 0
+- count(serials)                : 0
+- components grouped by tier    : {}
+- LLP count                     : {}
+- count(components seeded from profile) : 0
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes
+
+== Phase 1 verification ==
+- csv_row_count                       : 1190
+- count(pages)                        : 1185
+- count(documents)                    : 213
+- count(stamps)                       : 0
+- count(pages_fts)                    : 1185
+- count(pages WHERE text_content != ''): 1123
+- pct documents with non-null document_type : 95%
+
+== Phase 2 verification ==
+field            profile          corpus_majority   verdict
+---------------- ---------------- ----------------- -------
+msn              None             None              match
+
+- count(assets)                       : 1
+- assets.asset_kind populated         : yes
+- assets.profile_json IS NOT NULL     : yes
+- assets.dossier_date populated       : yes
+- count(findings WHERE finding_type='CONTEXT_DISCREPANCY') logged : 0
+
+== Phase 3 verification ==
+- count(edges WHERE edge_type='HAS_TIER') : 7 (expected 7)
+- each expected tier has exactly one edge : yes

@@ -1,0 +1,15 @@
+node_modules
+.venv
+csvs
+**/asset_pages_*.csv
+**/graph.db
+**/_checkpoints
+**/__pycache__
+**/.pytest_cache
+**/*.bak
+.git
+.github
+coverage
+docs
+vscode-extension
+python

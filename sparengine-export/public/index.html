@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sparengine — Asset Pages Export</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: -apple-system, Segoe UI, Inter, Roboto, sans-serif;
+      max-width: 880px; margin: 32px auto; padding: 0 20px;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; }
+    p.sub { color: #888; margin: 0 0 24px; }
+    label { display: block; font-weight: 600; margin: 16px 0 6px; }
+    textarea {
+      width: 100%; min-height: 90px; padding: 10px;
+      font: 13px ui-monospace, SFMono-Regular, Menlo, monospace;
+      border: 1px solid #ccc; border-radius: 6px; resize: vertical;
+    }
+    button {
+      margin-top: 14px; padding: 10px 18px; font-size: 14px;
+      border: 0; border-radius: 6px; background: #2563eb; color: white;
+      cursor: pointer;
+    }
+    button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    #statusBar {
+      margin-top: 20px; padding: 10px 12px;
+      background: #0b0f17; color: #e5e7eb;
+      border-radius: 6px; border: 1px solid #1f2937;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .pill {
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      font-weight: 700; font-size: 11px; letter-spacing: .04em;
+    }
+    .state-idle    { background:#374151; color:#d1d5db; }
+    .state-export  { background:#1e3a5f; color:#93c5fd; }
+    .state-running { background:#3b1f5f; color:#c4b5fd; animation: pulse 1.6s ease-in-out infinite; }
+    .state-thinking{ background:#3a2a1f; color:#fdba74; animation: pulse 1.6s ease-in-out infinite; }
+    .state-done    { background:#0f3a2a; color:#4ade80; }
+    .state-failed  { background:#5f1f1f; color:#fca5a5; }
+    .state-stopped { background:#3f3f46; color:#fde68a; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+
+    #stopBtn {
+      margin-top: 0; margin-left: auto; padding: 4px 10px;
+      background: #7f1d1d; color:#fff; font-size:12px;
+    }
+    #stopBtn:hover { background:#991b1b; }
+
+    #stream {
+      margin-top: 24px;
+      background: #0b0f17; color: #e5e7eb;
+      border-radius: 8px; padding: 14px;
+      max-height: 70vh; overflow-y: auto;
+      font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .row { padding: 6px 0; border-bottom: 1px solid #1f2937; }
+    .row:last-child { border-bottom: 0; }
+    .tag {
+      display: inline-block; min-width: 80px;
+      font-weight: 600; font-size: 11px;
+      padding: 1px 6px; border-radius: 3px; margin-right: 8px;
+      text-align: center;
+    }
+    .body { white-space: pre-wrap; word-break: break-word; }
+    .preview {
+      margin-top: 4px; padding: 6px 8px;
+      background: #07101a; color: #94a3b8;
+      border-left: 2px solid #1e3a5f; border-radius: 0 4px 4px 0;
+      max-height: 160px; overflow-y: auto;
+      white-space: pre-wrap; font-size: 11.5px;
+    }
+
+    .t-export   { background:#1e3a5f; color:#93c5fd; }
+    .t-tool     { background:#3b1f5f; color:#c4b5fd; }
+    .t-result   { background:#1f3b2f; color:#86efac; }
+    .t-error    { background:#5f1f1f; color:#fca5a5; }
+    .t-text     { background:#1f2937; color:#e5e7eb; }
+    .t-think    { background:#3a2a1f; color:#fdba74; }
+    .t-reason   { background:#0f2a3f; color:#7dd3fc; }
+    .t-system   { background:#1f2937; color:#9ca3af; }
+    .t-done     { background:#0f3a2a; color:#4ade80; }
+    .t-stderr   { background:#3f1d1d; color:#fca5a5; }
+    .t-raw      { background:#1f2937; color:#9ca3af; }
+
+    .body.text { color: #f3f4f6; }
+    .body.thinking { color: #fdba74; font-style: italic; }
+    .body.error { color: #fca5a5; }
+    .body.reasoning {
+      color: #f0f9ff;
+      font-size: 13.5px; line-height: 1.55;
+      font-family: -apple-system, Segoe UI, Inter, sans-serif;
+    }
+    .tool-name { color: #c4b5fd; font-weight: 600; }
+    .tool-arg  { color: #e5e7eb; }
+    .meta      { color: #6b7280; font-size: 11px; }
+
+    /* Phase banner — prominent divider for "### [Phase N] subject" */
+    .phase-banner {
+      margin: 14px -14px 8px -14px;
+      padding: 10px 14px;
+      background: linear-gradient(90deg, #1e3a8a 0%, #312e81 100%);
+      border-left: 4px solid #00e5ff;
+      color: #e0f2fe;
+      font-size: 13px; font-weight: 600;
+      display: flex; align-items: baseline; gap: 12px;
+    }
+    .phase-banner .ph-tag {
+      font-family: ui-monospace, monospace;
+      background: #00e5ff; color: #0b0f17;
+      padding: 2px 8px; border-radius: 3px;
+      font-size: 11px; letter-spacing: .02em;
+    }
+    .phase-banner .ph-subject {
+      flex: 1; color: #f3f4f6; font-weight: 500;
+      word-break: break-word;
+    }
+
+    /* Reasoning paragraph — bigger and softer than tool output */
+    .reasoning-block {
+      margin: 8px 0; padding: 10px 14px;
+      background: rgba(15, 42, 63, 0.6);
+      border-left: 3px solid #38bdf8;
+      border-radius: 0 6px 6px 0;
+      max-width: 100%;
+    }
+    .reasoning-block::before {
+      content: "💭 reasoning";
+      display: block; margin-bottom: 6px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+      color: #38bdf8; text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sparengine — Asset Pages Export</h1>
+  <p class="sub">Paste asset IDs (newline or comma-separated). CSV → <code>csvs/&lt;id&gt;-&lt;name&gt;/</code>; agent runs in the same folder.</p>
+
+  <label for="ids">Asset IDs</label>
+  <textarea id="ids" placeholder="0378e3e8-ec91-476d-8031-79c198611253"></textarea>
+
+  <label style="font-weight:400; margin-top:14px;">
+    <input type="checkbox" id="runAgent" checked />
+    Run graph-builder agent automatically after export
+  </label>
+
+  <button id="go">Run export</button>
+
+  <div id="statusBar" hidden>
+    <span id="statusPill" class="pill state-idle">IDLE</span>
+    <span class="meta" id="statusDetail">waiting</span>
+    <span class="meta" id="statusElapsed"></span>
+    <span class="meta" id="statusTools"></span>
+    <span class="meta" id="statusLast"></span>
+    <button id="stopBtn" hidden>Stop agent</button>
+  </div>
+
+  <div id="stream" hidden></div>
+
+  <script>
+    const $stream  = document.getElementById('stream');
+    const $btn     = document.getElementById('go');
+    const $ids     = document.getElementById('ids');
+    const $bar     = document.getElementById('statusBar');
+    const $pill    = document.getElementById('statusPill');
+    const $detail  = document.getElementById('statusDetail');
+    const $elapsed = document.getElementById('statusElapsed');
+    const $tools   = document.getElementById('statusTools');
+    const $last    = document.getElementById('statusLast');
+    const $stop    = document.getElementById('stopBtn');
+
+    const toolRows = new Map();
+    const status = {
+      startedAt: 0, lastActivityAt: 0, toolCount: 0,
+      timer: null, state: 'idle',
+    };
+
+    function setState(state, detail) {
+      status.state = state;
+      $pill.className = 'pill state-' + state;
+      $pill.textContent = state.toUpperCase();
+      if (detail !== undefined) $detail.textContent = detail;
+      $stop.hidden = !(state === 'running' || state === 'thinking' || state === 'export');
+    }
+
+    function tick() {
+      if (!status.startedAt) return;
+      const sec = Math.floor((Date.now() - status.startedAt) / 1000);
+      const m = Math.floor(sec / 60), s = sec % 60;
+      $elapsed.textContent = `elapsed ${m}m${String(s).padStart(2,'0')}s`;
+      const idleSec = Math.floor((Date.now() - status.lastActivityAt) / 1000);
+      $last.textContent = status.lastActivityAt ? `last activity ${idleSec}s ago` : '';
+    }
+
+    function bump(detail) {
+      status.lastActivityAt = Date.now();
+      if (detail !== undefined) $detail.textContent = detail;
+    }
+
+    function startStatus() {
+      $bar.hidden = false;
+      status.startedAt = Date.now();
+      status.lastActivityAt = Date.now();
+      status.toolCount = 0;
+      $tools.textContent = 'tools 0';
+      setState('export', 'starting');
+      if (status.timer) clearInterval(status.timer);
+      status.timer = setInterval(tick, 1000);
+      tick();
+    }
+
+    function endStatus(state, detail) {
+      setState(state, detail);
+      if (status.timer) { clearInterval(status.timer); status.timer = null; }
+      tick();
+    }
+
+    $stop.addEventListener('click', async () => {
+      $stop.disabled = true;
+      try {
+        await fetch('/agent/stop', { method: 'POST' });
+        setState('stopped', 'stop requested');
+      } catch (e) {
+        row({ tag: 'STOP', tagClass: 't-error', body: e.message });
+      } finally {
+        $stop.disabled = false;
+      }
+    });
+
+    function row({ tag, tagClass, body, bodyClass, preview }) {
+      const div = document.createElement('div');
+      div.className = 'row';
+      const t = document.createElement('span');
+      t.className = `tag ${tagClass || 't-system'}`;
+      t.textContent = tag;
+      div.appendChild(t);
+
+      if (body !== undefined) {
+        const b = document.createElement('span');
+        b.className = `body ${bodyClass || ''}`;
+        if (typeof body === 'string') b.textContent = body;
+        else b.appendChild(body);
+        div.appendChild(b);
+      }
+      if (preview) {
+        const p = document.createElement('div');
+        p.className = 'preview';
+        p.textContent = preview;
+        div.appendChild(p);
+      }
+      $stream.appendChild(div);
+      $stream.scrollTop = $stream.scrollHeight;
+      return div;
+    }
+
+    function toolBody(tool, input) {
+      const span = document.createElement('span');
+      const n = document.createElement('span');
+      n.className = 'tool-name';
+      n.textContent = tool;
+      span.appendChild(n);
+      if (input) {
+        const a = document.createElement('span');
+        a.className = 'tool-arg';
+        a.textContent = '  ' + input;
+        span.appendChild(a);
+      }
+      return span;
+    }
+
+    function handle(evt) {
+      switch (evt.type) {
+        // CSV export
+        case 'start':
+          setState('export', `writing ${evt.file}`);
+          row({ tag: 'EXPORT', tagClass: 't-export', body: `writing ${evt.file}` });
+          break;
+        case 'progress':
+          bump(`csv rows: ${evt.rows.toLocaleString()}`);
+          row({ tag: 'EXPORT', tagClass: 't-export', body: `  rows so far: ${evt.rows.toLocaleString()}` });
+          break;
+        case 'warn':
+          row({ tag: 'WARN', tagClass: 't-error', body: evt.message, bodyClass: 'error' });
+          break;
+        case 'done':
+          bump(`csv done: ${evt.rows.toLocaleString()} rows`);
+          row({ tag: 'CSV DONE', tagClass: 't-done', body: `${evt.rows.toLocaleString()} rows → ${evt.path}` });
+          break;
+        case 'error':
+          endStatus('failed', evt.message);
+          row({ tag: 'ERROR', tagClass: 't-error', body: evt.message, bodyClass: 'error' });
+          break;
+
+        // Agent lifecycle
+        case 'agent-start':
+          setState('running', `agent starting (${evt.cli})`);
+          row({ tag: 'AGENT', tagClass: 't-system', body: `starting (${evt.cli}) in ${evt.cwd}` });
+          break;
+        case 'agent-init':
+          bump(`model=${evt.model}  tools=${(evt.tools||[]).length}`);
+          row({ tag: 'AGENT', tagClass: 't-system', body: `model=${evt.model}  tools=${(evt.tools||[]).length}` });
+          break;
+        case 'agent-heartbeat':
+          // Refresh "last activity ago" without spamming the log.
+          tick();
+          break;
+        case 'agent-thinking':
+          setState('thinking', 'reasoning');
+          row({ tag: 'THINK', tagClass: 't-think', body: evt.text, bodyClass: 'thinking' });
+          break;
+        case 'agent-text':
+          setState('running', 'writing');
+          bump('writing text');
+          row({ tag: 'TEXT', tagClass: 't-text', body: evt.text, bodyClass: 'text' });
+          break;
+        case 'agent-phase': {
+          // Prominent banner for "### [Phase N] subject"
+          const div = document.createElement('div');
+          div.className = 'phase-banner';
+          const tag = document.createElement('span');
+          tag.className = 'ph-tag';
+          tag.textContent = 'PHASE ' + evt.phase;
+          const subj = document.createElement('span');
+          subj.className = 'ph-subject';
+          subj.textContent = evt.subject;
+          div.appendChild(tag); div.appendChild(subj);
+          $stream.appendChild(div);
+          $stream.scrollTop = $stream.scrollHeight;
+          setState('thinking', `Phase ${evt.phase}: ${evt.subject.slice(0,60)}`);
+          break;
+        }
+        case 'agent-reasoning': {
+          // Render as a distinct reasoning card (bigger text, blue accent)
+          setState('thinking', 'reasoning');
+          bump('reasoning');
+          const block = document.createElement('div');
+          block.className = 'reasoning-block';
+          block.textContent = evt.text;
+          $stream.appendChild(block);
+          $stream.scrollTop = $stream.scrollHeight;
+          break;
+        }
+        case 'agent-tool': {
+          status.toolCount += 1;
+          $tools.textContent = `tools ${status.toolCount}`;
+          setState('running', `${evt.tool}${evt.input ? '  ' + evt.input.slice(0,80) : ''}`);
+          bump();
+          const r = row({
+            tag: 'TOOL', tagClass: 't-tool',
+            body: toolBody(evt.tool, evt.input),
+          });
+          if (evt.tool_id) toolRows.set(evt.tool_id, r);
+          break;
+        }
+        case 'agent-tool-result': {
+          bump(evt.is_error ? 'tool error' : 'tool returned');
+          const target = evt.tool_id ? toolRows.get(evt.tool_id) : null;
+          if (target) {
+            const p = document.createElement('div');
+            p.className = 'preview';
+            if (evt.is_error) p.style.borderLeftColor = '#7f1d1d';
+            p.textContent = evt.preview || '(no output)';
+            target.appendChild(p);
+            if (evt.tool_id) toolRows.delete(evt.tool_id);
+          } else {
+            row({
+              tag: evt.is_error ? 'TOOL ERR' : 'RESULT',
+              tagClass: evt.is_error ? 't-error' : 't-result',
+              preview: evt.preview || '(no output)',
+            });
+          }
+          break;
+        }
+        case 'agent-result':
+          row({
+            tag: 'AGENT END', tagClass: 't-done',
+            body: `subtype=${evt.subtype}  cost=$${evt.cost?.toFixed(4) ?? '0'}`,
+            preview: evt.text,
+          });
+          // Final status pill set on agent-done so we can show signal/code.
+          break;
+        case 'agent-done': {
+          const ok = evt.code === 0;
+          const note = evt.signal ? `killed (${evt.signal})`
+                     : ok          ? `exit 0`
+                                   : `exit ${evt.code}`;
+          endStatus(ok ? 'done' : (evt.signal ? 'stopped' : 'failed'), note);
+          row({
+            tag: 'EXIT',
+            tagClass: ok ? 't-done' : 't-error',
+            body: `agent exited — ${note}`,
+          });
+          break;
+        }
+        case 'agent-error':
+          endStatus('failed', evt.message);
+          row({ tag: 'AGENT ERR', tagClass: 't-error', body: evt.message, bodyClass: 'error' });
+          break;
+        case 'graph-ready': {
+          const span = document.createElement('span');
+          const a1 = document.createElement('a');
+          a1.href = evt.htmlUrl; a1.target = '_blank';
+          a1.style.color = '#4ade80'; a1.style.textDecoration = 'underline';
+          a1.textContent = 'open asset_graph.html';
+          const a2 = document.createElement('a');
+          a2.href = evt.folderUrl; a2.target = '_blank';
+          a2.style.color = '#93c5fd'; a2.style.marginLeft = '12px';
+          a2.textContent = 'browse folder';
+          span.appendChild(a1); span.appendChild(a2);
+          row({ tag: 'GRAPH', tagClass: 't-done', body: span });
+          break;
+        }
+        case 'agent-log':
+          row({
+            tag: evt.stream === 'stderr' ? 'STDERR' : 'LOG',
+            tagClass: evt.stream === 'stderr' ? 't-stderr' : 't-raw',
+            body: evt.line,
+          });
+          break;
+
+        default:
+          row({ tag: evt.type || '?', tagClass: 't-raw', body: JSON.stringify(evt) });
+      }
+    }
+
+    $btn.addEventListener('click', async () => {
+      const raw = $ids.value.trim();
+      if (!raw) { alert('No asset IDs provided.'); return; }
+      const assetIds = raw.split(/[\s,]+/).map(s => s.trim()).filter(Boolean);
+
+      $stream.hidden = false;
+      $stream.innerHTML = '';
+      toolRows.clear();
+      $btn.disabled = true;
+      startStatus();
+
+      row({ tag: 'SUBMIT', tagClass: 't-system', body: `${assetIds.length} asset id(s)` });
+
+      const runAgent = document.getElementById('runAgent').checked;
+
+      try {
+        const res = await fetch('/export', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ assetIds, runAgent }),
+        });
+        if (!res.ok || !res.body) {
+          row({ tag: 'HTTP', tagClass: 't-error', body: `${res.status}: ${await res.text()}` });
+          $btn.disabled = false;
+          return;
+        }
+
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer    = '';
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          let idx;
+          while ((idx = buffer.indexOf('\n\n')) !== -1) {
+            const frame = buffer.slice(0, idx);
+            buffer      = buffer.slice(idx + 2);
+            const line  = frame.split('\n').find(l => l.startsWith('data: '));
+            if (!line) continue;
+            try { handle(JSON.parse(line.slice(6))); }
+            catch (e) { row({ tag: 'PARSE', tagClass: 't-error', body: e.message }); }
+          }
+        }
+      } catch (e) {
+        row({ tag: 'NET', tagClass: 't-error', body: e.message, bodyClass: 'error' });
+      } finally {
+        $btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

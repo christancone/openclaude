@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ASSET_TITLE}} — Asset Knowledge Graph</title>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* --- Top Stats Bar --- */
+#stats-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 40px;
+    background: rgba(16, 16, 36, 0.95);
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 24px;
+    z-index: 1000;
+    font-size: 13px;
+}
+#stats-bar .stat { display: flex; align-items: center; gap: 6px; }
+#stats-bar .stat-value { color: #00e5ff; font-weight: 600; }
+#stats-bar .stat-label { color: #888; }
+#stats-bar .sep { width: 1px; height: 20px; background: #333; }
+#stats-bar .title-text {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+.finding-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 4px;
+}
+.finding-badge.l1 { background: #F44336; color: #fff; }
+.finding-badge.l2 { background: #FF9800; color: #000; }
+.finding-badge.l3 { background: #FFD600; color: #000; }
+
+/* --- Filter Toolbar --- */
+#toolbar {
+    position: fixed;
+    top: 40px; left: 0; right: 0;
+    background: rgba(20, 20, 45, 0.95);
+    border-bottom: 1px solid #333;
+    padding: 8px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    z-index: 999;
+    font-size: 12px;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.filter-group-label {
+    color: #888;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+    white-space: nowrap;
+}
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #ccc;
+}
+.filter-group label:hover { color: #fff; }
+.filter-group input[type="checkbox"] {
+    accent-color: #00e5ff;
+    cursor: pointer;
+}
+#search-box {
+    background: #0d0d1f;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    width: 180px;
+    outline: none;
+}
+#search-box:focus { border-color: #00e5ff; }
+#search-box::placeholder { color: #666; }
+#preset-select {
+    background: #0d0d1f;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+}
+.btn {
+    background: #1e3a5f;
+    border: 1px solid #2a5080;
+    color: #e0e0e0;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.btn:hover { background: #2a5080; }
+
+/* --- Graph Container --- */
+#graph-container {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding-top: 85px;
+}
+#graph-container canvas { outline: none; }
+
+/* --- Side Panel --- */
+#side-panel {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 400px;
+    bottom: 0;
+    background: rgba(16, 16, 36, 0.98);
+    border-left: 1px solid #333;
+    overflow-y: auto;
+    transition: right 0.3s ease;
+    z-index: 1001;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.5);
+}
+#side-panel.open { right: 0; }
+#panel-close {
+    position: sticky;
+    top: 0;
+    display: block;
+    text-align: right;
+    background: rgba(16, 16, 36, 0.98);
+    border: none;
+    border-bottom: 1px solid #333;
+    color: #888;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 10px 16px;
+    z-index: 10;
+    line-height: 1;
+    width: 100%;
+}
+#panel-close:hover { color: #fff; }
+#panel-content { padding: 16px; padding-top: 4px; }
+
+.panel-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #333;
+}
+.panel-header h2 {
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 4px;
+    word-break: break-all;
+}
+.panel-header .desc {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 4px;
+}
+.panel-header .badges { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+.badge-closed { background: #4CAF50; color: #fff; }
+.badge-partial { background: #FF9800; color: #000; }
+.badge-gap { background: #F44336; color: #fff; }
+.badge-discovered { background: #9E9E9E; color: #fff; }
+.badge-tier {
+    background: transparent;
+    border: 1px solid #666;
+    color: #ccc;
+}
+
+.panel-section {
+    margin-bottom: 16px;
+}
+.panel-section h3 {
+    font-size: 13px;
+    color: #00e5ff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #222;
+}
+.data-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 12px;
+    font-size: 12px;
+}
+.data-grid .label { color: #888; }
+.data-grid .value { color: #e0e0e0; font-weight: 500; word-break: break-all; }
+.data-grid .value.warn { color: #FF9800; }
+.data-grid .value.danger { color: #F44336; font-weight: 700; }
+.data-grid .value.ok { color: #4CAF50; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 0; bottom: 0;
+    width: 2px;
+    background: #333;
+}
+.timeline-item {
+    position: relative;
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border-left: 3px solid #444;
+    font-size: 11px;
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -20px; top: 12px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #555;
+}
+.timeline-item.type-installation { border-left-color: #2196F3; }
+.timeline-item.type-installation::before { background: #2196F3; }
+.timeline-item.type-removal { border-left-color: #F44336; }
+.timeline-item.type-removal::before { background: #F44336; }
+.timeline-item.type-overhaul { border-left-color: #4CAF50; }
+.timeline-item.type-overhaul::before { background: #4CAF50; }
+.timeline-item.type-inspection { border-left-color: #FF9800; }
+.timeline-item.type-inspection::before { background: #FF9800; }
+.timeline-item.type-shop_visit { border-left-color: #9C27B0; }
+.timeline-item.type-shop_visit::before { background: #9C27B0; }
+.timeline-item.type-check { border-left-color: #795548; }
+.timeline-item.type-check::before { background: #795548; }
+.timeline-item.type-sb_compliance { border-left-color: #00BCD4; }
+.timeline-item.type-sb_compliance::before { background: #00BCD4; }
+.timeline-item .ev-date { color: #00e5ff; font-weight: 600; }
+.timeline-item .ev-type {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.08);
+    color: #ccc;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-left: 6px;
+}
+.timeline-item .ev-detail { color: #999; margin-top: 3px; }
+.timeline-item .ev-source {
+    color: #5c9ce6;
+    margin-top: 3px;
+    font-size: 10px;
+    cursor: default;
+}
+.timeline-item .ev-evidence {
+    color: #777;
+    margin-top: 4px;
+    font-size: 10px;
+    font-style: italic;
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Findings in panel */
+.finding-item {
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    font-size: 11px;
+    border-left: 3px solid #666;
+}
+.finding-item.sev-1 { border-left-color: #F44336; }
+.finding-item.sev-2 { border-left-color: #FF9800; }
+.finding-item.sev-3 { border-left-color: #FFD600; }
+.finding-item .f-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+.finding-item .f-type { color: #fff; font-weight: 600; font-size: 11px; }
+.finding-item .f-status {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+}
+.finding-item .f-status.open { background: #F44336; color: #fff; }
+.finding-item .f-status.closed { background: #4CAF50; color: #fff; }
+.finding-item .f-desc { color: #aaa; margin-top: 3px; }
+.finding-item .f-source { color: #5c9ce6; margin-top: 3px; font-size: 10px; }
+
+/* Source documents */
+.source-list { list-style: none; font-size: 11px; }
+.source-list li {
+    padding: 3px 0;
+    color: #5c9ce6;
+    border-bottom: 1px solid #1a1a2e;
+}
+
+/* --- Legend --- */
+#legend {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(16, 16, 36, 0.92);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 11px;
+    z-index: 997;
+    max-width: 320px;
+}
+#legend h4 {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.legend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.legend-shape {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.legend-label { color: #bbb; }
+.legend-section { margin-top: 10px; }
+.legend-section:first-child { margin-top: 0; }
+
+/* Toggle legend */
+#legend-toggle {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    z-index: 998;
+    display: none;
+}
+
+/* Loading overlay */
+#loading {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+    gap: 16px;
+}
+#loading .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid #333;
+    border-top-color: #00e5ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loading .load-text { color: #888; font-size: 14px; }
+
+/* Scrollbar */
+#side-panel::-webkit-scrollbar { width: 6px; }
+#side-panel::-webkit-scrollbar-track { background: #111; }
+#side-panel::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+#side-panel::-webkit-scrollbar-thumb:hover { background: #666; }
+
+/* --- v2 additions: lease return banner --- */
+#lease-return-banner {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    height: 28px;
+    background: linear-gradient(90deg, rgba(255, 152, 0, 0.18), rgba(255, 152, 0, 0.08));
+    border-bottom: 1px solid rgba(255, 152, 0, 0.5);
+    color: #FFD180;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 998;
+    padding: 0 16px;
+}
+#lease-return-banner.visible { display: flex; }
+#lease-return-banner .lr-icon { font-size: 14px; }
+#lease-return-banner .lr-detail { color: #aaa; font-weight: 400; font-size: 11px; }
+body.lease-return #toolbar { top: 68px; }
+body.lease-return #graph-container { padding-top: 113px; }
+
+/* --- v2 additions: provisional finding stat --- */
+.finding-badge.prov {
+    background: #6c5ce7;
+    color: #fff;
+}
+.finding-badge.prov[hidden] { display: none; }
+
+/* --- v2 additions: severity downgrade hint --- */
+.finding-item .f-downgrade {
+    color: #FFD180;
+    font-size: 10px;
+    margin-top: 3px;
+    font-style: italic;
+}
+.finding-item .f-discipline {
+    display: inline-block;
+    background: #6c5ce7;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 600;
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.finding-item.provisional {
+    border-left-style: dashed;
+    opacity: 0.85;
+}
+.finding-item .f-verification {
+    color: #4CAF50;
+    font-size: 10px;
+    margin-top: 3px;
+    font-style: italic;
+}
+.finding-item .f-status.provisional {
+    background: #6c5ce7;
+    color: #fff;
+}
+
+/* --- v2 additions: critical items section --- */
+.priority-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.priority-item {
+    background: rgba(244, 67, 54, 0.08);
+    border-left: 3px solid #F44336;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+.priority-item.urgency-high   { border-left-color: #FF9800; background: rgba(255, 152, 0, 0.08); }
+.priority-item.urgency-medium { border-left-color: #FFD600; background: rgba(255, 214, 0, 0.06); }
+.priority-item .pri-rank {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    background: #F44336;
+    color: #fff;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 10px;
+    margin-right: 6px;
+}
+.priority-item.urgency-high .pri-rank   { background: #FF9800; }
+.priority-item.urgency-medium .pri-rank { background: #FFD600; color: #000; }
+.priority-item .pri-component {
+    display: inline-block;
+    color: #00e5ff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.priority-item .pri-component:hover { text-decoration: underline; }
+.priority-item .pri-reason { color: #ddd; margin-top: 4px; }
+.priority-item .pri-metric { color: #FFD180; margin-top: 2px; font-size: 10px; }
+
+/* --- v2 additions: audit quality snapshot --- */
+.audit-quality {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 11px;
+}
+.aq-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+}
+.aq-row .aq-label { color: #aaa; }
+.aq-row .aq-value { font-weight: 600; }
+.aq-row .aq-value.good   { color: #4CAF50; }
+.aq-row .aq-value.warn   { color: #FF9800; }
+.aq-row .aq-value.danger { color: #F44336; }
+
+/* --- v2 additions: mandatory checklist --- */
+.checklist { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; font-size: 11px; }
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+.checklist-item.complete   { color: #4CAF50; }
+.checklist-item.incomplete { color: #F44336; background: rgba(244, 67, 54, 0.05); }
+.checklist-item .cl-mark { font-weight: 700; width: 14px; }
+
+/* --- v2 additions: lease return panel section --- */
+.lease-return-card {
+    background: rgba(255, 152, 0, 0.06);
+    border-left: 3px solid #FF9800;
+    padding: 8px 10px;
+    border-radius: 4px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #FFD180;
+}
+.lease-return-card .lr-title { font-weight: 700; margin-bottom: 4px; color: #FFB74D; }
+.lease-return-card .lr-row { color: #ddd; margin: 2px 0; }
+
+</style>
+</head>
+<body>
+
+<div id="loading">
+    <div class="spinner"></div>
+    <div class="load-text">Loading asset graph...</div>
+</div>
+
+<!-- Stats Bar -->
+<!-- Lease return banner (shown when lease_return_state.is_lease_return) -->
+<div id="lease-return-banner">
+    <span class="lr-icon">⚠</span>
+    <span>LEASE RETURN STATE</span>
+    <span class="lr-detail" id="lr-detail"></span>
+</div>
+
+<div id="stats-bar">
+    <span class="title-text">{{ASSET_TITLE}}</span>
+    <div class="sep"></div>
+    <div class="stat">
+        <span class="stat-label">Nodes</span>
+        <span class="stat-value" id="stat-nodes">--</span>
+    </div>
+    <div class="stat">
+        <span class="stat-label">Visible</span>
+        <span class="stat-value" id="stat-visible">--</span>
+    </div>
+    <div class="stat">
+        <span class="stat-label">Edges</span>
+        <span class="stat-value" id="stat-edges">--</span>
+    </div>
+    <div class="sep"></div>
+    <div class="stat">
+        <span class="stat-label">Findings</span>
+        <span class="stat-value" id="stat-findings">--</span>
+    </div>
+    <div class="stat">
+        <span class="finding-badge l1" id="stat-l1">L1: --</span>
+        <span class="finding-badge l2" id="stat-l2">L2: --</span>
+        <span class="finding-badge l3" id="stat-l3">L3: --</span>
+        <span class="finding-badge prov" id="stat-prov" hidden>Prov: --</span>
+    </div>
+</div>
+
+<!-- Filter Toolbar -->
+<div id="toolbar">
+    <div class="filter-group">
+        <span class="filter-group-label">Tier:</span>
+        <label><input type="checkbox" class="tier-filter" value="ENGINE" checked> Engine</label>
+        <label><input type="checkbox" class="tier-filter" value="LANDING_GEAR" checked> L/G</label>
+        <label><input type="checkbox" class="tier-filter" value="PROPELLER" checked> Prop</label>
+        <label><input type="checkbox" class="tier-filter" value="AIRFRAME" checked> Airframe</label>
+        <label><input type="checkbox" class="tier-filter" value="AVIONICS" checked> Avionics</label>
+    </div>
+    <div class="sep"></div>
+    <div class="filter-group">
+        <span class="filter-group-label">Status:</span>
+        <label><input type="checkbox" class="status-filter" value="CLOSED" checked> Closed</label>
+        <label><input type="checkbox" class="status-filter" value="PARTIAL" checked> Partial</label>
+        <label><input type="checkbox" class="status-filter" value="GAP" checked> Gap</label>
+        <label><input type="checkbox" class="status-filter" value="DISCOVERED" checked> Discovered</label>
+    </div>
+    <div class="sep"></div>
+    <div class="filter-group">
+        <span class="filter-group-label">Edges:</span>
+        <label><input type="checkbox" class="edge-filter" value="installation" checked> Install</label>
+        <label><input type="checkbox" class="edge-filter" value="removal" checked> Removal</label>
+        <label><input type="checkbox" class="edge-filter" value="overhaul" checked> Overhaul</label>
+        <label><input type="checkbox" class="edge-filter" value="inspection" checked> Inspect</label>
+        <label><input type="checkbox" class="edge-filter" value="shop_visit" checked> Shop</label>
+        <label><input type="checkbox" class="edge-filter" value="sb_compliance" checked> SB</label>
+        <label><input type="checkbox" class="edge-filter" value="structure" checked> Struct</label>
+        <label><input type="checkbox" class="edge-filter" value="membership" checked> Member</label>
+    </div>
+    <div class="sep"></div>
+    <div class="filter-group">
+        <span class="filter-group-label">Severity:</span>
+        <label><input type="checkbox" class="severity-filter" value="1"> L1</label>
+        <label><input type="checkbox" class="severity-filter" value="2"> L2</label>
+        <label><input type="checkbox" class="severity-filter" value="3"> L3</label>
+    </div>
+    <div class="sep"></div>
+    <input type="text" id="search-box" placeholder="Search PN / SN...">
+    <select id="preset-select">
+        <optgroup label="Component views">
+            <option value="all">All components</option>
+            <option value="critical">Critical items only (L1)</option>
+            <option value="engine_llps">Engine LLPs</option>
+            <option value="landing_gear">Landing gear</option>
+            <option value="time_limited">Time-limited approaching</option>
+            <option value="missing_form1">Missing Form 1</option>
+        </optgroup>
+        <optgroup label="Complexity">
+            <option value="simple">Simple — tiers + key components only</option>
+            <option value="detailed">Detailed — all components + events</option>
+            <option value="documents">Documents — show source files as nodes</option>
+            <option value="ata">ATA chapters — group by ATA</option>
+            <option value="time">Time — components on a date axis</option>
+        </optgroup>
+    </select>
+    <button class="btn" id="btn-stabilize">Stabilize</button>
+    <button class="btn" id="btn-fit">Fit</button>
+</div>
+
+<!-- Graph Container -->
+<div id="graph-container"></div>
+
+<!-- Side Panel -->
+<div id="side-panel">
+    <button id="panel-close">&times;</button>
+    <div id="panel-content"></div>
+</div>
+
+<!-- Legend -->
+<div id="legend">
+    <div class="legend-section">
+        <h4>Node Status</h4>
+        <div class="legend-row"><div class="legend-color" style="background:#4CAF50"></div><span class="legend-label">Closed (verified)</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#FF9800"></div><span class="legend-label">Partial (incomplete data)</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#F44336"></div><span class="legend-label">Gap (missing records)</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#9E9E9E"></div><span class="legend-label">Discovered (unverified)</span></div>
+    </div>
+    <div class="legend-section">
+        <h4>Node Shape = Tier</h4>
+        <div class="legend-row"><span class="legend-label">&#9670; Diamond = Engine</span></div>
+        <div class="legend-row"><span class="legend-label">&#9650; Triangle = Landing Gear</span></div>
+        <div class="legend-row"><span class="legend-label">&#9733; Star = Propeller</span></div>
+        <div class="legend-row"><span class="legend-label">&#9679; Circle = Airframe</span></div>
+        <div class="legend-row"><span class="legend-label">&#9632; Square = Avionics</span></div>
+    </div>
+    <div class="legend-section">
+        <h4>Border Glow</h4>
+        <div class="legend-row"><div class="legend-color" style="background:#FF1744;width:14px;height:4px;border-radius:2px"></div><span class="legend-label">Has L1 finding</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#FF9100;width:14px;height:4px;border-radius:2px"></div><span class="legend-label">Has L2 finding</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#FFD600;width:14px;height:4px;border-radius:2px"></div><span class="legend-label">Has L3 finding</span></div>
+    </div>
+    <div class="legend-section">
+        <h4>Edge Color = Event Type</h4>
+        <div class="legend-row"><div class="legend-color" style="background:#2196F3;height:3px;border-radius:2px"></div><span class="legend-label">Installation</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#F44336;height:3px;border-radius:2px"></div><span class="legend-label">Removal</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#4CAF50;height:3px;border-radius:2px"></div><span class="legend-label">Overhaul</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#FF9800;height:3px;border-radius:2px"></div><span class="legend-label">Inspection</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#9C27B0;height:3px;border-radius:2px"></div><span class="legend-label">Shop visit</span></div>
+        <div class="legend-row"><div class="legend-color" style="background:#00BCD4;height:3px;border-radius:2px"></div><span class="legend-label">SB compliance</span></div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // --- Global state ---
+    let graphData = null;
+    let network = null;
+    let allNodes = null;
+    let allEdges = null;
+    let nodesDataset = null;
+    let edgesDataset = null;
+    let selectedNodeId = null;
+
+    // --- Load data ---
+    fetch('graph_export.json')
+        .then(r => r.json())
+        .then(data => {
+            graphData = data;
+            initGraph();
+            document.getElementById('loading').style.display = 'none';
+        })
+        .catch(err => {
+            document.getElementById('loading').innerHTML =
+                '<div style="color:#F44336;font-size:16px">Failed to load graph_export.json</div>' +
+                '<div style="color:#888;font-size:13px">' + err.message + '</div>';
+        });
+
+    function initGraph() {
+        // Build vis.js datasets
+        const visNodes = graphData.nodes.map(n => {
+            const node = {
+                id: n.id,
+                label: n.label,
+                group: n.group,
+                shape: n.shape,
+                size: n.size,
+                font: n.font,
+                borderWidth: n.borderWidth || 1,
+                _tier: n.tier,
+                _status: n.status,
+                _data: n.data,
+            };
+            // Handle color — accept string, object, or missing/null and
+            // always end up with a fully-formed vis-network color object.
+            const STATUS_COLORS = {
+                CLOSED:           '#4CAF50',
+                PARTIAL:          '#FF9800',
+                GAP:              '#F44336',
+                INSTALLED_AT_MFG: '#2196F3',
+                DISCOVERED:       '#9E9E9E',
+                TIER_GROUP:       '#5C6BC0',
+            };
+            const fallbackBg = STATUS_COLORS[n.status] || '#9E9E9E';
+
+            if (typeof n.color === 'string') {
+                node.color = {
+                    background: n.color,
+                    border:     n.color,
+                    highlight:  { background: '#FFFFFF', border: '#00E5FF' },
+                    hover:      { background: n.color, border: '#00E5FF' },
+                };
+            } else if (n.color && typeof n.color === 'object') {
+                node.color = { ...n.color };
+                node.color.background = node.color.background || fallbackBg;
+                node.color.border     = node.color.border     || node.color.background;
+                node.color.highlight  = node.color.highlight  || { background: '#FFFFFF', border: '#00E5FF' };
+                node.color.hover      = node.color.hover      || { background: node.color.background, border: '#00E5FF' };
+            } else {
+                node.color = {
+                    background: fallbackBg,
+                    border:     fallbackBg,
+                    highlight:  { background: '#FFFFFF', border: '#00E5FF' },
+                    hover:      { background: fallbackBg, border: '#00E5FF' },
+                };
+            }
+            return node;
+        });
+
+        const visEdges = graphData.edges.map(e => ({
+            id: e.id,
+            from: e.from,
+            to: e.to,
+            color: { color: e.color || '#888888', highlight: '#00E5FF', hover: '#00E5FF', opacity: 0.7 },
+            width: e.width,
+            dashes: e.dashes,
+            _event_type: e.event_type,
+            title: e.title || '',
+            smooth: { type: 'continuous', roundness: 0.2 },
+        }));
+
+        allNodes = visNodes;
+        allEdges = visEdges;
+
+        nodesDataset = new vis.DataSet(visNodes);
+        edgesDataset = new vis.DataSet(visEdges);
+
+        const container = document.getElementById('graph-container');
+        const data = { nodes: nodesDataset, edges: edgesDataset };
+
+        const options = {
+            physics: {
+                enabled: true,
+                solver: 'forceAtlas2Based',
+                forceAtlas2Based: {
+                    gravitationalConstant: -120,
+                    centralGravity: 0.008,
+                    springLength: 160,
+                    springConstant: 0.02,
+                    damping: 0.4,
+                    avoidOverlap: 0.5,
+                },
+                stabilization: {
+                    enabled: true,
+                    iterations: 300,
+                    updateInterval: 25,
+                },
+                maxVelocity: 50,
+                minVelocity: 0.75,
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 200,
+                navigationButtons: false,
+                keyboard: { enabled: true },
+                multiselect: false,
+                zoomView: true,
+                dragView: true,
+            },
+            nodes: {
+                borderWidthSelected: 3,
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.3)',
+                    size: 6,
+                    x: 2,
+                    y: 2,
+                },
+            },
+            edges: {
+                arrows: { to: { enabled: false } },
+                selectionWidth: 2,
+                shadow: false,
+            },
+            layout: {
+                improvedLayout: true,
+            },
+        };
+
+        network = new vis.Network(container, data, options);
+
+        // Update stats
+        updateStats();
+
+        // --- Event handlers ---
+        network.on('click', function(params) {
+            if (params.nodes.length > 0) {
+                selectNode(params.nodes[0]);
+            } else {
+                closePanel();
+            }
+        });
+
+        network.on('doubleClick', function(params) {
+            if (params.nodes.length > 0) {
+                const nodeId = params.nodes[0];
+                selectNode(nodeId);
+                network.focus(nodeId, {
+                    scale: 1.5,
+                    animation: { duration: 500, easingFunction: 'easeInOutQuad' }
+                });
+            }
+        });
+
+        network.on('stabilizationIterationsDone', function() {
+            network.setOptions({ physics: { enabled: false } });
+        });
+
+        // --- Filter handlers ---
+        document.querySelectorAll('.tier-filter, .status-filter, .edge-filter, .severity-filter').forEach(cb => {
+            cb.addEventListener('change', applyFilters);
+        });
+
+        document.getElementById('search-box').addEventListener('input', applyFilters);
+        document.getElementById('preset-select').addEventListener('change', applyPreset);
+        document.getElementById('btn-stabilize').addEventListener('click', () => {
+            network.setOptions({ physics: { enabled: true, stabilization: { enabled: true, iterations: 200 } } });
+            network.stabilize(200);
+            network.once('stabilizationIterationsDone', () => {
+                network.setOptions({ physics: { enabled: false } });
+            });
+        });
+        document.getElementById('btn-fit').addEventListener('click', () => {
+            network.fit({ animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
+        });
+        document.getElementById('panel-close').addEventListener('click', closePanel);
+    }
+
+    // --- Filter logic ---
+    function getActiveFilters() {
+        const tiers = new Set();
+        document.querySelectorAll('.tier-filter:checked').forEach(cb => tiers.add(cb.value));
+
+        const statuses = new Set();
+        document.querySelectorAll('.status-filter:checked').forEach(cb => statuses.add(cb.value));
+
+        const edgeTypes = new Set();
+        document.querySelectorAll('.edge-filter:checked').forEach(cb => edgeTypes.add(cb.value));
+
+        const severities = new Set();
+        document.querySelectorAll('.severity-filter:checked').forEach(cb => severities.add(parseInt(cb.value)));
+
+        const search = (document.getElementById('search-box').value || '').trim().toLowerCase();
+
+        return { tiers, statuses, edgeTypes, severities, search };
+    }
+
+    function applyFilters() {
+        const f = getActiveFilters();
+        const visibleNodeIds = new Set();
+
+        // Aircraft center and tier groups always visible
+        allNodes.forEach(n => {
+            if (n._tier === 'AIRCRAFT_CENTER' || n._status === 'TIER_GROUP') {
+                visibleNodeIds.add(n.id);
+                return;
+            }
+
+            let visible = true;
+
+            // Tier filter
+            if (!f.tiers.has(n._tier)) visible = false;
+
+            // Status filter
+            if (!f.statuses.has(n._status)) visible = false;
+
+            // Severity filter (if any severity checkbox is checked, only show nodes with that severity)
+            if (f.severities.size > 0) {
+                const nodeSevs = (n._data && n._data.finding_severities) || [];
+                const hasSev = nodeSevs.some(s => f.severities.has(s));
+                if (!hasSev) visible = false;
+            }
+
+            // Search filter
+            if (f.search) {
+                const pn = ((n._data && n._data.canonical_pn) || '').toLowerCase();
+                const sn = ((n._data && n._data.installed_sn) || '').toLowerCase();
+                const desc = ((n._data && n._data.description) || '').toLowerCase();
+                if (!pn.includes(f.search) && !sn.includes(f.search) && !desc.includes(f.search)) {
+                    visible = false;
+                }
+            }
+
+            if (visible) visibleNodeIds.add(n.id);
+        });
+
+        // Update node visibility
+        const nodeUpdates = allNodes.map(n => ({
+            id: n.id,
+            hidden: !visibleNodeIds.has(n.id),
+        }));
+        nodesDataset.update(nodeUpdates);
+
+        // Update edge visibility
+        const edgeUpdates = allEdges.map(e => {
+            let visible = visibleNodeIds.has(e.from) && visibleNodeIds.has(e.to);
+            if (visible && !f.edgeTypes.has(e._event_type)) visible = false;
+            return { id: e.id, hidden: !visible };
+        });
+        edgesDataset.update(edgeUpdates);
+
+        updateStats();
+    }
+
+    function applyPreset() {
+        const preset = document.getElementById('preset-select').value;
+
+        // Reset all filters first
+        document.querySelectorAll('.tier-filter').forEach(cb => cb.checked = true);
+        document.querySelectorAll('.status-filter').forEach(cb => cb.checked = true);
+        document.querySelectorAll('.edge-filter').forEach(cb => cb.checked = true);
+        document.querySelectorAll('.severity-filter').forEach(cb => cb.checked = false);
+        document.getElementById('search-box').value = '';
+
+        switch (preset) {
+            case 'all':
+                // Default — all checked
+                break;
+
+            case 'critical':
+                // Only L1 findings
+                document.querySelector('.severity-filter[value="1"]').checked = true;
+                break;
+
+            case 'engine_llps':
+                // Only ENGINE tier
+                document.querySelectorAll('.tier-filter').forEach(cb => {
+                    cb.checked = cb.value === 'ENGINE';
+                });
+                break;
+
+            case 'landing_gear':
+                document.querySelectorAll('.tier-filter').forEach(cb => {
+                    cb.checked = cb.value === 'LANDING_GEAR';
+                });
+                break;
+
+            case 'time_limited':
+                // Show components with remaining_cycles < 5000 or remaining_hours < 2000
+                // We handle this via a special filter
+                applyTimeLimitedFilter();
+                return;
+
+            case 'missing_form1':
+                applyMissingForm1Filter();
+                return;
+
+            case 'simple':
+                applySimpleView();
+                return;
+
+            case 'detailed':
+                applyDetailedView();
+                return;
+
+            case 'documents':
+                applyDocumentView();
+                return;
+
+            case 'ata':
+                applyATAView();
+                return;
+
+            case 'time':
+                applyTimeView();
+                return;
+        }
+
+        applyFilters();
+    }
+
+    // --- SIMPLE VIEW: only tiers + components with findings or limits ---
+    function applySimpleView() {
+        removeExtraNodes();
+        const visibleNodeIds = new Set();
+        allNodes.forEach(n => {
+            if (n._tier === 'AIRCRAFT_CENTER' || n._status === 'TIER_GROUP') {
+                visibleNodeIds.add(n.id);
+                return;
+            }
+            const d = n._data || {};
+            const fc = d.finding_count || 0;
+            const rc = d.remaining_cycles;
+            if (fc > 0 || rc !== null && rc !== undefined) {
+                visibleNodeIds.add(n.id);
+                visibleNodeIds.add('tier::' + n._tier);
+            }
+        });
+        const nodeUpdates = allNodes.map(n => ({ id: n.id, hidden: !visibleNodeIds.has(n.id) }));
+        nodesDataset.update(nodeUpdates);
+        const edgeUpdates = allEdges.map(e => ({
+            id: e.id, hidden: !(visibleNodeIds.has(e.from) && visibleNodeIds.has(e.to)),
+        }));
+        edgesDataset.update(edgeUpdates);
+        updateStats();
+        restabilize();
+    }
+
+    // --- DETAILED VIEW: all components + all edges visible ---
+    function applyDetailedView() {
+        removeExtraNodes();
+        allNodes.forEach(n => nodesDataset.update({ id: n.id, hidden: false }));
+        allEdges.forEach(e => edgesDataset.update({ id: e.id, hidden: false }));
+        updateStats();
+    }
+
+    // --- DOCUMENT VIEW: add document nodes connected to components ---
+    function applyDocumentView() {
+        removeExtraNodes();
+        // Show all component nodes
+        allNodes.forEach(n => nodesDataset.update({ id: n.id, hidden: false }));
+        allEdges.forEach(e => edgesDataset.update({ id: e.id, hidden: false }));
+
+        // Add document nodes and edges from graphData
+        const docNodes = graphData.doc_nodes || [];
+        const docEdges = graphData.doc_edges || [];
+        if (docNodes.length === 0) { updateStats(); return; }
+
+        docNodes.forEach(dn => {
+            dn._tier = 'DOCUMENT';
+            dn._status = 'DOCUMENT';
+            dn._data = dn.data || {};
+            if (!nodesDataset.get(dn.id)) {
+                nodesDataset.add(dn);
+                allNodes.push(dn);
+                extraNodeIds.push(dn.id);
+            }
+        });
+        docEdges.forEach(de => {
+            de._event_type = de.event_type || 'document_ref';
+            if (!edgesDataset.get(de.id)) {
+                edgesDataset.add(de);
+                allEdges.push(de);
+                extraEdgeIds.push(de.id);
+            }
+        });
+        updateStats();
+        restabilize();
+    }
+
+    // --- ATA VIEW: add ATA chapter nodes, hide tier groups ---
+    function applyATAView() {
+        removeExtraNodes();
+        // Hide tier group nodes, show components
+        allNodes.forEach(n => {
+            if (n._status === 'TIER_GROUP') {
+                nodesDataset.update({ id: n.id, hidden: true });
+            } else {
+                nodesDataset.update({ id: n.id, hidden: false });
+            }
+        });
+
+        // Add ATA nodes and edges
+        const ataN = graphData.ata_nodes || [];
+        const ataE = graphData.ata_edges || [];
+        if (ataN.length === 0) { updateStats(); return; }
+
+        ataN.forEach(an => {
+            an._tier = 'ATA';
+            an._status = 'ATA';
+            an._data = an.data || {};
+            if (!nodesDataset.get(an.id)) {
+                nodesDataset.add(an);
+                allNodes.push(an);
+                extraNodeIds.push(an.id);
+            }
+        });
+        ataE.forEach(ae => {
+            ae._event_type = ae.event_type || 'ata_membership';
+            if (!edgesDataset.get(ae.id)) {
+                edgesDataset.add(ae);
+                allEdges.push(ae);
+                extraEdgeIds.push(ae.id);
+            }
+        });
+
+        // Hide tier membership edges
+        allEdges.forEach(e => {
+            if (e.event_type === 'membership') {
+                edgesDataset.update({ id: e.id, hidden: true });
+            }
+        });
+        updateStats();
+        restabilize();
+    }
+
+    // --- TIME VIEW: components plotted on a horizontal date axis -----------
+    // Reads graphData.time_nodes / time_edges (Phase 6 step 13/14).
+    //   time_nodes: { id, label, position, install_date, removal_date, tier, color, status }
+    //   time_edges: { from, to, edge_type: "replaced_by", date, evidence_file, evidence_page }
+    function applyTimeView() {
+        removeExtraNodes();
+
+        // Hide everything from the structural graph; this view stands alone.
+        allNodes.forEach(n => nodesDataset.update({ id: n.id, hidden: true }));
+        allEdges.forEach(e => edgesDataset.update({ id: e.id, hidden: true }));
+
+        const tNodes = graphData.time_nodes || [];
+        const tEdges = graphData.time_edges || [];
+
+        if (tNodes.length === 0) {
+            // Nothing to show — leave the canvas blank but stable.
+            network.setOptions({ physics: { enabled: false } });
+            updateStats();
+            return;
+        }
+
+        // X axis: linear date scale across the dossier's range.
+        const dateMs = (iso) => iso ? +new Date(iso) : null;
+        const dates = tNodes.map(n => dateMs(n.install_date)).filter(Boolean);
+        const minD  = dates.length ? Math.min(...dates) : 0;
+        const maxD  = dates.length ? Math.max(...dates) : 1;
+        const span  = Math.max(maxD - minD, 1);
+        const X_RANGE = 2400;
+        const xFor = (iso) => {
+            const t = dateMs(iso);
+            if (t === null) return 0;
+            return -X_RANGE / 2 + ((t - minD) / span) * X_RANGE;
+        };
+
+        // Y axis: bucket by `position` (LH / RH / NLG / FWD / etc.) when
+        // present, otherwise by `tier`. Each bucket gets its own row.
+        const yKeyFor = (n) => n.position || n.tier || 'OTHER';
+        const buckets = [...new Set(tNodes.map(yKeyFor))];
+        const Y_GAP   = 140;
+        const yFor = (key) => {
+            const i = buckets.indexOf(key);
+            return -((buckets.length - 1) / 2 - i) * Y_GAP;
+        };
+
+        // Same defensive color logic used by the main node mapper.
+        const STATUS_COLORS = {
+            CLOSED: '#4CAF50', PARTIAL: '#FF9800', GAP: '#F44336',
+            INSTALLED_AT_MFG: '#2196F3', DISCOVERED: '#9E9E9E', TIER_GROUP: '#5C6BC0',
+        };
+        const buildColor = (raw, status) => {
+            const fb = STATUS_COLORS[status] || '#9E9E9E';
+            if (typeof raw === 'string') {
+                return {
+                    background: raw, border: raw,
+                    highlight: { background: '#FFFFFF', border: '#00E5FF' },
+                    hover:     { background: raw, border: '#00E5FF' },
+                };
+            }
+            if (raw && typeof raw === 'object') {
+                const c = { ...raw };
+                c.background = c.background || fb;
+                c.border     = c.border     || c.background;
+                c.highlight  = c.highlight  || { background: '#FFFFFF', border: '#00E5FF' };
+                c.hover      = c.hover      || { background: c.background, border: '#00E5FF' };
+                return c;
+            }
+            return {
+                background: fb, border: fb,
+                highlight: { background: '#FFFFFF', border: '#00E5FF' },
+                hover:     { background: fb, border: '#00E5FF' },
+            };
+        };
+
+        // Add row-label nodes (one per bucket) at the far left.
+        buckets.forEach((key) => {
+            const labelId = 'time::row::' + key;
+            const labelNode = {
+                id: labelId,
+                label: key,
+                x: -X_RANGE / 2 - 220,
+                y: yFor(key),
+                fixed: { x: true, y: true },
+                shape: 'text',
+                font: { color: '#9CA3AF', size: 18, face: 'Segoe UI', strokeWidth: 0 },
+                _tier: 'TIME', _status: 'TIME_LABEL', _data: { row: key },
+            };
+            nodesDataset.add(labelNode);
+            allNodes.push(labelNode);
+            extraNodeIds.push(labelId);
+        });
+
+        // Component nodes positioned on the date/position grid.
+        const idMap = new Map(); // original id -> namespaced id
+        tNodes.forEach(tn => {
+            const newId = 'time::' + tn.id;
+            idMap.set(tn.id, newId);
+            const dateLabel = tn.install_date
+                ? (tn.removal_date ? `${tn.install_date} → ${tn.removal_date}` : tn.install_date)
+                : '';
+            const node = {
+                id: newId,
+                label: tn.label + (dateLabel ? '\n' + dateLabel : ''),
+                x: xFor(tn.install_date),
+                y: yFor(yKeyFor(tn)),
+                fixed: { x: true, y: true },
+                shape: 'box',
+                margin: 8,
+                color: buildColor(tn.color, tn.status),
+                font: { color: '#0b0f17', size: 12, face: 'Segoe UI' },
+                title: dateLabel,
+                _tier: tn.tier || 'TIME',
+                _status: tn.status || 'TIME',
+                _data: { ...tn },
+            };
+            nodesDataset.add(node);
+            allNodes.push(node);
+            extraNodeIds.push(newId);
+        });
+
+        // Replacement edges between successive components on the same row.
+        tEdges.forEach((te, i) => {
+            const from = idMap.get(te.from) || ('time::' + te.from);
+            const to   = idMap.get(te.to)   || ('time::' + te.to);
+            const eid  = 'time::edge::' + i + '::' + te.from + '->' + te.to;
+            const edge = {
+                id: eid, from, to,
+                arrows: 'to',
+                color: { color: '#F44336', highlight: '#00E5FF', hover: '#00E5FF', opacity: 0.85 },
+                width: 2,
+                dashes: false,
+                label: te.date || '',
+                font: { color: '#fca5a5', size: 11, strokeWidth: 0 },
+                _event_type: te.edge_type || 'replaced_by',
+                title: te.evidence_file
+                    ? `${te.edge_type || 'replaced_by'} — ${te.evidence_file}:${te.evidence_page}`
+                    : (te.edge_type || 'replaced_by'),
+                smooth: { type: 'curvedCW', roundness: 0.15 },
+            };
+            edgesDataset.add(edge);
+            allEdges.push(edge);
+            extraEdgeIds.push(eid);
+        });
+
+        // Static layout — physics off, fit to extents.
+        network.setOptions({ physics: { enabled: false } });
+        setTimeout(() => { try { network.fit({ animation: { duration: 400 } }); } catch (_) {} }, 80);
+        updateStats();
+    }
+
+    // Track extra nodes/edges added by view modes
+    let extraNodeIds = [];
+    let extraEdgeIds = [];
+
+    function removeExtraNodes() {
+        extraNodeIds.forEach(id => {
+            try { nodesDataset.remove(id); } catch(e) {}
+        });
+        extraEdgeIds.forEach(id => {
+            try { edgesDataset.remove(id); } catch(e) {}
+        });
+        // Also remove from allNodes/allEdges
+        allNodes = allNodes.filter(n => !extraNodeIds.includes(n.id));
+        allEdges = allEdges.filter(e => !extraEdgeIds.includes(e.id));
+        extraNodeIds = [];
+        extraEdgeIds = [];
+    }
+
+    function restabilize() {
+        network.setOptions({ physics: { enabled: true, stabilization: { enabled: true, iterations: 150 } } });
+        network.stabilize(150);
+        network.once('stabilizationIterationsDone', () => {
+            network.setOptions({ physics: { enabled: false } });
+        });
+    }
+
+    function applyTimeLimitedFilter() {
+        const visibleNodeIds = new Set();
+        // Always show structural nodes
+        allNodes.forEach(n => {
+            if (n._tier === 'AIRCRAFT_CENTER' || n._status === 'TIER_GROUP') {
+                visibleNodeIds.add(n.id);
+                return;
+            }
+            const d = n._data || {};
+            const rc = d.remaining_cycles;
+            const rh = d.remaining_hours;
+            if ((rc !== null && rc !== undefined && rc < 5000) ||
+                (rh !== null && rh !== undefined && typeof rh === 'number' && rh < 2000)) {
+                visibleNodeIds.add(n.id);
+                // Also show parent tier group
+                visibleNodeIds.add('tier::' + n._tier);
+            }
+        });
+
+        const nodeUpdates = allNodes.map(n => ({ id: n.id, hidden: !visibleNodeIds.has(n.id) }));
+        nodesDataset.update(nodeUpdates);
+
+        const edgeUpdates = allEdges.map(e => ({
+            id: e.id,
+            hidden: !(visibleNodeIds.has(e.from) && visibleNodeIds.has(e.to)),
+        }));
+        edgesDataset.update(edgeUpdates);
+
+        updateStats();
+    }
+
+    function applyMissingForm1Filter() {
+        // Find component IDs with FORM1_MISSING findings
+        const form1MissingIds = new Set();
+        for (const [cid, findings] of Object.entries(graphData.findings || {})) {
+            for (const f of findings) {
+                if (f.finding_type === 'FORM1_MISSING' && f.status === 'open') {
+                    form1MissingIds.add(cid);
+                }
+            }
+        }
+
+        const visibleNodeIds = new Set();
+        allNodes.forEach(n => {
+            if (n._tier === 'AIRCRAFT_CENTER' || n._status === 'TIER_GROUP') {
+                visibleNodeIds.add(n.id);
+                return;
+            }
+            if (form1MissingIds.has(n.id)) {
+                visibleNodeIds.add(n.id);
+                visibleNodeIds.add('tier::' + n._tier);
+            }
+        });
+
+        const nodeUpdates = allNodes.map(n => ({ id: n.id, hidden: !visibleNodeIds.has(n.id) }));
+        nodesDataset.update(nodeUpdates);
+
+        const edgeUpdates = allEdges.map(e => ({
+            id: e.id,
+            hidden: !(visibleNodeIds.has(e.from) && visibleNodeIds.has(e.to)),
+        }));
+        edgesDataset.update(edgeUpdates);
+
+        updateStats();
+    }
+
+    // --- Stats ---
+    function updateStats() {
+        const visibleNodes = allNodes.filter(n => {
+            const dsNode = nodesDataset.get(n.id);
+            return dsNode && !dsNode.hidden;
+        });
+        const visibleEdges = allEdges.filter(e => {
+            const dsEdge = edgesDataset.get(e.id);
+            return dsEdge && !dsEdge.hidden;
+        });
+
+        document.getElementById('stat-nodes').textContent = allNodes.length;
+        document.getElementById('stat-visible').textContent = visibleNodes.length;
+        document.getElementById('stat-edges').textContent = visibleEdges.length;
+
+        const fs = graphData.findings_summary || {};
+        document.getElementById('stat-findings').textContent = (fs.open || 0) + ' open / ' + (fs.total || 0);
+        document.getElementById('stat-l1').textContent = 'L1: ' + (fs.l1_open || 0);
+        document.getElementById('stat-l2').textContent = 'L2: ' + (fs.l2_open || 0);
+        document.getElementById('stat-l3').textContent = 'L3: ' + (fs.l3_open || 0);
+
+        // v2: provisional findings
+        const provCount = fs.provisional_count || 0;
+        const provBadge = document.getElementById('stat-prov');
+        if (provCount > 0) {
+            provBadge.textContent = 'Prov: ' + provCount;
+            provBadge.hidden = false;
+        } else {
+            provBadge.hidden = true;
+        }
+
+        // v2: lease return banner
+        const lr = graphData.lease_return_state;
+        if (lr && lr.is_lease_return) {
+            document.body.classList.add('lease-return');
+            const banner = document.getElementById('lease-return-banner');
+            banner.classList.add('visible');
+            const detail = [];
+            if (lr.window_start && lr.window_end) {
+                detail.push('Window: ' + lr.window_start + ' → ' + lr.window_end);
+            }
+            if (lr.wo_count_in_window) detail.push(lr.wo_count_in_window + ' WOs');
+            if (lr.dummy_tag_count) detail.push(lr.dummy_tag_count + ' DUMMY tags');
+            document.getElementById('lr-detail').textContent = detail.join(' · ');
+        }
+    }
+
+    // --- Node selection & side panel ---
+    function selectNode(nodeId) {
+        selectedNodeId = nodeId;
+        const node = allNodes.find(n => n.id === nodeId);
+        if (!node) return;
+
+        const d = node._data || {};
+        const panel = document.getElementById('side-panel');
+        const content = document.getElementById('panel-content');
+
+        // Build panel HTML
+        let html = '';
+
+        // --- Aircraft center node ---
+        if (node._tier === 'AIRCRAFT_CENTER') {
+            html += '<div class="panel-header">';
+            html += '<h2>' + esc(d.registration || d.primary_serial || 'Unknown') + ' &mdash; MSN ' + esc(d.msn || '') + '</h2>';
+            html += '<div class="desc">' + esc(d.type || d.type_designation || '') + ' | ' + esc(d.operator || '') + '</div>';
+            html += '</div>';
+            html += '<div class="panel-section"><h3>Aircraft Data</h3><div class="data-grid">';
+            html += gridRow('Type', d.type);
+            html += gridRow('MSN', d.msn);
+            html += gridRow('Registration', d.registration);
+            html += gridRow('Operator', d.operator);
+            html += gridRow('TSN', fmtNum(d.tsn) + 'h (' + esc(d.tsn_confidence || '') + ')');
+            html += gridRow('CSN', fmtNum(d.csn) + 'cy (' + esc(d.csn_confidence || '') + ')');
+            html += gridRow('LH Engine', d.lh_engine_sn);
+            html += gridRow('RH Engine', d.rh_engine_sn);
+            html += gridRow('Dossier Date', d.dossier_date);
+            html += '</div></div>';
+
+            // Summary stats
+            const st = graphData.stats || {};
+            html += '<div class="panel-section"><h3>Component Summary</h3><div class="data-grid">';
+            html += gridRow('Total Components', st.total_components);
+            html += gridRow('Total Events', st.total_events);
+            html += gridRow('Total Findings', st.total_findings);
+            for (const [tier, cnt] of Object.entries(st.components_by_tier || {})) {
+                html += gridRow(tier, cnt);
+            }
+            html += '</div></div>';
+
+            html += '<div class="panel-section"><h3>Status Breakdown</h3><div class="data-grid">';
+            for (const [status, cnt] of Object.entries(st.components_by_status || {})) {
+                html += gridRow(status, cnt);
+            }
+            html += '</div></div>';
+
+            // v2: Critical Items (Phase 6.5 priority_items)
+            const priorityItems = graphData.priority_items || [];
+            if (priorityItems.length > 0) {
+                html += '<div class="panel-section"><h3>Critical Items (' + priorityItems.length + ')</h3>';
+                html += '<div class="priority-list">';
+                priorityItems.slice(0, 8).forEach(p => {
+                    const urg = (p.urgency || 'critical').toLowerCase();
+                    html += '<div class="priority-item urgency-' + esc(urg) + '">';
+                    html += '<span class="pri-rank">' + (p.rank || '?') + '</span>';
+                    html += '<span class="pri-component" data-cid="' + esc(p.component_id || '') + '">';
+                    html += esc(p.component_label || p.component_id || 'unknown');
+                    html += '</span>';
+                    if (p.reason) html += '<div class="pri-reason">' + esc(p.reason).replace(/_/g, ' ') + '</div>';
+                    if (p.metric !== undefined && p.metric !== null) {
+                        html += '<div class="pri-metric">' + esc(String(p.metric)) + (p.metric_unit ? ' ' + esc(p.metric_unit) : '') + ' remaining</div>';
+                    }
+                    html += '</div>';
+                });
+                html += '</div></div>';
+            }
+
+            // v2: Audit Quality Snapshot
+            html += '<div class="panel-section"><h3>Audit Quality</h3><div class="audit-quality">';
+            const totalFindings = st.total_findings || 0;
+            const l1 = (fs.l1_open || 0);
+            const l1Pct = totalFindings ? Math.round((l1 / totalFindings) * 100) : 0;
+            const l1Class = l1Pct > 25 ? 'danger' : (l1Pct > 15 ? 'warn' : 'good');
+            html += '<div class="aq-row"><span class="aq-label">L1 ratio</span><span class="aq-value ' + l1Class + '">' + l1Pct + '% (' + l1 + '/' + totalFindings + ')</span></div>';
+
+            // P7.5 closure rate
+            const p75 = graphData.verification_stats || {};
+            if (p75.closure_rate_pct !== undefined) {
+                const cr = p75.closure_rate_pct;
+                const crClass = cr < 20 ? 'danger' : (cr < 30 ? 'warn' : 'good');
+                html += '<div class="aq-row"><span class="aq-label">Phase 7.5 closure rate</span><span class="aq-value ' + crClass + '">' + cr + '%</span></div>';
+            }
+
+            // Provisional remaining (should be 0 in final export)
+            if (fs.provisional_count !== undefined) {
+                const pc = fs.provisional_count;
+                const pcClass = pc === 0 ? 'good' : 'danger';
+                html += '<div class="aq-row"><span class="aq-label">Unresolved provisional findings</span><span class="aq-value ' + pcClass + '">' + pc + '</span></div>';
+            }
+
+            // Mandatory checklist coverage
+            const mc = graphData.mandatory_checklist || {};
+            if (mc.total !== undefined) {
+                const cov = mc.complete || 0;
+                const covPct = mc.total ? Math.round((cov / mc.total) * 100) : 0;
+                const covClass = covPct === 100 ? 'good' : (covPct >= 80 ? 'warn' : 'danger');
+                html += '<div class="aq-row"><span class="aq-label">Mandatory checklist coverage</span><span class="aq-value ' + covClass + '">' + cov + '/' + mc.total + ' (' + covPct + '%)</span></div>';
+            }
+            html += '</div></div>';
+
+            // v2: Mandatory Checklist details
+            if (mc.items && mc.items.length > 0) {
+                html += '<div class="panel-section"><h3>Mandatory Checklist</h3><div class="checklist">';
+                mc.items.forEach(item => {
+                    const cls = item.complete ? 'complete' : 'incomplete';
+                    const mark = item.complete ? '✓' : '✗';
+                    html += '<div class="checklist-item ' + cls + '">';
+                    html += '<span class="cl-mark">' + mark + '</span>';
+                    html += '<span>' + esc(item.label || item.id || 'unknown') + '</span>';
+                    if (item.note) html += '<span style="color:#888;margin-left:6px;font-size:10px">— ' + esc(item.note) + '</span>';
+                    html += '</div>';
+                });
+                html += '</div></div>';
+            }
+
+            // v2: Lease return state card
+            const lr = graphData.lease_return_state;
+            if (lr && lr.is_lease_return) {
+                html += '<div class="panel-section"><h3>Lease Return State</h3>';
+                html += '<div class="lease-return-card">';
+                html += '<div class="lr-title">⚠ Asset is in lease-return / pre-redelivery state</div>';
+                if (lr.window_start && lr.window_end) {
+                    html += '<div class="lr-row">Window: <strong>' + esc(lr.window_start) + '</strong> → <strong>' + esc(lr.window_end) + '</strong></div>';
+                }
+                if (lr.wo_count_in_window) {
+                    html += '<div class="lr-row">Work orders in window: <strong>' + lr.wo_count_in_window + '</strong></div>';
+                }
+                if (lr.dummy_tag_count) {
+                    html += '<div class="lr-row">DUMMY tags detected: <strong>' + lr.dummy_tag_count + '</strong></div>';
+                }
+                if (lr.notes) {
+                    html += '<div class="lr-row" style="font-size:10px;margin-top:4px">' + esc(lr.notes) + '</div>';
+                }
+                html += '<div class="lr-row" style="font-size:10px;margin-top:6px;color:#aaa">Findings inside this window are downgraded one severity level by default (lease-return sequencing, not airworthiness).</div>';
+                html += '</div></div>';
+            }
+
+            content.innerHTML = html;
+            panel.classList.add('open');
+
+            // v2: priority item click → navigate to component
+            content.querySelectorAll('.pri-component[data-cid]').forEach(el => {
+                el.addEventListener('click', () => {
+                    const cid = el.getAttribute('data-cid');
+                    if (cid) {
+                        try { network.selectNodes([cid]); openPanel(cid); } catch(e) { console.warn(e); }
+                    }
+                });
+            });
+            return;
+        }
+
+        // --- Tier group node ---
+        if (d.is_tier_group) {
+            const tierName = node._tier;
+            html += '<div class="panel-header">';
+            html += '<h2>' + esc(tierName) + ' Group</h2>';
+            html += '</div>';
+
+            // Count components in this tier
+            const tierComponents = allNodes.filter(n => n._tier === tierName && n._status !== 'TIER_GROUP' && n._tier !== 'AIRCRAFT_CENTER');
+            const statusCounts = {};
+            tierComponents.forEach(n => {
+                statusCounts[n._status] = (statusCounts[n._status] || 0) + 1;
+            });
+
+            html += '<div class="panel-section"><h3>Summary</h3><div class="data-grid">';
+            html += gridRow('Components', tierComponents.length);
+            for (const [s, c] of Object.entries(statusCounts)) {
+                html += gridRow(s, c);
+            }
+            html += '</div></div>';
+
+            // List components in tier
+            html += '<div class="panel-section"><h3>Components</h3>';
+            tierComponents.sort((a, b) => (b._data.event_count || 0) - (a._data.event_count || 0));
+            tierComponents.forEach(n => {
+                const nd = n._data || {};
+                const statusClass = nd.status === 'CLOSED' ? 'ok' : (nd.status === 'GAP' ? 'danger' : 'warn');
+                html += '<div style="padding:4px 0;border-bottom:1px solid #222;font-size:11px;cursor:pointer" onclick="window._selectNode(\'' + esc(n.id) + '\')">';
+                html += '<span class="value ' + statusClass + '">' + esc(nd.canonical_pn || '') + '</span>';
+                html += ' <span style="color:#888">SN: ' + esc(nd.installed_sn || 'N/A') + '</span>';
+                if (nd.description) html += ' <span style="color:#666">- ' + esc(nd.description.substring(0, 40)) + '</span>';
+                html += '</div>';
+            });
+            html += '</div>';
+
+            content.innerHTML = html;
+            panel.classList.add('open');
+            return;
+        }
+
+        // --- Component node ---
+        // Header
+        html += '<div class="panel-header">';
+        html += '<h2>PN: ' + esc(d.canonical_pn || 'Unknown') + '</h2>';
+        if (d.installed_sn) html += '<h2 style="color:#00e5ff;font-size:13px">SN: ' + esc(d.installed_sn) + '</h2>';
+        if (d.description) html += '<div class="desc">' + esc(d.description) + '</div>';
+        html += '<div class="badges">';
+        html += '<span class="badge badge-' + (d.status || 'discovered').toLowerCase() + '">' + esc(d.status || '') + '</span>';
+        html += '<span class="badge badge-tier">' + esc(d.tier || '') + '</span>';
+        if (d.position) html += '<span class="badge badge-tier">' + esc(d.position) + '</span>';
+        if (d.ata_chapter) html += '<span class="badge badge-tier">ATA ' + esc(d.ata_chapter) + '</span>';
+        html += '</div></div>';
+
+        // Times section
+        html += '<div class="panel-section"><h3>Times &amp; Limits</h3><div class="data-grid">';
+        html += gridRow('TSN', fmtVal(d.tsn, 'h', d.tsn_confidence));
+        html += gridRow('CSN', fmtVal(d.csn, 'cy', d.csn_confidence));
+        html += gridRow('TSO', d.tso !== null && d.tso !== undefined ? fmtNum(d.tso) + 'h' : 'N/A');
+        html += gridRow('CSO', d.cso !== null && d.cso !== undefined ? fmtNum(d.cso) + 'cy' : 'N/A');
+        html += '</div></div>';
+
+        // Limits
+        if (d.limit_cycles || d.limit_hours || d.remaining_cycles !== null || d.remaining_hours !== null) {
+            html += '<div class="panel-section"><h3>Life Limits</h3><div class="data-grid">';
+            html += gridRow('Limit (cycles)', d.limit_cycles !== null && d.limit_cycles !== undefined ? fmtNum(d.limit_cycles) + 'cy' : 'N/A');
+            html += gridRow('Limit (hours)', d.limit_hours !== null && d.limit_hours !== undefined ? fmtNum(d.limit_hours) + 'h' : 'N/A');
+
+            const rc = d.remaining_cycles;
+            let rcClass = '';
+            if (rc !== null && rc !== undefined && typeof rc === 'number') {
+                rcClass = rc < 1000 ? 'danger' : (rc < 5000 ? 'warn' : 'ok');
+            }
+            html += gridRow('Remaining (cycles)', formatRemaining(rc, 'cy'), rcClass);
+
+            const rh = d.remaining_hours;
+            let rhClass = '';
+            if (rh !== null && rh !== undefined && typeof rh === 'number') {
+                rhClass = rh < 500 ? 'danger' : (rh < 2000 ? 'warn' : 'ok');
+            }
+            html += gridRow('Remaining (hours)', formatRemaining(rh, 'h'), rhClass);
+            html += '</div></div>';
+        }
+
+        // Overhaul info
+        if (d.last_overhaul_date || d.last_overhaul_file || d.last_mro || d.last_form1_date) {
+            html += '<div class="panel-section"><h3>Last Maintenance</h3><div class="data-grid">';
+            html += gridRow('Last Overhaul', d.last_overhaul_date || 'N/A');
+            html += gridRow('MRO', d.last_mro || 'N/A');
+            if (d.last_overhaul_file) {
+                html += gridRow('Overhaul Source', esc(d.last_overhaul_file) + (d.last_overhaul_page !== null ? ' p.' + d.last_overhaul_page : ''));
+            }
+            html += gridRow('Last Form 1', d.last_form1_date || 'N/A');
+            if (d.last_form1_file) {
+                html += gridRow('Form 1 Source', esc(d.last_form1_file) + (d.last_form1_page !== null ? ' p.' + d.last_form1_page : ''));
+            }
+            html += '</div></div>';
+        }
+
+        // Notes
+        if (d.notes) {
+            html += '<div class="panel-section"><h3>Notes</h3>';
+            html += '<div style="font-size:11px;color:#aaa;white-space:pre-wrap;max-height:120px;overflow-y:auto">' + esc(d.notes) + '</div>';
+            html += '</div>';
+        }
+
+        // Back-to-birth timeline
+        const events = graphData.events[nodeId] || [];
+        if (events.length > 0) {
+            // Filter out pure "update" events with no date to reduce noise, unless that's all we have
+            const meaningfulEvents = events.filter(e => e.event_type !== 'update' || e.event_date);
+            const showEvents = meaningfulEvents.length > 0 ? meaningfulEvents : events.slice(0, 20);
+
+            html += '<div class="panel-section"><h3>Back-to-Birth Timeline (' + events.length + ' events)</h3>';
+            html += '<div class="timeline">';
+
+            showEvents.forEach(e => {
+                html += '<div class="timeline-item type-' + esc(e.event_type || '') + '">';
+                html += '<span class="ev-date">' + esc(e.event_date || 'No date') + '</span>';
+                html += '<span class="ev-type">' + esc(e.event_type || '') + '</span>';
+
+                const details = [];
+                if (e.work_order) details.push('WO: ' + e.work_order);
+                if (e.mro) details.push('MRO: ' + e.mro);
+                if (e.tsn_at_event) details.push('TSN: ' + fmtNum(e.tsn_at_event) + 'h');
+                if (e.csn_at_event) details.push('CSN: ' + fmtNum(e.csn_at_event) + 'cy');
+                if (details.length > 0) {
+                    html += '<div class="ev-detail">' + esc(details.join(' | ')) + '</div>';
+                }
+
+                if (e.file_name) {
+                    html += '<div class="ev-source">' + esc(e.file_name) + (e.page_index !== null && e.page_index !== undefined ? ' p.' + e.page_index : '') + '</div>';
+                }
+
+                if (e.text_evidence) {
+                    html += '<div class="ev-evidence">"' + esc(e.text_evidence.substring(0, 200)) + (e.text_evidence.length > 200 ? '...' : '') + '"</div>';
+                }
+
+                html += '</div>';
+            });
+
+            html += '</div></div>';
+        }
+
+        // Findings
+        const findings = graphData.findings[nodeId] || [];
+        if (findings.length > 0) {
+            html += '<div class="panel-section"><h3>Findings (' + findings.length + ')</h3>';
+            findings.sort((a, b) => (a.severity || 3) - (b.severity || 3));
+            findings.forEach(f => {
+                const sev = f.severity || 3;
+                const isProvisional = (f.status === 'provisional');
+                const itemClasses = ['finding-item', 'sev-' + sev];
+                if (isProvisional) itemClasses.push('provisional');
+                html += '<div class="' + itemClasses.join(' ') + '">';
+                html += '<div class="f-header">';
+                html += '<span class="finding-badge l' + sev + '">L' + sev + '</span>';
+                html += '<span class="f-type">' + esc(f.finding_type || '') + '</span>';
+                html += '<span class="f-status ' + esc(f.status || 'open') + '">' + esc(f.status || 'open') + '</span>';
+                // v2: discipline-incomplete badge for provisional findings
+                if (isProvisional && !f.discipline_complete) {
+                    html += '<span class="f-discipline" title="Investigation Discipline checklist not complete">discipline pending</span>';
+                }
+                html += '</div>';
+                if (f.description) html += '<div class="f-desc">' + esc(f.description.substring(0, 300)) + '</div>';
+                // v2: severity downgrade hint
+                if (f.original_severity && f.original_severity !== sev) {
+                    const reason = f.severity_downgrade_reason ? ' (' + esc(f.severity_downgrade_reason).replace(/_/g, ' ') + ')' : '';
+                    html += '<div class="f-downgrade">⤷ Downgraded from L' + f.original_severity + ' → L' + sev + reason + '</div>';
+                }
+                if (f.file_name) {
+                    html += '<div class="f-source">' + esc(f.file_name) + (f.page_index !== null && f.page_index !== undefined ? ' p.' + f.page_index : '') + '</div>';
+                }
+                // v2: verification strategy that closed it
+                if (f.verification_strategy && f.status === 'closed') {
+                    html += '<div class="f-verification">✓ Closed via: ' + esc(f.verification_strategy).replace(/_/g, ' ') + '</div>';
+                }
+                if (f.resolution) {
+                    html += '<div style="font-size:10px;color:#4CAF50;margin-top:3px">Resolution: ' + esc(f.resolution.substring(0, 200)) + '</div>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+        }
+
+        // Source documents
+        const allSources = new Set();
+        events.forEach(e => { if (e.file_name) allSources.add(e.file_name); });
+        findings.forEach(f => { if (f.file_name) allSources.add(f.file_name); });
+        if (d.last_form1_file) allSources.add(d.last_form1_file);
+        if (d.last_overhaul_file) allSources.add(d.last_overhaul_file);
+
+        if (allSources.size > 0) {
+            html += '<div class="panel-section"><h3>Source Documents (' + allSources.size + ')</h3>';
+            html += '<ul class="source-list">';
+            Array.from(allSources).sort().forEach(s => {
+                html += '<li>' + esc(s) + '</li>';
+            });
+            html += '</ul></div>';
+        }
+
+        content.innerHTML = html;
+        panel.classList.add('open');
+
+        // Highlight node and connected edges
+        highlightNode(nodeId);
+    }
+
+    // Expose selectNode globally for inline onclick
+    window._selectNode = function(id) {
+        selectNode(id);
+        network.selectNodes([id]);
+        network.focus(id, { scale: 1.2, animation: { duration: 400, easingFunction: 'easeInOutQuad' } });
+    };
+
+    function highlightNode(nodeId) {
+        // Get connected edges
+        const connectedEdges = network.getConnectedEdges(nodeId);
+        const connectedNodes = network.getConnectedNodes(nodeId);
+
+        // Dim all nodes
+        const nodeUpdates = allNodes.map(n => {
+            if (n.id === nodeId || connectedNodes.includes(n.id)) {
+                return { id: n.id, opacity: 1.0 };
+            }
+            return { id: n.id, opacity: 0.15 };
+        });
+        nodesDataset.update(nodeUpdates);
+
+        // Dim all edges
+        const connectedEdgeSet = new Set(connectedEdges);
+        const edgeUpdates = allEdges.map(e => {
+            if (connectedEdgeSet.has(e.id)) {
+                return { id: e.id, color: { ...e.color, opacity: 1.0 }, width: (e.width || 1) + 1 };
+            }
+            return { id: e.id, color: { ...e.color, opacity: 0.05 }, width: e.width || 1 };
+        });
+        edgesDataset.update(edgeUpdates);
+    }
+
+    function closePanel() {
+        document.getElementById('side-panel').classList.remove('open');
+        selectedNodeId = null;
+
+        // Reset opacity
+        const nodeUpdates = allNodes.map(n => ({ id: n.id, opacity: 1.0 }));
+        nodesDataset.update(nodeUpdates);
+
+        const edgeUpdates = allEdges.map(e => ({
+            id: e.id,
+            color: { ...e.color, opacity: 0.7 },
+            width: e.width || 1,
+        }));
+        edgesDataset.update(edgeUpdates);
+
+        network.unselectAll();
+    }
+
+    // --- Helpers ---
+    function esc(s) {
+        if (s === null || s === undefined) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function fmtNum(v) {
+        if (v === null || v === undefined) return 'N/A';
+        if (typeof v === 'number') return v.toLocaleString();
+        return String(v);
+    }
+
+    function fmtVal(v, unit, confidence) {
+        if (v === null || v === undefined || v === 0) return 'N/A';
+        let s = fmtNum(v) + (unit || '');
+        if (confidence) s += ' (' + confidence + ')';
+        return s;
+    }
+
+    function formatRemaining(v, unit) {
+        if (v === null || v === undefined) return 'N/A';
+        if (typeof v === 'string') return v;
+        return fmtNum(v) + (unit || '');
+    }
+
+    function gridRow(label, value, valueClass) {
+        const cls = valueClass ? ' ' + valueClass : '';
+        return '<span class="label">' + esc(label) + '</span><span class="value' + cls + '">' + esc(value !== null && value !== undefined ? value : 'N/A') + '</span>';
+    }
+
+})();
+</script>
+</body>
+</html>

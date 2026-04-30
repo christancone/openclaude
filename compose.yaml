@@ -1,0 +1,43 @@
+# Root-level compose file so you can run from the repo root with no -f flag:
+#
+#   docker compose up --build         # build and run in foreground
+#   docker compose up -d --build      # detached
+#   docker compose logs -f             # tail logs
+#   docker compose down                # stop
+#
+# The full file with comments lives at sparengine-export/docker-compose.yml; this
+# is the same configuration with build context set to the repo root.
+
+services:
+  sparengine:
+    build:
+      context: .
+      dockerfile: sparengine-export/Dockerfile
+    image: sparengine-export:latest
+    container_name: sparengine
+    restart: unless-stopped
+    ports:
+      - "2001:2001"
+    environment:
+      CLAUDE_CODE_USE_GEMINI:    "${CLAUDE_CODE_USE_GEMINI}"
+      GEMINI_API_KEY:            "${GEMINI_API_KEY}"
+      GEMINI_MODEL:              "${GEMINI_MODEL:-gemini-3.1-pro-preview}"
+      SUPABASE_URL:              "${SUPABASE_URL}"
+      SUPABASE_SERVICE_ROLE_KEY: "${SUPABASE_SERVICE_ROLE_KEY}"
+      PORT:                      "2001"
+      EXPORT_PAGE_SIZE:          "${EXPORT_PAGE_SIZE:-1000}"
+      AGENT_CLI:                 "${AGENT_CLI:-openclaude}"
+      ANTHROPIC_API_KEY:         "${ANTHROPIC_API_KEY:-}"
+    volumes:
+      - sparengine-csvs:/app/csvs
+      - claude-auth:/home/node/.claude
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:2001/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  sparengine-csvs:
+  claude-auth:

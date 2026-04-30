@@ -1,0 +1,48 @@
+services:
+  sparengine:
+    build:
+      # Build context is the repo root, not sparengine-export/, because the
+      # Dockerfile needs OpenClaude's package.json + src/ to bundle dist/cli.mjs.
+      context: ..
+      dockerfile: sparengine-export/Dockerfile
+    image: sparengine-export:latest
+    container_name: sparengine
+    restart: unless-stopped
+    ports:
+      - "2001:2001"
+    environment:
+      # Provider config — pulled from the .env file in the repo root.
+      CLAUDE_CODE_USE_GEMINI: "${CLAUDE_CODE_USE_GEMINI}"
+      GEMINI_API_KEY:         "${GEMINI_API_KEY}"
+      GEMINI_MODEL:           "${GEMINI_MODEL:-gemini-3.1-pro-preview}"
+
+      # Supabase (CSV export).
+      SUPABASE_URL:               "${SUPABASE_URL}"
+      SUPABASE_SERVICE_ROLE_KEY:  "${SUPABASE_SERVICE_ROLE_KEY}"
+
+      # Server tuning.
+      PORT:             "2001"
+      EXPORT_PAGE_SIZE: "${EXPORT_PAGE_SIZE:-1000}"
+
+      # Agent backend: openclaude (default) or claude (uses Claude Code subscription).
+      # Set ANTHROPIC_API_KEY too if you want non-interactive Claude Code auth.
+      AGENT_CLI:           "${AGENT_CLI:-openclaude}"
+      ANTHROPIC_API_KEY:   "${ANTHROPIC_API_KEY:-}"
+    volumes:
+      # Per-asset artefacts (CSV + graph.db + asset_graph.html). Persist these.
+      - sparengine-csvs:/app/csvs
+
+      # Claude Code OAuth cache (only matters if AGENT_CLI=claude).
+      # First run inside the container needs `docker exec -it sparengine claude`
+      # to do the browser login; the token then lives in this volume.
+      - claude-auth:/home/node/.claude
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:2001/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  sparengine-csvs:
+  claude-auth:
