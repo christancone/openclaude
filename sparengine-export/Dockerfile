@@ -56,9 +56,20 @@ COPY sparengine-export/ sparengine-export/
 # CSVs and graphs survive container restarts.
 RUN mkdir -p /app/csvs && chown -R node:node /app
 
+# Pre-create the agent's home cache directory with `node` ownership.
+# Required because:
+#   - Claude Code CLI writes to /home/node/.claude/session-env on every Bash tool call.
+#   - OpenClaude (forked from Claude Code) uses the same path.
+# When a named volume is mounted on top of an EXISTING dir, Docker copies the
+# dir's permissions onto the volume — so future runs that DO mount a volume
+# (claude-auth for Pro/Max OAuth) inherit `node:node` instead of `root:root`.
+RUN mkdir -p /home/node/.claude /home/node/.claude/session-env \
+    && chown -R node:node /home/node
+
 ENV NODE_ENV=production \
     PORT=2001 \
-    AGENT_CLI=openclaude
+    AGENT_CLI=openclaude \
+    HOME=/home/node
 
 EXPOSE 2001
 

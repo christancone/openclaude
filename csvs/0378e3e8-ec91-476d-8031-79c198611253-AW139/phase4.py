@@ -62,9 +62,9 @@ def main():
         if comp_id not in seen_components:
             conn.execute("INSERT OR IGNORE INTO part_types (id, description, ata_chapter, is_llp, is_overhaul) VALUES (?, ?, ?, ?, ?)", (pn, 'ENGINE_SEED', '72', 0, 1))
             
-            conn.execute("INSERT OR IGNORE INTO serials (id, part_type_id, serial_number, installed_status) VALUES (?, ?, ?, ?)", (f"{pn}::{sn}", pn, sn, 'ON'))
+            conn.execute("INSERT OR IGNORE INTO serials (id, part_type_id, serial_number, component_id) VALUES (?, ?, ?, ?)", (f"{pn}::{sn}", pn, sn, comp_id))
             
-            conn.execute("INSERT OR IGNORE INTO components (id, asset_id, part_type_id, installed_sn, description, tier, status) VALUES (?, ?, ?, ?, ?, ?, ?)", (comp_id, asset_id, pn, sn, 'Expected Engine', 'ENGINE', 'DISCOVERED'))
+            conn.execute("INSERT OR IGNORE INTO components (id, asset_id, canonical_pn, installed_sn, description, tier, status, is_llp, is_overhaul) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (comp_id, asset_id, pn, sn, 'Expected Engine', 'ENGINE', 'DISCOVERED', 0, 1))
             seen_components.add(comp_id)
             seeded_count += 1
 
@@ -291,14 +291,14 @@ def main():
         
         if promote:
             comp_id = f"component::{pn}::{sn}"
-            print(f'PROMOTING {comp_id}')
+            # print(f'PROMOTING {comp_id}')
             if comp_id not in seen_components:
                 conn.execute("INSERT OR IGNORE INTO part_types (id, description, ata_chapter, is_llp, is_overhaul) VALUES (?, ?, ?, ?, ?)", (pn, f'Discovered PN {pn}', meta['ata'], meta['is_llp'], meta['is_overhaul']))
-                
-                conn.execute("INSERT OR IGNORE INTO components (id, asset_id, canonical_pn, installed_sn, description, tier, status) VALUES (?, ?, ?, ?, ?, ?, ?)", (comp_id, asset_id, pn, sn, f'Component {pn}/{sn}', tier, 'DISCOVERED'))
+
+                conn.execute("INSERT INTO components (id, asset_id, canonical_pn, installed_sn, description, tier, status) VALUES (?, ?, ?, ?, ?, ?, ?)", (comp_id, asset_id, pn, sn, f'Component {pn}/{sn}', tier, 'DISCOVERED'))
 
                 conn.execute("INSERT OR IGNORE INTO serials (id, part_type_id, serial_number, component_id) VALUES (?, ?, ?, ?)", (f"{pn}::{sn}", pn, sn, comp_id))
-                
+
                 seen_components.add(comp_id)
                 promoted += 1
 

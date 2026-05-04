@@ -32,10 +32,14 @@ services:
       # Per-asset artefacts (CSV + graph.db + asset_graph.html). Persist these.
       - sparengine-csvs:/app/csvs
 
-      # Claude Code OAuth cache (only matters if AGENT_CLI=claude).
-      # First run inside the container needs `docker exec -it sparengine claude`
-      # to do the browser login; the token then lives in this volume.
-      - claude-auth:/home/node/.claude
+      # Claude Code OAuth cache. Mount only when AGENT_CLI=claude (Pro/Max
+      # subscription auth needs to survive restarts). For AGENT_CLI=openclaude
+      # (default), leave this commented — no auth state to save, and the
+      # named-volume mount caused EACCES on /home/node/.claude/session-env
+      # because Docker creates fresh volumes as root. The Dockerfile now
+      # pre-creates /home/node/.claude with node ownership so when you DO
+      # uncomment this, the volume inherits node:node correctly.
+      # - claude-auth:/home/node/.claude
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://localhost:2001/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
@@ -45,4 +49,4 @@ services:
 
 volumes:
   sparengine-csvs:
-  claude-auth:
+  # claude-auth:    # uncomment together with the mount above

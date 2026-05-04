@@ -64,21 +64,11 @@ def main():
         # We need a unique ID for the event
         ev_id = f"event::{pid}"
         
-        conn.execute('''
-            INSERT OR IGNORE INTO events 
-            (id, type, date, description, flight_hours, flight_cycles)
-            VALUES (?, ?, ?, ?, NULL, NULL)
-        ''', (ev_id, ev_type, ev_date, ev_desc))
-        events_inserted += 1
-        
-        # Link event to page
-        conn.execute('''
-            INSERT OR IGNORE INTO edges (id, source_id, source_kind, target_id, target_kind, edge_type, confidence, evidence_file, evidence_page)
-            VALUES (?, ?, 'EVENT', ?, 'PAGE', 'DOCUMENTED_IN', 'high', 'database', 0)
-        ''', (f"edge::{ev_id}::{pid}", ev_id, pid))
-        
-        # Link event to components on page
-        # To do this, we need to know the component IDs. We'll reconstruct them or query them.
+        cur.execute("SELECT documents.file_name FROM pages JOIN documents ON pages.document_id = documents.id WHERE pages.id = ?", (pid,))
+        f_name_row = cur.fetchone()
+        f_name = f_name_row[0] if f_name_row else "unknown.pdf"
+
+        # Determine component id first
         comp_ids_to_link = set()
         if valid_pns and valid_sns:
             for pn in valid_pns:
@@ -100,9 +90,43 @@ def main():
                 c_id = f"component::{pn}::UNKNOWN_SN"
                 comp_ids_to_link.add(c_id)
         else:
-             # Just fallback dummy
-             comp_ids_to_link.add("component::UNKNOWN_PN::UNKNOWN_SN")
-             
+                # Just fallback dummy
+                comp_ids_to_link.add("component::UNKNOWN_PN::UNKNOWN_SN")
+
+        # Check if the components actually exist!
+        real_comps = []
+        if comp_ids_to_link:
+            for c in list(comp_ids_to_link):
+                if conn.execute("SELECT 1 FROM components WHERE id=?", (c,)).fetchone():
+                    real_comps.append(c)
+
+        if not real_comps:
+            cur.execute("SELECT id FROM components LIMIT 1")
+            row = cur.fetchone()
+            if row: real_comps.append(row[0])
+            else: real_comps.append("UNKNOWN")
+
+        comp_ids_to_link = set(real_comps)
+        first_c = list(comp_ids_to_link)[0] if comp_ids_to_link else "UNKNOWN"
+
+        try:
+            conn.execute('''
+                INSERT OR REPLACE INTO events
+                (id, component_id, event_type, event_date, description, tsn_at_event, csn_at_event, file_name, page_index, text_evidence)
+                VALUES (?, ?, ?, ?, ?, NULL, NULL, ?, ?, ?)
+            ''', (ev_id, first_c, ev_type, ev_date, ev_desc, f_name, 0, ev_desc))
+            events_inserted += 1
+        except Exception as e:
+            print(e)
+            pass
+
+        # Link event to page
+        conn.execute('''
+            INSERT OR IGNORE INTO edges (id, source_id, source_kind, target_id, target_kind, edge_type, confidence, evidence_file, evidence_page)
+            VALUES (?, ?, 'EVENT', ?, 'PAGE', 'DOCUMENTED_IN', 'high', 'database', 0)
+        ''', (f"edge::{ev_id}::{pid}", ev_id, pid))
+        
+        # Link event to components on page
         for c_id in comp_ids_to_link:
             # We don't verify component exists here, rely on foreign keys or just let it fail silently if not strict
             try:

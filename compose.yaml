@@ -30,7 +30,12 @@ services:
       ANTHROPIC_API_KEY:         "${ANTHROPIC_API_KEY:-}"
     volumes:
       - sparengine-csvs:/app/csvs
-      - claude-auth:/home/node/.claude
+      # Uncomment ONLY if AGENT_CLI=claude (Pro/Max subscription OAuth needs
+      # to persist). For AGENT_CLI=openclaude (default), leave this off — no
+      # auth state to save, and the mount has caused permission issues on
+      # named-volume creation. The Dockerfile pre-creates /home/node/.claude
+      # so the volume inherits node:node ownership when you do enable it.
+      # - claude-auth:/home/node/.claude
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://localhost:2001/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
@@ -40,4 +45,4 @@ services:
 
 volumes:
   sparengine-csvs:
-  claude-auth:
+  # claude-auth:    # uncomment together with the mount above
