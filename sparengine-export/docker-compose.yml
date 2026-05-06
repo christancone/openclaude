@@ -8,6 +8,9 @@ services:
     image: sparengine-export:latest
     container_name: sparengine
     restart: unless-stopped
+    depends_on:
+      neo4j:
+        condition: service_healthy
     ports:
       - "2001:2001"
     environment:
@@ -28,8 +31,19 @@ services:
       # Set ANTHROPIC_API_KEY too if you want non-interactive Claude Code auth.
       AGENT_CLI:           "${AGENT_CLI:-openclaude}"
       ANTHROPIC_API_KEY:   "${ANTHROPIC_API_KEY:-}"
+
+      # Neo4j connection (replaces the per-asset SQLite graph.db). The phase
+      # scripts open a Bolt session via the official `neo4j` Python driver.
+      # Hostname `neo4j` resolves to the sibling service on the docker network.
+      NEO4J_URI:       "${NEO4J_URI:-bolt://neo4j:7687}"
+      NEO4J_USER:      "${NEO4J_USER:-neo4j}"
+      NEO4J_PASSWORD:  "${NEO4J_PASSWORD}"
+      NEO4J_DATABASE:  "${NEO4J_DATABASE:-neo4j}"
     volumes:
-      # Per-asset artefacts (CSV + graph.db + asset_graph.html). Persist these.
+      # Per-asset artefacts (CSV + graph_export.json + restore.cypher
+      # + asset_graph.html + tier_views.cypher). This volume is the source
+      # of truth for finalised dossiers — sacred. The neo4j-data volume
+      # is replaceable via `restore.cypher` replay.
       - sparengine-csvs:/app/csvs
 
       # Claude Code OAuth cache. Mount only when AGENT_CLI=claude (Pro/Max
@@ -47,6 +61,68 @@ services:
       retries: 3
       start_period: 10s
 
+  neo4j:
+    # Community Edition is sufficient for our scale (single shared DB,
+    # multi-tenancy via `asset_id` property tags). Pinned to 5.26 LTS.
+    image: neo4j:5.26-community
+    container_name: sparengine-neo4j
+    restart: unless-stopped
+    ports:
+      # Bind to 127.0.0.1 only — Bolt and Browser are exposed for local dev,
+      # not the wider network. Sparengine reaches Neo4j via the docker network
+      # using `bolt://neo4j:7687` (no host port needed for that path).
+      - "127.0.0.1:7474:7474"   # HTTP / Neo4j Browser
+      - "127.0.0.1:7687:7687"   # Bolt (driver protocol)
+    environment:
+      # Initial password set on first start. Subsequent starts keep the
+      # existing /data state. Change via `neo4j-admin dbms set-initial-password`
+      # if needed before first start.
+      NEO4J_AUTH:           "neo4j/${NEO4J_PASSWORD}"
+      # Plain copy of the password so the in-container healthcheck shell can
+      # read it. NOT prefixed with NEO4J_ because the Neo4j entrypoint parses
+      # every NEO4J_* env var as a config setting and strict validation fails
+      # on an unknown setting named "password".
+      HEALTHCHECK_PASSWORD: "${NEO4J_PASSWORD}"
+
+      # APOC plugin: needed for apoc.export.cypher.query (per-asset Cypher
+      # dumps for the `restore.cypher` deliverable in Phase 10) plus batched
+      # MERGE helpers and date utilities used by the DAL.
+      NEO4J_PLUGINS: '["apoc"]'
+
+      # APOC procedures need to be explicitly unrestricted to run.
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*"
+      NEO4J_dbms_security_procedures_allowlist:    "apoc.*"
+
+      # APOC export to filesystem (writes `restore.cypher` into /import).
+      NEO4J_apoc_export_file_enabled:  "true"
+      NEO4J_apoc_import_file_enabled:  "true"
+      NEO4J_apoc_import_file_use__neo4j__config: "true"
+
+      # Memory tuning: defaults are conservative; bump these if you ever hit
+      # a 100k+ node dossier. Today's AW139 sample is ~1k pages, ~12 MB.
+      NEO4J_server_memory_heap_initial__size: "512m"
+      NEO4J_server_memory_heap_max__size:     "1g"
+      NEO4J_server_memory_pagecache_size:     "512m"
+    volumes:
+      - neo4j-data:/data         # the graph itself — persist across restarts
+      - neo4j-logs:/logs
+      - neo4j-import:/import     # apoc.export.cypher writes per-asset dumps here
+      - neo4j-plugins:/plugins   # APOC jar; persisted so re-pulls don't re-download
+    healthcheck:
+      # Bolt-level health: the driver is ready and the default DB accepts
+      # a query. cypher-shell ships in the official image. The $$ escapes
+      # docker-compose's variable expansion so the inner shell sees the
+      # literal $NEO4J_PASSWORD env var inside the container.
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p \"$$HEALTHCHECK_PASSWORD\" 'RETURN 1' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
 volumes:
   sparengine-csvs:
+  neo4j-data:
+  neo4j-logs:
+  neo4j-import:
+  neo4j-plugins:
   # claude-auth:    # uncomment together with the mount above
