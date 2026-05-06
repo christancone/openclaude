@@ -6,7 +6,9 @@
 - `csv_and_ocr.md` (CSV schema + extracted_json structure)
 - `tiers_and_ata.md` (asset detection signals)
 
-**Inputs:** the CSV file at `csv_path`. No tables yet.
+**Inputs:** the CSV file at `csv_path`. **Phase 0 writes nothing to Neo4j** — its only output is `asset_profile.json` on disk. Phase 1 reads the profile, seeds `:Asset` from it, and starts the graph build.
+
+**Style:** Judgement. **You** read the pages, **you** decide what the asset is. A script that hardcodes from the folder name is cheating.
 
 ---
 
@@ -41,7 +43,7 @@ The profile must be derived from `entities[]` and `metadata` aggregated across t
    - For engine dossier: a single engine entry with the primary ESN.
    - Helicopter: rotor system + transmission entries.
 
-5. **Build `blocked_sn_list`**: asset MSN, registration history values, primary engine SNs, year strings 1990..2030. (Phase 1 will use this to drop these from `pages.serial_numbers`.)
+5. **Build `blocked_sn_list`**: asset MSN, registration history values, primary engine SNs, year strings 1990..2030. Phase 1 uses this to skip writing matching `:SerialNumber` nodes and `:MENTIONS_SN` edges (universal blocklist + this custom list).
 
 6. **Detect dossier date.** Latest "approved/dated" entry seen across the slice.
 

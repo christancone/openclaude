@@ -1,230 +1,215 @@
 # PHASE 10 — Graph Export
 
-**Intent.** Read the database. Project it into `graph_export.json` matching the template's expected shape exactly.
+**Intent.** Read the Neo4j graph; produce the three per-asset deliverables:
+
+1. `graph_export.json` — viz-shape projection (panel HTML reads it).
+2. `restore.cypher`    — replayable into any Neo4j Community via `cypher-shell -f restore.cypher`. Sanitised so schema-creation lines don't conflict with an existing schema.
+3. `tier_views.cypher` — saved Cypher snippets for Neo4j Browser favourites (one per ATA-derived tier).
+
+Also auto-applies `phases/captions.cypher` so Browser auto-captions on every node label are meaningful.
 
 **Reference files:**
-- `tiers_and_ata.md` (status colour map below)
+- `tiers_and_ata.md` (the ATA→tier mapping for `tier_views.cypher`)
 - `severity_matrix.md`
+- `captions.cypher`
 
-**Inputs:** every table written by phases 0-9.
+**Inputs:** the post-Phase-9 graph.
+
+**Style:** Coding. Pure Cypher reads + APOC export. No judgement.
+
+---
+
+## What this phase produces (in `--workdir`)
+
+| File | Source | Size (typical) |
+|---|---|---|
+| `graph_export.json` | DAL `export_*` helpers → JSON projection | 1–3 MB |
+| `restore.cypher`    | APOC `apoc.export.cypher.query` → sanitised | 5–10 MB |
+| `tier_views.cypher` | static template substituted with asset_id | ~3 KB |
 
 ---
 
 ## ANTI-CHEAT RULE
 
-**`graph_export.json` is a database query result, NOT a Python dict literal.** Past runs hand-wrote a 30-line dict and called it done. Empty graph result.
+**`graph_export.json` is a Cypher query result, NOT a Python dict literal.** Past runs hand-wrote a 30-line dict and called it done. Empty graph result.
 
-If your `phase10_export.py` contains a literal like:
+If your `phase10.py` contains anything like:
 
 ```python
 export_data = {
-    "asset": {"id": "asset_1", ...},   # ← BAD. Read from `assets` table.
+    "asset": {"id": "asset_1", ...},   # ← BAD. Read from :Asset.
     "nodes": [{"id": "..."}],          # ← BAD. Build from query results.
 }
 ```
 
-It is **wrong**. Delete it and re-read this file.
-
-Every field below comes from an explicit SQL query against `graph.db`.
+It is **wrong**. Delete it and use the DAL `export_*` helpers.
 
 ---
 
-## Required keys (template depends on every one)
+## Steps
 
+### 1. Bootstrap
+
+```python
+from graph_dal.export import (
+    export_asset, export_edges, export_events_by_component,
+    export_findings_by_component, export_lease_return_state,
+    export_mandatory_checklist, export_nodes,
+    export_priority_items, export_restore_cypher,
+    export_stats, sanitize_restore_cypher,
+)
+from graph_dal.verify import verify_no_fact_orphans
 ```
-graphData.asset                    object — registration, msn, type_designation, operator, tsn, csn, dossier_date
-graphData.stats                    object — total_components, total_events, total_findings,
-                                            components_by_tier, components_by_status,
-                                            documents_by_type, evidentiary_weight_breakdown,
-                                            findings_by_severity
-graphData.nodes                    array  — { id, label, group, shape, size, color, tier, status, data }
-graphData.edges                    array  — { id, from, to, color, width, dashes, event_type, title }
-graphData.events                   object — { component_id: [event, ...] }
-graphData.findings                 object — { component_id: [finding, ...] }
-graphData.findings_summary         object — by-severity counts and lists (Phase 9)
-graphData.doc_nodes / doc_edges    array  — Documents view
-graphData.ata_nodes / ata_edges    array  — ATA view
-graphData.time_nodes / time_edges  array  — Time view
-graphData.lease_return_state       object — Phase 6.5 → drives lease-return banner
-graphData.priority_items           array  — Phase 6.5 → drives Critical Items panel
-graphData.mandatory_checklist      object — Phase 8 → drives Mandatory Checklist panel
-graphData.verification_stats       object — Phase 7.5 → drives Audit Quality panel
+
+### 2. Build the JSON projection
+
+```python
+graph_data: dict = {}
+with driver.session(database=database_name()) as s:
+    graph_data["asset"]               = export_asset(s, asset_id)
+    graph_data["stats"]               = export_stats(s, asset_id)
+    graph_data["nodes"]               = export_nodes(s, asset_id)            # NO LIMIT
+    graph_data["edges"]               = export_edges(s, asset_id)            # NO LIMIT
+    graph_data["events"]              = export_events_by_component(s, asset_id)
+    graph_data["findings"]            = export_findings_by_component(s, asset_id)
+    graph_data["priority_items"]      = export_priority_items(s, asset_id)
+    graph_data["mandatory_checklist"] = export_mandatory_checklist(s, asset_id)
+    graph_data["lease_return_state"]  = export_lease_return_state(s, asset_id)
+```
+
+**Do NOT cap `export_nodes` / `export_edges` with a LIMIT.** A truncated export silently drops Persons / Events / Findings / PriorityItems beyond the cap, breaking the panel HTML rendering.
+
+### 3. Serialise to JSON
+
+Neo4j returns its own DateTime / Date types from `datetime()` calls — install a default encoder:
+
+```python
+def _json_default(o):
+    iso = getattr(o, "iso_format", None) or getattr(o, "isoformat", None)
+    if callable(iso): return iso()
+    return str(o)
+
+export_path = workdir / "graph_export.json"
+export_path.write_text(
+    json.dumps(graph_data, indent=2, default=_json_default),
+    encoding="utf-8",
+)
+```
+
+### 4. Generate restore.cypher (APOC export + sanitise)
+
+APOC writes into `/import` (the `neo4j-import` volume). The sparengine container sees the same volume read-only at `/app/neo4j-import`. Phase 10 reads + sanitises + writes the cleaned copy directly into the workdir.
+
+```python
+restore_filename = f"restore-{asset_id}.cypher"
+shared_path = Path("/app/neo4j-import") / restore_filename
+workdir_path = workdir / "restore.cypher"
+
+with driver.session(database=database_name()) as s:
+    export_restore_cypher(s, asset_id, restore_filename)
+
+if shared_path.exists():
+    n_commented = sanitize_restore_cypher(shared_path, workdir_path)
+    # Comments out CREATE FULLTEXT INDEX / CREATE CONSTRAINT lines.
+    # Schema is owned by phases/schema.cypher; replay shouldn't recreate it.
+```
+
+`export_restore_cypher` embeds the asset_id directly into the inner query (it's a UUID; no quoting risk) because APOC's `apoc.export.cypher.query` doesn't propagate outer-query parameters into the inner query context.
+
+### 5. Generate tier_views.cypher
+
+```python
+TIER_QUERIES = {
+    "ENGINE":        "c.ata_chapter STARTS WITH '7'",
+    "PROPELLER":     "c.ata_chapter = '61'",
+    "ROTOR_SYSTEM":  "c.ata_chapter IN ['62', '64', '66', '67']",
+    "TRANSMISSION":  "c.ata_chapter IN ['63', '65']",
+    "LANDING_GEAR":  "c.ata_chapter = '32'",
+    "AIRFRAME":      "c.ata_chapter IN ['51','52','53','54','55','56','57']",
+    "AVIONICS":      "c.ata_chapter IN ['22','23','27','31','34','45']",
+    "SYSTEMS":       "c.ata_chapter IN ['21','24','26','28','29','30','33','35','36','38']",
+    "INTERIOR":      "c.ata_chapter = '25'",
+    "APU":           "c.ata_chapter = '49'",
+}
+
+# Render as Cypher comments + queries, write to workdir / "tier_views.cypher"
+```
+
+### 6. Apply captions.cypher
+
+After all writes, run `phases/captions.cypher` to ensure every node has a `name` property (so Browser auto-captions display meaningfully). The DAL way:
+
+```python
+# Locate captions.cypher in the sparengine-export tree
+for parent in [Path(__file__).resolve().parent, *Path(__file__).resolve().parents]:
+    cand = parent / "sparengine-export" / "phases" / "captions.cypher"
+    if cand.is_file():
+        captions_file = cand
+        break
+
+# Strip comments, split on `;`, run each statement
+raw = captions_file.read_text(encoding="utf-8")
+cleaned = "\n".join(
+    line for line in raw.splitlines()
+    if line.strip() and not line.strip().startswith("//")
+)
+statements = [s.strip() for s in cleaned.split(";") if s.strip()]
+with driver.session(database=database_name()) as s:
+    for stmt in statements:
+        s.run(stmt).consume()
 ```
 
 ---
 
-## Building each section
-
-### `asset`
-```sql
-SELECT id, asset_kind, subtype, type_designation, tcds, yom, msn, registration,
-       operator, owner, primary_serial, state, tsn, csn, tsn_confidence,
-       csn_confidence, dossier_date FROM assets;
-```
-
-### `stats`
-```sql
-SELECT (SELECT COUNT(*) FROM pages)       AS total_pages,
-       (SELECT COUNT(*) FROM documents)   AS total_documents,
-       (SELECT COUNT(*) FROM components)  AS total_components,
-       (SELECT COUNT(*) FROM events)      AS total_events,
-       (SELECT COUNT(*) FROM stamps)      AS total_stamps,
-       (SELECT COUNT(*) FROM findings WHERE status='open') AS total_findings_open;
-
-SELECT tier, COUNT(*) FROM components GROUP BY tier;
-SELECT status, COUNT(*) FROM components GROUP BY status;
-SELECT document_type, COUNT(*) FROM documents GROUP BY document_type;
-SELECT evidentiary_weight, COUNT(*) FROM pages GROUP BY evidentiary_weight;
-SELECT severity, COUNT(*) FROM findings WHERE status='open' GROUP BY severity;
-```
-
-### `nodes`
-
-Three categories:
-
-1. **Asset node** — one row from `assets`. `id = "asset::<id>"`, `tier = "AIRCRAFT_CENTER"`, `shape = "star"`, `size = 40`, color from status.
-2. **Tier groups** — one node per tier in `expected_tiers`. `id = "tier::<TIER>"`, `_status = "TIER_GROUP"`, `shape = "dot"`, `size = 30`.
-3. **Components** — one row per `components`. `id = component.id`, `tier = component.tier`, `status = component.status`, `data = { canonical_pn, installed_sn, position, is_llp, remaining_cycles, remaining_hours, last_form1_file, last_form1_date, finding_count }`.
-
-Status colour map (use exactly this — the template's STATUS_COLORS reads it):
+## What to log
 
 ```
-CLOSED              #4CAF50
-PARTIAL             #FF9800
-GAP                 #F44336
-INSTALLED_AT_MFG    #2196F3
-DISCOVERED          #9E9E9E
-TIER_GROUP          #5C6BC0
+== Phase 10 verification ==
+- graph_export.json size                   : <bytes>
+- nodes in export                          : <N>
+- edges in export                          : <N>
+- events keyed by component                : <N>
+- findings keyed by component              : <N>
+- priority_items                           : <N>
+- mandatory_checklist items                : 12
+- restore.cypher                           : OK: <bytes> bytes, <N> schema lines commented
+- tier_views.cypher                        : <bytes> bytes
+- captions.cypher applied                  : OK: <N> statements
+- fact_nodes_no_evidence                   : 0
 ```
-
-### `edges`
-
-Build from `edges` (universal) + `asset_relations` (the structural ones):
-
-```sql
-SELECT id, source_id AS "from", target_id AS "to", edge_type, confidence, evidence_quote AS title
-FROM edges
-WHERE edge_type IN ('HAS_TIER', 'BELONGS_TO_TIER', 'PART_OF', 'INSTALLED_ON',
-                    'INSTALLATION', 'REMOVAL', 'OVERHAUL', 'INSPECTION', 'SHOP_VISIT',
-                    'SB_COMPLIANCE', 'AD_COMPLIANCE', 'PART_REPLACED', 'RELEASE_TO_SERVICE');
-```
-
-Edge colour by `event_type` (template's EDGE_COLORS):
-```
-installation        #2196F3
-removal             #F44336
-overhaul            #4CAF50
-inspection          #FF9800
-shop_visit          #9C27B0
-sb_compliance       #00BCD4
-ad_compliance       #00ACC1
-release_to_service  #8BC34A
-membership          #444444  (HAS_TIER / BELONGS_TO_TIER)
-references          #888888
-```
-
-Confidence styling: `high` → solid, `medium` → dashed `[5,5]`, `low` → dotted `[2,4]`.
-
-### `events` (keyed by component_id)
-```sql
-SELECT component_id, id AS event_id, event_type, event_date, description,
-       task_compliance_status, task_reference, file_name, page_index, text_evidence
-FROM events
-ORDER BY component_id, event_date;
-```
-Group rows by `component_id` into `{ component_id: [event, ...] }`.
-
-### `findings` (keyed by component_id, only open)
-```sql
-SELECT target_id AS component_id, id, finding_type, severity, original_severity,
-       severity_downgrade_reason, description, what_auditor_needs,
-       file_name, page_index, status, verification_strategy
-FROM findings
-WHERE status = 'open' AND target_kind = 'COMPONENT'
-ORDER BY target_id, severity;
-```
-
-### `findings_summary` — read Phase 9's payload (or recompute).
-
-### `doc_nodes` / `doc_edges` — for Documents view
-- Node per `documents` row.
-- Edge per `edges` where `source_kind = 'DOCUMENT'` or `target_kind = 'DOCUMENT'`.
-
-### `ata_nodes` / `ata_edges` — for ATA view
-- Node per `ata_chapters` row.
-- Edge per `edges` where `edge_type = 'ASSIGNED_ATA'` or `edge_type = 'PAGE_REFERENCES'` to ATA.
-
-### `time_nodes` / `time_edges` — for Time view
-```sql
-SELECT c.id, c.canonical_pn || ' (' || c.installed_sn || ')' AS label,
-       c.position, ar.valid_from AS install_date, ar.valid_to AS removal_date,
-       c.tier, c.status
-FROM components c
-LEFT JOIN asset_relations ar
-       ON ar.from_id = c.id AND ar.relation_type = 'installed_on';
-
-SELECT ar.from_id AS "from", ar.to_id AS "to", 'replaced_by' AS edge_type,
-       ar.valid_from AS date, ar.evidence_file, ar.evidence_page
-FROM asset_relations ar
-WHERE ar.relation_type = 'replaced_by';
-```
-
-### `lease_return_state` — Phase 6.5 row
-```sql
-SELECT * FROM lease_return_state;
-```
-
-### `priority_items` — Phase 6.5 rows, joined to component label
-```sql
-SELECT pi.*, c.canonical_pn || ' (' || c.installed_sn || ')' AS component_label
-FROM priority_items pi
-LEFT JOIN components c ON c.id = pi.component_id
-ORDER BY pi.rank;
-```
-
-### `mandatory_checklist` — Phase 8 payload (file or DB).
-
-### `verification_stats` — Phase 9 payload (file or compute).
 
 ---
 
 ## MANDATORY VERIFICATION
 
-After writing `graph_export.json`, validate:
-
 ```python
-import json
-data = json.load(open('graph_export.json'))
-
-required_keys = ['asset', 'stats', 'nodes', 'edges', 'events', 'findings',
-                 'findings_summary', 'doc_nodes', 'doc_edges', 'ata_nodes',
-                 'ata_edges', 'time_nodes', 'time_edges', 'lease_return_state',
-                 'priority_items', 'mandatory_checklist', 'verification_stats']
-for k in required_keys:
-    assert k in data, f"Missing required key: {k}"
-
-assert data['asset']['id'].startswith('asset::')
-assert data['stats']['total_components'] > 0
-assert data['stats']['total_events'] > 0
-assert len(data['nodes']) >= data['stats']['total_components']
-assert len(data['edges']) > 0
+from graph_dal.verify import verify_no_fact_orphans
+verify_no_fact_orphans(driver, asset_id, phase="10")
 ```
 
-Append to `progress.log`:
+Plus:
+- `graph_export.json` exists, is valid JSON, has all 9 required top-level keys: `asset`, `stats`, `nodes`, `edges`, `events`, `findings`, `priority_items`, `mandatory_checklist`, `lease_return_state`.
+- `restore.cypher` exists in the workdir and starts with `:begin` (the APOC cypher-shell format).
+- `tier_views.cypher` exists.
+- captions step ran (`captions_status == "OK"` in the log).
+- `fact_nodes_no_evidence == 0`.
 
-```
-- graph_export.json size                        : <bytes>
-- nodes count                                   : <N>   (must equal asset+tiers+components)
-- edges count                                   : <N>   (must be > 0)
-- events keyed by component                     : <N keys>
-- findings keyed by component                   : <N keys>
-- mandatory_checklist items present             : 12
-```
+---
 
-**STOP conditions:**
+## STOP conditions
 
-- `total_components == 0` while `count(components)` in DB is > 0 → query was wrong.
-- Any required key missing.
-- `nodes` array doesn't include the asset node.
-- `nodes` count is hardcoded (e.g. exactly 3) → cheating.
-- The file is small enough to be a literal (< 5 KB for a real dossier) — means the agent inlined a stub.
+- `graph_export.json` doesn't exist OR is not valid JSON.
+- `nodes < expected_total` (sum of every visible label) — the export was LIMITed accidentally.
+- `restore.cypher` doesn't exist OR has 0 schema lines commented (sanitiser didn't run; replay will fail).
+- `captions.cypher applied` is `FAILED` or `skipped` — Browser captions will be meaningless.
+- `fact_nodes_no_evidence > 0`.
+
+---
+
+## Reference implementation
+
+`csvs/0378e3e8-ec91-476d-8031-79c198611253-AW139/phase10.py` — verified-working canonical Phase 10. For AW139 it produces:
+- `graph_export.json` 2.0 MB (3894 visible nodes, 1182 edges)
+- `restore.cypher` 7.6 MB (9339 nodes, 16798 edges, 24 schema lines commented; replay-verified)
+- `tier_views.cypher` 2.7 KB (10 tiers)
+- `captions.cypher applied: OK: 57 statements`

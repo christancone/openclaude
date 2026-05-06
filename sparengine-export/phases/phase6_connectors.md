@@ -1,246 +1,221 @@
-# PHASE 6 — Document Connector Building
+# PHASE 6 — Connectors (cross-doc linkage)
 
-**Intent.** Stop being a list, become a graph. Build edges between pages, documents, components, work orders, requirements, stakeholders, persons.
+**Intent.** Walk the existing graph (post-phases 1, 2, 4, 5) and weave the cross-document connections:
+
+1. **Enrich `:Person`** — Phase 1's stamp-derived Person nodes have only a name; Phase 6 backfills `cert_authority` from the stamp's `certificate_number`.
+2. **Wire `:Stamp-[:STAMPED_BY]->:Person`** for every stamp with a person_name.
+3. **Promote stamp `certificate_number` to `:CertificateNumber` nodes** + wire `:Stamp-[:CARRIES_CERT]->:CertificateNumber`.
+4. **Wire `:WorkPackage-[:INCLUDES]->:JobCard | :NonRoutineCard | :CRS | :Form1`** by matching WO numbers across the dossier.
+5. **(Optional, when extractable)** materialise `:Organization` / `:RegulatoryAuthority` / `:DesignOrganization` / `:ProductionOrganization` / `:MaintenanceOrganization` from address blocks + Form 1 issuer fields.
+6. **(Optional)** wire `:COMPLIES_WITH` from WorkPackage/Document → SB/AD/EO/STC/Modification by matching reference numbers.
+7. **(Optional)** wire `:IMPLEMENTS` from Modification → STC/EO/SB.
+8. **(Optional)** wire `:APPLIES_TO` from SB/AD → TypeCertificate/EngineModel/PartFamily.
+9. **(If Xlsx ledger present)** materialise `:LogbookEntry`, `:TechLogEntry`, `:Manual`, `:ElectronicDataEntry`.
 
 **Reference files:**
-- `csv_and_ocr.md` (entities, metadata.reference_numbers)
-- `document_types.md` (CRS family, Form 1 family)
-- `tiers_and_ata.md` (ATA→tier)
-- `data_quality_rules.md`
+- `csv_and_ocr.md` (entities, sections — address_block, certification_statement)
+- `data_quality_rules.md` (organisation name normalisation, CAMP-as-concept rule)
 
-**Inputs:** all tables populated through Phase 5.
+**Style:** Coding. Mechanical loops. Don't fuse them; build one edge type at a time. Use `csvs/.../AW139/phase6.py` as the canonical reference.
 
 ---
 
-## Steps (apply in order)
+## What this phase produces
 
-### 1. Work order clustering
+Edges (the bulk of Phase 6):
+- `:Stamp-[:STAMPED_BY]->:Person`
+- `:Stamp-[:CARRIES_CERT]->:CertificateNumber`
+- `:WorkPackage-[:INCLUDES]->:JobCard | :NonRoutineCard | :CRS | :Form1`
+- `:Form1|:CRS|:JobCard-[:SIGNED_BY {block, date, role}]->:Person` (when stamps bind)
+- `:Form1|:CRS|:SB|:AD|:STC-[:ISSUED_BY {date}]->:Org / :Authority / :DOA / :POA / :MRO`
+- `:WorkPackage|:Document-[:COMPLIES_WITH {date_complied, method}]->:SB|:AD|:EO|:STC|:Modification`
+- `:Modification-[:IMPLEMENTS]->:STC|:EO|:SB`
+- `:SB|:AD-[:APPLIES_TO]->:TypeCertificate|:EngineModel|:PartFamily`
 
-For every distinct `work_order` value in `metadata.reference_numbers` and `entities[]`:
-- Insert into `work_orders` (`id` = normalised WO number, `description` from the most informative page, `open_date`/`close_date` from MIN/MAX of pages mentioning it, `mro` from the operator/MRO entity most often co-located).
-- For every page mentioning the WO, insert an `edges` row with `edge_type = 'PART_OF_WORK_ORDER'`.
-- **Detect CRS coverage:** if any page in the WO has `document_type IN ('certificate_of_release_to_service', 'dual_release_certificate')`, set `work_orders.has_crs = 1` and store the CRS file/page.
-- **Set `component_count`** to the number of distinct components touched by events in this WO.
+Nodes (richer, only when extractable):
+- `:Person` (with `cert_authority`)
+- `:Organization`, `:RegulatoryAuthority`, `:DesignOrganization`, `:ProductionOrganization`, `:MaintenanceOrganization`
+- `:LogbookEntry`, `:TechLogEntry`, `:Manual`, `:ElectronicDataEntry` (xlsx ledger only)
 
-### 2. Reference cross-linking
+---
 
-Build a `reference_number → pages` index. For each shared reference (any `type`), link pages with `REFERENCES` edges (confidence: medium). Don't go quadratic — for very common references (>50 pages), just link to the WO node, not pairwise.
+## Steps
 
-### 3. PN / SN linking
+### 1. Bootstrap
 
-- Every page mentioning a PN gets `PAGE_REFERENCES` to its `part_types` node.
-- Every (PN, SN) gets `PAGE_REFERENCES` to its `serials` node.
-- Same `serial_number` on different `part_number` values → flag `SN_AMBIGUOUS`.
-
-### 4. Requirement linking
-
-- Every AD/SB/EO/STC reference creates a `requirements` row (`id` = `f"{kind}::{number}::{revision}"`).
-- Every page mentioning the requirement → `PAGE_REFERENCES`.
-- Every `event_type IN ('sb_compliance', 'ad_compliance')` → `COVERS_REQUIREMENT` edge.
-
-### 5. ATA linking
-
-- Insert `ata_chapters` rows from `metadata.ata_chapters[]` across all pages.
-- Every component → `ASSIGNED_ATA` edge to its chapter.
-- Every page → `PAGE_REFERENCES` edges to all chapters in `metadata.ata_chapters`.
-
-### 6. Stakeholder linking
-
-- `entities[]` where `entity_type IN ('operator', 'mro')` plus `address_block` sections plus `header_fields` keys like "MRO Name", "Bill To", "Approved Under" → `stakeholders` rows.
-- `ISSUED_BY` from documents → MRO stakeholder.
-- `APPROVED_UNDER` from documents → regulator (parsed from approval_number prefixes: `UK.145.*` → UK CAA, `EASA.145.*` → EASA, `FAA.145.*` → FAA).
-
-### 7. Person linking
-
-- `entities[]` where `entity_type == 'person'` plus `stamps_and_signatures[].person_name` → `persons` rows.
-- `SIGNED_BY` edges from events to persons via stamps.
-
-### 8. Stamp binding
-
-For every stamp:
 ```python
-match stamp.binds_to_target_kind:
-    case 'event':     # STAMP_BINDS_TO edge: stamp → event
-                      # AND SIGNED_BY edge: event → person (from stamp.person_name)
-    case 'entity':    # STAMP_BINDS_TO edge: stamp → entity (PN/SN/WO)
-    case 'table_row': # resolve table row to its event/entity
-    case 'section':   # STAMP_BINDS_TO edge: stamp → section's event
-    case 'page':      # STAMP_BINDS_TO edge: stamp → page (release to service)
+from graph_dal.connector import write_certificate_number
+from graph_dal.organization import (
+    write_person, write_organization,
+    write_regulatory_authority, write_design_organization,
+    write_production_organization, write_maintenance_organization,
+    link_signed_by, link_issued_by, link_work_package_includes,
+)
+from graph_dal.stamp import link_stamp_carries_cert, link_stamped_by
 ```
-If `binding_confidence == 'ambiguous'`, raise `STAMP_AMBIGUOUS_BINDING`.
 
-### 9. Attachment detection
+### 2. Person enrichment + STAMPED_BY wiring
 
-When a Form 1 page (`document_type` ∈ Form 1 family per `document_types.md`) directly follows a job card / NRC in the same `document_id` and shares a (PN, SN) → `ATTACHES` edge.
+Walk every `:Stamp` with a non-null `person_name`. For each:
 
-### 10. Date / MRO inferred packages
+```python
+def detect_cert_authority(cert_number: str | None) -> str | None:
+    """Heuristic — infer authority from certificate-number prefix."""
+    if not cert_number: return None
+    s = cert_number.strip().upper()
+    if re.match(r"^(IT|DE|GB|FR|ES|NL|SE|DK|FI|NO|PL|CZ|HU|AT|BE|IE|PT)[\.\-]", s):
+        return "EASA"
+    if "FAA" in s or s.startswith("A&P"): return "FAA"
+    if s.startswith("TCCA") or s.startswith("AME-") or s.startswith("AMC-"): return "TCCA"
+    if s.isdigit() and 4 <= len(s) <= 8: return "EASA"   # Italian 4-8 digit certs
+    return None
 
-Pages with no WO but same MRO and date within ±3 days → inferred `work_packages` row, `inferred = 1`, `confidence = medium`. These are speculation; use them only as Phase 7 hints, not as primary evidence.
+with driver.session(database=database_name()) as s:
+    stamps = list(s.run("""
+        MATCH (st:Stamp {asset_id: $aid})
+        WHERE st.person_name IS NOT NULL
+        RETURN st.value AS stamp_uid, st.person_name AS name,
+               st.certificate_number AS cert
+    """, aid=asset_id))
 
-### 11. WO chain edges (with administrative cap)
+BATCH = 200
+with driver.session(database=database_name()) as session:
+    for i in range(0, len(stamps), BATCH):
+        with session.begin_transaction() as tx:
+            for rec in stamps[i:i + BATCH]:
+                name = (rec["name"] or "").strip()
+                if not name: continue
+                person_uid = re.sub(r"\s+", " ", name).upper()
+                cert = (rec["cert"] or "").strip()
+                authority = detect_cert_authority(cert) if cert else None
 
-For each work order with `2 ≤ component_count ≤ 8`, create pairwise `wo_chain` rows in `asset_relations` between every pair of components touched by that WO. Label = the dominant `event_type` across the WO's events.
+                write_person(
+                    tx, asset_id=asset_id, value=person_uid,
+                    name=name, cert_authority=authority,
+                )
+                # Wire :Stamp-[:STAMPED_BY]->:Person (Q8 — was the legacy :BY edge)
+                link_stamped_by(
+                    tx, asset_id=asset_id, stamp_uid=rec["stamp_uid"],
+                    person_value=person_uid, person_name=name,
+                )
 
-**For WOs with `component_count > 8`, set `is_administrative = 1` and SKIP the wo_chain edges entirely.** These are dossier-level admin documents (inspection sweeps, bulk preservation packages); 50×49/2 = 1225 edges per such WO would explode the visualiser.
+                if cert:
+                    write_certificate_number(
+                        tx, asset_id=asset_id, value=cert,
+                        cert_type="staff_authorisation",
+                    )
+                    link_stamp_carries_cert(
+                        tx, asset_id=asset_id,
+                        stamp_uid=rec["stamp_uid"], cert_value=cert,
+                    )
+            tx.commit()
+```
 
-### 12. Parent-of relationships
+### 3. WorkPackage → JobCard / NRC / CRS / Form1
 
-Infer `parent_of` rows in `asset_relations`:
-- LLP → engine module (when LLP appears in an engine assembly record with a parent module SN)
-- Module → engine (when module SN appears in the engine's shop visit assembly listing)
-- Blade → propeller hub (when a blade SN appears in a propeller assembly record)
-- Subcomponent → MLG/NLG assembly
+Phase 1 wrote `:WorkPackage` nodes (per `workpack_cover_sheet` page). Phase 6 wires the *logical containment* — a JobCard belongs to a WorkPackage if they share a Document (best-effort) or share a WO number.
 
-Each `parent_of` row needs `evidence_file`, `evidence_page`, `evidence_quote` (NOT NULL).
+Same-document chain (works for AW139 and most physical-packet dossiers):
 
-### 13. Replaced-by relationships
+```python
+with driver.session(database=database_name()) as session:
+    with session.begin_transaction() as tx:
+        for tgt in ("JobCard", "NonRoutineCard", "CRS", "Form1"):
+            tx.run(f"""
+                MATCH (wp:WorkPackage {{asset_id: $aid}})<-[:CARRIES]-(p1:Page)<-[:HAS_PAGE]-(d:Document)
+                MATCH (d)-[:HAS_PAGE]->(p2:Page)-[:CARRIES]->(t:{tgt})
+                WHERE t.value <> wp.value
+                MERGE (wp)-[:INCLUDES]->(t)
+            """, aid=asset_id).consume()
+        tx.commit()
+```
 
-When the same `position` (LH/RH/NLG/etc.) sees a `component_removal` event followed by a `component_installation` event of the same component class, create a `replaced_by` row from removed → installed, with `valid_from = removal_date` on the new component, `valid_to = removal_date` on the old one.
+### 4. Form1 / CRS / JobCard → Person via SIGNED_BY (when stamps bind)
 
-### 14. Installed-on relationships
+For each bound stamp whose `target_type ∈ {form1, crs, job_card}`, wire the SIGNED_BY relationship from the carrier evidence record to the person:
 
-For every component currently on the asset (most recent installation event with no subsequent removal), create an `installed_on` row from component → asset with `valid_from = installation_date`.
+Optional in first-cut Phase 6 — defer to Phase 7 if `binds_to` quality is poor.
+
+### 5. (Optional) Organisation extraction from address_block sections
+
+When the OCR's `content.sections[]` contains an `address_block`, parse the organisation name. Heuristic dispatch:
+
+- Part-145 number / "Part-145" mention → `write_maintenance_organization`
+- DOA number / "Design Organisation Approval" → `write_design_organization`
+- POA / CAGE code → `write_production_organization`
+- "EASA" / "FAA" / "TCCA" / "CAAC" → `write_regulatory_authority`
+- Otherwise → `write_organization` with `role` ∈ {"MRO", "CAMO", "Operator", "OEM"} guessed from context
+
+Skip if extraction quality is below `medium` — better no organisation than a wrong one.
+
+### 6. (Optional) `:COMPLIES_WITH`, `:IMPLEMENTS`, `:APPLIES_TO`
+
+```cypher
+// JobCard COMPLIES_WITH the SB it mentions on its page
+MATCH (jc:JobCard {asset_id: $aid})<-[:CARRIES]-(p:Page)-[:MENTIONS_SB]->(sb:ServiceBulletin)
+MERGE (jc)-[:COMPLIES_WITH]->(sb)
+
+// Modification IMPLEMENTS the STC it references
+MATCH (mod:Modification {asset_id: $aid})<-[:CARRIES]-(p:Page)-[:MENTIONS_STC]->(stc:STC)
+MERGE (mod)-[:IMPLEMENTS]->(stc)
+
+// SB APPLIES_TO TypeCertificate (when SB scope is known)
+MATCH (sb:ServiceBulletin {asset_id: $aid})
+MATCH (tc:TypeCertificate {asset_id: $aid})
+WHERE sb.tc_scope = tc.value
+MERGE (sb)-[:APPLIES_TO]->(tc)
+```
+
+### 7. (Optional) Xlsx ledger nodes
+
+If the dossier has a sidecar Xlsx (logbook index, manual library), parse and write:
+- `:LogbookEntry` per row → `:RECORDS` :Component
+- `:TechLogEntry` per row → `:OF_ASSET` :Asset
+- `:Manual` per row → `:FOR_ASSET` :Asset
+- `:ElectronicDataEntry` per row → `:FOR_ASSET` :Asset
+
+---
+
+## What to log
+
+```
+== Phase 6 verification ==
+- :Person count (live)                    : <N>
+- :Organization / :MaintenanceOrg / ... counts (if extracted)
+- persons_enriched_this_phase             : <N>
+- certs_promoted_to_nodes                 : <N>
+- :STAMPED_BY edges                       : <N>   ← MUST equal stamps_with_person_name
+- :CARRIES_CERT edges                     : <N>
+- :WorkPackage-[:INCLUDES]-> count        : <N>
+- :COMPLIES_WITH edges (if wired)         : <N>
+- person cert authorities detected: EASA / FAA / TCCA / unknown
+- top stamp location_contexts (first 10)
+- fact_nodes_no_evidence                  : 0
+```
 
 ---
 
 ## MANDATORY VERIFICATION
 
-```sql
--- Counts
-SELECT 'edges_total' AS t, COUNT(*) FROM edges
-UNION ALL SELECT 'work_orders',     COUNT(*) FROM work_orders
-UNION ALL SELECT 'requirements',    COUNT(*) FROM requirements
-UNION ALL SELECT 'stakeholders',    COUNT(*) FROM stakeholders
-UNION ALL SELECT 'persons',         COUNT(*) FROM persons
-UNION ALL SELECT 'ata_chapters',    COUNT(*) FROM ata_chapters
-UNION ALL SELECT 'asset_relations', COUNT(*) FROM asset_relations;
-
--- Variety: distinct edge_types and relation_types must be >= the thresholds below.
-SELECT COUNT(DISTINCT edge_type)     AS distinct_edge_types     FROM edges;
-SELECT COUNT(DISTINCT relation_type) AS distinct_relation_types FROM asset_relations;
-
--- Per-type breakdown — print the full distribution to progress.log.
-SELECT edge_type, COUNT(*) FROM edges GROUP BY edge_type ORDER BY 2 DESC;
-SELECT relation_type, COUNT(*) FROM asset_relations GROUP BY relation_type;
-
--- Specific connector probes (these are the ones that make the graph a graph):
-SELECT 'PART_OF_WORK_ORDER' AS k, COUNT(*) FROM edges WHERE edge_type='PART_OF_WORK_ORDER'
-UNION ALL SELECT 'PAGE_REFERENCES',  COUNT(*) FROM edges WHERE edge_type='PAGE_REFERENCES'
-UNION ALL SELECT 'ASSIGNED_ATA',     COUNT(*) FROM edges WHERE edge_type='ASSIGNED_ATA'
-UNION ALL SELECT 'COVERS_REQUIREMENT', COUNT(*) FROM edges WHERE edge_type='COVERS_REQUIREMENT'
-UNION ALL SELECT 'SIGNED_BY',        COUNT(*) FROM edges WHERE edge_type='SIGNED_BY'
-UNION ALL SELECT 'STAMP_BINDS_TO',   COUNT(*) FROM edges WHERE edge_type='STAMP_BINDS_TO'
-UNION ALL SELECT 'INSTALLATION',     COUNT(*) FROM edges WHERE edge_type='INSTALLATION'
-UNION ALL SELECT 'REMOVAL',          COUNT(*) FROM edges WHERE edge_type='REMOVAL'
-UNION ALL SELECT 'PART_REPLACED',    COUNT(*) FROM edges WHERE edge_type='PART_REPLACED'
-UNION ALL SELECT 'parent_of',        COUNT(*) FROM asset_relations WHERE relation_type='parent_of'
-UNION ALL SELECT 'replaced_by',      COUNT(*) FROM asset_relations WHERE relation_type='replaced_by'
-UNION ALL SELECT 'wo_chain',         COUNT(*) FROM asset_relations WHERE relation_type='wo_chain';
-
--- Documents must have at least one edge each (admin docs excepted).
-SELECT COUNT(*) AS docs_with_zero_edges FROM documents
-WHERE id NOT IN (
-    SELECT DISTINCT source_id FROM edges WHERE source_kind = 'DOCUMENT'
-    UNION SELECT DISTINCT target_id FROM edges WHERE target_kind = 'DOCUMENT'
-);
-
--- Stamps must be bound (every stamp from Phase 1 should produce STAMP_BINDS_TO).
-SELECT COUNT(*) AS stamps_unbound FROM stamps
-WHERE id NOT IN (SELECT source_id FROM edges WHERE edge_type='STAMP_BINDS_TO');
+```python
+from graph_dal.verify import verify_no_fact_orphans
+verify_no_fact_orphans(driver, asset_id, phase="6")
 ```
 
-Append all of the above to `progress.log`.
+Plus:
+- `:STAMPED_BY` edge count ≈ count of `:Stamp` nodes with non-null `person_name`. If much lower, the wiring loop missed batches.
+- `fact_nodes_no_evidence == 0`.
 
-```
-THRESHOLDS (a real Phase 6 must clear ALL of these):
-- distinct_edge_types                 : >= 6
-  (You should have built: PART_OF_WORK_ORDER, PAGE_REFERENCES, ASSIGNED_ATA,
-   plus at least three of: COVERS_REQUIREMENT, SIGNED_BY, STAMP_BINDS_TO,
-   ISSUED_BY, APPROVED_UNDER, INSTALLATION, REMOVAL, PART_REPLACED, ATTACHES.)
-- distinct_relation_types             : >= 2
-  (At minimum: installed_on AND replaced_by. parent_of and wo_chain when
-   the dossier has the underlying data.)
-- count(edges WHERE edge_type='PART_OF_WORK_ORDER') : > 0 if any pages have
-                                                       work_order references in metadata
-- count(edges WHERE edge_type='ASSIGNED_ATA')        : > 0 if components have ata_chapter populated
-- count(edges WHERE edge_type='STAMP_BINDS_TO')      : >= 0.5 * count(stamps)
-- count(requirements)                                : > 0 if dossier mentions any AD/SB/EO/STC
-- docs_with_zero_edges                               : ~ 0 (a few admin docs are fine)
-- stamps_unbound                                     : ~ 0 (most stamps must bind to something)
-- count(edges WHERE evidence_file = '' OR evidence_file IS NULL)  : 0
-- count(asset_relations WHERE evidence_quote = '' OR evidence_quote IS NULL) : 0
-```
+---
 
-**STOP conditions** (a graph that fails ANY of these is a list, not a graph):
+## STOP conditions
 
-- `count(edges) == 0`.
-- `distinct_edge_types < 6`. The list-vs-graph baseline.
-- `distinct_relation_types < 2`. Same cheat with `asset_relations`.
-- `count(work_orders) == 0` AND the dossier has any pages whose `reference_numbers` include a `work_order` type.
-- `count(requirements) == 0` AND any page has a non-empty `regulatory_references` array.
-- `stamps_unbound > 0.5 * count(stamps)`. Means you skipped the stamp binding loop.
-- More than 30% of `documents` have zero edges.
-- Any row in `asset_relations` or `edges` has a NULL/empty `evidence_*` column. Golden-rule violation.
+- `:STAMPED_BY` edge count dramatically less than stamps with `person_name` — wiring failed silently.
+- Any new `:Person` created without a name property (write_person called with empty name).
+- `fact_nodes_no_evidence > 0`.
 
-**ANTI-STUB GATES — each non-membership edge type must have a real count, not 1:**
+---
 
-A previous run cleared `distinct_edge_types >= 6` by inserting **exactly one row** of each edge type. That's not a graph; it's a tasting menu. The gates below kill that pattern.
+## Reference implementation
 
-```sql
--- Edges that point to nodes which don't exist (broken FK, classic stub)
-SELECT 'orphan_assigned_ata' AS k, COUNT(*) FROM edges
-   WHERE edge_type='ASSIGNED_ATA' AND target_id NOT IN (SELECT id FROM ata_chapters)
-UNION ALL SELECT 'orphan_stamp_binds', COUNT(*) FROM edges
-   WHERE edge_type='STAMP_BINDS_TO' AND source_id NOT IN (SELECT id FROM stamps)
-UNION ALL SELECT 'orphan_signed_by',   COUNT(*) FROM edges
-   WHERE edge_type='SIGNED_BY' AND target_id NOT IN (SELECT id FROM persons)
-UNION ALL SELECT 'orphan_issued_by',   COUNT(*) FROM edges
-   WHERE edge_type='ISSUED_BY' AND target_id NOT IN (SELECT id FROM stakeholders)
-UNION ALL SELECT 'orphan_covers_req',  COUNT(*) FROM edges
-   WHERE edge_type='COVERS_REQUIREMENT' AND target_id NOT IN (SELECT id FROM requirements);
--- Each must be 0.
-
--- Each edge type's count must be at least proportional to the underlying data.
-SELECT 'pf_PART_OF_WORK_ORDER' AS k, COUNT(*) FROM edges WHERE edge_type='PART_OF_WORK_ORDER'
-UNION ALL SELECT 'pf_PAGE_REFERENCES',  COUNT(*) FROM edges WHERE edge_type='PAGE_REFERENCES'
-UNION ALL SELECT 'pf_ASSIGNED_ATA',     COUNT(*) FROM edges WHERE edge_type='ASSIGNED_ATA'
-UNION ALL SELECT 'pf_COVERS_REQUIREMENT', COUNT(*) FROM edges WHERE edge_type='COVERS_REQUIREMENT'
-UNION ALL SELECT 'pf_STAMP_BINDS_TO',    COUNT(*) FROM edges WHERE edge_type='STAMP_BINDS_TO'
-UNION ALL SELECT 'pf_SIGNED_BY',         COUNT(*) FROM edges WHERE edge_type='SIGNED_BY'
-UNION ALL SELECT 'pf_ISSUED_BY',         COUNT(*) FROM edges WHERE edge_type='ISSUED_BY';
-```
-
-```
-- Every "orphan_*" count                                : MUST be 0.
-                                                          (You inserted edges to nodes that don't exist.)
-
-- count(edges WHERE edge_type='ASSIGNED_ATA')           : >= count(ata_chapters)
-                                                          (At least one ASSIGNED_ATA per chapter you bothered to insert.)
-- count(edges WHERE edge_type='PART_OF_WORK_ORDER')     : >= count(work_orders) * 3
-                                                          (Each WO has multiple pages.)
-- count(edges WHERE edge_type='STAMP_BINDS_TO')         : >= 0.5 * count(stamps)
-                                                          (Most stamps must bind to something.)
-- count(edges WHERE edge_type='COVERS_REQUIREMENT')     : >= count(requirements)
-                                                          (Each requirement must be covered by at least one event.)
-- count(edges WHERE edge_type='ISSUED_BY')              : >= count(stakeholders) WHERE kind='MRO'
-- count(edges WHERE edge_type='PAGE_REFERENCES')        : >= 100 for any non-trivial dossier
-                                                          (PN/SN/ATA/requirement references — if PAGE_REFERENCES is < 100,
-                                                           you skipped the per-page reference indexing.)
-- ANY edge_type with count exactly == 1                 : suspicious. Each edge type either has zero
-                                                          rows (you didn't run that connector) or has
-                                                          many rows (you ran it). Exactly 1 means stub.
-                                                          List those edge_types in progress.log.
-```
-
-Stub-detection check:
-
-```sql
-SELECT edge_type, COUNT(*) AS n FROM edges
-GROUP BY edge_type
-HAVING n = 1;
--- If this returns ANY rows, those edge types are stubs. STOP.
-```
-
-**Exception:** if the dossier genuinely has only 1 work order, only 1 stakeholder, etc., the corresponding edge type may legitimately have 1 row. Document this in progress.log with the underlying count from the source table. If `count(work_orders) == 1` AND `count(edges WHERE edge_type='PART_OF_WORK_ORDER') == 1`, that's still suspicious — a real work order touches many pages.
-
-If you fail any of these gates, do NOT proceed. Re-read the corresponding subsection (1-14) of this file and actually run that step against the dossier.
+`csvs/0378e3e8-ec91-476d-8031-79c198611253-AW139/phase6.py` — verified-working. For AW139 it enriches 148 persons, wires 327 STAMPED_BY edges, promotes 130 cert numbers. Optional org-extraction sections are unimplemented for AW139 (the OCR vintage doesn't surface clean org names).

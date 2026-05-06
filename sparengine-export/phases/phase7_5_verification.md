@@ -1,189 +1,180 @@
 # PHASE 7.5 — Verification Pass
 
-**Intent.** For every finding from Phase 7 (open OR provisional), run a second pass with strategies the original investigation may not have used. Close false positives.
+**Intent.** For every finding from Phase 7 (`status="OPEN"` or `"PROVISIONAL"`), run a second pass with strategies the original investigation may not have used. Close false positives. Downgrade findings where partial evidence appears.
 
 **Reference files:**
-- `investigation_discipline.md`
-- `data_quality_rules.md`
-- `severity_matrix.md`
+- `investigation_discipline.md` — the same 9 strategies, applied with fresh state and full corpus context
+- `finding_types.md`
 
-**Inputs:** all tables through Phase 7.
+**Inputs:** the post-Phase-7 graph; the Lucene fulltext index `page_text` over `:Page.text`.
 
-**Retrospective benchmark.** This phase closed ~80 findings out of 263 in the original ATR72 run. Skipping it is the single biggest source of false-positive inflation that survives into the final report.
-
----
-
-## You own the per-finding verification loop
-
-Same rule as Phase 7: this is judgement, not a one-shot script. For each finding you re-examine:
-
-1. Print a section header in assistant text:
-   ```
-   ### [Phase 7.5] <finding_id>  —  <finding_type> on <component or asset>
-   ```
-
-2. State 1-2 sentences on **what you'd expect to find that would close this**. Example:
-   > FORM1_MISSING for SN MN742 on PN 350A32-0110: a batch Form 8130 covering the manufacturing range, or a re-issue under the alternate vendor PN, or a sibling-engine Form 1 with the same canonical PN.
-
-3. Run the **applicable verification strategies** (1-9 below). Use the **Read tool** when the strategy points to a candidate file. Don't just SQL — open the page and confirm.
-
-4. Decide:
-   - Resolved → set `status = 'closed'` (or `false_positive`), record the closing evidence (`resolution_file`, `resolution_page`, `resolution_quote`, `verification_strategy`).
-   - Not resolved but downgrade applies → keep `open`, set `severity_downgrade_reason`, preserve `original_severity`.
-   - Not resolved → keep `open`, fill in any discipline boxes Phase 7 left empty.
-
-5. Append to `decisions.log`:
-   ```
-   [phase7.5] <finding_id> | strategies_run:[batch_range, sibling_propagation, oem_typical] | evidence_pages_read:2 | outcome:closed | reason:Batch Form 8130 in WO-419012-cert.pdf p.5 covers SN range 004-14658M..004-14759M, MN742 falls in range. Closed as false_positive.
-   ```
-
-The strategy name MUST be one of the actual nine below. Strings like `"Simulated Verification"` or `"Stub"` fail the Phase 7.5 STOP condition and the run is rejected.
+**Style:** **Judgement.** YOU re-search the corpus per finding via `graph_dal.fulltext`. Do NOT write `verification_strategy = 'Simulated'`.
 
 ---
 
-## Verification strategies
+## What this phase produces
 
-For each finding, run the strategies applicable to its type:
+It MODIFIES `:Finding.status` and writes new `:CORROBORATED_BY` edges:
 
-### Strategy 1 — Re-search by SN alone (drop the PN)
+- `status="OPEN"` → `status="CLOSED_FALSE_POSITIVE"` when verification finds the missing evidence
+- `status="OPEN"` → `status="DOWNGRADED"` (severity dropped one level) when partial evidence appears
+- New `:Finding-[:CORROBORATED_BY]->:Page` edges when verification finds confirming or contradicting evidence
 
-Form 1s often filed by SN only. Run FTS / filename search for the SN substring across the whole corpus.
+It does NOT raise new findings — those came from Phase 7. (If you discover an entirely new issue during 7.5, log it but raise it in Phase 9 consolidation.)
 
-### Strategy 2 — Re-search by alternate PN
+---
 
-Pull `alternate_pns` from `part_types` for the component. Re-search for each alternate.
+## Steps
 
-### Strategy 3 — File-name substring search
-
-Search `documents.file_name` for the PN substring AND the SN substring independently.
-
-### Strategy 4 — Batch certificate range membership
-
-For `FORM1_MISSING`: parse all Form 8130 / EASA Form 1 documents that reference the canonical PN. If any covers a serial range and the SN falls in that range → close as false positive.
+### 1. Bootstrap + load fulltext
 
 ```python
-# Pseudo-code:
-for form1_page in find_form1_pages_for_pn(canonical_pn):
-    range = parse_serial_range(form1_page.text)  # e.g. "004-14658M thru 004-14759M"
-    if range and sn_in_range(component.installed_sn, range):
-        close_finding(finding_id, 'false_positive',
-            strategy='batch_certificate_range',
-            resolution_quote=form1_page.quote,
-            resolution_file=form1_page.file_name,
-            resolution_page=form1_page.page_index)
+from graph_dal.fulltext import escape_lucene, search_pages
+from graph_dal.cite import cite_node, format_citation
 ```
 
-### Strategy 5 — Sibling-PN limit propagation
+### 2. Pull all OPEN findings + their context
 
-For `LLP_LIMIT_CRITICAL` with **missing limit** (not threshold findings): query sibling components (same canonical PN on the other engine / position). If a sibling has the limit populated → copy with `confidence='high'`, `source='sibling_propagation'`. If recomputed remaining exceeds threshold → close.
+```cypher
+MATCH (f:Finding {asset_id: $aid})
+WHERE f.status IN ['OPEN', 'PROVISIONAL']
+OPTIONAL MATCH (c:Component)-[:HAS_FINDING]->(f)
+RETURN f.value AS uid, f.category AS category, f.severity AS severity,
+       f.title AS title, f.description AS description,
+       c.value AS component_uid, c.canonical_pn AS pn, c.installed_sn AS sn
+```
 
-### Strategy 6 — OEM-typical interval check
+### 3. Per-finding verification (the 9 strategies, again)
 
-For `SHOP_VISIT_MISSING`: compare current TSN to OEM-typical first-SVR interval (`data_quality_rules.md`). If within interval → close as false positive (informational only).
+For each finding, run as many of these as relevant. Each query uses the Lucene fulltext index:
 
-### Strategy 7 — WO package re-read for stamps
+| # | Strategy | Cypher |
+|---|---|---|
+| 1 | **wo_pages** — search the work-package's pages for the SN | `MATCH (wp:WorkPackage)-[:INCLUDES]->()-[:CARRIES]-(p:Page) WHERE ...` |
+| 2 | **sn_alone** | `search_pages(s, asset_id=aid, query=f'"{sn}"', limit=10)` |
+| 3 | **alt_pn** | `MATCH (c {value:cuid})-[:HAS_ALTERNATE_PN]->(pn) RETURN pn.value` then re-search |
+| 4 | **filename_pn** | `MATCH (d:Document) WHERE d.file_name CONTAINS $pn` |
+| 5 | **filename_sn** | `MATCH (d:Document) WHERE d.file_name CONTAINS $sn` |
+| 6 | **batch_range** | `MATCH (b:BatchNumber) WHERE b.sn_range_start <= $sn AND b.sn_range_end >= $sn` |
+| 7 | **page_neighbourhood** | pages adjacent (±5) to a known evidence page for this component |
+| 8 | **siblings** | sibling SNs under the same `canonical_pn` (some Form 1s cover sibling ranges) |
+| 9 | **oem_typical** | known OEM patterns from `data_quality_rules.md` (e.g. P&WC LLPs are typically grouped on `engine_llp_status_sheet` documents) |
 
-For `TASK_NOT_CONFIRMED`: re-read the entire WO package. Stamps are sometimes on the certificate page (last page of the package), not on the task page. Cross-reference `stamps` table with `binds_to_target_ref` pointing to a different page in the same WO.
+For each strategy, log results to `decisions.log`:
 
-### Strategy 8 — Sentinel-date check
+```
+[phase7.5] component::3036041-01::CAE-840837 | FORM1_MISSING | strategy=alt_pn | hits=2 | result: Form 1 located on alt PN 3036041-02 page 12 — closing finding
+```
 
-For `DATE_ANOMALY`: check if the value is the sentinel `9999-12-31` → close (not an error). Check if it's the asset birth-year offset by one or two centuries (typo) → close with corrected date.
-
-### Strategy 9 — Context discrepancy re-verification
-
-For `CONTEXT_DISCREPANCY`: re-verify against the asset table. If the page reference value matches `assets.operator/registration/msn` at all, it's probably not a real discrepancy.
-
----
-
-## Updating the finding row
-
-Each finding takes one of three states out of this phase:
+### 4. Lucene query examples
 
 ```python
-# Survived all applicable verifications — REAL.
-cursor.execute("""
-    UPDATE findings
-       SET status = 'open',
-           verification_strategy = ?,
-           discipline_complete = 1
-     WHERE id = ?
-""", (strategies_applied, finding_id))
+def search_form1_for_sn(session, *, asset_id, sn):
+    """Strategy 2: SN alone — find any page mentioning the SN that also
+    contains 'Form 1' / 'EASA Form' / 'Form 8130'."""
+    q = f'"{escape_lucene(sn)}" AND ("Form 1" OR "EASA Form" OR "8130")'
+    return search_pages(session, asset_id=asset_id, query=q, limit=10)
 
-# Verification found resolving evidence — CLOSED.
-cursor.execute("""
-    UPDATE findings
-       SET status = 'closed',
-           verification_strategy = ?,
-           resolution = ?,
-           resolution_file = ?,
-           resolution_page = ?,
-           resolution_chunk_id = ?,
-           resolution_quote = ?
-     WHERE id = ?
-""", (strategy, reason, fn, pi, ch, quote, finding_id))
 
-# Cannot resolve, but lease-return / sibling context demands a downgrade.
-cursor.execute("""
-    UPDATE findings
-       SET status = 'open',
-           severity = ?,
-           severity_downgrade_reason = ?,
-           verification_strategy = ?
-     WHERE id = ?
-""", (downgraded_severity, reason, strategy, finding_id))
+def search_filename_pn(session, *, asset_id, pn):
+    return list(session.run("""
+        MATCH (d:Document {asset_id: $aid})
+        WHERE toLower(d.file_name) CONTAINS toLower($pn)
+        RETURN d.file_name, d.value LIMIT 10
+    """, aid=asset_id, pn=pn))
 ```
 
-`original_severity` is preserved for audit. `severity` is the current value. `verification_strategy` is which strategy closed/downgraded the finding.
+### 5. Update the finding
+
+When verification closes a finding:
+
+```python
+with driver.session(database=database_name()) as session:
+    with session.begin_transaction() as tx:
+        tx.run("""
+            MATCH (f:Finding {asset_id: $aid, value: $fuid})
+            SET f.status = 'CLOSED_FALSE_POSITIVE',
+                f.closed_at = datetime(),
+                f.closed_reason = $reason
+        """, aid=asset_id, fuid=finding_uid, reason=reason).consume()
+        # Add :CORROBORATED_BY edge to the page that proved the false-positive
+        tx.run("""
+            MATCH (f:Finding {asset_id: $aid, value: $fuid})
+            MATCH (p:Page {asset_id: $aid, value: $puid})
+            MERGE (f)-[:CORROBORATED_BY {strategy: $strategy}]->(p)
+        """, aid=asset_id, fuid=finding_uid, puid=found_page_uid,
+            strategy=strategy_name).consume()
+        tx.commit()
+```
+
+When downgrading severity:
+
+```python
+tx.run("""
+    MATCH (f:Finding {asset_id: $aid, value: $fuid})
+    SET f.status = 'DOWNGRADED',
+        f.severity = $new_sev,
+        f.downgrade_reason = $reason
+""", aid=asset_id, fuid=finding_uid, new_sev="level_3", reason=...).consume()
+```
+
+### 6. Reason out loud (per finding)
+
+For every finding you close or downgrade, emit a paragraph in your assistant text:
+
+```
+### [Phase 7.5] Closing FORM1_MISSING for component PT6C-67C/PCE-KB0117
+Strategy 'alt_pn' located the Form 1 on alternate PN 3036041-02 (this PN supersedes
+3036041-01 per :SUPERSEDED_BY edge effective 2018-06-01). The Form 1 is on page 12
+of "ATA 71- PT6C-67C - KB0117 ENGINE ASSY.pdf", issued 2018-11-13 by P&WC. Closing
+finding as CLOSED_FALSE_POSITIVE with :CORROBORATED_BY edge.
+```
 
 ---
 
-## Provisional findings still pending
+## What to log
 
-Provisional findings that did NOT complete the Investigation Discipline checklist in Phase 7 must complete it here before they can be set to `open`. If the discipline still cannot be completed (e.g. dossier truly does not contain the missing record), promote to `open` with `discipline_complete = 1` and the verification trail attached.
+```
+== Phase 7.5 verification ==
+- findings examined                       : <N>
+- closed (false positive)                 : <N>
+- downgraded                              : <N>
+- still OPEN                              : <N>
+- by strategy that closed:
+    wo_pages=<N>, sn_alone=<N>, alt_pn=<N>, filename_pn=<N>,
+    filename_sn=<N>, batch_range=<N>, page_neighbourhood=<N>,
+    siblings=<N>, oem_typical=<N>
+- :CORROBORATED_BY edges added            : <N>
+- decisions.log lines written             : <N>      ← MUST equal findings_examined
+- fact_nodes_no_evidence                  : 0
+```
 
 ---
 
 ## MANDATORY VERIFICATION
 
-```sql
-SELECT status, COUNT(*) FROM findings GROUP BY status;
-SELECT verification_strategy, COUNT(*) FROM findings
-WHERE verification_strategy IS NOT NULL GROUP BY 1;
-SELECT severity_downgrade_reason, COUNT(*) FROM findings
-WHERE severity_downgrade_reason IS NOT NULL GROUP BY 1;
-
--- Closure rate:
-SELECT
-    1.0 * SUM(CASE WHEN status IN ('closed', 'false_positive') THEN 1 ELSE 0 END)
-    / NULLIF(COUNT(*), 0) AS closure_rate
-FROM findings;
+```python
+from graph_dal.verify import verify_no_fact_orphans
+verify_no_fact_orphans(driver, asset_id, phase="7.5")
 ```
 
-```
-- count(findings WHERE status = 'provisional')           : 0    (every provisional was resolved one way or another)
-- count(findings WHERE discipline_complete = 0)          : 0    (every finding completed discipline)
-- closure_rate (lease-return dossiers)                   : 0.50 .. 0.80
-- closure_rate (operational dossiers)                    : 0.20 .. 0.40
-```
+Plus:
+- `decisions.log` Phase 7.5 line count == findings_examined.
+- Closed-rate is reasonable (typically 30–60% of Phase 7 OPEN findings close in 7.5; if 0% close, you skipped the strategies; if 100% close, you fabricated closures).
+- `fact_nodes_no_evidence == 0`.
 
-**STOP conditions:**
+---
 
-- Any `provisional` findings remain. They cannot ship.
-- Any `discipline_complete = 0` findings remain.
-- Closure rate < 0.20 — Phase 7.5 is incomplete. Re-run the strategies you skipped.
-- Closure rate > 0.95 — almost everything closed. Suggests Phase 7 over-flagged or Phase 7.5 is being too lenient. Spot-check 10 closed findings.
-- Any `verification_strategy` value contains the words `Simulated`, `Stub`, `Mock`, `Placeholder`, `TODO`, or `Demo` (case-insensitive). **The strategies must actually run** — re-search FTS, re-parse Form 8130 ranges, query siblings, look at OEM intervals. Naming a strategy `"Simulated Verification"` and writing 16 closures with that label is **cheating** — the past run's `verification_stats.json` did exactly this and it must be rejected.
+## STOP conditions
 
-  Verification SQL:
+- `decisions.log` Phase 7.5 lines < findings_examined — you skipped strategies on some findings.
+- 0% close rate AND > 20 findings — you went through the motions without actually running fulltext.
+- 100% close rate — you over-closed (verification fabricated).
+- Any closed finding lacks a `:CORROBORATED_BY` edge — there's no evidence of the close.
+- `fact_nodes_no_evidence > 0`.
 
-  ```sql
-  SELECT COUNT(*) AS bogus_strategies
-  FROM findings
-  WHERE verification_strategy LIKE '%Simulat%'
-     OR verification_strategy LIKE '%Stub%'
-     OR verification_strategy LIKE '%Mock%'
-     OR verification_strategy LIKE '%Placeholder%'
-     OR verification_strategy LIKE '%TODO%'
-     OR verification_strategy LIKE '%Demo%';
-  -- Must be 0.
-  ```
+---
+
+## Reference implementation
+
+`csvs/0378e3e8-ec91-476d-8031-79c198611253-AW139/phase7_5.py` — verified-working **mechanical stub** that demonstrates the fulltext index works (10 hits for "Form 1" smoke query, 3 finding-search-with-hits). A judgement Phase 7.5 builds on this by running the 9 strategies per finding and updating statuses.

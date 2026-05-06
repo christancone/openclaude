@@ -78,14 +78,24 @@ discipline_complete = (
     (compared_to_oem_typical or not_a_shop_visit_finding)
 )
 
-cursor.execute("""
-    INSERT INTO findings (id, target_kind, target_id, finding_type, severity,
-        original_severity, description, file_name, page_index, status,
-        discipline_complete)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-""", (fid, target_kind, target_id, ftype, sev, orig_sev, desc,
-       fn, pi, 'provisional' if not discipline_complete else 'open',
-       1 if discipline_complete else 0))
+from graph_dal.finding import write_finding
+from graph_dal import FindingSeverity
+
+write_finding(
+    tx, asset_id=asset_id, value=fid,
+    severity=sev,                          # FindingSeverity.LEVEL_1.value etc.
+    category=ftype,                         # closed enum from finding_types.md
+    title=title,
+    description=desc,                       # MUST cite (file:..., page:...) — 80+ chars
+    evidence_page_uid=page_uid,             # required (golden rule)
+    evidence_quote=verbatim_quote_excerpt,  # required (golden rule)
+    flags_label=target_kind,                # "Component" | "Stamp" | "Form1" | ...
+    flags_uid=target_id,
+    component_uid=target_id if target_kind == "Component" else None,
+    asset_level=(target_kind == "Asset"),
+    audit_run_uid=run_id,
+    status="provisional" if not discipline_complete else "open",
+)
 ```
 
-`discipline_complete = 0` is a hard contract: Phase 7.5 MUST run the missing checks before this finding can become `open`.
+`status="provisional"` is a hard contract: Phase 7.5 MUST run the missing checks before this finding can become `open`. The DAL writer enforces the golden rule — `evidence_page_uid` and `evidence_quote` are required keyword arguments.

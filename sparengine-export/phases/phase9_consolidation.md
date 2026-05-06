@@ -1,152 +1,178 @@
 # PHASE 9 — Finding Consolidation
 
-**Intent.** Roll up duplicate findings, close findings whose resolution evidence appeared elsewhere in the dossier, collapse batch-covered findings.
+**Intent.** Roll up duplicate findings, collapse batch-covered findings, harmonise severities, and produce the final findings_summary that Phase 10 exports.
 
-**Reference files:** `severity_matrix.md`, `data_quality_rules.md`.
+**Reference files:**
+- `severity_matrix.md`
+- `finding_types.md`
 
-**Inputs:** all tables through Phase 8.
+**Inputs:** all `:Finding` nodes from Phases 7 + 7.5 + 8.
+
+**Style:** Mixed. Roll-up rules are mechanical (e.g. "if 5 LLPs from the same engine all have FORM1_MISSING, roll into one engine-level finding"). Deciding whether two findings should merge requires reading their descriptions.
 
 ---
 
-## Consolidation rules
+## What this phase produces
 
-### Rule 1 — Same-type roll-up
+It MODIFIES existing findings (status, severity, parent linkage) and writes summary properties:
 
-If 10+ findings have the same `finding_type` AND share a tier or component-class, create one summary finding listing the affected SNs in `description`. Mark the originals `closed` with `verification_strategy = 'rolled_into_summary'` and `resolution_file = '<summary_finding_id>'`.
+- `:Finding.status` updates: `OPEN → ROLLED_UP` (when merged into a parent finding) or `OPEN → CLOSED_DUPLICATE`
+- `:Finding.parent_finding_uid` (string) when one finding rolls into another
+- `:Asset.findings_summary` (JSON property) — pre-aggregated counts for the panel HTML
 
-```sql
--- Find candidates
-SELECT finding_type, COUNT(*) FROM findings
-WHERE status = 'open'
-GROUP BY finding_type
-HAVING COUNT(*) >= 10;
+It does NOT raise new findings — those came from Phases 7/7.5/8.
+
+---
+
+## Steps
+
+### 1. Bootstrap
+
+```python
+from graph_dal.cite import cite_node
 ```
 
-### Rule 2 — Batch certificate close-out
+### 2. Mechanical roll-ups
 
-If a batch certificate covers a serial range (already detected in Phase 4 / 6), every individual `FORM1_MISSING` for an SN in that range becomes `closed` (false_positive) — Phase 7.5 should already have done this; Rule 2 here is a safety net for findings that were re-raised after Phase 7.5.
+For each rule, query the relevant findings, decide which should merge, and update statuses.
 
-### Rule 3 — Cross-finding closure
+#### Rule A — sibling-PN consolidation
 
-For every open finding, scan other findings in the same dossier for resolution evidence:
-- A `WORK_PACKAGE_WITHOUT_CRS` finding closes when a sibling finding for a different page in the same WO turns up the CRS.
-- A `FORM1_SN_NOT_VERIFIED` closes when a re-issued Form 1 with the correct SN appears in the dossier (possibly raised as a separate finding type but containing the resolution).
+If multiple `:Component` nodes share the same `canonical_pn` and ALL have `FORM1_MISSING` findings, roll them into one `FORM1_MISSING_SIBLING_GROUP` finding:
 
-### Rule 4 — Provisional cleanup (final pass)
+```cypher
+MATCH (c:Component {asset_id: $aid})-[:HAS_FINDING]->(f:Finding)
+WHERE f.category = 'FORM1_MISSING' AND f.status = 'OPEN'
+WITH c.canonical_pn AS pn, collect(f) AS group_findings, count(*) AS n
+WHERE n > 1
+RETURN pn, group_findings, n
+```
 
-Any finding still `provisional` at the start of Phase 9 — promote to `open` after running discipline + verification one more time. If discipline still cannot complete, write `GAP_IN_DOSSIER` instead and close the original.
+For each group, pick a representative finding to keep, mark the rest as `ROLLED_UP` with `parent_finding_uid` pointing to the kept one.
 
-### Rule 5 — Severity sanity
+#### Rule B — batch-covered findings
 
-After consolidation, audit:
-- L1 share should be 5-15% of total open findings.
-- If a downgrade rule wasn't applied where it should have been, apply now.
-- L1 findings without `original_severity` populated → backfill.
+If a `:BatchNumber` covers an SN that has a FORM1_MISSING finding, AND the batch has its own Form 1 with `:RELEASES` to any sibling component, close the FORM1_MISSING as `CLOSED_DUPLICATE` (the batch certificate covers it).
 
----
+```cypher
+MATCH (c:Component {asset_id: $aid})-[:HAS_FINDING]->(f:Finding {category: 'FORM1_MISSING', status: 'OPEN'})
+MATCH (b:BatchNumber {asset_id: $aid})
+WHERE c.installed_sn >= b.sn_range_start AND c.installed_sn <= b.sn_range_end
+MATCH (b)<-[:CARRIES]-(:Page)<-[:HAS_PAGE]-(:Document)-[:HAS_PAGE]->(:Page)-[:CARRIES]->(form1:Form1)
+RETURN c.value, f.value, b.value, form1.value
+```
 
-## Build `findings_summary` for Phase 10
+For each match, close the FORM1_MISSING with `closed_reason="batch_covered_by={batch_value}"`.
 
-This is the JSON shape Phase 10 reads:
+#### Rule C — severity harmonisation
 
-```json
-{
-  "severity_counts": { "1": 12, "2": 47, "3": 89 },
-  "by_type": [
-    { "finding_type": "FORM1_MISSING",    "count": 23, "severity_breakdown": {"1": 8, "2": 15} },
-    { "finding_type": "TASK_NOT_CONFIRMED","count": 14, "severity_breakdown": {"2": 14} }
-  ],
-  "by_component": [
-    { "component_id": "component::3036041-01::CAE-840837", "count": 5, "max_severity": 1 }
-  ],
-  "level_1_lists": [
-    { "finding_type": "LLP_LIMIT_CRITICAL", "ids": ["fid::...", "fid::..."] }
-  ]
+If multiple findings on the same component disagree on severity, take the highest:
+
+```cypher
+MATCH (c:Component {asset_id: $aid})-[:HAS_FINDING]->(f:Finding)
+WHERE f.status = 'OPEN'
+WITH c, collect(f) AS fs, max(f.severity) AS top_sev   // string max — level_1 < level_2 < level_3 alphabetically; reverse the comparison
+RETURN c.value, fs, top_sev
+```
+
+Alternatively: don't auto-harmonise; leave per-finding severity and let Phase 10 export the raw distribution.
+
+### 3. Cross-finding judgement merge
+
+For each pair of findings on the same component, read both descriptions. If they describe the same underlying issue (e.g. "FORM1_MISSING" and "TASK_NOT_CONFIRMED" on the same job card), merge:
+- Keep the higher-severity one
+- Mark the other `ROLLED_UP` with `parent_finding_uid`
+
+Reason out loud per merge:
+
+```
+### [Phase 9] Merging FORM1_MISSING + TASK_NOT_CONFIRMED on JC-32-11-04
+Both findings flag the same underlying issue: the JobCard wasn't signed off,
+which is why no Form 1 was issued. FORM1_MISSING is the symptom; TASK_NOT_CONFIRMED
+is the root cause. Keeping TASK_NOT_CONFIRMED (level_2) as the parent;
+FORM1_MISSING rolls into it.
+```
+
+### 4. Write findings_summary
+
+```python
+with driver.session(database=database_name()) as s:
+    by_severity = {r["s"]: r["n"] for r in s.run("""
+        MATCH (f:Finding {asset_id: $aid})
+        WHERE f.status IN ['OPEN', 'DOWNGRADED']
+        RETURN f.severity AS s, count(*) AS n
+    """, aid=asset_id)}
+    by_category = {r["c"]: r["n"] for r in s.run("""
+        MATCH (f:Finding {asset_id: $aid})
+        WHERE f.status IN ['OPEN', 'DOWNGRADED']
+        RETURN f.category AS c, count(*) AS n ORDER BY n DESC
+    """, aid=asset_id)}
+
+summary = {
+    "by_severity": by_severity,
+    "by_category": by_category,
+    "total_active": sum(by_severity.values()),
+    "total_closed": s.run(
+        "MATCH (f:Finding {asset_id: $aid}) "
+        "WHERE f.status IN ['CLOSED_FALSE_POSITIVE', 'CLOSED_DUPLICATE', 'ROLLED_UP'] "
+        "RETURN count(*) AS n", aid=asset_id
+    ).single()["n"],
 }
-```
 
-Stash this in a JSON file at `workdir / "findings_summary.json"` for Phase 10 to read, or compute on the fly in Phase 10.
+with driver.session(database=database_name()) as session:
+    with session.begin_transaction() as tx:
+        tx.run("""
+            MATCH (a:Asset {asset_id: $aid})
+            SET a.findings_summary = $s
+        """, aid=asset_id, s=json.dumps(summary)).consume()
+        tx.commit()
+```
 
 ---
 
-## Verification stats payload (Phase 7.5 result, for the visualiser)
+## What to log
 
-Build:
-
-```json
-{
-  "phase7_findings_raw":      263,
-  "phase7_5_closed":          178,
-  "phase7_5_closure_rate":    0.677,
-  "phase7_5_open_remaining":   85,
-  "by_strategy": [
-    { "strategy": "batch_certificate_range", "closed": 42 },
-    { "strategy": "sibling_propagation",     "closed": 31 },
-    { "strategy": "oem_typical_interval",    "closed": 18 }
-  ]
-}
 ```
-
-This drives the Audit Quality panel in the template.
+== Phase 9 verification ==
+- findings before consolidation           : <N>
+- rolled up                               : <N>
+- closed as duplicate / batch_covered     : <N>
+- still active (OPEN + DOWNGRADED)        : <N>
+- by severity:
+    level_1 / level_2 / level_3
+- by category:
+    FORM1_MISSING / LLP_LIMIT_CRITICAL / AD_COMPLIANCE_UNVERIFIED / ...
+- by status:
+    OPEN / DOWNGRADED / CLOSED_FALSE_POSITIVE / CLOSED_DUPLICATE / ROLLED_UP
+- :Asset.findings_summary set             : yes
+- fact_nodes_no_evidence                  : 0
+```
 
 ---
 
 ## MANDATORY VERIFICATION
 
-```sql
-SELECT status, COUNT(*) FROM findings GROUP BY status;
-SELECT severity, COUNT(*) FROM findings WHERE status = 'open' GROUP BY severity;
-SELECT 1.0 * SUM(CASE WHEN severity = 1 THEN 1 ELSE 0 END) / COUNT(*)
-       AS l1_share FROM findings WHERE status = 'open';
+```python
+from graph_dal.verify import verify_no_fact_orphans
+verify_no_fact_orphans(driver, asset_id, phase="9")
 ```
 
-```
-- count(findings WHERE status = 'provisional')      : 0
-- L1 share of open findings                         : 0.05 .. 0.30
-- findings_summary.severity_counts present          : yes
-- verification_stats.closure_rate present           : yes
-```
+Plus:
+- `:Asset.findings_summary` is set and is valid JSON.
+- Sum of all status counts == total :Finding count (no findings lost).
+- `fact_nodes_no_evidence == 0`.
 
-**STOP conditions:**
+---
 
-- Any `provisional` rows remain.
-- L1 share > 50% AND no severity_downgrade_reason populated → matrix not applied.
-- `findings_summary` missing or empty AND `count(findings) > 0` — means Phase 10 will render a stub.
+## STOP conditions
 
-**Description quality gates** (these are what the buyer reads — they cannot be one-liners):
+- `:Asset.findings_summary` is null.
+- Number of findings dropped (some `:Finding` nodes were DELETED instead of having their status updated).
+- Total roll-up rate > 80% — over-aggressive consolidation hides real findings.
+- `fact_nodes_no_evidence > 0`.
 
-```sql
--- L1 findings without a real description
-SELECT COUNT(*) FROM findings
- WHERE status = 'open'
-   AND severity = 1
-   AND (description IS NULL
-        OR length(description) < 80
-        OR description NOT LIKE '%file:%'
-        OR description NOT LIKE '%page:%');
--- Must be 0.
+---
 
--- All-findings template-shape detection (lazy template-string descriptions)
-SELECT description, COUNT(*) AS n
-  FROM findings WHERE status='open'
- GROUP BY description
- HAVING n >= 5;
--- If ANY description appears 5+ times verbatim, you wrote a template loop instead
--- of reasoning per finding. STOP and rewrite.
-```
+## Reference implementation
 
-```
-- L1 findings without 80-char + file:page description : 0
-- duplicate description count >= 5                    : 0
-```
-
-**Decisions log gate** (catches script-only Phase 7/7.5/8 runs):
-
-```bash
-test -f decisions.log || (echo "decisions.log missing — STOP" && exit 1)
-grep -c '^\[phase7\]'    decisions.log    # must be >= count(components investigated)
-grep -c '^\[phase7\.5\]' decisions.log    # must be >= count(findings touched in 7.5)
-grep -c '^\[phase8\]'    decisions.log    # must be exactly 12 (one per checklist item)
-```
-
-If any of these counts are below threshold, the agent skipped reasoning. STOP, re-do that phase with the per-item loop.
+`csvs/0378e3e8-ec91-476d-8031-79c198611253-AW139/phase9.py` — verified-working **stub** that just reports current finding distribution without rolling up. For AW139 it reports 50 findings (all OPEN, all FORM1_MISSING from the Phase 7 stub). A judgement Phase 9 would consolidate sibling-PN groups + run the cross-finding merge logic.

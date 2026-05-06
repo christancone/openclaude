@@ -103,7 +103,7 @@ function inlineOne(folder) {
 const args     = process.argv.slice(2);
 const rebuild  = args.includes('--rebuild');
 const positional = args.filter(a => !a.startsWith('--'));
-const TEMPLATE = path.join(__dirname, 'asset_graph_sample.html');
+const TEMPLATE = path.join(__dirname, 'asset_graph_template_panels.html');
 
 function maybeRebuild(folder) {
   if (!rebuild) return;

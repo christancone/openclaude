@@ -11,6 +11,8 @@ services:
     depends_on:
       neo4j:
         condition: service_healthy
+      neo4j-init:
+        condition: service_completed_successfully
     ports:
       - "2001:2001"
     environment:
@@ -124,6 +126,37 @@ services:
       timeout: 10s
       retries: 10
       start_period: 30s
+
+  neo4j-init:
+    # One-shot init container. Runs after neo4j is healthy, applies
+    # phases/schema.cypher (idempotent), chowns /import so APOC exports
+    # can write later, then exits. On `docker compose up -d` this runs once;
+    # subsequent `up` calls re-run it (still idempotent — schema.cypher uses
+    # CREATE ... IF NOT EXISTS everywhere).
+    image: neo4j:5.26-community
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    volumes:
+      - neo4j-import:/import
+      # Bind-mount the phases/ directory read-only so the init can copy
+      # schema.cypher + captions.cypher into the import volume.
+      - ./phases:/sparengine-phases:ro
+    environment:
+      HEALTHCHECK_PASSWORD: "${NEO4J_PASSWORD}"
+    user: "0"   # need root to chown /import to neo4j
+    entrypoint:
+      - sh
+      - -c
+      - |
+        set -e
+        cp /sparengine-phases/schema.cypher  /import/schema.cypher
+        cp /sparengine-phases/captions.cypher /import/captions.cypher
+        chown -R 7474:7474 /import
+        cypher-shell -a bolt://neo4j:7687 -u neo4j -p "$$HEALTHCHECK_PASSWORD" \
+            -f /import/schema.cypher
+        echo "neo4j-init: schema.cypher applied"
+    restart: "no"
 
 volumes:
   sparengine-csvs:

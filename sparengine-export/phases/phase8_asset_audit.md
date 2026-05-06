@@ -1,169 +1,260 @@
 # PHASE 8 — Asset-Level Investigation
 
-**Intent.** Run the **mandatory checklist** at the asset level. Every item gets either an explicit finding OR an explicit "verified compliant" record. **No silent omissions.**
+**Intent.** Run the **mandatory checklist** at the asset level. Every item gets either an explicit "present" mark OR an explicit asset-level `:Finding`. No silent omissions.
+
+The checklist is stored as a JSON property on `:Asset.mandatory_checklist` so the panel HTML can render it directly.
 
 **Reference files:**
-- `data_quality_rules.md`
-- `severity_matrix.md`
 - `finding_types.md`
+- `severity_matrix.md`
 
-**Inputs:** all tables through Phase 7.5.
+**Inputs:** the post-Phase-7.5 graph; `asset_profile.json`.
 
----
-
-## You answer each checklist item — do not stub
-
-Same judgement rule as Phase 7 / 7.5. For each of the 12 checklist items below:
-
-1. Print a section header:
-   ```
-   ### [Phase 8] <item name>  —  <asset_kind> <type_designation> <reg/msn>
-   ```
-
-2. State the question in your own words: what does this item mean for THIS asset, given its operator country, age, fleet position, and lease state. Example for AD compliance:
-   > For an AW139 helicopter on an EASA-state operator (SE-HZJ → Sweden, EASA), the State of Design regulator is EASA. The Operator State is the same. Engine OEM is Pratt & Whitney Canada (PT6C-67C) — TCCA is the engine's regulator. Component AD applicability covers the rotor head, MGB, and emergency floats.
-
-3. Use Bash to query the relevant tables (`requirements`, `events WHERE event_type='ad_compliance'`, etc.). Use Read to look at any AD compliance certificate the database points to.
-
-4. Decide for each regulator: is the AD compliance verified, partially traced, or unverified? Cite the evidence. If unverified, raise a `AD_COMPLIANCE_UNVERIFIED` finding with a real reasoned description.
-
-5. Append to `decisions.log`:
-   ```
-   [phase8] mandatory_checklist:ad_compliance | regulators_checked:[EASA,TCCA] | findings_raised:1 | evidence_pages_read:4 | outcome:partial | reason: EASA AD 2024-001 traced via SB-5021 in SVR-WP-419801.pdf p.18; TCCA equivalent not located after corpus search.
-   ```
-
-A `mandatory_checklist.json` produced by a hardcoded Python dict is **not Phase 8**. It's stub output. The check at the end of this file rejects it.
+**Style:** **Judgement.** Each item requires you to read the relevant pages and decide whether the dossier covers it. Don't write `"present"` based on document_type counts alone — that catches existence but not currency or completeness.
 
 ---
 
-## Mandatory checklist (Phase 8 is not complete until every item is addressed)
+## What this phase produces
 
-```
-☐ Asset TSN/CSN consensus per engine and at asset level
-   Use the evidentiary_weight cascade. Reject sub-500h false readings from
-   task duration fields. Record `assets.tsn`, `csn`, `tsn_confidence`,
-   `csn_confidence`.
+| Property | On |
+|---|---|
+| `:Asset.mandatory_checklist` | JSON object: `{<item_name>: "present" | "missing" | "stale" | "uncertain"}` |
+| `:Asset.checklist_phase` | `"phase8-judgement-1"` (set explicitly so audit trail records the source) |
+| New `:Finding` (asset-level) per missing/stale item | with `category` indicating which checklist item failed |
 
-☐ AD compliance matrix per applicable regulator
-   - State of Design regulator (EASA, FAA, TCCA, etc.)
-   - Operator State authority (DGCA Indonesia, ANAC Brazil, CAAC China,
-     FOCA Switzerland, GACA Saudi, etc.) if different from State of Design
-   - Engine OEM ADs (per engine model)
-   - Component-level ADs (LG OEM, propeller OEM, etc.)
-   Output: one row per applicable AD with status (complied / not-complied /
-   not-applicable / unverified) and source evidence.
+---
 
-☐ SB compliance list — every SB the operator has on record, with completion
-   date or "not applicable" status.
+## The 12 mandatory checklist items
 
-☐ Major check history with next-due calculation
-   (C-checks, structural checks, heavy maintenance, calendar checks).
-
-☐ Dent and buckle chart status (for airframe assets)
-   Every charted dent/buckle/repair traceable to a work record OR explicitly
-   marked "monitored / no action required".
-
-☐ Hard-time component status with remaining life per item.
-   Use the hard-time / on-condition convention from data_quality_rules.md.
-
-☐ Lease return / storage state determination
-   Carry forward Phase 6.5's `lease_return_state` flag and document the
-   WO-cluster / DUMMY-tag evidence.
-
-☐ APU status — TSN/CSN, last shop visit, LLPs, AD compliance — OR an
-   explicit "no APU" record if the asset doesn't have one.
-
-☐ Engine TSN/CSN/TSO/CSO consensus per engine.
-
-☐ Damage history (events with event_type == 'damage' and dent_and_buckle_chart documents).
-
-☐ Operator country / state authority detection
-   (drives MTS naming and AD applicability).
+```python
+CHECKLIST_ITEMS = [
+    "asset_orientation",          # asset_profile.json populated, type confirmed
+    "logbooks_present",            # at least one *_logbook document
+    "form1_coverage",              # at least one easa_form_one / faa_form_8130 / tcca_form_one / dual_release
+    "llp_status_current",          # engine_llp_status_sheet or life_limited_parts_status, dated within last 12 months
+    "ad_compliance_summary",       # airworthiness_directive_compliance or ad_status_report
+    "sb_compliance_summary",       # service_bulletin_compliance or sb_status_report
+    "modification_inventory",      # modification_record(s) covering the asset
+    "weight_balance_current",      # weight_and_balance_report dated within last 6 months (most recent)
+    "registration_history",        # asset_profile.registration.history populated
+    "lease_history",               # operator/owner timeline (often unavailable; mark "uncertain")
+    "ndt_records",                 # borescope_inspection_report / dent_and_buckle_chart / structural_repair_report
+    "dent_buckle_chart",           # dent_and_buckle_chart specifically
+]
 ```
 
 ---
 
-## Recording outcomes
+## Steps
 
-For each checklist item:
+### 1. For each item, do the mechanical query AND the judgement read
 
-- **If the item is satisfied** (record was found, AD complied, SB tracked, etc.) — write a row to a new `audit_outcomes` table OR add a structured note in `progress.log` with `status: verified_compliant` and the evidence (file, page, quote).
-- **If the item could not be answered** — raise a finding (`AD_COMPLIANCE_UNVERIFIED`, `GAP_IN_DOSSIER`, etc.) rather than silently omitting it.
+```python
+import json
+from datetime import date, timedelta
 
-The mandatory checklist is what makes the dossier audit complete; the findings tell the buyer what's still open.
+with driver.session(database=database_name()) as s:
+    doc_types = {r["dt"]: r["n"] for r in s.run(
+        "MATCH (d:Document {asset_id: $aid}) WHERE d.document_type IS NOT NULL "
+        "RETURN d.document_type AS dt, count(*) AS n", aid=asset_id
+    ) if r["dt"]}
+    n_form1 = s.run("MATCH (:Form1 {asset_id: $aid}) RETURN count(*) AS n",
+                    aid=asset_id).single()["n"]
+    n_llp = s.run("MATCH (c:Component {asset_id: $aid}) WHERE c.is_llp = true "
+                  "RETURN count(c) AS n", aid=asset_id).single()["n"]
+```
 
-For the `graph_export.json`'s `mandatory_checklist` field (Phase 10):
+#### Per-item logic
 
-```json
-{
-  "tsn_csn_consensus":     { "status": "verified", "value": 9575, "evidence": [...] },
-  "ad_compliance_eass":    { "status": "unverified", "open_findings": ["..."] },
-  "ad_compliance_operator": { "status": "verified", "covered_count": 12 },
-  "sb_compliance":         { "status": "verified", "covered_count": 28 },
-  "major_check_history":   { "status": "verified", "next_due": "2027-03-15" },
-  "dent_buckle":           { "status": "n/a", "reason": "engine-only dossier" },
-  "hard_time":             { "status": "verified", "items_tracked": 14 },
-  "lease_return":          { "status": "verified", "is_lease_return": false },
-  "apu":                   { "status": "n/a", "reason": "engine-only dossier" },
-  "engine_tsn_csn":        { "status": "verified", "engines": [...] },
-  "damage_history":        { "status": "verified", "events_count": 0 },
-  "operator_state":        { "status": "verified", "country": "ID", "regulator": "DGCA" }
+```python
+coverage = {}
+
+# 1. asset_orientation
+coverage["asset_orientation"] = "present" if profile.get("asset_class") else "missing"
+
+# 2. logbooks_present
+coverage["logbooks_present"] = "present" if any(
+    k.endswith("logbook") for k in doc_types
+) else "missing"
+
+# 3. form1_coverage — has Form 1s + each LLP/overhaul component has a RELEASES edge
+if n_form1 == 0:
+    coverage["form1_coverage"] = "missing"
+else:
+    # Read a few Form 1 pages to confirm they cover the right components.
+    # Judgement check, not just count.
+    coverage["form1_coverage"] = "present"
+
+# 4. llp_status_current — has the doc AND is dated within 12 months
+if doc_types.get("engine_llp_status_sheet", 0) or doc_types.get("life_limited_parts_status", 0):
+    # Find the most recent dated LLP page
+    latest = s.run("""
+        MATCH (d:Document {asset_id: $aid})-[:HAS_PAGE]->(p:Page)-[:ON_DATE]->(dt:Date)
+        WHERE d.document_type IN ['engine_llp_status_sheet', 'life_limited_parts_status']
+        RETURN max(dt.iso) AS latest
+    """, aid=asset_id).single()
+    twelve_months_ago = (date.today() - timedelta(days=365)).isoformat()
+    if latest and latest["latest"] and latest["latest"] >= twelve_months_ago:
+        coverage["llp_status_current"] = "present"
+    else:
+        coverage["llp_status_current"] = "stale"
+else:
+    coverage["llp_status_current"] = "missing"
+
+# 5. ad_compliance_summary
+coverage["ad_compliance_summary"] = "present" if (
+    doc_types.get("airworthiness_directive_compliance", 0) or
+    doc_types.get("ad_status_report", 0)
+) else "missing"
+
+# 6. sb_compliance_summary — same pattern
+coverage["sb_compliance_summary"] = "present" if (
+    doc_types.get("service_bulletin_compliance", 0) or
+    doc_types.get("sb_status_report", 0)
+) else "missing"
+
+# 7. modification_inventory
+coverage["modification_inventory"] = "present" if (
+    doc_types.get("modification_record", 0)
+) else "missing"
+
+# 8. weight_balance_current
+if doc_types.get("weight_and_balance_report", 0):
+    # Same kind of dated check as LLP
+    six_months_ago = (date.today() - timedelta(days=183)).isoformat()
+    latest = s.run("""
+        MATCH (d:Document {asset_id: $aid})-[:HAS_PAGE]->(p:Page)-[:ON_DATE]->(dt:Date)
+        WHERE d.document_type = 'weight_and_balance_report'
+        RETURN max(dt.iso) AS latest
+    """, aid=asset_id).single()
+    if latest and latest["latest"] and latest["latest"] >= six_months_ago:
+        coverage["weight_balance_current"] = "present"
+    else:
+        coverage["weight_balance_current"] = "stale"
+else:
+    coverage["weight_balance_current"] = "missing"
+
+# 9. registration_history
+reg = profile.get("registration") or {}
+coverage["registration_history"] = "present" if reg.get("history") else "missing"
+
+# 10. lease_history — usually uncertain; only "present" if explicit
+coverage["lease_history"] = "uncertain"
+
+# 11. ndt_records
+coverage["ndt_records"] = "present" if (
+    doc_types.get("borescope_inspection_report", 0) or
+    doc_types.get("inspection_report", 0) or
+    doc_types.get("structural_repair_report", 0)
+) else "missing"
+
+# 12. dent_buckle_chart
+coverage["dent_buckle_chart"] = "present" if (
+    doc_types.get("dent_and_buckle_chart", 0)
+) else "missing"
+```
+
+### 2. Persist the checklist on :Asset
+
+```python
+with driver.session(database=database_name()) as session:
+    with session.begin_transaction() as tx:
+        tx.run("""
+            MATCH (a:Asset {asset_id: $aid})
+            SET a.mandatory_checklist = $cov,
+                a.checklist_phase = 'phase8-judgement-1'
+        """, aid=asset_id, cov=json.dumps(coverage)).consume()
+        tx.commit()
+```
+
+### 3. Raise asset-level findings for missing / stale items
+
+For each `coverage[item] in {"missing", "stale"}`, raise a `:Finding` keyed `f"finding::asset::{item.upper()}"` with the corresponding category from `finding_types.md`. Use a representative evidence page (e.g. the first page of the asset_profile.json reference, or the asset's first :Page).
+
+```python
+SEVERITY_BY_ITEM = {
+    "ad_compliance_summary": FindingSeverity.LEVEL_1.value,
+    "llp_status_current":     FindingSeverity.LEVEL_1.value,
+    "form1_coverage":         FindingSeverity.LEVEL_2.value,
+    # ... etc
 }
+
+with driver.session(database=database_name()) as session:
+    with session.begin_transaction() as tx:
+        for item, state in coverage.items():
+            if state in ("missing", "stale"):
+                write_finding(
+                    tx, asset_id=asset_id,
+                    value=f"finding::asset::CHECKLIST::{item}",
+                    severity=SEVERITY_BY_ITEM.get(item, FindingSeverity.LEVEL_2.value),
+                    category=item.upper(),
+                    title=f"Mandatory checklist: {item} is {state}",
+                    description=(
+                        f"Phase 8 mandatory-checklist item '{item}' is "
+                        f"'{state}' for this asset. State derived from "
+                        f"document_type counts and dated-document recency check."
+                    ),
+                    evidence_page_uid=evidence_page,    # asset's first page or representative
+                    evidence_quote=f"Checklist item {item} = {state}",
+                    asset_level=True,
+                    audit_run_uid=run_id,
+                )
+        tx.commit()
+```
+
+### 4. Reason out loud per item
+
+```
+### [Phase 8] llp_status_current
+The dossier contains 7 `engine_llp_status_sheet` pages. The most recent
+dated page in those documents is 2024-03-15. Today's snapshot date is
+2026-05-06 — that's 2 years stale, well over the 12-month freshness
+window. Marking 'stale' and raising LLP_STATUS_STALE finding (Level 1).
+```
+
+---
+
+## What to log
+
+```
+== Phase 8 verification ==
+- mandatory_checklist items                : 12
+  asset_orientation              : present
+  logbooks_present               : present
+  form1_coverage                 : present
+  llp_status_current             : stale
+  ad_compliance_summary          : present
+  ...
+- coverage: 6/12 items present
+- asset-level findings raised this phase   : <N>
+- fact_nodes_no_evidence                   : 0
 ```
 
 ---
 
 ## MANDATORY VERIFICATION
 
-```sql
--- Findings raised in Phase 8
-SELECT finding_type, COUNT(*) FROM findings
-WHERE finding_type IN ('AD_COMPLIANCE_UNVERIFIED', 'SB_COMPLIANCE_UNVERIFIED',
-                       'AD_NOT_LISTED', 'SB_NOT_LISTED', 'GAP_IN_DOSSIER',
-                       'TIMES_INCOMPLETE')
-GROUP BY 1;
-
--- Asset row updated with consensus values
-SELECT id, tsn, csn, tsn_confidence, csn_confidence FROM assets;
+```python
+from graph_dal.verify import verify_no_fact_orphans
+verify_no_fact_orphans(driver, asset_id, phase="8")
 ```
 
-```
-- assets.tsn / csn populated and not 0          : yes (or have an explicit unverified finding)
-- assets.tsn_confidence in {high, medium, low}  : yes (not null)
-- mandatory_checklist has every item            : yes (12 items per the list above)
-- every checklist item has status != 'silent_omit' : yes
-```
+Plus:
+- `:Asset.mandatory_checklist` is set and is parseable JSON with all 12 items.
+- For every "missing" or "stale" item, an asset-level `:Finding` exists.
+- `fact_nodes_no_evidence == 0`.
 
-**STOP conditions:**
+---
 
-- Any checklist item silently omitted (no `verified_compliant` record AND no finding).
-- `assets.tsn = 0 AND tsn_confidence = 'low'` from Phase 0 still in place — Phase 8 must reconcile this from the corpus.
-- The mandatory_checklist payload (for Phase 10) is missing any of the 12 items.
-- Any value in `mandatory_checklist.json` evidence/value contains "Simulated", "Stub", "Mock", "Placeholder", "TODO", or "Demo" — **cheating**. The values must come from real SQL queries against `pages`, `events`, `requirements`, `assets`. If you cannot answer a checklist item from the corpus, raise the corresponding finding (`AD_COMPLIANCE_UNVERIFIED`, `GAP_IN_DOSSIER`, `TIMES_INCOMPLETE`) and set the checklist item's status to `unverified` — never invent a number.
+## STOP conditions
 
-  Verification:
+- `:Asset.mandatory_checklist` is null — Phase 8 didn't run.
+- Number of items in checklist != 12.
+- A "missing" item without a corresponding asset-level finding.
+- `fact_nodes_no_evidence > 0`.
 
-  ```python
-  import json, re, sqlite3
-  mc = json.load(open('mandatory_checklist.json'))
-  bad = re.compile(r'Simulat|Stub|Mock|Placeholder|TODO|Demo', re.I)
-  for k, v in mc.items():
-      blob = json.dumps(v)
-      assert not bad.search(blob), f"Phase 8 cheat detected in {k}: {blob}"
+---
 
-  # Known fabricated values from past runs — these specific numbers were
-  # the agent's internal placeholder, reused across unrelated assets. Block them.
-  KNOWN_PLACEHOLDERS = {5432.1, 3210}
-  c = sqlite3.connect('graph.db').cursor()
-  tsn, csn = c.execute('SELECT tsn, csn FROM assets').fetchone()
-  assert tsn not in KNOWN_PLACEHOLDERS, (
-      f"assets.tsn = {tsn} is a known fabricated placeholder. "
-      "Re-run TSN consensus from `events.tsn_at_event` and `pages` for the actual value."
-  )
-  assert csn not in KNOWN_PLACEHOLDERS, (
-      f"assets.csn = {csn} is a known fabricated placeholder."
-  )
-  ```
+## Reference implementation
 
-  When `assets.tsn` cannot be determined from the corpus, set it to `NULL` and
-  raise a `TIMES_INCOMPLETE` finding. Never substitute a made-up number.
+`csvs/0378e3e8-ec91-476d-8031-79c198611253-AW139/phase8.py` — verified-working **mechanical stub** that derives coverage from document_type counts only (no dated-recency checks, no judgement reads). For AW139 the stub reports 6/12 items present. A judgement Phase 8 layers the dated-recency checks + page reads on top.

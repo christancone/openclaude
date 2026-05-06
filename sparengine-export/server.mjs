@@ -245,9 +245,11 @@ function inlineGraphHtml(folder) {
     mutated = true;
   }
 
-  // Form B — older asset_graph.html that uses fetch('./graph_export.json').
-  // Inject a <script type="application/json"> block and rewrite the fetch.
-  if (/fetch\(['"]\.\/graph_export\.json['"]\)/.test(html)) {
+  // Form B — panel HTML that uses fetch('graph_export.json') (with or without
+  // a './' prefix). Inject a <script type="application/json"> block and
+  // rewrite the fetch chain to read from it. This makes the file work on
+  // double-click (file:// blocks fetch).
+  if (/fetch\(['"](?:\.\/)?graph_export\.json['"]\)/.test(html)) {
     const safe = json.replace(/<\//g, '<\\/');
     const tag  = `<script id="graph-data" type="application/json">${safe}</script>`;
     if (html.includes('id="graph-data"')) {
@@ -255,9 +257,13 @@ function inlineGraphHtml(folder) {
     } else {
       html = html.replace(/<script>/, tag + '\n    <script>');
     }
+    // Rewrite both legacy and new fetch chains. Patterns:
+    //   .then(res => res.json()).then(...)   ← legacy template
+    //   .then(r => r.json()).then(...)       ← panel template
+    //   .then(r => r.json())                 ← bare promise without .then chain
     html = html.replace(
-      /fetch\(['"]\.\/graph_export\.json['"]\)\s*\.then\(\s*res\s*=>\s*res\.json\(\)\s*\)\s*\.then\(/,
-      `Promise.resolve(JSON.parse(document.getElementById('graph-data').textContent)).then(`,
+      /fetch\(['"](?:\.\/)?graph_export\.json['"]\)\s*\.then\(\s*\w+\s*=>\s*\w+\.json\(\)\s*\)/,
+      `Promise.resolve(JSON.parse(document.getElementById('graph-data').textContent))`,
     );
     mutated = true;
   }
@@ -271,12 +277,13 @@ function inlineGraphHtml(folder) {
 }
 
 // --- Agent run --------------------------------------------------------------
-// Spawn OpenClaude in headless --print mode against the asset folder, with
-// GRAPH.md as the instruction set. Streams stdout/stderr to the SSE client.
+// Spawn OpenClaude / Claude Code in headless --print mode against the asset
+// folder, pointing at sparengine-export/phases/OVERVIEW.md (the Neo4j-era
+// brief) as the instruction set. Streams stdout/stderr to the SSE client.
 
-const GRAPH_MD       = path.join(__dirname, 'GRAPH.md');
+const OVERVIEW_MD    = path.join(__dirname, 'phases', 'OVERVIEW.md');
 const PHASES_DIR     = path.join(__dirname, 'phases');
-const GRAPH_TEMPLATE = path.join(__dirname, 'asset_graph_sample.html');
+const GRAPH_TEMPLATE = path.join(__dirname, 'asset_graph_template_panels.html');
 const CLI_MJS        = path.join(repoRoot, 'dist', 'cli.mjs');
 
 // AGENT_CLI controls which CLI runs the graph-builder agent.
@@ -293,13 +300,23 @@ function buildAgentPrompt(csvFileName) {
     'You are a Part-66/Part-145 aviation records auditor with twenty years of fleet',
     'experience. You are NOT a script writer. The dossier in this working directory',
     'is one aviation asset (aircraft, engine, propeller, gearbox, or component-only).',
-    'Your job is to build an audit-grade knowledge graph and tell the buyer what is',
-    'documented, what is missing, and what is at risk — with evidence cited per finding.',
+    'Your job is to build an audit-grade knowledge graph in **Neo4j** and tell the',
+    'buyer what is documented, what is missing, and what is at risk — with evidence',
+    'cited per finding.',
+    '',
+    'STORAGE MODEL — there is no SQLite. There is no graph.db file. There is no FTS5.',
+    'The graph lives in a shared Neo4j Community instance reachable at the URI in your',
+    '.env (typically bolt://neo4j:7687). All writes go through the `graph_dal/` Python',
+    'package — phase scripts MUST NOT construct raw Cypher for writes. Phase 3 is',
+    '**deleted** (Tier as a graph layer was killed); the pipeline goes 0 → 1 → 2 → 4.',
     '',
     'You have Bash, Read, Write, Edit, and Grep tools. Use them like an auditor:',
-    '  - Bash for SQL probes and Python scripts that fetch data.',
-    '  - Read to OPEN evidence pages cited by SQL — you must look at the page,',
-    '    not just trust the index. A finding without an opened page is incomplete.',
+    '  - Bash for Cypher probes (cypher-shell or via neo4j Python driver) and Python',
+    '    scripts that drive `graph_dal` writers.',
+    '  - Read to OPEN evidence pages cited by `:Page.original_path` — you must look',
+    '    at the page, not just trust the index. A finding without an opened page is',
+    '    incomplete. The DAL helper `graph_dal.cite.cite_node()` turns any node into',
+    '    `(file_name, page_index, original_path)` for citation.',
     '  - Write a paragraph of reasoning before each major decision; the UI streams',
     '    your assistant text to the user. Do not silently emit tool calls only —',
     '    think out loud, in 3-5 sentences per component, citing what you expected',
@@ -313,40 +330,56 @@ function buildAgentPrompt(csvFileName) {
     `  ${phases}/OVERVIEW.md             — pipeline + golden rules + STEP 0 environment setup`,
     `  ${phases}/csv_and_ocr.md          — CSV schema and the structure of extracted_json`,
     '',
-    'STEP 2 — Run STEP 0 from OVERVIEW.md: create a .venv, write requirements.txt,',
-    '  pip install, verify imports + FTS5. DO NOT SKIP THIS — Phase 1 will fail at',
-    '  row 5,000 with ModuleNotFoundError otherwise.',
+    'STEP 2 — Run STEP 0 from OVERVIEW.md: create a .venv, write requirements.txt',
+    '  (which MUST include `neo4j>=5.20.0`), pip install, verify the `neo4j` import',
+    '  works AND verify the schema is in place (call `graph_dal.verify.verify_schema`).',
+    '  DO NOT skip this — Phase 1 will fail at the first DAL write otherwise.',
     '',
     'STEP 3 — Then load ONE phase file at a time, in order, and execute that phase:',
     `  ${phases}/phase0_orientation.md       Phase 0  (asset profile)`,
-    `  ${phases}/phase1_indexing.md          Phase 1  (CSV → pages/documents/stamps/FTS)`,
-    `  ${phases}/phase2_asset_detection.md   Phase 2  (assets row + reconciliation)`,
-    `  ${phases}/phase3_tiers.md             Phase 3  (tier groups)`,
-    `  ${phases}/phase4_components.md        Phase 4  (part_types/serials/components)`,
-    `  ${phases}/phase5_events.md            Phase 5  (events)`,
-    `  ${phases}/phase6_connectors.md        Phase 6  (the graph backbone)`,
-    `  ${phases}/phase6_5_critical_items.md  Phase 6.5 (priority_items + lease return)`,
-    `  ${phases}/phase7_investigation.md     Phase 7  (per-component findings)`,
-    `  ${phases}/phase7_5_verification.md    Phase 7.5 (close false positives)`,
-    `  ${phases}/phase8_asset_audit.md       Phase 8  (mandatory checklist)`,
-    `  ${phases}/phase9_consolidation.md     Phase 9  (consolidate findings)`,
-    `  ${phases}/phase10_export.md           Phase 10 (graph_export.json)`,
-    `  ${phases}/phase_viz.md                Phase viz (asset_graph.html)`,
+    `  ${phases}/phase1_indexing.md          Phase 1  (CSV → pages/documents/stamps/evidence records/identifiers/dates)`,
+    `  ${phases}/phase2_asset_detection.md   Phase 2  (:Asset confirmation + secondary class label + reconciliation)`,
+    `  ${phases}/phase4_components.md        Phase 4  (:Component hydration — Phase 3 is deleted, do not look for it)`,
+    `  ${phases}/phase5_events.md            Phase 5  (:Event + :ComponentSnapshot)`,
+    `  ${phases}/phase6_connectors.md        Phase 6  (:Person/:Organization + cross-doc :INCLUDES, :SIGNED_BY, :STAMPED_BY)`,
+    `  ${phases}/phase6_5_critical_items.md  Phase 6.5 (:PriorityItem + lease_return_state)`,
+    `  ${phases}/phase7_investigation.md     Phase 7  (per-component :Finding via DAL)`,
+    `  ${phases}/phase7_5_verification.md    Phase 7.5 (close false positives via Lucene fulltext on :Page.text)`,
+    `  ${phases}/phase8_asset_audit.md       Phase 8  (mandatory checklist as :Asset.mandatory_checklist JSON)`,
+    `  ${phases}/phase9_consolidation.md     Phase 9  (consolidate :Finding statuses)`,
+    `  ${phases}/phase10_export.md           Phase 10 (graph_export.json + restore.cypher + tier_views.cypher)`,
+    `  ${phases}/phase_viz.md                Phase viz (asset_graph.html — panel-only template substitution)`,
     '',
     'Reference files — load when a phase says to:',
     `  ${phases}/document_types.md         (closed enum of document_type strings)`,
-    `  ${phases}/tiers_and_ata.md          (tier list + ATA→tier)`,
-    `  ${phases}/schema.sql                (canonical SQLite schema — copy verbatim into tools.py)`,
+    `  ${phases}/tiers_and_ata.md          (ATA→tier mapping; consumed at viz time, not as graph nodes)`,
+    `  ${phases}/schema.cypher             (constraints + page_text fulltext index — already applied at startup)`,
+    `  ${phases}/captions.cypher           (caption helper — Phase 10 auto-applies)`,
     `  ${phases}/data_quality_rules.md     (universal rules + aviation domain patterns)`,
     `  ${phases}/investigation_discipline.md (DO NOT flag what you have not looked for)`,
     `  ${phases}/finding_types.md          (the exact finding_type strings)`,
     `  ${phases}/severity_matrix.md        (criticality-by-component)`,
     '',
-    `The full canonical brief is also at ${GRAPH_MD.replace(/\\/g, '/')} for reference, but DO NOT load it whole — context attention drifts.`,
+    'The DAL package is at /app/sparengine-export/graph_dal/. Every phase script',
+    'starts with the bootstrap shown in OVERVIEW.md "DAL CHOKEPOINT" section,',
+    'imports the writers it needs, and ends by calling `verify_phase_N` (or',
+    '`verify_no_fact_orphans`). If you see a Phase script in this workdir doing',
+    '`import sqlite3` or writing to a `graph.db` file, that script is OBSOLETE',
+    '(legacy from before the Neo4j migration). Delete it and rewrite from the brief.',
     '',
-    'Write ALL outputs into the CURRENT WORKING DIRECTORY (./graph.db,',
-    './asset_profile.json, ./graph_export.json, ./asset_graph.html,',
-    './progress.log, ./_checkpoints/). Use Python via Bash. Use pathlib.Path.',
+    'Reference implementation: `/app/csvs/0378e3e8-ec91-476d-8031-79c198611253-AW139/phaseN.py`',
+    'are the verified-working canonical AW139 phase scripts. Mirror their structure.',
+    '',
+    'Write per-asset deliverables into the CURRENT WORKING DIRECTORY:',
+    '  ./asset_profile.json   (Phase 0)',
+    '  ./graph_export.json    (Phase 10 — viz-shape projection)',
+    '  ./restore.cypher       (Phase 10 — sanitised replayable Cypher)',
+    '  ./tier_views.cypher    (Phase 10 — saved Browser favourites)',
+    '  ./asset_graph.html     (Phase viz — panel-only HTML)',
+    '  ./progress.log         (every phase appends a verification block)',
+    '  ./_checkpoints/        (resumable checkpoints between phases)',
+    '',
+    'Use Python via Bash. Use pathlib.Path. Never reference graph.db or sqlite3.',
     '',
     'SHELL HYGIENE (read OVERVIEW.md "SHELL HYGIENE" section):',
     '  - DO NOT use `python -c "<multi-line script>"`. Write a .py file and run it.',
@@ -355,10 +388,11 @@ function buildAgentPrompt(csvFileName) {
     '',
     'CRITICAL — ANTI-FRAUD CONTRACT:',
     '',
-    '1. Each phase file ends with MANDATORY VERIFICATION queries. After',
-    '   running the phase, EXECUTE those SQL queries against ./graph.db,',
+    '1. Each phase file ends with MANDATORY VERIFICATION via the DAL\'s `verify_*`',
+    '   functions. After running the phase, CALL `verify_phase_N(driver, asset_id)`',
+    '   (or `verify_no_fact_orphans` if the dedicated verifier doesn\'t exist yet),',
     '   APPEND THE COUNTS to ./progress.log, and CHECK each STOP condition.',
-    '   If a STOP condition is hit, STOP. Do not proceed to the next phase.',
+    '   If `VerificationFailed` is raised, STOP. Do not proceed to the next phase.',
     '   Do not write a "dummy" version. Diagnose the failure first.',
     '',
     '2. Do NOT hardcode asset_profile.json from the folder name or CSV',
@@ -500,9 +534,9 @@ function truncate(s, n) {
 }
 
 async function runAgent(workdir, csvFileName, send) {
-  if (!fs.existsSync(GRAPH_MD)) {
+  if (!fs.existsSync(OVERVIEW_MD)) {
     send({ type: 'agent-error',
-           message: `Missing instructions file: ${GRAPH_MD}` });
+           message: `Missing instructions file: ${OVERVIEW_MD}` });
     return;
   }
 
