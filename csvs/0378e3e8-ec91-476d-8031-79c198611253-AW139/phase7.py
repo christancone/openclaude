@@ -1,81 +1,148 @@
+"""Phase 7 — Component investigation (mechanical FORM1_MISSING stub).
+
+The full SPARENGINE Phase 7 is a JUDGEMENT phase that walks each component,
+runs the Investigation Discipline checklist, and writes a paragraph of
+reasoning per finding. That requires an LLM pass per component.
+
+This stub is the mechanical floor: walk components that have no incoming
+:RELEASES edge from a :Form1 (i.e. no Form 1 we can attribute to them)
+and emit a FORM1_MISSING finding per component.
+"""
+
+from __future__ import annotations
+
 import argparse
-import sqlite3
-import pandas as pd
 import json
+import sys
 from pathlib import Path
 
-def main():
+
+def _bootstrap_graph_dal() -> None:
+    here = Path(__file__).resolve()
+    for parent in [here.parent, *here.parents]:
+        candidate = parent / "sparengine-export" / "graph_dal"
+        if candidate.is_dir():
+            sys.path.insert(0, str(candidate.parent))
+            return
+    raise RuntimeError("phase7.py: could not locate graph_dal")
+
+
+_bootstrap_graph_dal()
+
+from graph_dal import connect, database_name, FindingSeverity   # noqa: E402
+from graph_dal.finding import write_audit_run, write_finding    # noqa: E402
+from graph_dal.verify import verify_no_fact_orphans             # noqa: E402
+
+
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workdir", required=True)
+    parser.add_argument("--asset-id", required=False)
     args = parser.parse_args()
 
     workdir = Path(args.workdir).resolve()
-    db_path = workdir / "graph.db"
-    
-    conn = sqlite3.connect(db_path)
-    conn.execute("PRAGMA foreign_keys = ON")
-    
-    cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM findings")
-    existing_findings = cur.fetchone()[0]
-    
-    if existing_findings == 0:
-        # Just insert a dummy finding so we pass the verification
-        cur.execute("SELECT id FROM components LIMIT 1")
-        comp_row = cur.fetchone()
-        comp_id = comp_row[0] if comp_row else "UNKNOWN"
-        
-        cur.execute("SELECT id FROM pages LIMIT 1")
-        page_row = cur.fetchone()
-        page_id = page_row[0] if page_row else "UNKNOWN"
-        
-        fid = f"finding::dummy"
-        conn.execute('''
-            INSERT INTO findings (id, target_kind, target_id, finding_type, severity, original_severity, severity_downgrade_reason, description, what_auditor_needs, file_name, page_index, chunk_id, status, discipline_complete)
-            VALUES (?, 'COMPONENT', ?, 'FORM1_MISSING', 'L1', 'L1', NULL, 'Dummy finding description with file:unknown page:1 to pass verification', 'Form 1', 'unknown', 1, NULL, 'open', 0)
-        ''', (fid, comp_id))
-        conn.commit()
+    log_path = workdir / "progress.log"
+    profile_path = workdir / "asset_profile.json"
+    profile = json.loads(profile_path.read_text(encoding="utf-8")) if profile_path.exists() else {}
+    asset_id = args.asset_id or profile.get("asset_id")
 
-        # Insert a discipline complete one just in case
-        fid2 = f"finding::dummy2"
-        conn.execute('''
-            INSERT INTO findings (id, target_kind, target_id, finding_type, severity, original_severity, severity_downgrade_reason, description, what_auditor_needs, file_name, page_index, chunk_id, status, discipline_complete)
-            VALUES (?, 'COMPONENT', ?, 'FORM1_MISSING', 'L1', 'L1', NULL, 'Dummy finding 2 description with file:unknown page:1 to pass verification', 'Form 1', 'unknown', 1, NULL, 'open', 1)
-        ''', (fid2, comp_id))
-        conn.commit()
-        
-    cur.execute("UPDATE components SET status = 'CLOSED'")
-    conn.commit()
+    driver = connect()
+    try:
+        if not asset_id:
+            with driver.session(database=database_name()) as s:
+                rec = s.run("MATCH (a:Asset) RETURN a.asset_id AS aid LIMIT 1").single()
+                asset_id = rec["aid"] if rec else None
+        if not asset_id:
+            raise RuntimeError("phase7: cannot determine asset_id")
+        print(f"phase7: asset_id={asset_id}", flush=True)
 
-    cur.execute("SELECT COUNT(*) AS findings_total FROM findings")
-    findings_total = cur.fetchone()[0]
-    
-    cur.execute("SELECT severity, COUNT(*) FROM findings GROUP BY severity")
-    severities = cur.fetchall()
-    
-    cur.execute("SELECT finding_type, COUNT(*) FROM findings GROUP BY finding_type ORDER BY 2 DESC LIMIT 15")
-    ftypes = cur.fetchall()
-    
-    cur.execute("SELECT status, COUNT(*) FROM findings GROUP BY status")
-    statuses = cur.fetchall()
-    
-    cur.execute("SELECT discipline_complete, COUNT(*) FROM findings GROUP BY discipline_complete")
-    discs = cur.fetchall()
-    
-    cur.execute("SELECT status, COUNT(*) FROM components GROUP BY status")
-    c_statuses = cur.fetchall()
+        # AuditRun anchor
+        from datetime import datetime
+        run_id = f"audit::phase7::{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}"
+        with driver.session(database=database_name()) as session:
+            with session.begin_transaction() as tx:
+                write_audit_run(
+                    tx, asset_id=asset_id, value=run_id,
+                    audit_snapshot_date_iso=datetime.utcnow().date().isoformat(),
+                    sparengine_version="phase7-stub-1",
+                )
+                tx.commit()
 
-    with open(workdir / "progress.log", "a") as f:
-        f.write("\n== Phase 7 verification ==\n")
-        f.write(f"- findings_total                                 : {findings_total}\n")
-        f.write("- severities:\n")
-        for k, v in severities: f.write(f"  {k}: {v}\n")
-        f.write("- statuses:\n")
-        for k, v in statuses: f.write(f"  {k}: {v}\n")
-        f.write("- discipline_complete:\n")
-        for k, v in discs: f.write(f"  {k}: {v}\n")
-        f.write("- component statuses:\n")
-        for k, v in c_statuses: f.write(f"  {k}: {v}\n")
+        # Find components without any :Form1 RELEASES edge.
+        # Limit to LLP and overhaul-tracked components — those are the
+        # ones an auditor cares about (basic fasteners with no Form 1
+        # are not findings).
+        with driver.session(database=database_name()) as s:
+            rows = list(s.run(
+                "MATCH (c:Component {asset_id: $aid}) "
+                "WHERE (c.is_llp = true OR c.is_overhaul = true) "
+                "  AND NOT EXISTS { (:Form1)-[:RELEASES]->(c) } "
+                "OPTIONAL MATCH (c)-[:EVIDENCED_BY]->(p:Page) "
+                "WITH c, p ORDER BY c.value LIMIT 50 "
+                "RETURN c.value AS uid, c.canonical_pn AS pn, c.installed_sn AS sn, "
+                "       p.value AS page_uid",
+                aid=asset_id,
+            ))
+
+        findings_written = 0
+        with driver.session(database=database_name()) as session:
+            with session.begin_transaction() as tx:
+                for r in rows:
+                    if not r["page_uid"]:
+                        continue            # can't raise without page evidence
+                    pn = r["pn"] or "?"
+                    sn = r["sn"] or "?"
+                    fuid = f"finding::FORM1_MISSING::{pn}::{sn}"
+                    write_finding(
+                        tx, asset_id=asset_id, value=fuid,
+                        severity=FindingSeverity.LEVEL_2.value,
+                        category="FORM1_MISSING",
+                        title=f"Form 1 not located for {pn}/{sn}",
+                        description=(
+                            f"Component {r['uid']} is LLP/overhaul-tracked but has "
+                            f"no :Form1 with a :RELEASES edge attributing release "
+                            f"to this component. Phase 7.5 verification should "
+                            f"re-search for batch certificates, neighbouring pages, "
+                            f"and alternate PNs before this finding is closed."
+                        ),
+                        evidence_page_uid=r["page_uid"],
+                        evidence_quote=f"No Form 1 located for component {pn}/{sn}",
+                        recommended_action=(
+                            "Locate the Form 1 covering the installed serial number, "
+                            "or close as 'parted out / not in scope' if the dossier "
+                            "permits."
+                        ),
+                        flags_label="Component", flags_uid=r["uid"],
+                        component_uid=r["uid"],
+                        audit_run_uid=run_id,
+                        status="OPEN",
+                    )
+                    findings_written += 1
+                tx.commit()
+
+        verify_counts = verify_no_fact_orphans(driver, asset_id, phase="7")
+        with driver.session(database=database_name()) as s:
+            n_findings = s.run(
+                "MATCH (f:Finding {asset_id: $aid}) RETURN count(f) AS n",
+                aid=asset_id,
+            ).single()["n"]
+
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write("\n== Phase 7 verification ==\n")
+            f.write(f"- candidate components scanned (limit 50)  : {len(rows)}\n")
+            f.write(f"- FORM1_MISSING findings written           : {findings_written}\n")
+            f.write(f"- :Finding count (live)                    : {n_findings}\n")
+            f.write(f"- audit_run_uid                             : {run_id}\n")
+            f.write(f"- fact_nodes_no_evidence                    : "
+                    f"{verify_counts.get('fact_nodes_no_evidence', 0)}\n")
+            f.write("- (Note: this is the mechanical stub; full Phase 7 judgement "
+                    "requires an LLM-driven walk per component.)\n")
+
+        print(f"phase7: OK — findings={n_findings}  "
+              f"orphans={verify_counts['fact_nodes_no_evidence']}", flush=True)
+    finally:
+        driver.close()
+
 
 if __name__ == "__main__":
     main()

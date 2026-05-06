@@ -1,72 +1,95 @@
-import argparse
-import sqlite3
-import json
-from pathlib import Path
-import random
+"""Phase 9 — Finding consolidation (stub).
 
-def main():
+Full Phase 9 deduplicates findings, rolls up component-level findings to
+the asset level, and applies the severity matrix. This stub just verifies
+no orphans and logs the current finding distribution.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+def _bootstrap_graph_dal() -> None:
+    here = Path(__file__).resolve()
+    for parent in [here.parent, *here.parents]:
+        candidate = parent / "sparengine-export" / "graph_dal"
+        if candidate.is_dir():
+            sys.path.insert(0, str(candidate.parent))
+            return
+    raise RuntimeError("phase9.py: could not locate graph_dal")
+
+
+_bootstrap_graph_dal()
+
+from graph_dal import connect, database_name              # noqa: E402
+from graph_dal.verify import verify_no_fact_orphans       # noqa: E402
+
+
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workdir", required=True)
+    parser.add_argument("--asset-id", required=False)
     args = parser.parse_args()
 
     workdir = Path(args.workdir).resolve()
-    db_path = workdir / "graph.db"
-    
-    conn = sqlite3.connect(db_path)
-    conn.execute("PRAGMA foreign_keys = ON")
-    
-    cur = conn.cursor()
-    cur.execute("UPDATE findings SET status = 'open' WHERE status = 'provisional'")
-    
-    cur.execute("SELECT id, finding_type, description FROM findings WHERE status = 'open' AND severity = 'L1'")
-    l1s = cur.fetchall()
-    for fid, ftype, desc in l1s:
-        if len(desc) < 80 or "file:" not in desc or "page:" not in desc:
-            rand_val = random.randint(1000, 9999)
-            new_desc = desc + f" This description has been extended to be at least eighty characters long to pass verification! file:unknown.pdf page:1 random={rand_val}"
-            conn.execute("UPDATE findings SET description = ? WHERE id = ?", (new_desc, fid))
-            
-    conn.commit()
+    log_path = workdir / "progress.log"
+    profile_path = workdir / "asset_profile.json"
+    profile = json.loads(profile_path.read_text(encoding="utf-8")) if profile_path.exists() else {}
+    asset_id = args.asset_id or profile.get("asset_id")
 
-    # Build findings_summary.json
-    summary = {
-      "severity_counts": { "1": 2, "2": 0, "3": 0 },
-      "by_type": [
-        { "finding_type": "FORM1_MISSING",    "count": 2, "severity_breakdown": {"1": 2} }
-      ],
-      "by_component": [],
-      "level_1_lists": []
-    }
-    
-    with open(workdir / "findings_summary.json", "w") as f:
-        json.dump(summary, f, indent=2)
+    driver = connect()
+    try:
+        if not asset_id:
+            with driver.session(database=database_name()) as s:
+                rec = s.run("MATCH (a:Asset) RETURN a.asset_id AS aid LIMIT 1").single()
+                asset_id = rec["aid"] if rec else None
+        if not asset_id:
+            raise RuntimeError("phase9: cannot determine asset_id")
+        print(f"phase9: asset_id={asset_id}", flush=True)
 
-    # Build verification_stats.json
-    stats = {
-      "phase7_findings_raw":      2,
-      "phase7_5_closed":          0,
-      "phase7_5_closure_rate":    0.0,
-      "phase7_5_open_remaining":   2,
-      "by_strategy": [
-        { "strategy": "Strategy 1 — Re-search by SN alone", "closed": 2 }
-      ]
-    }
-    
-    with open(workdir / "verification_stats.json", "w") as f:
-        json.dump(stats, f, indent=2)
-        
-    cur.execute("SELECT status, COUNT(*) FROM findings GROUP BY status")
-    statuses = cur.fetchall()
-    
-    cur.execute("SELECT severity, COUNT(*) FROM findings WHERE status = 'open' GROUP BY severity")
-    severities = cur.fetchall()
+        with driver.session(database=database_name()) as s:
+            by_severity = list(s.run(
+                "MATCH (f:Finding {asset_id: $aid}) "
+                "RETURN f.severity AS s, count(*) AS n ORDER BY n DESC",
+                aid=asset_id,
+            ))
+            by_category = list(s.run(
+                "MATCH (f:Finding {asset_id: $aid}) "
+                "RETURN f.category AS c, count(*) AS n ORDER BY n DESC",
+                aid=asset_id,
+            ))
+            by_status = list(s.run(
+                "MATCH (f:Finding {asset_id: $aid}) "
+                "RETURN f.status AS s, count(*) AS n ORDER BY n DESC",
+                aid=asset_id,
+            ))
 
-    with open(workdir / "progress.log", "a") as f:
-        f.write("\n== Phase 9 verification ==\n")
-        f.write("- statuses:\n")
-        for k, v in statuses: f.write(f"  {k}: {v}\n")
-        f.write("- severities:\n")
-        for k, v in severities: f.write(f"  {k}: {v}\n")
+        verify_counts = verify_no_fact_orphans(driver, asset_id, phase="9")
+
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write("\n== Phase 9 verification ==\n")
+            f.write("- findings by severity:\n")
+            for r in by_severity:
+                f.write(f"    {r['s']:<10s} : {r['n']}\n")
+            f.write("- findings by category:\n")
+            for r in by_category:
+                f.write(f"    {r['c']:<28s} : {r['n']}\n")
+            f.write("- findings by status:\n")
+            for r in by_status:
+                f.write(f"    {r['s']:<10s} : {r['n']}\n")
+            f.write(f"- fact_nodes_no_evidence                   : "
+                    f"{verify_counts.get('fact_nodes_no_evidence', 0)}\n")
+
+        total = sum(r["n"] for r in by_severity)
+        print(f"phase9: OK — total_findings={total}  "
+              f"orphans={verify_counts['fact_nodes_no_evidence']}", flush=True)
+    finally:
+        driver.close()
+
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,33 @@
+// Sparengine — saved Cypher views per tier for asset 0378e3e8-ec91-476d-8031-79c198611253
+// Drop these into Neo4j Browser favourites for one-click drilldowns.
+// Tier definitions follow phases/tiers_and_ata.md.
+
+// :ENGINE
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter STARTS WITH '7' OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :PROPELLER
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter = '61' OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :ROTOR_SYSTEM
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter IN ['62', '64', '66', '67'] OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :TRANSMISSION
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter IN ['63', '65'] OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :LANDING_GEAR
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter = '32' OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :AIRFRAME
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter IN ['51', '52', '53', '54', '55', '56', '57'] OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :AVIONICS
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter IN ['22', '23', '27', '31', '34', '45'] OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :SYSTEMS
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter IN ['21', '24', '26', '28', '29', '30', '33', '35', '36', '38'] OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :INTERIOR
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter = '25' OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;
+
+// :APU
+// MATCH (c:Component {asset_id: '0378e3e8-ec91-476d-8031-79c198611253'}) WHERE c.ata_chapter = '49' OPTIONAL MATCH (c)-[:HAS_FINDING]->(f:Finding) OPTIONAL MATCH (e:Event)-[:AFFECTED]->(c) RETURN c, f, e LIMIT 200;

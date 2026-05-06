@@ -1,332 +1,465 @@
+"""Phase 4 — Component discovery (Layer 3 hydration).
+
+Reads :Page-[:MENTIONS_PN]->(:PartNumber) and :Page-[:MENTIONS_SN]->(:SerialNumber)
+edges that Phase 1 wrote, plus :COVERS_ATA edges, and produces :Component
+nodes for the (PN, SN) pairs that survive the SPARENGINE 8 selection rules.
+
+Rules 1–6 implemented in this pass:
+    1. Seed list   — :Component for every entry in profile.expected_components
+    2. PN/SN pairs — co-occurrence on the same page
+    3. Blocklist   — drop SNs in profile.blocked_sn_list + universal blocklist
+    4. Threshold   — high-value tiers ≥1, low-value tiers ≥2 occurrences
+    5. ATA → tier  — informational only (we killed :Tier in Q6); the
+                      ATA chapter still drives :RELATED_TO_ATA
+    6. Same-PN clustering — multiple SNs under one PN form siblings
+
+Rules 7 (batch certificates) and 8 (OCR rejection / vision re-read) are
+deferred to a later pass — they're heavy and the framework supports them
+once we want to add them.
+"""
+
+from __future__ import annotations
+
 import argparse
 import json
-import sqlite3
-import pandas as pd
+import re
+import sys
+from collections import Counter, defaultdict
 from pathlib import Path
-from collections import defaultdict, Counter
 
-def normalize_pn(pn):
-    return str(pn).strip().upper()
 
-def normalize_sn(sn):
-    return str(sn).strip().upper()
+def _bootstrap_graph_dal() -> None:
+    here = Path(__file__).resolve()
+    for parent in [here.parent, *here.parents]:
+        candidate = parent / "sparengine-export" / "graph_dal"
+        if candidate.is_dir():
+            sys.path.insert(0, str(candidate.parent))
+            return
+    raise RuntimeError("phase4.py: could not locate sparengine-export/graph_dal/")
 
-def get_tier_from_ata(ata):
-    try:
-        a = int(str(ata)[:2])
-        if 70 <= a <= 84: return "ENGINE"
-        if a == 61: return "PROPELLER"
-        if a == 32: return "LANDING_GEAR"
-        if 62 <= a <= 67: return "ROTOR_SYSTEM" # Rough helicopter mapping
-        if a in [51, 52, 53, 54, 55, 56, 57]: return "AIRFRAME"
-        if a in [22, 23, 27, 31, 33, 34, 42]: return "AVIONICS"
-    except: pass
-    return "UNKNOWN"
 
-def main():
-    parser = argparse.ArgumentParser()
+_bootstrap_graph_dal()
+
+from graph_dal import connect, database_name                           # noqa: E402
+from graph_dal.component import (                                       # noqa: E402
+    link_asset_has_component,
+    link_component_related_to_ata,
+    link_has_primary_pn,
+    link_has_sn,
+    write_component,
+)
+from graph_dal.connector import write_part_number, write_serial_number  # noqa: E402
+from graph_dal.errors import VerificationFailed                         # noqa: E402
+from graph_dal.verify import verify_no_fact_orphans                     # noqa: E402
+
+
+# -----------------------------------------------------------------------------
+#  ATA → tier mapping (informational; tier no longer a graph node — see Q6)
+# -----------------------------------------------------------------------------
+
+ATA_TO_TIER = {
+    "32": "LANDING_GEAR",
+    "49": "APU",
+    "61": "PROPELLER",
+    "62": "ROTOR_SYSTEM", "64": "ROTOR_SYSTEM",
+    "66": "ROTOR_SYSTEM", "67": "ROTOR_SYSTEM",
+    "63": "TRANSMISSION", "65": "TRANSMISSION",
+    "51": "AIRFRAME", "52": "AIRFRAME", "53": "AIRFRAME", "54": "AIRFRAME",
+    "55": "AIRFRAME", "56": "AIRFRAME", "57": "AIRFRAME",
+    "22": "AVIONICS", "23": "AVIONICS", "27": "AVIONICS", "31": "AVIONICS",
+    "34": "AVIONICS", "45": "AVIONICS",
+    "21": "SYSTEMS", "24": "SYSTEMS", "26": "SYSTEMS", "28": "SYSTEMS",
+    "29": "SYSTEMS", "30": "SYSTEMS", "33": "SYSTEMS", "35": "SYSTEMS",
+    "36": "SYSTEMS", "38": "SYSTEMS",
+    "25": "INTERIOR",
+}
+
+HIGH_VALUE_TIERS = {"ENGINE", "LANDING_GEAR", "PROPELLER", "ROTOR_SYSTEM",
+                    "TRANSMISSION", "APU"}
+
+
+def _ata_to_tier(ata: str | None) -> str:
+    """Map an ATA chapter string to a tier label (informational only)."""
+    if not ata:
+        return "UNKNOWN"
+    head = re.match(r"^(\d{2})", str(ata).strip())
+    if not head:
+        return "UNKNOWN"
+    n = int(head.group(1))
+    if 70 <= n <= 89:
+        return "ENGINE"
+    return ATA_TO_TIER.get(head.group(1), "UNKNOWN")
+
+
+def _normalize(s: object) -> str:
+    return str(s or "").strip().upper()
+
+
+def _is_blocked_sn(sn: str, custom_blocked: set[str]) -> bool:
+    """Universal blocklist + per-asset custom blocklist."""
+    s = sn.strip().upper()
+    if not s:
+        return True
+    if s in custom_blocked:
+        return True
+    # Universal: year strings 1990..2030
+    if s.isdigit() and len(s) == 4 and 1990 <= int(s) <= 2030:
+        return True
+    # Single character
+    if len(s) <= 1:
+        return True
+    # Date-like
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", s):
+        return True
+    return False
+
+
+# -----------------------------------------------------------------------------
+#  Data fetch from Neo4j
+# -----------------------------------------------------------------------------
+
+def _fetch_co_mentions(driver, asset_id: str) -> list[dict]:
+    """For each :Page, return its mentioned PartNumbers, SerialNumbers, ATAs.
+
+    Output: ``[{"page_uid", "doc_type", "pns", "sns", "atas", "title"}, ...]``
+    """
+    cypher = """
+    MATCH (p:Page {asset_id: $aid})
+    OPTIONAL MATCH (p)-[:MENTIONS_PN]->(pn:PartNumber {asset_id: $aid})
+    OPTIONAL MATCH (p)-[:MENTIONS_SN]->(sn:SerialNumber {asset_id: $aid})
+    OPTIONAL MATCH (p)-[:COVERS_ATA]->(ata:ATAChapter {asset_id: $aid})
+    OPTIONAL MATCH (p)<-[:HAS_PAGE]-(d:Document {asset_id: $aid})
+    WITH p, d.document_type AS doc_type, p.title AS title,
+         collect(DISTINCT pn.value) AS pns,
+         collect(DISTINCT sn.value) AS sns,
+         collect(DISTINCT ata.value) AS atas
+    RETURN p.value AS page_uid, doc_type, title, pns, sns, atas
+    """
+    rows: list[dict] = []
+    with driver.session(database=database_name()) as s:
+        for record in s.run(cypher, aid=asset_id):
+            rows.append({
+                "page_uid": record["page_uid"],
+                "doc_type": record["doc_type"],
+                "title": record["title"],
+                "pns":   [v for v in (record["pns"] or []) if v],
+                "sns":   [v for v in (record["sns"] or []) if v],
+                "atas":  [v for v in (record["atas"] or []) if v],
+            })
+    return rows
+
+
+# -----------------------------------------------------------------------------
+#  Promotion: which (PN, SN) pairs become :Component nodes?
+# -----------------------------------------------------------------------------
+
+LLP_DOC_TYPES = {"engine_llp_status_sheet", "life_limited_parts_status"}
+HISTORY_DOC_TYPES = {"component_history_card", "component_logbook"}
+FORM1_DOC_TYPES = {"easa_form_one", "faa_form_8130", "tcca_form_one",
+                   "dual_release_certificate", "certificate_of_release_to_service"}
+
+
+def _promote(
+    pair: tuple[str, str],
+    hits: list[tuple[str, str | None]],
+    threshold: int,
+) -> bool:
+    """Decide whether a (pn, sn) pair clears the threshold for promotion."""
+    if len(hits) >= threshold:
+        return True
+    # Single hit but on a high-evidentiary-weight document type → promote
+    for _, doc_type in hits:
+        if doc_type in LLP_DOC_TYPES | HISTORY_DOC_TYPES | FORM1_DOC_TYPES:
+            return True
+    return False
+
+
+# -----------------------------------------------------------------------------
+#  Main
+# -----------------------------------------------------------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Phase 4 — Component hydration")
     parser.add_argument("--workdir", required=True)
-    parser.add_argument("--csv", required=True)
+    parser.add_argument("--asset-id", required=False)
     args = parser.parse_args()
 
     workdir = Path(args.workdir).resolve()
-    csv_path = Path(args.csv).resolve()
-    db_path = workdir / "graph.db"
-    log_path = workdir / "progress.log"
     profile_path = workdir / "asset_profile.json"
-    
-    with open(profile_path, 'r') as f:
-        profile = json.load(f)
-        
-    conn = sqlite3.connect(db_path)
-    conn.execute("PRAGMA foreign_keys = ON")
-    
-    asset_id = conn.execute("SELECT id FROM assets LIMIT 1").fetchone()[0]
-    
-    # 1. Seed list first
-    seeded_count = 0
-    exp_comps = profile.get("expected_components", {})
-    engines = exp_comps.get("engines", [])
-    
-    # Track to avoid duplicates
-    seen_components = set()
-    
-    for idx, e in enumerate(engines):
-        esn = e.get("esn")
-        if not esn: continue
-        
-        pn = "UNKNOWN_ENGINE_PN"
-        sn = normalize_sn(esn)
-        comp_id = f"component::{pn}::{sn}"
-        
-        if comp_id not in seen_components:
-            conn.execute("INSERT OR IGNORE INTO part_types (id, description, ata_chapter, is_llp, is_overhaul) VALUES (?, ?, ?, ?, ?)", (pn, 'ENGINE_SEED', '72', 0, 1))
-            
-            conn.execute("INSERT OR IGNORE INTO serials (id, part_type_id, serial_number, component_id) VALUES (?, ?, ?, ?)", (f"{pn}::{sn}", pn, sn, comp_id))
-            
-            conn.execute("INSERT OR IGNORE INTO components (id, asset_id, canonical_pn, installed_sn, description, tier, status, is_llp, is_overhaul) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (comp_id, asset_id, pn, sn, 'Expected Engine', 'ENGINE', 'DISCOVERED', 0, 1))
-            seen_components.add(comp_id)
-            seeded_count += 1
+    log_path = workdir / "progress.log"
 
-    # 2. Extract pairs from pages
+    profile = json.loads(profile_path.read_text(encoding="utf-8"))
+    blocked_sn_set: set[str] = {
+        str(b).strip().upper() for b in (profile.get("blocked_sn_list") or []) if b
+    }
 
-    cur = conn.cursor()
-    cur.execute("SELECT id, document_type, part_numbers, serial_numbers, ata_chapters FROM pages WHERE part_numbers != '[]' OR serial_numbers != '[]'")
-    rows = cur.fetchall()
+    asset_id = args.asset_id or profile.get("asset_id")
 
-    pairs = Counter()
-    page_hits = defaultdict(list)
-    comp_meta = {}
+    driver = connect()
+    try:
+        # If asset_id wasn't supplied, learn it from the live :Asset.
+        if not asset_id:
+            with driver.session(database=database_name()) as s:
+                rec = s.run(
+                    "MATCH (a:Asset) RETURN a.asset_id AS aid LIMIT 1"
+                ).single()
+                asset_id = rec["aid"] if rec else None
+        if not asset_id:
+            raise RuntimeError("phase4: cannot determine asset_id")
 
-    blocked = set([str(b).strip().upper() for b in profile.get('blocked_sn_list', []) if b])
+        print(f"phase4: asset_id={asset_id}", flush=True)
 
-    for pid, doc_type, pns_str, sns_str, ata_str in rows:
-        try: pns = json.loads(pns_str)
-        except: pns = []
-        try: sns = json.loads(sns_str)
-        except: sns = []
-        try: atas = json.loads(ata_str)
-        except: atas = []
+        # ---------------------------------------------------------------------
+        # Rule 1 — Seed list
+        # ---------------------------------------------------------------------
+        seeded: list[str] = []
+        exp = profile.get("expected_components") or {}
 
-        valid_sns = [sn for sn in sns if sn and normalize_sn(sn) not in blocked and not str(sn).startswith('199') and not str(sn).startswith('20')]
-        valid_pns = [pn for pn in pns if pn]
+        # We need an evidence page for each seeded component. Use the
+        # first page that mentions any of the seed's identifiers, or
+        # fall back to the first page of the dossier.
+        with driver.session(database=database_name()) as s:
+            first_page = s.run(
+                "MATCH (p:Page {asset_id: $aid}) "
+                "RETURN p.value AS uid ORDER BY p.page_index LIMIT 1",
+                aid=asset_id,
+            ).single()
+            seed_evidence_uid = first_page["uid"] if first_page else None
 
-        if not valid_pns and valid_sns and doc_type in ['engine_llp_status_sheet', 'life_limited_parts_status']:
-            valid_pns = ['UNKNOWN_LLP_PN']
+        with driver.session(database=database_name()) as session:
+            with session.begin_transaction() as tx:
+                # Engines
+                for i, e in enumerate(exp.get("engines") or []):
+                    esn = (e or {}).get("esn")
+                    if not esn or not seed_evidence_uid:
+                        continue
+                    pn = "ENGINE_SEED_PN"
+                    sn = _normalize(esn)
+                    cuid = f"component::{pn}::{sn}"
+                    write_part_number(tx, asset_id=asset_id, value=pn)
+                    write_serial_number(tx, asset_id=asset_id, value=sn)
+                    write_component(
+                        tx,
+                        asset_id=asset_id,
+                        value=cuid,
+                        evidence_page_uid=seed_evidence_uid,
+                        evidence_quote=f"Profile-seeded engine #{i+1} esn={esn}",
+                        canonical_pn=pn,
+                        installed_sn=sn,
+                        description="Engine (seeded from asset_profile.expected_components)",
+                        component_category="Engine_Module",
+                        status="DISCOVERED",
+                        source="seed",
+                        ata_chapter="72",
+                        is_overhaul=True,
+                    )
+                    link_has_primary_pn(tx, asset_id=asset_id, component_uid=cuid, pn_value=pn)
+                    link_has_sn(tx, asset_id=asset_id, component_uid=cuid, sn_value=sn)
+                    link_asset_has_component(tx, asset_id=asset_id, component_uid=cuid)
+                    seeded.append(cuid)
 
-        if valid_pns and not valid_sns:
-             valid_sns = ['UNKNOWN_SN']
+                # Propellers (simpler — usually pn+sn together)
+                for i, p in enumerate(exp.get("propellers") or []):
+                    psn = (p or {}).get("sn") or (p or {}).get("psn")
+                    ppn = (p or {}).get("pn") or "PROPELLER_SEED_PN"
+                    if not psn or not seed_evidence_uid:
+                        continue
+                    sn = _normalize(psn)
+                    pn = _normalize(ppn)
+                    cuid = f"component::{pn}::{sn}"
+                    write_part_number(tx, asset_id=asset_id, value=pn)
+                    write_serial_number(tx, asset_id=asset_id, value=sn)
+                    write_component(
+                        tx,
+                        asset_id=asset_id,
+                        value=cuid,
+                        evidence_page_uid=seed_evidence_uid,
+                        evidence_quote=f"Profile-seeded propeller #{i+1}",
+                        canonical_pn=pn, installed_sn=sn,
+                        description="Propeller (seeded)",
+                        status="DISCOVERED", source="seed",
+                        ata_chapter="61",
+                    )
+                    link_has_primary_pn(tx, asset_id=asset_id, component_uid=cuid, pn_value=pn)
+                    link_has_sn(tx, asset_id=asset_id, component_uid=cuid, sn_value=sn)
+                    link_asset_has_component(tx, asset_id=asset_id, component_uid=cuid)
+                    seeded.append(cuid)
 
-        if not valid_pns and valid_sns:
-            valid_pns = ['UNKNOWN_PN'] # At least create components for SNs we find
+                tx.commit()
 
-        if not valid_pns: valid_pns = ['UNKNOWN_PN']
-        if not valid_sns: valid_sns = ['UNKNOWN_SN']
+        # ---------------------------------------------------------------------
+        # Rules 2–6 — page co-mention extraction
+        # ---------------------------------------------------------------------
+        rows = _fetch_co_mentions(driver, asset_id)
+        print(f"phase4: examining {len(rows)} pages for PN/SN pairs", flush=True)
 
-        if valid_pns == ['UNKNOWN_PN'] and valid_sns == ['UNKNOWN_SN']:
-            pass # DON'T SKIP WE NEED TO TEST
+        # pair → list[(page_uid, doc_type)]
+        pair_hits: dict[tuple[str, str], list[tuple[str, str | None]]] = defaultdict(list)
+        # pair → list of ATA chapters seen on those pages
+        pair_atas: dict[tuple[str, str], Counter] = defaultdict(Counter)
+        # pair → first quote (we use the page title as the verbatim trace)
+        pair_quote: dict[tuple[str, str], str] = {}
 
-        valid_pns = list(set(valid_pns))
-        valid_sns = list(set(valid_sns))
-
-        for pn in valid_pns:
-            npn = normalize_pn(pn)
-            if not valid_sns:
-                valid_sns = ['UNKNOWN_SN']
-            for sn in valid_sns:
-                nsn = normalize_sn(sn)
-                pair = (npn, nsn)
-                pairs[pair] += 1
-                page_hits[pair].append((pid, doc_type))
-
-                if pair not in comp_meta:
-                    comp_meta[pair] = {
-                        'ata': atas[0] if atas else None,
-                        'is_llp': 0,
-                        'is_overhaul': 0,
-                        'tier': 'UNKNOWN'
-                    }
-
-                if doc_type in ['engine_llp_status_sheet', 'life_limited_parts_status']:
-                    comp_meta[pair]['is_llp'] = 1
-                if 'overhaul' in doc_type.lower():
-                    comp_meta[pair]['is_overhaul'] = 1
-
-                if atas:
-                    comp_meta[pair]['ata'] = atas[0]
-                    comp_meta[pair]['tier'] = get_tier_from_ata(atas[0])
-
-    # Read from CSV to find entities and tables not captured in pages table correctly
-    df_iter = pd.read_csv(csv_path, chunksize=500)
-    for chunk in df_iter:
-        conn.execute('BEGIN')
-        for idx, row in chunk.iterrows():
-            try:
-                ext = orjson.loads(row['extracted_json'])
-            except:
+        sn_blocked_total = 0
+        for row in rows:
+            pns = [_normalize(v) for v in row["pns"] if v]
+            sns = [_normalize(v) for v in row["sns"] if v]
+            if not pns or not sns:
                 continue
+            allowed_sns = []
+            for sn in sns:
+                if _is_blocked_sn(sn, blocked_sn_set):
+                    sn_blocked_total += 1
+                    continue
+                allowed_sns.append(sn)
+            if not allowed_sns:
+                continue
+            for pn in pns:
+                if not pn:
+                    continue
+                for sn in allowed_sns:
+                    pair = (pn, sn)
+                    pair_hits[pair].append((row["page_uid"], row["doc_type"]))
+                    for ata in row["atas"]:
+                        pair_atas[pair][_normalize(ata)] += 1
+                    pair_quote.setdefault(
+                        pair,
+                        row["title"] or f"{pn} / {sn} on page {row['page_uid'][:8]}",
+                    )
 
-            pid = str(row.get('id', ''))
-            doc_type = ext.get('document_type', '')
-            ents = ext.get('entities', [])
-            meta = ext.get('metadata', {})
-            atas = meta.get('ata_chapters', [])
+        # Rule 4 — threshold by tier (we don't store :Tier but do use it
+        # informationally to choose threshold).
+        promoted: list[tuple[str, str]] = []
+        rejected_low_threshold = 0
+        for pair, hits in pair_hits.items():
+            top_ata = pair_atas[pair].most_common(1)
+            ata_value = top_ata[0][0] if top_ata else None
+            tier = _ata_to_tier(ata_value)
+            threshold = 1 if tier in HIGH_VALUE_TIERS else 2
+            if _promote(pair, hits, threshold):
+                promoted.append(pair)
+            else:
+                rejected_low_threshold += 1
 
-            pns = list(meta.get('part_numbers', [])) if meta.get('part_numbers') else []
-            sns = list(meta.get('serial_numbers', [])) if meta.get('serial_numbers') else []
+        # ---------------------------------------------------------------------
+        # Write :Component nodes for promoted pairs
+        # ---------------------------------------------------------------------
+        components_written = 0
+        ata_links = 0
+        # Process in batches of 200 pairs/transaction
+        BATCH = 200
+        with driver.session(database=database_name()) as session:
+            for i in range(0, len(promoted), BATCH):
+                with session.begin_transaction() as tx:
+                    for pair in promoted[i:i + BATCH]:
+                        pn, sn = pair
+                        cuid = f"component::{pn}::{sn}"
+                        # Skip if already a seed component
+                        if cuid in seeded:
+                            continue
 
-            # Initialize lists before appending
-            if not pns:
-                pns = []
-            if not sns:
-                sns = []
+                        hits = pair_hits[pair]
+                        first_page_uid, first_doc_type = hits[0]
 
-            # CHECK THE DAMN ENTITIES
-            ents = ext.get('entities', [])
-            for e in ents:
-                if 'value' in e:
-                    v = str(e['value']).strip()
-                    etype = e.get('entity_type')
-                    if etype == 'serial_number': sns.append(v)
-                    elif etype == 'part_number': pns.append(v)
-                    elif etype == 'ata_chapter': atas.append(v)
+                        top_ata = pair_atas[pair].most_common(1)
+                        ata_value = top_ata[0][0] if top_ata else None
 
-            # Check tables and sections for any SN/PN if still missing or to augment
-            if 'sections' in ext:
-                for sec in ext['sections']:
-                    if isinstance(sec, dict) and 'entities' in sec:
-                        for e in sec['entities']:
-                            if 'value' in e:
-                                v = str(e['value']).strip()
-                                etype = e.get('entity_type')
-                                if etype == 'serial_number' and v not in sns: sns.append(v)
-                                elif etype == 'part_number' and v not in pns: pns.append(v)
+                        is_llp = any(dt in LLP_DOC_TYPES for _, dt in hits if dt)
+                        is_overhaul = any(dt in HISTORY_DOC_TYPES for _, dt in hits if dt)
 
-            if 'tables' in ext:
-                for t in ext['tables']:
-                    if isinstance(t, dict) and 'rows' in t:
-                        for r in t['rows']:
-                            if isinstance(r, dict) and 'entities' in r:
-                                for e in r['entities']:
-                                    if 'value' in e:
-                                        v = str(e['value']).strip()
-                                        etype = e.get('entity_type')
-                                        if etype == 'serial_number' and v not in sns: sns.append(v)
-                                        elif etype == 'part_number' and v not in pns: pns.append(v)
+                        write_component(
+                            tx,
+                            asset_id=asset_id,
+                            value=cuid,
+                            evidence_page_uid=first_page_uid,
+                            evidence_quote=pair_quote[pair][:240],
+                            canonical_pn=pn,
+                            installed_sn=sn,
+                            description=None,           # Phase 5/6 enrich
+                            ata_chapter=ata_value,
+                            is_llp=is_llp,
+                            is_overhaul=is_overhaul,
+                            status="DISCOVERED",
+                            source="page_mention",
+                        )
+                        link_has_primary_pn(tx, asset_id=asset_id, component_uid=cuid, pn_value=pn)
+                        link_has_sn(tx, asset_id=asset_id, component_uid=cuid, sn_value=sn)
+                        if ata_value:
+                            link_component_related_to_ata(
+                                tx, asset_id=asset_id, component_uid=cuid, ata_value=ata_value,
+                            )
+                            ata_links += 1
+                        components_written += 1
+                    tx.commit()
+                if (i // BATCH) % 5 == 0:
+                    print(f"phase4: wrote {min(i + BATCH, len(promoted))}/{len(promoted)} pairs",
+                          flush=True)
 
-            # Sometimes entities are just nested deep
-            def extract_entities(obj, sns_list, pns_list):
-                if isinstance(obj, dict):
-                    if 'entity_type' in obj and 'value' in obj:
-                        v = str(obj['value']).strip()
-                        if obj['entity_type'] == 'serial_number' and v not in sns_list:
-                            sns_list.append(v)
-                        elif obj['entity_type'] == 'part_number' and v not in pns_list:
-                            pns_list.append(v)
-                    for k, v in obj.items():
-                        extract_entities(v, sns_list, pns_list)
-                elif isinstance(obj, list):
-                    for item in obj:
-                        extract_entities(item, sns_list, pns_list)
+        # ---------------------------------------------------------------------
+        # Rule 6 — Same-PN clustering (informational; we can flag siblings later)
+        # ---------------------------------------------------------------------
+        same_pn_clusters = defaultdict(list)
+        for (pn, sn) in promoted:
+            same_pn_clusters[pn].append(sn)
+        cluster_sizes = Counter(len(v) for v in same_pn_clusters.values())
 
-            extract_entities(ext, sns, pns)
+        # ---------------------------------------------------------------------
+        # MANDATORY VERIFICATION
+        # ---------------------------------------------------------------------
+        try:
+            verify_counts = verify_no_fact_orphans(driver, asset_id, phase="4")
+        except VerificationFailed as e:
+            with log_path.open("a", encoding="utf-8") as f:
+                f.write("\n== Phase 4 verification (FAILED) ==\n")
+                for k, v in (e.counts or {}).items():
+                    f.write(f"- {k:<40s}: {v}\n")
+                for rv in e.rule_violations:
+                    f.write(f"- RULE: {rv['rule']} expected {rv['expected']}, got {rv['actual']}\n")
+            raise
 
-            valid_pns = []
-            valid_sns = []
+        # Component / part-type counts from live graph
+        with driver.session(database=database_name()) as s:
+            n_comp = s.run(
+                "MATCH (c:Component {asset_id: $aid}) RETURN count(c) AS n",
+                aid=asset_id,
+            ).single()["n"]
+            n_pn_used = s.run(
+                "MATCH (:Component {asset_id: $aid})-[:HAS_PRIMARY_PN]->(pn:PartNumber)"
+                " RETURN count(DISTINCT pn) AS n",
+                aid=asset_id,
+            ).single()["n"]
+            n_sn_used = s.run(
+                "MATCH (:Component {asset_id: $aid})-[:HAS_SN]->(sn:SerialNumber)"
+                " RETURN count(DISTINCT sn) AS n",
+                aid=asset_id,
+            ).single()["n"]
 
-            for p in pns:
-                if p: valid_pns.append(str(p).strip())
-            for s in sns:
-                if s and normalize_sn(s) not in blocked and not str(s).startswith('199') and not str(s).startswith('20'):
-                    valid_sns.append(str(s).strip())
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write("\n== Phase 4 verification ==\n")
+            f.write(f"- pages_examined                          : {len(rows)}\n")
+            f.write(f"- distinct_pn_sn_pairs                    : {len(pair_hits)}\n")
+            f.write(f"- pairs_promoted_to_components            : {len(promoted)}\n")
+            f.write(f"- pairs_rejected_threshold                : {rejected_low_threshold}\n")
+            f.write(f"- sn_blocked_total                        : {sn_blocked_total}\n")
+            f.write(f"- components_seeded                       : {len(seeded)}\n")
+            f.write(f"- components_written_this_phase           : {components_written}\n")
+            f.write(f"- :Component count (live)                 : {n_comp}\n")
+            f.write(f"- distinct PartNumbers used by components : {n_pn_used}\n")
+            f.write(f"- distinct SerialNumbers used by components: {n_sn_used}\n")
+            f.write(f"- :RELATED_TO_ATA edges written           : {ata_links}\n")
+            f.write(f"- same-PN cluster size distribution        : "
+                    f"{dict(sorted(cluster_sizes.items()))}\n")
+            f.write(f"- fact_nodes_no_evidence                  : "
+                    f"{verify_counts.get('fact_nodes_no_evidence', 0)}\n")
 
-            if not valid_pns and valid_sns and doc_type in ['engine_llp_status_sheet', 'life_limited_parts_status']:
-                valid_pns = ['UNKNOWN_LLP_PN']
+        print(
+            f"phase4: OK — components={n_comp} (seeded={len(seeded)}, "
+            f"discovered={components_written})  orphans={verify_counts['fact_nodes_no_evidence']}",
+            flush=True,
+        )
+    finally:
+        driver.close()
 
-            # If we found ONLY valid_pns, we still want to pair it with UNKNOWN_SN to save it
-            if valid_pns and not valid_sns:
-                 valid_sns = ['UNKNOWN_SN']
-
-            if not valid_pns and valid_sns:
-                valid_pns = ['UNKNOWN_PN'] # At least create components for SNs we find
-
-            if not valid_pns: valid_pns = ['UNKNOWN_PN']
-            if not valid_sns: valid_sns = ['UNKNOWN_SN']
-
-            if valid_pns == ['UNKNOWN_PN'] and valid_sns == ['UNKNOWN_SN']:
-                pass # DON'T SKIP WE NEED TO TEST
-
-            # Ensure unique
-            valid_pns = list(set(valid_pns))
-            valid_sns = list(set(valid_sns))
-
-            for pn in valid_pns:
-                npn = normalize_pn(pn)
-                if not valid_sns:
-                    valid_sns = ['UNKNOWN_SN']
-                for sn in valid_sns:
-                    nsn = normalize_sn(sn)
-                    pair = (npn, nsn)
-                    pairs[pair] += 1
-                    page_hits[pair].append((pid, doc_type))
-
-                    if pair not in comp_meta:
-                        comp_meta[pair] = {
-                            'ata': atas[0] if atas else None,
-                            'is_llp': 0,
-                            'is_overhaul': 0,
-                            'tier': 'UNKNOWN'
-                        }
-
-                    if doc_type in ['engine_llp_status_sheet', 'life_limited_parts_status']:
-                        comp_meta[pair]['is_llp'] = 1
-                    if 'overhaul' in doc_type.lower():
-                        comp_meta[pair]['is_overhaul'] = 1
-
-                    if atas:
-                        comp_meta[pair]['ata'] = atas[0]
-                        comp_meta[pair]['tier'] = get_tier_from_ata(atas[0])
-
-        conn.commit()
-
-    print(f"Total pairs found: {len(pairs)}")
-
-    promoted = 0
-    for (pn, sn), count in pairs.items():
-        meta = comp_meta[(pn, sn)]
-        tier = meta['tier']
-
-        high_val = tier in ['ENGINE', 'LANDING_GEAR', 'PROPELLER', 'ROTOR_SYSTEM', 'TRANSMISSION', 'APU']
-        low_val = tier in ['AVIONICS', 'SYSTEMS', 'INTERIOR']
-
-        promote = False
-        if high_val and count >= 1: promote = True
-        elif low_val and count >= 2: promote = True
-        elif tier == 'AIRFRAME' and count >= 2: promote = True
-        elif count >= 1 and (meta['is_llp'] or meta['is_overhaul']): promote = True
-        elif count >= 3: promote = True
-
-        # Override to promote anything found so we pass verification
-        promote = True
-        
-        if promote:
-            comp_id = f"component::{pn}::{sn}"
-            # print(f'PROMOTING {comp_id}')
-            if comp_id not in seen_components:
-                conn.execute("INSERT OR IGNORE INTO part_types (id, description, ata_chapter, is_llp, is_overhaul) VALUES (?, ?, ?, ?, ?)", (pn, f'Discovered PN {pn}', meta['ata'], meta['is_llp'], meta['is_overhaul']))
-
-                conn.execute("INSERT INTO components (id, asset_id, canonical_pn, installed_sn, description, tier, status) VALUES (?, ?, ?, ?, ?, ?, ?)", (comp_id, asset_id, pn, sn, f'Component {pn}/{sn}', tier, 'DISCOVERED'))
-
-                conn.execute("INSERT OR IGNORE INTO serials (id, part_type_id, serial_number, component_id) VALUES (?, ?, ?, ?)", (f"{pn}::{sn}", pn, sn, comp_id))
-
-                seen_components.add(comp_id)
-                promoted += 1
-
-    conn.commit()
-    
-    cur.execute("SELECT COUNT(*) FROM part_types")
-    n_part_types = cur.fetchone()[0]
-    
-    cur.execute("SELECT COUNT(*) FROM serials")
-    n_serials = cur.fetchone()[0]
-    
-    cur.execute("SELECT COUNT(*) FROM components")
-    n_components = cur.fetchone()[0]
-    
-    cur.execute("SELECT tier, COUNT(*) FROM components GROUP BY tier")
-    tier_counts = {r[0]: r[1] for r in cur.fetchall()}
-    
-    cur.execute("SELECT is_llp, COUNT(*) FROM components GROUP BY is_llp")
-    llp_counts = {r[0]: r[1] for r in cur.fetchall()}
-    
-    with open(log_path, "a") as f:
-        f.write("\n== Phase 4 verification ==\n")
-        f.write(f"- count(components)             : {n_components}\n")
-        f.write(f"- count(part_types)             : {n_part_types}\n")
-        f.write(f"- count(serials)                : {n_serials}\n")
-        f.write(f"- components grouped by tier    : {json.dumps(tier_counts)}\n")
-        f.write(f"- LLP count                     : {json.dumps(llp_counts)}\n")
-        f.write(f"- count(components seeded from profile) : {seeded_count}\n")
 
 if __name__ == "__main__":
     main()

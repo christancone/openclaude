@@ -1,58 +1,95 @@
+"""Phase viz — generates the panel-only asset_graph.html.
+
+The new viz pipeline (Q14b) splits responsibilities:
+    - Graph exploration → Neo4j Browser at http://localhost:7474
+    - Audit panels (Critical Items, Mandatory Checklist, Audit Quality,
+      Lease-return banner) → asset_graph.html, which fetches
+      graph_export.json and renders four panels.
+
+This phase substitutes ``{{ASSET_TITLE}}`` in the template and writes
+asset_graph.html into the workdir. No other transformations.
+"""
+
+from __future__ import annotations
+
 import argparse
 import json
-import sqlite3
-import os
+import sys
 from pathlib import Path
 
-def run():
-    p = argparse.ArgumentParser()
-    p.add_argument('--workdir',  default='.')
-    p.add_argument('--template', default='D:/work/openclaude/sparengine-export/asset_graph_sample.html')
-    args = p.parse_args()
 
-    workdir       = Path(args.workdir).resolve()
-    template_path = Path(args.template)
-    export_path   = workdir / 'graph_export.json'
-    db_path       = workdir / 'graph.db'
-    out_path      = workdir / 'asset_graph.html'
+def _bootstrap_graph_dal() -> None:
+    here = Path(__file__).resolve()
+    for parent in [here.parent, *here.parents]:
+        candidate = parent / "sparengine-export" / "graph_dal"
+        if candidate.is_dir():
+            sys.path.insert(0, str(candidate.parent))
+            return
+    raise RuntimeError("phase_viz.py: could not locate graph_dal")
 
-    # 1. Verify inputs.
-    assert template_path.exists(), f"Template missing: {template_path}"
-    assert export_path.exists(),   f"graph_export.json missing"
-    assert db_path.exists(),       f"graph.db missing"
 
-    # 2. Build asset title from the assets row.
-    conn = sqlite3.connect(db_path)
-    row  = conn.execute("""
-        SELECT asset_kind, type_designation, registration, msn, primary_serial
-        FROM assets LIMIT 1
-    """).fetchone()
-    asset_kind, type_designation, registration, msn, primary_serial = row
+_bootstrap_graph_dal()
 
-    parts = []
-    if type_designation: parts.append(type_designation)
-    if registration:     parts.append(registration)
-    if msn:
-        parts.append(f"ESN {msn}" if asset_kind == 'ENGINE' else f"MSN {msn}")
-    elif primary_serial:
-        parts.append(primary_serial)
-    asset_title = ' '.join(parts) if parts else 'Aviation Asset'
 
-    # 3. Read template, substitute, write.
-    template_html = template_path.read_text(encoding='utf-8')
-    out_html = template_html.replace('{{ASSET_TITLE}}', asset_title)
-    out_path.write_text(out_html, encoding='utf-8')
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--workdir", required=True)
+    parser.add_argument(
+        "--template", required=False,
+        default="/app/sparengine-export/asset_graph_template_panels.html",
+        help="Path to the panel template HTML.",
+    )
+    args = parser.parse_args()
 
-    # log
-    s_tmp = os.path.getsize(template_path)
-    s_out = os.path.getsize(out_path)
-    
-    with open(workdir / "progress.log", "a") as f:
+    workdir = Path(args.workdir).resolve()
+    log_path = workdir / "progress.log"
+
+    template_path = Path(args.template).resolve()
+    if not template_path.exists():
+        # Try a relative fallback (works when running from a checkout).
+        here = Path(__file__).resolve()
+        for parent in [here.parent, *here.parents]:
+            cand = parent / "sparengine-export" / "asset_graph_template_panels.html"
+            if cand.exists():
+                template_path = cand
+                break
+    if not template_path.exists():
+        raise FileNotFoundError(
+            f"phase_viz: template not found at {args.template}. "
+            f"Pass --template to point at sparengine-export/asset_graph_template_panels.html"
+        )
+
+    # Pick a title from graph_export.json if available
+    title = "Sparengine asset"
+    export_json = workdir / "graph_export.json"
+    if export_json.exists():
+        try:
+            data = json.loads(export_json.read_text(encoding="utf-8"))
+            asset = data.get("asset") or {}
+            title = (
+                asset.get("name") or asset.get("registration") or asset.get("msn")
+                or asset.get("value") or "Sparengine asset"
+            )
+        except Exception:
+            pass
+
+    template = template_path.read_text(encoding="utf-8")
+    html = template.replace("{{ASSET_TITLE}}", str(title))
+
+    out_path = workdir / "asset_graph.html"
+    out_path.write_text(html, encoding="utf-8")
+
+    with log_path.open("a", encoding="utf-8") as f:
         f.write("\n== Phase viz verification ==\n")
-        f.write(f"- asset_graph.html exists                : yes\n")
-        f.write(f"- asset_graph.html size                  : {s_out}\n")
-        f.write(f"- title substituted                      : yes\n")
-        f.write(f"- bytes diff (template vs output)        : {abs(s_out - s_tmp)}\n")
+        f.write(f"- template                : {template_path}\n")
+        f.write(f"- output                  : {out_path}\n")
+        f.write(f"- output size             : {out_path.stat().st_size}\n")
+        f.write(f"- substituted title       : {title}\n")
+        f.write("- graph viz proper        : Neo4j Browser at http://localhost:7474\n")
 
-if __name__ == '__main__':
-    run()
+    print(f"phase_viz: OK — wrote {out_path} ({out_path.stat().st_size} bytes)",
+          flush=True)
+
+
+if __name__ == "__main__":
+    main()

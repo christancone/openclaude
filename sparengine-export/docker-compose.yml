@@ -46,6 +46,12 @@ services:
       # is replaceable via `restore.cypher` replay.
       - sparengine-csvs:/app/csvs
 
+      # Read-only shared mount of the neo4j-import volume so Phase 10's
+      # post-export sanitiser (graph_dal.export.sanitize_restore_cypher_inplace)
+      # can edit the restore.cypher file APOC just wrote, before copying
+      # it into the asset workdir.
+      - neo4j-import:/app/neo4j-import
+
       # Claude Code OAuth cache. Mount only when AGENT_CLI=claude (Pro/Max
       # subscription auth needs to survive restarts). For AGENT_CLI=openclaude
       # (default), leave this commented — no auth state to save, and the
