@@ -7,7 +7,7 @@
 #
 # This brings up THREE services:
 #   - neo4j        — Neo4j Community 5.26 with APOC, ports 7474/7687 on localhost
-#   - neo4j-init   — one-shot container that applies phases/schema.cypher
+#   - neo4j-init   — one-shot container that applies phases/cypher/schema.cypher
 #   - sparengine   — the orchestrator on :2001 that spawns the audit agent
 #
 # The detailed-comment version of this same configuration is at
@@ -102,15 +102,15 @@ services:
 
   neo4j-init:
     # One-shot init container. Runs after neo4j is healthy, applies
-    # phases/schema.cypher (idempotent), chowns /import so APOC exports can
-    # write later, then exits. Sparengine waits on this completing.
+    # phases/cypher/schema.cypher (idempotent), chowns /import so APOC exports
+    # can write later, then exits. Sparengine waits on this completing.
     image: neo4j:5.26-community
     depends_on:
       neo4j:
         condition: service_healthy
     volumes:
       - neo4j-import:/import
-      - ./sparengine-export/phases:/sparengine-phases:ro
+      - ./sparengine-export/phases/cypher:/sparengine-cypher:ro
     environment:
       HEALTHCHECK_PASSWORD: "${NEO4J_PASSWORD}"
     user: "0"
@@ -119,8 +119,8 @@ services:
       - -c
       - |
         set -e
-        cp /sparengine-phases/schema.cypher  /import/schema.cypher
-        cp /sparengine-phases/captions.cypher /import/captions.cypher
+        cp /sparengine-cypher/schema.cypher  /import/schema.cypher
+        cp /sparengine-cypher/captions.cypher /import/captions.cypher
         chown -R 7474:7474 /import
         cypher-shell -a bolt://neo4j:7687 -u neo4j -p "$$HEALTHCHECK_PASSWORD" \
             -f /import/schema.cypher

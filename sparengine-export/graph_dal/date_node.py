@@ -16,6 +16,7 @@ from datetime import date, datetime
 from typing import Any
 
 from .errors import GoldenRuleViolation
+from ._phase_tag import current_phase
 
 
 _LINK_DATE_CYPHER = """
@@ -23,7 +24,8 @@ MATCH (src {asset_id: $asset_id, value: $source_uid})
 WHERE $source_label IN labels(src)
 WITH src
 MERGE (d:Date {asset_id: $asset_id, iso: $iso})
-ON CREATE SET d.year = $year, d.month = $month, d.day = $day, d.dow = $dow
+ON CREATE SET d.year = $year, d.month = $month, d.day = $day, d.dow = $dow,
+              d.created_in_phase = $created_in_phase
 MERGE (src)-[r:ON_DATE {role: $role}]->(d)
 RETURN d.iso AS iso
 """
@@ -171,6 +173,7 @@ def link_date(
         day=d.day,
         dow=d.isoweekday(),  # 1 = Monday ... 7 = Sunday (ISO weekday)
         role=role,
+        created_in_phase=current_phase(),
     )
     record = result.single()
     if record is None:

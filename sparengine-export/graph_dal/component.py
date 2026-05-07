@@ -22,6 +22,7 @@ from __future__ import annotations
 from typing import Any
 
 from ._evidence_helpers import link_evidenced_by, require_evidence
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -45,7 +46,8 @@ ON CREATE SET c.canonical_pn        = $canonical_pn,
               c.tsn                  = $tsn,
               c.csn                  = $csn,
               c.tso                  = $tso,
-              c.cso                  = $cso
+              c.cso                  = $cso,
+              c.created_in_phase = $created_in_phase
 ON MATCH  SET c.canonical_pn        = coalesce($canonical_pn, c.canonical_pn),
               c.installed_sn         = coalesce($installed_sn, c.installed_sn),
               c.description          = coalesce($description, c.description),
@@ -103,6 +105,7 @@ def write_component(
         ata_chapter=ata_chapter, is_llp=is_llp, is_overhaul=is_overhaul,
         life_limit=life_limit, life_unit=life_unit,
         tsn=tsn, csn=csn, tso=tso, cso=cso,
+        created_in_phase=current_phase(),
     ).consume()
     link_evidenced_by(
         tx, asset_id=asset_id, source_uid=value, source_label="Component",
@@ -244,7 +247,8 @@ def link_part_number_superseded_by(
 
 _WRITE_PART_FAMILY_CYPHER = """
 MERGE (pf:PartFamily {asset_id: $asset_id, value: $value})
-ON CREATE SET pf.description = $description, pf.tc_scope = $tc_scope
+ON CREATE SET pf.description = $description, pf.tc_scope = $tc_scope,
+              pf.created_in_phase = $created_in_phase
 ON MATCH  SET pf.description = coalesce($description, pf.description),
               pf.tc_scope    = coalesce($tc_scope, pf.tc_scope)
 RETURN pf.value AS value
@@ -259,6 +263,7 @@ def write_part_family(
         _WRITE_PART_FAMILY_CYPHER,
         asset_id=asset_id, value=value,
         description=description, tc_scope=tc_scope,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 

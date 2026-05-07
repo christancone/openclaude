@@ -23,6 +23,7 @@ Long-tail collapse:
 from __future__ import annotations
 
 from typing import Any
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -34,7 +35,8 @@ from typing import Any
 
 _WRITE_PART_NUMBER_CYPHER = """
 MERGE (n:PartNumber {asset_id: $asset_id, value: $value})
-ON CREATE SET n.manufacturer = $manufacturer
+ON CREATE SET n.manufacturer = $manufacturer,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.manufacturer = coalesce($manufacturer, n.manufacturer)
 RETURN n.value AS value
 """
@@ -50,6 +52,7 @@ def write_part_number(
     record = tx.run(
         _WRITE_PART_NUMBER_CYPHER,
         asset_id=asset_id, value=value, manufacturer=manufacturer,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -61,13 +64,15 @@ RETURN n.value AS value
 
 
 def write_serial_number(tx: Any, *, asset_id: str, value: str) -> str:
-    record = tx.run(_WRITE_SERIAL_NUMBER_CYPHER, asset_id=asset_id, value=value).single()
+    record = tx.run(_WRITE_SERIAL_NUMBER_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).single()
     return record["value"] if record else value
 
 
 _WRITE_CERTIFICATE_NUMBER_CYPHER = """
 MERGE (n:CertificateNumber {asset_id: $asset_id, value: $value})
-ON CREATE SET n.cert_type = $cert_type
+ON CREATE SET n.cert_type = $cert_type,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.cert_type = coalesce($cert_type, n.cert_type)
 RETURN n.value AS value
 """
@@ -79,6 +84,7 @@ def write_certificate_number(
     record = tx.run(
         _WRITE_CERTIFICATE_NUMBER_CYPHER,
         asset_id=asset_id, value=value, cert_type=cert_type,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -90,7 +96,8 @@ RETURN n.value AS value
 
 
 def write_purchase_order(tx: Any, *, asset_id: str, value: str) -> str:
-    record = tx.run(_WRITE_PURCHASE_ORDER_CYPHER, asset_id=asset_id, value=value).single()
+    record = tx.run(_WRITE_PURCHASE_ORDER_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).single()
     return record["value"] if record else value
 
 
@@ -101,13 +108,15 @@ RETURN n.value AS value
 
 
 def write_drawing_number(tx: Any, *, asset_id: str, value: str) -> str:
-    record = tx.run(_WRITE_DRAWING_NUMBER_CYPHER, asset_id=asset_id, value=value).single()
+    record = tx.run(_WRITE_DRAWING_NUMBER_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).single()
     return record["value"] if record else value
 
 
 _WRITE_BATCH_NUMBER_CYPHER = """
 MERGE (n:BatchNumber {asset_id: $asset_id, value: $value})
-ON CREATE SET n.sn_range_start = $sn_range_start, n.sn_range_end = $sn_range_end
+ON CREATE SET n.sn_range_start = $sn_range_start, n.sn_range_end = $sn_range_end,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.sn_range_start = coalesce($sn_range_start, n.sn_range_start),
               n.sn_range_end   = coalesce($sn_range_end, n.sn_range_end)
 RETURN n.value AS value
@@ -127,6 +136,7 @@ def write_batch_number(
         _WRITE_BATCH_NUMBER_CYPHER,
         asset_id=asset_id, value=value,
         sn_range_start=sn_range_start, sn_range_end=sn_range_end,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -138,7 +148,8 @@ RETURN n.value AS value
 
 
 def write_tech_log_page(tx: Any, *, asset_id: str, value: str) -> str:
-    record = tx.run(_WRITE_TECH_LOG_PAGE_CYPHER, asset_id=asset_id, value=value).single()
+    record = tx.run(_WRITE_TECH_LOG_PAGE_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).single()
     return record["value"] if record else value
 
 
@@ -169,6 +180,7 @@ def write_reference(
     record = tx.run(
         _WRITE_REFERENCE_CYPHER,
         asset_id=asset_id, ref_type=ref_type, value=value,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -221,43 +233,50 @@ _LINK_MENTIONS_TECHLOG_PAGE_CYPHER = _mention_query("MENTIONS_TECHLOG_PAGE", "Te
 def link_mentions_pn(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_PN_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_sn(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_SN_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_cert(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_CERT_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_po(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_PO_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_drawing(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_DRAWING_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_batch(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_BATCH_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_techlog_page(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_TECHLOG_PAGE_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 _LINK_REFS_CYPHER = """
@@ -265,7 +284,8 @@ MATCH (src {asset_id: $asset_id, value: $source_uid})
 WHERE $source_label IN labels(src)
 MATCH (tgt:Reference {asset_id: $asset_id, ref_type: $ref_type, value: $target_value})
 MERGE (src)-[r:REFS {ref_type: $ref_type}]->(tgt)
-ON CREATE SET r.level = $level
+ON CREATE SET r.level = $level,
+              r.created_in_phase = $created_in_phase
 ON MATCH  SET r.level = $level
 """
 
@@ -286,4 +306,5 @@ def link_refs(
         _LINK_REFS_CYPHER,
         asset_id=asset_id, source_label=source_label, source_uid=source_uid,
         ref_type=ref_type, target_value=target_value, level=level,
+        created_in_phase=current_phase(),
     ).consume()

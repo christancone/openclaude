@@ -50,6 +50,23 @@ FACT_BEARING_LABELS: list[str] = [
     "DentBuckleEntry",
 ]
 
+
+# Run-meta nodes (Layer B + Layer C of the QA system). These describe a
+# *run* — agent quality scorecard, cross-version benchmark, per-phase
+# breakdown — not a piece of audit content. They are explicitly outside
+# the fact-bearing set: a :QualityScorecard pointing at a :Page would be
+# meaningless. Listed here so the contract is reviewable in one place,
+# and to be conservative when adding new run-meta nodes (forgetting to
+# add them here doesn't break anything; the verifier just ignores nodes
+# whose label isn't in FACT_BEARING_LABELS — but keeping the inventory
+# explicit prevents accidental pollution of the fact-bearing set).
+RUN_META_LABELS: list[str] = [
+    "AuditRun",
+    "QualityScorecard",
+    "BenchmarkRun",
+    "PhaseScorecard",
+]
+
 _FACT_ORPHAN_CYPHER = """
 MATCH (n {asset_id: $asset_id})
 WHERE any(l IN labels(n) WHERE l IN $fact_labels)
@@ -160,7 +177,7 @@ def verify_schema(driver: Any) -> dict[str, Any]:
                 "rule": "constraints_present",
                 "expected": "> 0",
                 "actual": 0,
-                "detail": "Run `cypher-shell -f phases/schema.cypher` first.",
+                "detail": "Run `cypher-shell -f phases/cypher/schema.cypher` first.",
             })
         online = fulltext_index_online(s, "page_text")
         counts["page_text_online"] = online

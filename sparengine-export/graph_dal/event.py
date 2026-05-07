@@ -24,6 +24,7 @@ from typing import Any
 
 from ._evidence_helpers import link_evidenced_by, require_evidence
 from .date_node import link_date
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -43,7 +44,8 @@ ON CREATE SET e.kind                      = $kind,
               e.description                 = $description,
               e.task_reference              = $task_reference,
               e.work_order                  = $work_order,
-              e.confidence                  = $confidence
+              e.confidence                  = $confidence,
+              e.created_in_phase = $created_in_phase
 ON MATCH  SET e.kind                      = coalesce($kind, e.kind),
               e.task_compliance_status     = coalesce($task_compliance_status, e.task_compliance_status),
               e.compliance_status_reason   = coalesce($compliance_status_reason, e.compliance_status_reason),
@@ -99,6 +101,7 @@ def write_event(
         tsn_at_event=tsn_at_event, csn_at_event=csn_at_event,
         ac_hours=ac_hours, ac_cycles=ac_cycles,
         confidence=confidence,
+        created_in_phase=current_phase(),
     ).consume()
     link_evidenced_by(
         tx, asset_id=asset_id, source_uid=value, source_label="Event",
@@ -242,7 +245,8 @@ ON CREATE SET s.date                     = $date_iso,
               s.cso                       = $cso,
               s.tsh                       = $tsh,
               s.condition_classification  = $condition,
-              s.status                    = $status
+              s.status                    = $status,
+              s.created_in_phase = $created_in_phase
 ON MATCH  SET s.date                     = coalesce($date_iso, s.date),
               s.tsn                       = coalesce($tsn, s.tsn),
               s.csn                       = coalesce($csn, s.csn),
@@ -285,6 +289,7 @@ def write_component_snapshot(
         asset_id=asset_id, value=value, component_uid=component_uid,
         date_iso=date_iso, tsn=tsn, csn=csn, tso=tso, cso=cso, tsh=tsh,
         condition=condition, status=status,
+        created_in_phase=current_phase(),
     ).consume()
     link_evidenced_by(
         tx, asset_id=asset_id, source_uid=value, source_label="ComponentSnapshot",

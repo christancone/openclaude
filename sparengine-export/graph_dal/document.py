@@ -25,6 +25,7 @@ from __future__ import annotations
 from typing import Any
 
 from .date_node import link_date
+from ._phase_tag import current_phase
 
 
 # -----------------------------------------------------------------------------
@@ -43,7 +44,8 @@ from .date_node import link_date
 
 _WRITE_FOLDER_CYPHER = """
 MERGE (f:Folder {asset_id: $asset_id, value: $value})
-ON CREATE SET f.name = $name
+ON CREATE SET f.name = $name,
+              f.created_in_phase = $created_in_phase
 ON MATCH  SET f.name = coalesce($name, f.name)
 WITH f
 MATCH (a:Asset {asset_id: $asset_id})
@@ -60,14 +62,16 @@ def write_folder(
     name: str | None = None,
 ) -> str:
     record = tx.run(
-        _WRITE_FOLDER_CYPHER, asset_id=asset_id, value=value, name=name
+        _WRITE_FOLDER_CYPHER, asset_id=asset_id, value=value, name=name,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
 
 _WRITE_BOX_CYPHER = """
 MERGE (b:Box {asset_id: $asset_id, value: $value})
-ON CREATE SET b.name = $name
+ON CREATE SET b.name = $name,
+              b.created_in_phase = $created_in_phase
 ON MATCH  SET b.name = coalesce($name, b.name)
 WITH b
 OPTIONAL MATCH (f:Folder {asset_id: $asset_id, value: $folder_value})
@@ -92,13 +96,15 @@ def write_box(
         value=value,
         folder_value=folder_value,
         name=name,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
 
 _WRITE_BINDER_CYPHER = """
 MERGE (b:Binder {asset_id: $asset_id, value: $value})
-ON CREATE SET b.name = $name
+ON CREATE SET b.name = $name,
+              b.created_in_phase = $created_in_phase
 ON MATCH  SET b.name = coalesce($name, b.name)
 WITH b
 OPTIONAL MATCH (box:Box {asset_id: $asset_id, value: $box_value})
@@ -123,6 +129,7 @@ def write_binder(
         value=value,
         box_value=box_value,
         name=name,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -133,7 +140,8 @@ def write_binder(
 
 _WRITE_DOCUMENT_TYPE_CYPHER = """
 MERGE (dt:DocumentType {asset_id: $asset_id, value: $value})
-ON CREATE SET dt.name = $name, dt.schema_enum = $schema_enum
+ON CREATE SET dt.name = $name, dt.schema_enum = $schema_enum,
+              dt.created_in_phase = $created_in_phase
 ON MATCH  SET dt.name = coalesce($name, dt.name),
               dt.schema_enum = coalesce($schema_enum, dt.schema_enum)
 RETURN dt.value AS value
@@ -154,6 +162,7 @@ def write_document_type(
         value=value,
         name=name,
         schema_enum=schema_enum,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -173,7 +182,8 @@ ON CREATE SET d.file_name        = $file_name,
               d.chunk_count      = $chunk_count,
               d.title            = $title,
               d.is_mis_export    = $is_mis_export,
-              d.mis_system       = $mis_system
+              d.mis_system       = $mis_system,
+              d.created_in_phase = $created_in_phase
 ON MATCH  SET d.file_name        = coalesce($file_name, d.file_name),
               d.document_type    = coalesce($document_type, d.document_type),
               d.schema_enum      = coalesce($schema_enum, d.schema_enum),
@@ -232,6 +242,7 @@ def write_document(
         is_mis_export=is_mis_export,
         mis_system=mis_system,
         binder_value=binder_value,
+        created_in_phase=current_phase(),
     ).single()
     if record is None:
         raise RuntimeError(f"write_document: MERGE returned no record (value={value!r})")
@@ -264,7 +275,8 @@ ON CREATE SET p.page_index             = $page_index,
               p.s3_key                 = $s3_key,
               p.original_path          = $original_path,
               p.text                   = $text,
-              p.title                  = $title
+              p.title                  = $title,
+              p.created_in_phase = $created_in_phase
 ON MATCH  SET p.page_index             = coalesce($page_index, p.page_index),
               p.file_type              = coalesce($file_type, p.file_type),
               p.is_blank               = coalesce($is_blank, p.is_blank),
@@ -331,6 +343,7 @@ def write_page(
         chunks_with_embeddings=chunks_with_embeddings,
         s3_key=s3_key,
         original_path=original_path,
+        created_in_phase=current_phase(),
     ).single()
     if record is None:
         raise RuntimeError(

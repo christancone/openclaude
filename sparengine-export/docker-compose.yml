@@ -43,7 +43,7 @@ services:
       NEO4J_DATABASE:  "${NEO4J_DATABASE:-neo4j}"
     volumes:
       # Per-asset artefacts (CSV + graph_export.json + restore.cypher
-      # + asset_graph.html + tier_views.cypher). This volume is the source
+      # + tier_views.cypher). This volume is the source
       # of truth for finalised dossiers — sacred. The neo4j-data volume
       # is replaceable via `restore.cypher` replay.
       - sparengine-csvs:/app/csvs
@@ -129,7 +129,7 @@ services:
 
   neo4j-init:
     # One-shot init container. Runs after neo4j is healthy, applies
-    # phases/schema.cypher (idempotent), chowns /import so APOC exports
+    # phases/cypher/schema.cypher (idempotent), chowns /import so APOC exports
     # can write later, then exits. On `docker compose up -d` this runs once;
     # subsequent `up` calls re-run it (still idempotent — schema.cypher uses
     # CREATE ... IF NOT EXISTS everywhere).
@@ -139,9 +139,9 @@ services:
         condition: service_healthy
     volumes:
       - neo4j-import:/import
-      # Bind-mount the phases/ directory read-only so the init can copy
+      # Bind-mount the phases/cypher/ directory read-only so the init can copy
       # schema.cypher + captions.cypher into the import volume.
-      - ./phases:/sparengine-phases:ro
+      - ./phases/cypher:/sparengine-cypher:ro
     environment:
       HEALTHCHECK_PASSWORD: "${NEO4J_PASSWORD}"
     user: "0"   # need root to chown /import to neo4j
@@ -150,8 +150,8 @@ services:
       - -c
       - |
         set -e
-        cp /sparengine-phases/schema.cypher  /import/schema.cypher
-        cp /sparengine-phases/captions.cypher /import/captions.cypher
+        cp /sparengine-cypher/schema.cypher  /import/schema.cypher
+        cp /sparengine-cypher/captions.cypher /import/captions.cypher
         chown -R 7474:7474 /import
         cypher-shell -a bolt://neo4j:7687 -u neo4j -p "$$HEALTHCHECK_PASSWORD" \
             -f /import/schema.cypher

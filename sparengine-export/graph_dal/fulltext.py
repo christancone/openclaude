@@ -2,7 +2,7 @@
 
 Phase 7.5 verification re-searches the corpus to find evidence the OCR
 or Phase 4-6 missed (batch-range Form 1s, alternate PNs, sibling SNs,
-etc.). The index is created in phases/schema.cypher on
+etc.). The index is created in phases/cypher/schema.cypher on
 ``:Page.text + :Page.title``.
 
 Lucene quick reference:

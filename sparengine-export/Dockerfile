@@ -30,12 +30,26 @@ RUN rm -rf node_modules && bun install --frozen-lockfile --production
 FROM node:22-slim
 
 # Python (for the agent's pipeline) + git/ripgrep (for the agent's tools)
-# + tini for proper signal handling so SIGTERM kills child processes.
+# + tini for proper signal handling so SIGTERM kills child processes
+# + make for the QA Makefile entry points (test, scorecard, archive, …).
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python3 python3-venv python3-pip \
-        git ripgrep ca-certificates curl tini \
+        git ripgrep ca-certificates curl tini make \
     && rm -rf /var/lib/apt/lists/* \
     && ln -sf /usr/bin/python3 /usr/local/bin/python
+
+# Test + DAL deps available at the system level. The agent still uses a
+# per-asset .venv at runtime (Phase 0 sets it up), but tests run against
+# the container's system Python so pytest lives here. --break-system-packages
+# is the normal answer in a container — PEP 668 protection isn't useful
+# when there's no host distro to break.
+RUN pip3 install --no-cache-dir --break-system-packages \
+        "pytest>=8.0.0" \
+        "pandas>=2.0.0" \
+        "neo4j>=5.20.0,<7.0.0" \
+        "orjson>=3.9.0" \
+        "python-dotenv>=1.0.0" \
+        "rapidfuzz>=3.0.0"
 
 # Install Claude Code CLI globally (used when AGENT_CLI=claude, default).
 # Drop this line if you only ever run AGENT_CLI=openclaude.

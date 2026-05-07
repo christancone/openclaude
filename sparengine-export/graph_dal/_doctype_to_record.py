@@ -3,7 +3,7 @@
 Phase 1 uses this to decide which evidence-record writer (if any) to call
 for a page based on its ``document_type``. The mapping is one-to-one
 (each document_type produces at most one evidence-record kind), and the
-closed enum source is ``sparengine-export/phases/document_types.md``.
+closed enum source is ``sparengine-export/phases/references/document_types.md``.
 
 A return of ``None`` means the page does not carry a structured evidence
 record we extract in Phase 1 — it's still indexed as a :Page (Phase 1
@@ -36,7 +36,7 @@ EvidenceRecordKind = Literal[
 
 
 # The mapping. Document types from
-# ``sparengine-export/phases/document_types.md``.
+# ``sparengine-export/phases/references/document_types.md``.
 #
 # Logic:
 #   - Form 1 family → :Form1

@@ -20,6 +20,7 @@ from typing import Any
 
 from ._evidence_helpers import require_evidence
 from .date_node import link_date
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -35,7 +36,8 @@ ON CREATE SET s.type             = $type,
               s.date             = $date_iso,
               s.certificate_number = $certificate_number,
               s.location_context = $location_context,
-              s.binding_status   = $binding_status
+              s.binding_status   = $binding_status,
+              s.created_in_phase = $created_in_phase
 ON MATCH  SET s.type             = coalesce($type, s.type),
               s.text             = coalesce($text, s.text),
               s.person_name      = coalesce($person_name, s.person_name),
@@ -47,7 +49,8 @@ ON MATCH  SET s.type             = coalesce($type, s.type),
 WITH s
 MATCH (p:Page {asset_id: $asset_id, value: $page_uid})
 MERGE (p)-[r:HAS_STAMP]->(s)
-ON CREATE SET r.quote = $quote
+ON CREATE SET r.quote = $quote,
+              r.created_in_phase = $created_in_phase
 ON MATCH  SET r.quote = $quote
 RETURN s.value AS value
 """
@@ -93,6 +96,7 @@ def write_stamp(
         certificate_number=certificate_number,
         location_context=location_context,
         binding_status=binding_status,
+        created_in_phase=current_phase(),
     ).single()
     if record is None:
         raise RuntimeError(
@@ -116,7 +120,8 @@ MATCH (s:Stamp {asset_id: $asset_id, value: $stamp_uid})
 MATCH (t {asset_id: $asset_id, value: $target_uid})
 WHERE $target_label IN labels(t)
 MERGE (s)-[r:BINDS_TO]->(t)
-ON CREATE SET r.confidence = $confidence, r.rule = $rule
+ON CREATE SET r.confidence = $confidence, r.rule = $rule,
+              r.created_in_phase = $created_in_phase
 ON MATCH  SET r.confidence = coalesce($confidence, r.confidence),
               r.rule       = coalesce($rule, r.rule)
 RETURN id(r) AS rid
@@ -150,6 +155,7 @@ def link_stamp_binds_to(
         asset_id=asset_id, stamp_uid=stamp_uid,
         target_label=target_label, target_uid=target_uid,
         confidence=confidence, rule=rule,
+        created_in_phase=current_phase(),
     ).consume()
 
 
@@ -160,7 +166,8 @@ def link_stamp_binds_to(
 _LINK_STAMPED_BY_CYPHER = """
 MATCH (s:Stamp {asset_id: $asset_id, value: $stamp_uid})
 MERGE (p:Person {asset_id: $asset_id, value: $person_value})
-ON CREATE SET p.name = $person_name
+ON CREATE SET p.name = $person_name,
+              p.created_in_phase = $created_in_phase
 ON MATCH  SET p.name = coalesce($person_name, p.name)
 MERGE (s)-[:STAMPED_BY]->(p)
 """
@@ -180,6 +187,7 @@ def link_stamped_by(
         _LINK_STAMPED_BY_CYPHER,
         asset_id=asset_id, stamp_uid=stamp_uid,
         person_value=person_value, person_name=person_name,
+        created_in_phase=current_phase(),
     ).consume()
 
 
@@ -201,4 +209,5 @@ def link_stamp_carries_cert(
     tx.run(
         _LINK_STAMP_CARRIES_CERT_CYPHER,
         asset_id=asset_id, stamp_uid=stamp_uid, cert_value=cert_value,
+        created_in_phase=current_phase(),
     ).consume()

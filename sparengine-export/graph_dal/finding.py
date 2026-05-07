@@ -25,6 +25,7 @@ from typing import Any
 
 from ._evidence_helpers import link_evidenced_by, require_evidence
 from .date_node import link_date
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -38,7 +39,8 @@ ON CREATE SET f.severity            = $severity,
               f.title                = $title,
               f.description          = $description,
               f.recommended_action   = $recommended_action,
-              f.status               = $status
+              f.status               = $status,
+              f.created_in_phase = $created_in_phase
 ON MATCH  SET f.severity            = coalesce($severity, f.severity),
               f.category             = coalesce($category, f.category),
               f.title                = coalesce($title, f.title),
@@ -90,6 +92,7 @@ def write_finding(
         severity=severity, category=category,
         title=title, description=description,
         recommended_action=recommended_action, status=status,
+        created_in_phase=current_phase(),
     ).consume()
 
     # Page evidence anchor.
@@ -148,7 +151,8 @@ _WRITE_AUDIT_RUN_CYPHER = """
 MERGE (a:AuditRun {asset_id: $asset_id, value: $value})
 ON CREATE SET a.dossier_cut_off_date = $dossier_cut_off_date_iso,
               a.audit_snapshot_date  = $audit_snapshot_date_iso,
-              a.sparengine_version   = $sparengine_version
+              a.sparengine_version   = $sparengine_version,
+              a.created_in_phase = $created_in_phase
 ON MATCH  SET a.dossier_cut_off_date = coalesce($dossier_cut_off_date_iso, a.dossier_cut_off_date),
               a.audit_snapshot_date  = coalesce($audit_snapshot_date_iso, a.audit_snapshot_date),
               a.sparengine_version   = coalesce($sparengine_version, a.sparengine_version)
@@ -175,6 +179,7 @@ def write_audit_run(
         dossier_cut_off_date_iso=dossier_cut_off_date_iso,
         audit_snapshot_date_iso=audit_snapshot_date_iso,
         sparengine_version=sparengine_version,
+        created_in_phase=current_phase(),
     ).single()
     if dossier_cut_off_date_iso:
         link_date(
@@ -198,7 +203,8 @@ MERGE (p:PriorityItem {asset_id: $asset_id, value: $value})
 ON CREATE SET p.kind        = $kind,
               p.title       = $title,
               p.description = $description,
-              p.urgency     = $urgency
+              p.urgency     = $urgency,
+              p.created_in_phase = $created_in_phase
 ON MATCH  SET p.kind        = coalesce($kind, p.kind),
               p.title       = coalesce($title, p.title),
               p.description = coalesce($description, p.description),
@@ -228,5 +234,6 @@ def write_priority_item(
         asset_id=asset_id, value=value,
         kind=kind, title=title, description=description, urgency=urgency,
         component_uid=component_uid,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value

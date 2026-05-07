@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from ._phase_tag import current_phase
 from .date_node import link_date
 
 
@@ -35,6 +36,7 @@ ON CREATE SET
     a.asset_type             = $asset_type,
     a.subtype                = $subtype,
     a.country_of_registration = $country_of_registration,
+    a.created_in_phase       = $created_in_phase,
     a.created_at             = datetime()
 ON MATCH SET
     a.name                   = coalesce($name, a.name),
@@ -133,6 +135,7 @@ def write_asset(
         asset_type=asset_kind,
         subtype=subtype,
         country_of_registration=country_of_registration,
+        created_in_phase=current_phase(),
         secondary_labels=secondary_labels,
     ).single()
     if record is None:
@@ -171,7 +174,8 @@ def write_asset(
 
 _WRITE_FLEET_CYPHER = """
 MERGE (f:Fleet {asset_id: $asset_id, value: $value})
-ON CREATE SET f.name = $name, f.operator_id = $operator_id
+ON CREATE SET f.name = $name, f.operator_id = $operator_id,
+              f.created_in_phase = $created_in_phase
 ON MATCH  SET f.name = coalesce($name, f.name),
               f.operator_id = coalesce($operator_id, f.operator_id)
 WITH f
@@ -196,6 +200,7 @@ def write_fleet(
         value=value,
         name=name,
         operator_id=operator_id,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -209,7 +214,8 @@ MERGE (tc:TypeCertificate {asset_id: $asset_id, value: $value})
 ON CREATE SET tc.tc_holder         = $tc_holder,
               tc.tc_number         = $tc_number,
               tc.model_designation = $model_designation,
-              tc.category          = $category
+              tc.category          = $category,
+              tc.created_in_phase  = $created_in_phase
 ON MATCH  SET tc.tc_holder         = coalesce($tc_holder, tc.tc_holder),
               tc.tc_number         = coalesce($tc_number, tc.tc_number),
               tc.model_designation = coalesce($model_designation, tc.model_designation),
@@ -234,6 +240,7 @@ def write_type_certificate(
     """Create/refresh ``:TypeCertificate`` and link to ``:Asset`` via ``:CERTIFIED_UNDER``."""
     record = tx.run(
         _WRITE_TYPE_CERTIFICATE_CYPHER,
+        created_in_phase=current_phase(),
         asset_id=asset_id,
         value=value,
         tc_holder=tc_holder,
@@ -250,7 +257,8 @@ def write_type_certificate(
 
 _WRITE_COUNTRY_REGISTRATION_CYPHER = """
 MERGE (cr:CountryRegistration {asset_id: $asset_id, value: $value})
-ON CREATE SET cr.iso_code = $iso_code, cr.prefix = $prefix
+ON CREATE SET cr.iso_code = $iso_code, cr.prefix = $prefix,
+              cr.created_in_phase = $created_in_phase
 ON MATCH  SET cr.iso_code = coalesce($iso_code, cr.iso_code),
               cr.prefix   = coalesce($prefix,   cr.prefix)
 WITH cr
@@ -275,5 +283,6 @@ def write_country_registration(
         value=value,
         iso_code=iso_code,
         prefix=prefix,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value

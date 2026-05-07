@@ -1,0 +1,25 @@
+# Sparengine pre-commit hook.
+#
+# Install once (from sparengine-export/):
+#     pip install pre-commit
+#     pre-commit install
+#
+# After that, every `git commit` runs the fast tier (unit + lint, no Neo4j)
+# in a few seconds. The full pyramid (`make test`) is for pre-push or CI.
+#
+# This config runs the tests INSIDE the container so the deps are guaranteed
+# present (pytest, pandas, neo4j, etc.). If the container isn't running, the
+# hook fails loud and asks you to bring it up.
+
+repos:
+  - repo: local
+    hooks:
+      - id: sparengine-fast-tests
+        name: sparengine — unit + lint tests (fast tier)
+        # The hook script is in tools/precommit_fast.sh; it sources just
+        # `docker compose exec` so there's no per-language setup leak.
+        entry: bash sparengine-export/tools/precommit_fast.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]

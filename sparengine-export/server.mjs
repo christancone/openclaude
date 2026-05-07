@@ -117,6 +117,84 @@ async function callRpc(assetIds, limit, offset) {
 // --- frontend ----------------------------------------------------------------
 const indexHtml = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 'utf8');
 
+// --- multipart parser (no external deps) -------------------------------------
+//
+// We only support the common case: small-medium CSV uploads + a few text
+// fields. Buffers the whole body in memory; size-bounded by MAX_UPLOAD_BYTES.
+// For 50 MB CSVs that's well within node's heap defaults.
+//
+// Returns: [{ name, filename?, content (Buffer), contentType? }, ...]
+
+const MAX_UPLOAD_BYTES = 200 * 1024 * 1024;   // 200 MB — generous for big OCR'd dossiers
+
+async function parseMultipart(req) {
+  const ct = req.headers['content-type'] || '';
+  const m  = /boundary=([^;\s]+)/.exec(ct);
+  if (!m) throw new Error('no multipart boundary in Content-Type');
+  const boundary = Buffer.from('--' + m[1]);
+
+  // Read the full body with a hard size cap.
+  let total = 0;
+  const chunks = [];
+  for await (const chunk of req) {
+    total += chunk.length;
+    if (total > MAX_UPLOAD_BYTES) {
+      throw new Error(`upload exceeds ${MAX_UPLOAD_BYTES / (1024*1024)} MB cap`);
+    }
+    chunks.push(chunk);
+  }
+  const body = Buffer.concat(chunks);
+
+  const parts = [];
+  let pos = 0;
+  while (pos < body.length) {
+    // Find next boundary.
+    const bIdx = body.indexOf(boundary, pos);
+    if (bIdx < 0) break;
+    pos = bIdx + boundary.length;
+
+    // `--` after boundary marks end-of-stream.
+    if (body.slice(pos, pos + 2).toString() === '--') break;
+
+    // CRLF after boundary.
+    if (body.slice(pos, pos + 2).toString() === '\r\n') pos += 2;
+
+    // Headers end at \r\n\r\n.
+    const headerEnd = body.indexOf(Buffer.from('\r\n\r\n'), pos);
+    if (headerEnd < 0) break;
+    const headerStr = body.slice(pos, headerEnd).toString('utf8');
+    const contentStart = headerEnd + 4;
+
+    // Content ends at the next \r\n + boundary.
+    const nextBoundary = body.indexOf(boundary, contentStart);
+    if (nextBoundary < 0) break;
+    // Strip trailing \r\n that precedes the boundary.
+    const contentEnd = nextBoundary - 2;
+
+    const nameMatch     = /name="([^"]+)"/i.exec(headerStr);
+    const filenameMatch = /filename="([^"]*)"/i.exec(headerStr);
+    const ctMatch       = /content-type:\s*([^\r\n;]+)/i.exec(headerStr);
+
+    parts.push({
+      name:        nameMatch     ? nameMatch[1]     : null,
+      filename:    filenameMatch ? filenameMatch[1] : null,
+      contentType: ctMatch       ? ctMatch[1].trim(): null,
+      content:     body.slice(contentStart, contentEnd),
+    });
+    pos = nextBoundary;
+  }
+  return parts;
+}
+
+function readPart(parts, name) {
+  const p = parts.find(p => p.name === name);
+  return p ? p.content.toString('utf8') : null;
+}
+function readFilePart(parts, name) {
+  const p = parts.find(p => p.name === name && p.filename);
+  return p || null;
+}
+
 // --- export driver -----------------------------------------------------------
 async function runExport(assetIds, send, opts = {}) {
   // Resolve asset names so we can build a friendly folder name.
@@ -178,112 +256,262 @@ async function runExport(assetIds, send, opts = {}) {
   send({ type: 'done', rows: total, file: relPath, path: filePath });
 
   if (opts.runAgent) {
-    await runAgent(folderPath, fileName, send);
-
-    // Inline graph_export.json into asset_graph.html so the file works on
-    // double-click (file:// blocks fetch). Best-effort; don't fail the run.
-    try {
-      const inlined = inlineGraphHtml(folderPath);
-      if (inlined) send({ type: 'graph-inlined', file: inlined });
-    } catch (e) {
-      send({ type: 'agent-log', stream: 'stderr', line: `inline failed: ${e.message}` });
-    }
-
-    const folderUrl = `/csvs/${encodeURIComponent(folderName)}/`;
-    send({
-      type: 'graph-ready',
-      folderUrl,
-      htmlUrl: folderUrl + 'asset_graph.html',
-      jsonUrl: folderUrl + 'graph_export.json',
+    await runPostCsvPipeline({
+      folderPath, folderName, fileName,
+      assetId: first,                        // UUID matches :Asset.asset_id
+      send,
     });
   }
 }
 
-// Find the span [start, end) covering `const SAMPLE_GRAPH_DATA = { ... }` plus
-// an optional trailing semicolon, by brace-balance scanning that respects
-// string literals. Returns null if the literal isn't present.
-function findSampleDataSpan(html) {
-  const m = /const\s+SAMPLE_GRAPH_DATA\s*=\s*\{/.exec(html);
-  if (!m) return null;
-  const start = m.index;
-  let i = m.index + m[0].length - 1; // position of the opening `{`
-  let depth = 0, inStr = false, quote = '', esc = false;
-  for (; i < html.length; i++) {
-    const c = html[i];
-    if (inStr) {
-      if (esc)              esc = false;
-      else if (c === '\\')  esc = true;
-      else if (c === quote) inStr = false;
-      continue;
-    }
-    if (c === '"' || c === "'") { inStr = true; quote = c; continue; }
-    if (c === '{') depth++;
-    else if (c === '}') {
-      depth--;
-      if (depth === 0) { i++; break; }
-    }
+// Shared post-CSV pipeline: agent run → mechanical scorecard → LLM-as-judge
+// → graph-ready redirect to Neo4j Browser. Used by both /export (Supabase
+// pull) and /upload-csv (direct upload). Best-effort QA layers — failures
+// are surfaced as agent-log entries but don't stop the run.
+async function runPostCsvPipeline({ folderPath, folderName, fileName, assetId, send }) {
+  await runAgent(folderPath, fileName, send);
+
+  try {
+    await runScorecard(folderPath, send);
+  } catch (e) {
+    send({ type: 'agent-log', stream: 'stderr',
+           line: `quality_scorecard failed: ${e.message}` });
   }
-  if (depth !== 0) return null;       // unbalanced — refuse to touch
-  if (html[i] === ';') i++;           // include the optional `;`
-  return { start, end: i };
+  try {
+    await runLlmJudge(folderPath, send);
+  } catch (e) {
+    send({ type: 'agent-log', stream: 'stderr',
+           line: `llm_judge failed: ${e.message}` });
+  }
+
+  // Hand the user a Neo4j Browser link pre-filled with a Cypher query
+  // scoped to this asset_id. The Browser is the canonical UI.
+  const folderUrl  = `/csvs/${encodeURIComponent(folderName)}/`;
+  const cypher     = `MATCH (n {asset_id: '${assetId.replace(/'/g, "\\'")}'}) RETURN n LIMIT 300`;
+  const browserUrl = neo4jBrowserUrl(cypher);
+  send({
+    type: 'graph-ready',
+    asset_id: assetId,
+    folderUrl,
+    neo4jBrowserUrl: browserUrl,
+    jsonUrl: folderUrl + 'graph_export.json',
+    cypher,
+  });
 }
 
-function inlineGraphHtml(folder) {
-  const htmlPath = path.join(folder, 'asset_graph.html');
-  const jsonPath = path.join(folder, 'graph_export.json');
-  if (!fs.existsSync(htmlPath) || !fs.existsSync(jsonPath)) return null;
-
-  const json = fs.readFileSync(jsonPath, 'utf8');
-  let html   = fs.readFileSync(htmlPath, 'utf8');
-  let mutated = false;
-
-  // Form A — the official template: replace SAMPLE_GRAPH_DATA literal in place.
-  const span = findSampleDataSpan(html);
-  if (span) {
-    const replacement = `const SAMPLE_GRAPH_DATA = ${json.trim()};`;
-    html = html.slice(0, span.start) + replacement + html.slice(span.end);
-    mutated = true;
+// Drive a run from a CSV the user uploaded directly (bypassing Supabase).
+//
+//   1. Sniff the CSV's row 0 for an `asset_id` column. If present, that's
+//      the asset UUID; if absent, we generate a `upload-<uuid4>` so the
+//      Neo4j multi-tenancy invariant still holds.
+//   2. Build a workdir at `/app/csvs/<asset_id>-<label>/` and save the CSV
+//      there as `<original_filename>` (sanitised).
+//   3. Stream `start` / `done` SSE events for the upload phase, then run
+//      the same post-CSV pipeline as /export.
+async function runFromUpload({ csvBuffer, originalFilename, label, runAgentFlag, send }) {
+  // 1. Sniff asset_id from row 0 (best-effort; fall back to UUID).
+  let assetId = sniffAssetId(csvBuffer);
+  if (!assetId) {
+    assetId = 'upload-' + cryptoUuid();
+    send({ type: 'warn',
+           message: `No asset_id column in CSV — generated ${assetId}.` });
   }
+  const safeLabel  = sanitize(label || stripExt(originalFilename) || 'upload');
+  const folderName = `${assetId}-${safeLabel}`;
+  const folderPath = path.join(repoRoot, 'csvs', folderName);
+  fs.mkdirSync(folderPath, { recursive: true });
 
-  // Form B — panel HTML that uses fetch('graph_export.json') (with or without
-  // a './' prefix). Inject a <script type="application/json"> block and
-  // rewrite the fetch chain to read from it. This makes the file work on
-  // double-click (file:// blocks fetch).
-  if (/fetch\(['"](?:\.\/)?graph_export\.json['"]\)/.test(html)) {
-    const safe = json.replace(/<\//g, '<\\/');
-    const tag  = `<script id="graph-data" type="application/json">${safe}</script>`;
-    if (html.includes('id="graph-data"')) {
-      html = html.replace(/<script id="graph-data"[\s\S]*?<\/script>/, tag);
+  // 2. Save the CSV. `sanitize()` drops the extension (it's tuned for folder
+  // names), so we sanitise the stem and re-attach `.csv` ourselves.
+  const stem    = sanitize(stripExt(originalFilename) || 'dossier');
+  const fileName = stem + '.csv';
+  const filePath = path.join(folderPath, fileName);
+  const relPath  = path.relative(repoRoot, filePath).replace(/\\/g, '/');
+  fs.writeFileSync(filePath, csvBuffer);
+
+  send({ type: 'start',    file: relPath, assetIds: [assetId] });
+  send({ type: 'progress', rows: countCsvRows(csvBuffer) });
+  send({ type: 'done',     rows: countCsvRows(csvBuffer), file: relPath, path: filePath });
+
+  // 3. Post-CSV pipeline (agent + QA + redirect).
+  if (runAgentFlag) {
+    await runPostCsvPipeline({ folderPath, folderName, fileName, assetId, send });
+  }
+}
+
+// --- upload helpers ----------------------------------------------------------
+
+function cryptoUuid() {
+  // node ≥ 19 has crypto.randomUUID at top-level via globalThis
+  return (globalThis.crypto && globalThis.crypto.randomUUID)
+    ? globalThis.crypto.randomUUID()
+    : Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
+
+function stripExt(filename) {
+  if (!filename) return '';
+  const i = filename.lastIndexOf('.');
+  return i > 0 ? filename.slice(0, i) : filename;
+}
+
+function sniffAssetId(buffer) {
+  // Read the first ~16 KB — enough for header + first data row even on
+  // very wide CSVs.
+  const slice = buffer.slice(0, Math.min(buffer.length, 16384)).toString('utf8');
+  const lines = slice.split(/\r?\n/);
+  if (lines.length < 2) return null;
+  const headers = parseCsvHeader(lines[0]);
+  const idx = headers.findIndex(h => h.trim().toLowerCase() === 'asset_id');
+  if (idx < 0) return null;
+  const cells = parseCsvHeader(lines[1]);
+  const value = (cells[idx] || '').trim();
+  return value || null;
+}
+
+// Minimal CSV header parser: handles quoted cells with embedded commas
+// and "" escaping. Used only for asset_id sniffing — the production CSV
+// has well-defined columns; this just needs to be robust enough for the
+// first two rows.
+function parseCsvHeader(line) {
+  const out = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (inQ) {
+      if (c === '"' && line[i+1] === '"') { cur += '"'; i++; continue; }
+      if (c === '"') { inQ = false; continue; }
+      cur += c;
     } else {
-      html = html.replace(/<script>/, tag + '\n    <script>');
+      if (c === '"' && cur === '') { inQ = true; continue; }
+      if (c === ',') { out.push(cur); cur = ''; continue; }
+      cur += c;
     }
-    // Rewrite both legacy and new fetch chains. Patterns:
-    //   .then(res => res.json()).then(...)   ← legacy template
-    //   .then(r => r.json()).then(...)       ← panel template
-    //   .then(r => r.json())                 ← bare promise without .then chain
-    html = html.replace(
-      /fetch\(['"](?:\.\/)?graph_export\.json['"]\)\s*\.then\(\s*\w+\s*=>\s*\w+\.json\(\)\s*\)/,
-      `Promise.resolve(JSON.parse(document.getElementById('graph-data').textContent))`,
-    );
-    mutated = true;
   }
+  out.push(cur);
+  return out;
+}
 
-  if (!mutated) return null;
+function countCsvRows(buffer) {
+  // Approximate row count = newline count - 1 (header). Cheap heuristic
+  // for the SSE progress event; the agent reads the CSV authoritatively.
+  let n = 0;
+  for (let i = 0; i < buffer.length; i++) if (buffer[i] === 0x0a) n++;
+  return Math.max(0, n - 1);
+}
 
-  const bak = htmlPath + '.bak';
-  if (!fs.existsSync(bak)) fs.copyFileSync(htmlPath, bak);
-  fs.writeFileSync(htmlPath, html, 'utf8');
-  return path.basename(htmlPath);
+// Layer B LLM-as-judge sampling. Reuses the production AGENT_CLI to score
+// 10 stratified findings on a 1..5 scale; writes llm_judgement.json into
+// the workdir and merges llm_mean / llm_p20 into the existing
+// :QualityScorecard. Set SKIP_LLM_JUDGE=1 in the env to disable for runs
+// where you've exhausted your agent budget — the tool is also runnable
+// via `make llm-judge-skip ASSET=...` to write null scores explicitly.
+async function runLlmJudge(folderPath, send) {
+  if (process.env.SKIP_LLM_JUDGE === '1') {
+    send({ type: 'agent-log', stream: 'stderr',
+           line: '[llm_judge] skipped (SKIP_LLM_JUDGE=1)' });
+    return;
+  }
+  const { spawn } = await import('node:child_process');
+  return new Promise((resolve) => {
+    const args = ['-m', 'tools.llm_judge', '--workdir', folderPath, '--sample', '10'];
+    if (process.env.LLM_JUDGE_NO_LLM === '1') args.push('--no-llm');
+    const proc = spawn(
+      'python', args,
+      { cwd: __dirname, env: process.env, stdio: ['ignore', 'pipe', 'pipe'] },
+    );
+    let stderr = '';
+    proc.stderr.on('data', d => {
+      const text = d.toString().trim();
+      stderr += text + '\n';
+      send({ type: 'agent-log', stream: 'stderr', line: `[llm_judge] ${text}` });
+    });
+    proc.on('close', (code) => {
+      if (code !== 0) {
+        send({ type: 'agent-log', stream: 'stderr',
+               line: `llm_judge exited ${code}` });
+        resolve(null);
+        return;
+      }
+      // The tool's stderr summary line looks like:
+      //   "llm_mean=4.2 sample=10 cost_usd=$0.0500"
+      // Parse it for the SSE event payload.
+      const meanMatch  = stderr.match(/llm_mean=([\d.]+|None|null)/);
+      const sampleMatch = stderr.match(/sample=(\d+)/);
+      const costMatch  = stderr.match(/cost_usd=\$?([\d.]+)/);
+      send({
+        type: 'llm-judgement',
+        llm_mean: meanMatch ? (meanMatch[1] === 'None' ? null : parseFloat(meanMatch[1])) : null,
+        llm_sample_size: sampleMatch ? parseInt(sampleMatch[1], 10) : 0,
+        llm_total_cost_usd: costMatch ? parseFloat(costMatch[1]) : 0.0,
+      });
+      resolve(null);
+    });
+  });
+}
+
+// Run the Layer B mechanical scorecard against a finished workdir.
+// Spawned as a subprocess so a Python crash doesn't take the orchestrator
+// with it. Streams summary line back via the `quality-scorecard` SSE event.
+async function runScorecard(folderPath, send) {
+  const { spawn } = await import('node:child_process');
+  return new Promise((resolve) => {
+    const proc = spawn(
+      'python', ['-m', 'tools.quality_scorecard', '--workdir', folderPath, '--print'],
+      { cwd: __dirname, env: process.env, stdio: ['ignore', 'pipe', 'pipe'] },
+    );
+    let out = '';
+    proc.stdout.on('data', d => { out += d.toString(); });
+    proc.stderr.on('data', d => {
+      send({ type: 'agent-log', stream: 'stderr',
+             line: `[scorecard] ${d.toString().trim()}` });
+    });
+    proc.on('close', (code) => {
+      if (code !== 0) {
+        send({ type: 'agent-log', stream: 'stderr',
+               line: `quality_scorecard exited ${code}` });
+        resolve(null);
+        return;
+      }
+      try {
+        const scorecard = JSON.parse(out);
+        send({
+          type: 'quality-scorecard',
+          mechanical_overall: scorecard.mechanical_overall,
+          fact_orphan_count:  scorecard.fact_orphan_count,
+          total_findings:     scorecard.total_findings,
+          level_1_count:      scorecard.level_1_count,
+          asset_id:           scorecard.asset_id,
+          run_id:             scorecard.run_id,
+        });
+      } catch (e) {
+        send({ type: 'agent-log', stream: 'stderr',
+               line: `scorecard JSON parse failed: ${e.message}` });
+      }
+      resolve(null);
+    });
+  });
+}
+
+// Build a Neo4j Browser URL that pre-fills the editor with a Cypher query.
+// `cmd=edit&arg=<encoded>` puts the query in the editor; user runs it with
+// Ctrl+Enter. The host/port come from NEO4J_BROWSER_URL (or default to the
+// standard 7474). We use http for localhost — the Browser auto-detects the
+// running Bolt connection from cookies.
+function neo4jBrowserUrl(cypher) {
+  const base = process.env.NEO4J_BROWSER_URL || 'http://localhost:7474';
+  return `${base}/browser/?cmd=edit&arg=${encodeURIComponent(cypher)}`;
 }
 
 // --- Agent run --------------------------------------------------------------
 // Spawn OpenClaude / Claude Code in headless --print mode against the asset
-// folder, pointing at sparengine-export/phases/OVERVIEW.md (the Neo4j-era
+// folder, pointing at sparengine-export/phases/briefs/OVERVIEW.md (the Neo4j-era
 // brief) as the instruction set. Streams stdout/stderr to the SSE client.
 
-const OVERVIEW_MD    = path.join(__dirname, 'phases', 'OVERVIEW.md');
+const OVERVIEW_MD    = path.join(__dirname, 'phases', 'briefs', 'OVERVIEW.md');
 const PHASES_DIR     = path.join(__dirname, 'phases');
-const GRAPH_TEMPLATE = path.join(__dirname, 'asset_graph_template_panels.html');
+const BRIEFS_DIR     = path.join(__dirname, 'phases', 'briefs');
+const REFERENCES_DIR = path.join(__dirname, 'phases', 'references');
+const CYPHER_DIR     = path.join(__dirname, 'phases', 'cypher');
 const CLI_MJS        = path.join(repoRoot, 'dist', 'cli.mjs');
 
 // AGENT_CLI controls which CLI runs the graph-builder agent.
@@ -295,7 +523,10 @@ const AGENT_CLI = (process.env.AGENT_CLI || 'openclaude').toLowerCase();
 let activeAgent = null;
 
 function buildAgentPrompt(csvFileName) {
-  const phases = PHASES_DIR.replace(/\\/g, '/');
+  const phases  = PHASES_DIR.replace(/\\/g, '/');
+  const briefs  = BRIEFS_DIR.replace(/\\/g, '/');
+  const refs    = REFERENCES_DIR.replace(/\\/g, '/');
+  const cypher  = CYPHER_DIR.replace(/\\/g, '/');
   return [
     'You are a Part-66/Part-145 aviation records auditor with twenty years of fleet',
     'experience. You are NOT a script writer. The dossier in this working directory',
@@ -325,40 +556,47 @@ function buildAgentPrompt(csvFileName) {
     `The OCR CSV is at ./${csvFileName} (relative to your CWD).`,
     '',
     `Your mission brief is split into focused files under: ${phases}/`,
+    `  ${briefs}/   — phase briefs (workflow, one file per phase)`,
+    `  ${refs}/     — reference docs (rules consumed by briefs)`,
+    `  ${cypher}/   — Cypher schema + caption files (applied automatically by neo4j-init)`,
     '',
     'STEP 1 — Always read these two files first:',
-    `  ${phases}/OVERVIEW.md             — pipeline + golden rules + STEP 0 environment setup`,
-    `  ${phases}/csv_and_ocr.md          — CSV schema and the structure of extracted_json`,
+    `  ${briefs}/OVERVIEW.md             — pipeline + golden rules + STEP 0 environment setup`,
+    `  ${refs}/csv_and_ocr.md            — CSV schema and the structure of extracted_json`,
     '',
     'STEP 2 — Run STEP 0 from OVERVIEW.md: create a .venv, write requirements.txt',
     '  (which MUST include `neo4j>=5.20.0`), pip install, verify the `neo4j` import',
     '  works AND verify the schema is in place (call `graph_dal.verify.verify_schema`).',
     '  DO NOT skip this — Phase 1 will fail at the first DAL write otherwise.',
     '',
-    'STEP 3 — Then load ONE phase file at a time, in order, and execute that phase:',
-    `  ${phases}/phase0_orientation.md       Phase 0  (asset profile)`,
-    `  ${phases}/phase1_indexing.md          Phase 1  (CSV → pages/documents/stamps/evidence records/identifiers/dates)`,
-    `  ${phases}/phase2_asset_detection.md   Phase 2  (:Asset confirmation + secondary class label + reconciliation)`,
-    `  ${phases}/phase4_components.md        Phase 4  (:Component hydration — Phase 3 is deleted, do not look for it)`,
-    `  ${phases}/phase5_events.md            Phase 5  (:Event + :ComponentSnapshot)`,
-    `  ${phases}/phase6_connectors.md        Phase 6  (:Person/:Organization + cross-doc :INCLUDES, :SIGNED_BY, :STAMPED_BY)`,
-    `  ${phases}/phase6_5_critical_items.md  Phase 6.5 (:PriorityItem + lease_return_state)`,
-    `  ${phases}/phase7_investigation.md     Phase 7  (per-component :Finding via DAL)`,
-    `  ${phases}/phase7_5_verification.md    Phase 7.5 (close false positives via Lucene fulltext on :Page.text)`,
-    `  ${phases}/phase8_asset_audit.md       Phase 8  (mandatory checklist as :Asset.mandatory_checklist JSON)`,
-    `  ${phases}/phase9_consolidation.md     Phase 9  (consolidate :Finding statuses)`,
-    `  ${phases}/phase10_export.md           Phase 10 (graph_export.json + restore.cypher + tier_views.cypher)`,
-    `  ${phases}/phase_viz.md                Phase viz (asset_graph.html — panel-only template substitution)`,
+    'STEP 3 — Then load ONE phase brief at a time, in order, and execute that phase:',
+    `  ${briefs}/phase0_orientation.md       Phase 0  (asset profile)`,
+    `  ${briefs}/phase1_indexing.md          Phase 1  (CSV → pages/documents/stamps/evidence records/identifiers/dates)`,
+    `  ${briefs}/phase2_asset_detection.md   Phase 2  (:Asset confirmation + secondary class label + reconciliation)`,
+    `  ${briefs}/phase4_components.md        Phase 4  (:Component hydration — Phase 3 is deleted, do not look for it)`,
+    `  ${briefs}/phase5_events.md            Phase 5  (:Event + :ComponentSnapshot)`,
+    `  ${briefs}/phase6_connectors.md        Phase 6  (:Person/:Organization + cross-doc :INCLUDES, :SIGNED_BY, :STAMPED_BY)`,
+    `  ${briefs}/phase6_5_critical_items.md  Phase 6.5 (:PriorityItem + lease_return_state)`,
+    `  ${briefs}/phase7_investigation.md     Phase 7  (per-component :Finding via DAL)`,
+    `  ${briefs}/phase7_5_verification.md    Phase 7.5 (close false positives via Lucene fulltext on :Page.text)`,
+    `  ${briefs}/phase8_asset_audit.md       Phase 8  (mandatory checklist as :Asset.mandatory_checklist JSON)`,
+    `  ${briefs}/phase9_consolidation.md     Phase 9  (consolidate :Finding statuses)`,
+    `  ${briefs}/phase10_export.md           Phase 10 (graph_export.json + restore.cypher + tier_views.cypher) — FINAL phase`,
+    '',
+    'There is no `phase_viz`. Visualisation is delegated to Neo4j Browser at',
+    'http://localhost:7474 — once Phase 10 finishes the orchestrator hands the',
+    'user a pre-filled Cypher query scoped to this asset_id. Do NOT generate',
+    'asset_graph.html or any panel HTML.',
     '',
     'Reference files — load when a phase says to:',
-    `  ${phases}/document_types.md         (closed enum of document_type strings)`,
-    `  ${phases}/tiers_and_ata.md          (ATA→tier mapping; consumed at viz time, not as graph nodes)`,
-    `  ${phases}/schema.cypher             (constraints + page_text fulltext index — already applied at startup)`,
-    `  ${phases}/captions.cypher           (caption helper — Phase 10 auto-applies)`,
-    `  ${phases}/data_quality_rules.md     (universal rules + aviation domain patterns)`,
-    `  ${phases}/investigation_discipline.md (DO NOT flag what you have not looked for)`,
-    `  ${phases}/finding_types.md          (the exact finding_type strings)`,
-    `  ${phases}/severity_matrix.md        (criticality-by-component)`,
+    `  ${refs}/document_types.md            (closed enum of document_type strings)`,
+    `  ${refs}/tiers_and_ata.md             (ATA→tier mapping; consumed at viz time, not as graph nodes)`,
+    `  ${cypher}/schema.cypher              (constraints + page_text fulltext index — already applied at startup)`,
+    `  ${cypher}/captions.cypher            (caption helper — Phase 10 auto-applies)`,
+    `  ${refs}/data_quality_rules.md        (universal rules + aviation domain patterns)`,
+    `  ${refs}/investigation_discipline.md  (DO NOT flag what you have not looked for)`,
+    `  ${refs}/finding_types.md             (the exact finding_type strings)`,
+    `  ${refs}/severity_matrix.md           (criticality-by-component)`,
     '',
     'The DAL package is at /app/sparengine-export/graph_dal/. Every phase script',
     'starts with the bootstrap shown in OVERVIEW.md "DAL CHOKEPOINT" section,',
@@ -372,10 +610,9 @@ function buildAgentPrompt(csvFileName) {
     '',
     'Write per-asset deliverables into the CURRENT WORKING DIRECTORY:',
     '  ./asset_profile.json   (Phase 0)',
-    '  ./graph_export.json    (Phase 10 — viz-shape projection)',
+    '  ./graph_export.json    (Phase 10 — lossless graph projection)',
     '  ./restore.cypher       (Phase 10 — sanitised replayable Cypher)',
     '  ./tier_views.cypher    (Phase 10 — saved Browser favourites)',
-    '  ./asset_graph.html     (Phase viz — panel-only HTML)',
     '  ./progress.log         (every phase appends a verification block)',
     '  ./_checkpoints/        (resumable checkpoints between phases)',
     '',
@@ -407,10 +644,11 @@ function buildAgentPrompt(csvFileName) {
     '   thing as a "dummy phase". Every phase is real or it is skipped (and',
     '   skipped means STOP — do not produce stub output).',
     '',
-    `5. VISUALISATION — copy the template at ${GRAPH_TEMPLATE.replace(/\\/g, '/')} `,
-    '   and substitute {{ASSET_TITLE}}. That is all viz.py does. The orchestrator',
-    '   will inline the JSON into asset_graph.html after you finish, so you do NOT',
-    '   need to inline it yourself — just write graph_export.json next to the HTML.',
+    '5. VISUALISATION — Neo4j Browser is the canonical UI. After Phase 10',
+    '   completes the orchestrator emits a `graph-ready` SSE event with a',
+    '   pre-filled Cypher query (`MATCH (n {asset_id: ...}) RETURN n LIMIT 300`).',
+    '   Do NOT build asset_graph.html, do NOT touch any panel template — just',
+    '   write graph_export.json + restore.cypher + tier_views.cypher and stop.',
     '',
     'Do not ask for confirmation; proceed end to end. Report the verification',
     'counts to progress.log after every phase.',
@@ -692,11 +930,51 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Static: /csvs/* serves the per-asset folders. Open
-  // http://localhost:2001/csvs/<id>-<name>/asset_graph.html
-  // and fetch("./graph_export.json") works because it's now over HTTP.
+  // Static: /csvs/* serves the per-asset folders so the user can browse
+  // graph_export.json, restore.cypher, progress.log, decisions.log, etc.
+  // No asset_graph.html — visualisation is delegated to Neo4j Browser.
   if (req.method === 'GET' && req.url.startsWith('/csvs/')) {
     serveStatic(req, res, path.join(repoRoot, 'csvs'), '/csvs');
+    return;
+  }
+
+  // Live graph stats — polled by the UI's right rail every 5s while the
+  // agent is running. Returns per-label node counts for the asset.
+  // Cheap query (uses the asset_id index); empty result is silent.
+  if (req.method === 'GET' && req.url.startsWith('/api/asset-stats')) {
+    const url = new URL(req.url, 'http://localhost');
+    const assetId = url.searchParams.get('asset_id');
+    if (!assetId) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'asset_id required' }));
+      return;
+    }
+    try {
+      // Spawn a tiny python one-shot. Same pattern as runScorecard — keeps
+      // the Node side free of a Neo4j driver dependency.
+      const { spawn } = await import('node:child_process');
+      const proc = spawn('python', ['-c',
+        `import sys, json; sys.path.insert(0, "/app/sparengine-export"); ` +
+        `from graph_dal import connect, database_name; ` +
+        `d = connect(); ` +
+        `out = {}; ` +
+        `s = d.session(database=database_name()); ` +
+        `rs = s.run("MATCH (n {asset_id: $aid}) UNWIND labels(n) AS l RETURN l AS label, count(*) AS n", aid="${assetId.replace(/"/g, '\\"')}"); ` +
+        `[out.update({r["label"]: int(r["n"])}) for r in rs]; ` +
+        `s.close(); d.close(); ` +
+        `print(json.dumps(out))`,
+      ], { cwd: __dirname, env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+      let buf = '';
+      proc.stdout.on('data', d => { buf += d.toString(); });
+      proc.on('close', () => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        try { JSON.parse(buf.trim()); res.end(buf.trim()); }
+        catch { res.end('{}'); }
+      });
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: e.message }));
+    }
     return;
   }
 
@@ -746,6 +1024,44 @@ const server = http.createServer(async (req, res) => {
 
     try {
       await runExport(assetIds, send, { runAgent: !!body.runAgent });
+    } catch (e) {
+      send({ type: 'error', message: e.message });
+    }
+    res.end();
+    return;
+  }
+
+  // Upload a CSV directly (no Supabase pull). Multipart with:
+  //   csv      — the file (required)
+  //   label    — optional friendly suffix for the workdir name
+  //   runAgent — "1" / "0"
+  //
+  // Same SSE stream shape as /export so the UI handles both identically.
+  if (req.method === 'POST' && req.url === '/upload-csv') {
+    res.writeHead(200, {
+      'Content-Type':  'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection':    'keep-alive',
+    });
+    const send = (obj) => res.write(`data: ${JSON.stringify(obj)}\n\n`);
+    try {
+      const parts = await parseMultipart(req);
+      const file  = readFilePart(parts, 'csv');
+      if (!file || !file.content || file.content.length === 0) {
+        send({ type: 'error', message: 'No CSV file provided in form field "csv".' });
+        res.end();
+        return;
+      }
+      const label        = readPart(parts, 'label') || '';
+      const runAgentFlag = (readPart(parts, 'runAgent') || '0') !== '0';
+
+      await runFromUpload({
+        csvBuffer:        file.content,
+        originalFilename: file.filename,
+        label,
+        runAgentFlag,
+        send,
+      });
     } catch (e) {
       send({ type: 'error', message: e.message });
     }

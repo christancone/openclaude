@@ -28,6 +28,7 @@ The mention edges are typed per-target-label per Q10:
 from __future__ import annotations
 
 from typing import Any
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -46,13 +47,15 @@ RETURN n.value AS value
 
 def write_ata_chapter(tx: Any, *, asset_id: str, value: str) -> str:
     """MERGE :ATAChapter. ``value`` is the chapter code (e.g. "32", "32-11-04")."""
-    record = tx.run(_WRITE_ATA_CHAPTER_CYPHER, asset_id=asset_id, value=value).single()
+    record = tx.run(_WRITE_ATA_CHAPTER_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).single()
     return record["value"] if record else value
 
 
 _WRITE_SB_CYPHER = """
 MERGE (n:ServiceBulletin {asset_id: $asset_id, value: $value})
-ON CREATE SET n.kind = $kind
+ON CREATE SET n.kind = $kind,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.kind = coalesce($kind, n.kind)
 RETURN n.value AS value
 """
@@ -64,13 +67,15 @@ def write_service_bulletin(
     """MERGE :ServiceBulletin. ``kind`` ∈ {alert, recommended} if known."""
     record = tx.run(
         _WRITE_SB_CYPHER, asset_id=asset_id, value=value, kind=kind,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
 
 _WRITE_AD_CYPHER = """
 MERGE (n:AirworthinessDirective {asset_id: $asset_id, value: $value})
-ON CREATE SET n.authority = $authority
+ON CREATE SET n.authority = $authority,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.authority = coalesce($authority, n.authority)
 RETURN n.value AS value
 """
@@ -82,6 +87,7 @@ def write_airworthiness_directive(
     """MERGE :AirworthinessDirective. ``authority`` ∈ {EASA, FAA, TCCA, ...}."""
     record = tx.run(
         _WRITE_AD_CYPHER, asset_id=asset_id, value=value, authority=authority,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -93,13 +99,15 @@ RETURN n.value AS value
 
 
 def write_engineering_order(tx: Any, *, asset_id: str, value: str) -> str:
-    record = tx.run(_WRITE_EO_CYPHER, asset_id=asset_id, value=value).single()
+    record = tx.run(_WRITE_EO_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).single()
     return record["value"] if record else value
 
 
 _WRITE_REGULATORY_REF_CYPHER = """
 MERGE (n:RegulatoryRef {asset_id: $asset_id, value: $value})
-ON CREATE SET n.ref_type = $ref_type, n.authority = $authority
+ON CREATE SET n.ref_type = $ref_type, n.authority = $authority,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.ref_type  = coalesce($ref_type, n.ref_type),
               n.authority = coalesce($authority, n.authority)
 RETURN n.value AS value
@@ -114,6 +122,7 @@ def write_regulatory_ref(
     record = tx.run(
         _WRITE_REGULATORY_REF_CYPHER,
         asset_id=asset_id, value=value, ref_type=ref_type, authority=authority,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -144,28 +153,33 @@ _LINK_CITES_CYPHER = _mention_query("CITES", "RegulatoryRef")
 def link_covers_ata(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_COVERS_ATA_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_sb(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_SB_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_ad(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_AD_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_mentions_eo(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_MENTIONS_EO_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()
 
 
 def link_cites(tx: Any, *, asset_id, source_label, source_uid, target_value, level):
     tx.run(_LINK_CITES_CYPHER, asset_id=asset_id,
            source_label=source_label, source_uid=source_uid,
-           target_value=target_value, level=level).consume()
+           target_value=target_value, level=level,
+           created_in_phase=current_phase(),).consume()

@@ -39,6 +39,7 @@ from typing import Any
 
 from ._evidence_helpers import link_page_carries, require_evidence
 from .date_node import link_date
+from ._phase_tag import current_phase
 
 
 # =============================================================================
@@ -121,7 +122,8 @@ def write_form1(
 
 _WRITE_CRS_CYPHER = """
 MERGE (n:CRS {asset_id: $asset_id, value: $value})
-ON CREATE SET n.date = $date_iso
+ON CREATE SET n.date = $date_iso,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.date = coalesce($date_iso, n.date)
 RETURN n.value AS value
 """
@@ -140,7 +142,8 @@ def write_crs(
         label="CRS", value=value,
         evidence_page_uid=evidence_page_uid, evidence_quote=evidence_quote,
     )
-    tx.run(_WRITE_CRS_CYPHER, asset_id=asset_id, value=value, date_iso=date_iso).consume()
+    tx.run(_WRITE_CRS_CYPHER, asset_id=asset_id, value=value, date_iso=date_iso,
+        created_in_phase=current_phase(),).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="CRS",
         page_uid=evidence_page_uid, quote=evidence_quote,
@@ -163,7 +166,8 @@ def write_crs(
 
 _WRITE_WORK_PACKAGE_CYPHER = """
 MERGE (n:WorkPackage {asset_id: $asset_id, value: $value})
-ON CREATE SET n.package_name = $package_name, n.date = $date_iso
+ON CREATE SET n.package_name = $package_name, n.date = $date_iso,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.package_name = coalesce($package_name, n.package_name),
               n.date         = coalesce($date_iso, n.date)
 RETURN n.value AS value
@@ -187,6 +191,7 @@ def write_work_package(
     tx.run(
         _WRITE_WORK_PACKAGE_CYPHER,
         asset_id=asset_id, value=value, package_name=package_name, date_iso=date_iso,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="WorkPackage",
@@ -206,7 +211,8 @@ def write_work_package(
 
 _WRITE_JOB_CARD_CYPHER = """
 MERGE (n:JobCard {asset_id: $asset_id, value: $value})
-ON CREATE SET n.ata = $ata, n.accomplished = $accomplished_iso
+ON CREATE SET n.ata = $ata, n.accomplished = $accomplished_iso,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.ata          = coalesce($ata, n.ata),
               n.accomplished = coalesce($accomplished_iso, n.accomplished)
 RETURN n.value AS value
@@ -230,6 +236,7 @@ def write_job_card(
     tx.run(
         _WRITE_JOB_CARD_CYPHER,
         asset_id=asset_id, value=value, ata=ata, accomplished_iso=accomplished_iso,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="JobCard",
@@ -249,7 +256,8 @@ def write_job_card(
 
 _WRITE_NRC_CYPHER = """
 MERGE (n:NonRoutineCard {asset_id: $asset_id, value: $value})
-ON CREATE SET n.status = $status, n.description = $description
+ON CREATE SET n.status = $status, n.description = $description,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.status      = coalesce($status, n.status),
               n.description = coalesce($description, n.description)
 RETURN n.value AS value
@@ -274,6 +282,7 @@ def write_non_routine_card(
     tx.run(
         _WRITE_NRC_CYPHER,
         asset_id=asset_id, value=value, status=status, description=description,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="NonRoutineCard",
@@ -297,7 +306,8 @@ ON CREATE SET n.kind                 = $kind,
               n.location              = $location,
               n.approved_data_ref     = $approved_data_ref,
               n.ndt_required          = $ndt_required,
-              n.ndt_done              = $ndt_done
+              n.ndt_done              = $ndt_done,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.kind                 = coalesce($kind, n.kind),
               n.location              = coalesce($location, n.location),
               n.approved_data_ref     = coalesce($approved_data_ref, n.approved_data_ref),
@@ -331,6 +341,7 @@ def write_repair(
         kind=kind, location=location,
         approved_data_ref=approved_data_ref,
         ndt_required=ndt_required, ndt_done=ndt_done,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="Repair",
@@ -350,7 +361,8 @@ def write_repair(
 
 _WRITE_MODIFICATION_CYPHER = """
 MERGE (n:Modification {asset_id: $asset_id, value: $value})
-ON CREATE SET n.ata = $ata
+ON CREATE SET n.ata = $ata,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.ata = coalesce($ata, n.ata)
 RETURN n.value AS value
 """
@@ -370,7 +382,8 @@ def write_modification(
         label="Modification", value=value,
         evidence_page_uid=evidence_page_uid, evidence_quote=evidence_quote,
     )
-    tx.run(_WRITE_MODIFICATION_CYPHER, asset_id=asset_id, value=value, ata=ata).consume()
+    tx.run(_WRITE_MODIFICATION_CYPHER, asset_id=asset_id, value=value, ata=ata,
+        created_in_phase=current_phase(),).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="Modification",
         page_uid=evidence_page_uid, quote=evidence_quote,
@@ -406,7 +419,8 @@ def write_stc(
         label="STC", value=value,
         evidence_page_uid=evidence_page_uid, evidence_quote=evidence_quote,
     )
-    tx.run(_WRITE_STC_CYPHER, asset_id=asset_id, value=value).consume()
+    tx.run(_WRITE_STC_CYPHER, asset_id=asset_id, value=value,
+        created_in_phase=current_phase(),).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="STC",
         page_uid=evidence_page_uid, quote=evidence_quote,
@@ -427,7 +441,8 @@ _WRITE_BORESCOPE_REPORT_CYPHER = """
 MERGE (n:BorescopeReport {asset_id: $asset_id, value: $value})
 ON CREATE SET n.engine_position    = $engine_position,
               n.findings_severity  = $findings_severity,
-              n.date               = $date_iso
+              n.date               = $date_iso,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.engine_position    = coalesce($engine_position, n.engine_position),
               n.findings_severity  = coalesce($findings_severity, n.findings_severity),
               n.date               = coalesce($date_iso, n.date)
@@ -456,6 +471,7 @@ def write_borescope_report(
         engine_position=engine_position,
         findings_severity=findings_severity,
         date_iso=date_iso,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="BorescopeReport",
@@ -475,7 +491,8 @@ def write_borescope_report(
 
 _WRITE_NDT_REPORT_CYPHER = """
 MERGE (n:NDTReport {asset_id: $asset_id, value: $value})
-ON CREATE SET n.method = $method, n.result = $result
+ON CREATE SET n.method = $method, n.result = $result,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.method = coalesce($method, n.method),
               n.result = coalesce($result, n.result)
 RETURN n.value AS value
@@ -500,6 +517,7 @@ def write_ndt_report(
     tx.run(
         _WRITE_NDT_REPORT_CYPHER,
         asset_id=asset_id, value=value, method=method, result=result,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="NDTReport",
@@ -521,7 +539,8 @@ _WRITE_DENT_BUCKLE_CYPHER = """
 MERGE (n:DentBuckleEntry {asset_id: $asset_id, value: $value})
 ON CREATE SET n.location          = $location,
               n.dimensions         = $dimensions,
-              n.repair_record_ref  = $repair_record_ref
+              n.repair_record_ref  = $repair_record_ref,
+              n.created_in_phase = $created_in_phase
 ON MATCH  SET n.location          = coalesce($location, n.location),
               n.dimensions         = coalesce($dimensions, n.dimensions),
               n.repair_record_ref  = coalesce($repair_record_ref, n.repair_record_ref)
@@ -548,6 +567,7 @@ def write_dent_buckle_entry(
         _WRITE_DENT_BUCKLE_CYPHER,
         asset_id=asset_id, value=value,
         location=location, dimensions=dimensions, repair_record_ref=repair_record_ref,
+        created_in_phase=current_phase(),
     ).consume()
     link_page_carries(
         tx, asset_id=asset_id, source_uid=value, source_label="DentBuckleEntry",

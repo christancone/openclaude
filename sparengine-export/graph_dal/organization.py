@@ -17,12 +17,14 @@ edges (:INCLUDES, :COMPLIES_WITH, :IMPLEMENTS, :APPLIES_TO, :SIGNED_BY,
 from __future__ import annotations
 
 from typing import Any
+from ._phase_tag import current_phase
 
 
 _WRITE_PERSON_CYPHER = """
 MERGE (p:Person {asset_id: $asset_id, value: $value})
 ON CREATE SET p.name           = $name,
-              p.cert_authority = $cert_authority
+              p.cert_authority = $cert_authority,
+              p.created_in_phase = $created_in_phase
 ON MATCH  SET p.name           = coalesce($name, p.name),
               p.cert_authority = coalesce($cert_authority, p.cert_authority)
 RETURN p.value AS value
@@ -37,6 +39,7 @@ def write_person(
         _WRITE_PERSON_CYPHER,
         asset_id=asset_id, value=value,
         name=name, cert_authority=cert_authority,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -46,7 +49,8 @@ MERGE (o:Organization {asset_id: $asset_id, value: $value})
 ON CREATE SET o.name      = $name,
               o.role      = $role,
               o.cage_code = $cage_code,
-              o.country   = $country
+              o.country   = $country,
+              o.created_in_phase = $created_in_phase
 ON MATCH  SET o.name      = coalesce($name, o.name),
               o.role      = coalesce($role, o.role),
               o.cage_code = coalesce($cage_code, o.cage_code),
@@ -64,13 +68,15 @@ def write_organization(
         _WRITE_ORGANIZATION_CYPHER,
         asset_id=asset_id, value=value,
         name=name, role=role, cage_code=cage_code, country=country,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
 
 _WRITE_REGULATORY_AUTHORITY_CYPHER = """
 MERGE (a:RegulatoryAuthority {asset_id: $asset_id, value: $value})
-ON CREATE SET a.name = $name
+ON CREATE SET a.name = $name,
+              a.created_in_phase = $created_in_phase
 ON MATCH  SET a.name = coalesce($name, a.name)
 RETURN a.value AS value
 """
@@ -82,13 +88,15 @@ def write_regulatory_authority(
     record = tx.run(
         _WRITE_REGULATORY_AUTHORITY_CYPHER,
         asset_id=asset_id, value=value, name=name,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
 
 _WRITE_DESIGN_ORG_CYPHER = """
 MERGE (d:DesignOrganization {asset_id: $asset_id, value: $value})
-ON CREATE SET d.name = $name, d.doa_number = $doa_number
+ON CREATE SET d.name = $name, d.doa_number = $doa_number,
+              d.created_in_phase = $created_in_phase
 ON MATCH  SET d.name = coalesce($name, d.name),
               d.doa_number = coalesce($doa_number, d.doa_number)
 RETURN d.value AS value
@@ -102,13 +110,15 @@ def write_design_organization(
     record = tx.run(
         _WRITE_DESIGN_ORG_CYPHER,
         asset_id=asset_id, value=value, name=name, doa_number=doa_number,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
 
 _WRITE_PRODUCTION_ORG_CYPHER = """
 MERGE (p:ProductionOrganization {asset_id: $asset_id, value: $value})
-ON CREATE SET p.name = $name, p.poa_number = $poa_number
+ON CREATE SET p.name = $name, p.poa_number = $poa_number,
+              p.created_in_phase = $created_in_phase
 ON MATCH  SET p.name = coalesce($name, p.name),
               p.poa_number = coalesce($poa_number, p.poa_number)
 RETURN p.value AS value
@@ -122,6 +132,7 @@ def write_production_organization(
     record = tx.run(
         _WRITE_PRODUCTION_ORG_CYPHER,
         asset_id=asset_id, value=value, name=name, poa_number=poa_number,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
@@ -130,7 +141,8 @@ _WRITE_MAINTENANCE_ORG_CYPHER = """
 MERGE (m:MaintenanceOrganization {asset_id: $asset_id, value: $value})
 ON CREATE SET m.name = $name,
               m.part145_number = $part145_number,
-              m.country = $country
+              m.country = $country,
+              m.created_in_phase = $created_in_phase
 ON MATCH  SET m.name = coalesce($name, m.name),
               m.part145_number = coalesce($part145_number, m.part145_number),
               m.country = coalesce($country, m.country)
@@ -147,6 +159,7 @@ def write_maintenance_organization(
         _WRITE_MAINTENANCE_ORG_CYPHER,
         asset_id=asset_id, value=value, name=name,
         part145_number=part145_number, country=country,
+        created_in_phase=current_phase(),
     ).single()
     return record["value"] if record else value
 
