@@ -125,7 +125,7 @@ const indexHtml = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 
 //
 // Returns: [{ name, filename?, content (Buffer), contentType? }, ...]
 
-const MAX_UPLOAD_BYTES = 200 * 1024 * 1024;   // 200 MB — generous for big OCR'd dossiers
+const MAX_UPLOAD_BYTES = 500 * 1024 * 1024;   // 500 MB — fits big OCR'd dossiers (~200-400 MB CSVs typical)
 
 async function parseMultipart(req) {
   const ct = req.headers['content-type'] || '';
@@ -355,16 +355,52 @@ function stripExt(filename) {
 }
 
 function sniffAssetId(buffer) {
-  // Read the first ~16 KB — enough for header + first data row even on
-  // very wide CSVs.
-  const slice = buffer.slice(0, Math.min(buffer.length, 16384)).toString('utf8');
-  const lines = slice.split(/\r?\n/);
-  if (lines.length < 2) return null;
-  const headers = parseCsvHeader(lines[0]);
-  const idx = headers.findIndex(h => h.trim().toLowerCase() === 'asset_id');
+  // Production OCR CSVs have an `extracted_json` column whose cell can be
+  // 10-50 KB (a full JSON dump per page). To capture the FIRST DATA ROW
+  // reliably the slice has to fit at least header + one row, including
+  // that fat JSON blob. 4 MB is comfortably more than enough.
+  const SNIFF_BYTES = 4 * 1024 * 1024;
+  let slice = buffer.slice(0, Math.min(buffer.length, SNIFF_BYTES)).toString('utf8');
+
+  // Strip a UTF-8 BOM if present — some Excel/PowerShell exports add one,
+  // and it would prefix the first column name (`﻿asset_id`) and cause
+  // the case-insensitive match to miss.
+  if (slice.charCodeAt(0) === 0xFEFF) slice = slice.slice(1);
+
+  // Walk the CSV row-aware (respect quoted newlines inside JSON cells).
+  // We only need the first two complete rows: header + row 1.
+  const rows = [];
+  let cur = [];
+  let cell = '';
+  let inQ = false;
+  for (let i = 0; i < slice.length && rows.length < 2; i++) {
+    const c = slice[i];
+    if (inQ) {
+      if (c === '"' && slice[i+1] === '"') { cell += '"'; i++; continue; }
+      if (c === '"') { inQ = false; continue; }
+      cell += c;
+      continue;
+    }
+    if (c === '"' && cell === '') { inQ = true; continue; }
+    if (c === ',') { cur.push(cell); cell = ''; continue; }
+    if (c === '\r') continue;
+    if (c === '\n') {
+      cur.push(cell);
+      rows.push(cur);
+      cur = []; cell = '';
+      continue;
+    }
+    cell += c;
+  }
+  if (rows.length < 2) return null;
+
+  const headers = rows[0];
+  const idx = headers.findIndex(h => {
+    const norm = String(h || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+    return norm === 'assetid' || norm === 'asset_id';
+  });
   if (idx < 0) return null;
-  const cells = parseCsvHeader(lines[1]);
-  const value = (cells[idx] || '').trim();
+  const value = String(rows[1][idx] || '').trim();
   return value || null;
 }
 

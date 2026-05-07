@@ -1743,20 +1743,101 @@
     appendEvent(makeEvent('system', { tag: 'SUBMIT',
       text: `uploading ${pendingFile.name} · ${formatBytes(pendingFile.size)}` }), 'all');
 
-    try {
-      const fd = new FormData();
-      fd.append('csv',      pendingFile, pendingFile.name);
-      fd.append('label',    els.uploadLabel.value.trim());
-      fd.append('runAgent', runAgent ? '1' : '0');
+    // Insert a live progress event the upload handler will mutate.
+    const upload = makeEvent('export', {
+      tag: 'UPLOAD', text: `0% · 0 / ${formatBytes(pendingFile.size)}`,
+    });
+    upload.dataset.kind = 'all';
+    appendEvent(upload, 'all');
+    const uploadText = upload.querySelector('.event-text');
 
-      const res = await fetch('/upload-csv', { method: 'POST', body: fd });
-      await streamSseResponse(res);
+    // We use XHR (not fetch) because fetch's upload progress isn't exposed
+    // by any major browser as of 2026. XHR also lets us read the SSE
+    // response incrementally via the `progress` event on the response side.
+    try {
+      await uploadAndStream({
+        file:        pendingFile,
+        label:       els.uploadLabel.value.trim(),
+        runAgent,
+        onUploadProgress: (sent, total) => {
+          const pct  = total ? Math.round(sent / total * 100) : 0;
+          uploadText.textContent =
+            `${pct}% · ${formatBytes(sent)} / ${formatBytes(total)}`;
+        },
+        onUploadComplete: () => {
+          uploadText.textContent =
+            `100% · ${formatBytes(pendingFile.size)} (server processing…)`;
+        },
+        onSseFrame: handle,
+        onError: (msg) => {
+          appendEvent(makeEvent('error', { tag: 'UPLOAD ERR', text: msg }), 'error');
+        },
+      });
     } catch (e) {
       appendEvent(makeEvent('error', { tag: 'NET', text: e.message }), 'error');
     } finally {
       els.runBtn.disabled = false;
     }
   });
+
+  // XHR-based upload that:
+  //   • emits real upload progress (bytes sent / total) during the request
+  //   • parses SSE frames out of the response body as they arrive
+  //
+  // Returns a promise that resolves when the response stream ends.
+  function uploadAndStream({ file, label, runAgent, onUploadProgress,
+                             onUploadComplete, onSseFrame, onError }) {
+    return new Promise((resolve, reject) => {
+      const fd = new FormData();
+      fd.append('csv',      file, file.name);
+      fd.append('label',    label);
+      fd.append('runAgent', runAgent ? '1' : '0');
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload-csv', true);
+
+      // Upload-side progress (browser → server bytes).
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable && onUploadProgress) {
+          onUploadProgress(e.loaded, e.total);
+        }
+      });
+      xhr.upload.addEventListener('load', () => {
+        if (onUploadComplete) onUploadComplete();
+      });
+
+      // Response-side: parse SSE frames as the response body grows.
+      let lastIndex = 0;
+      let buffer    = '';
+      xhr.addEventListener('progress', () => {
+        // responseText now contains everything received so far. Read only
+        // the new bytes so we don't re-parse already-handled frames.
+        const newText = xhr.responseText.slice(lastIndex);
+        lastIndex = xhr.responseText.length;
+        buffer += newText;
+        let idx;
+        while ((idx = buffer.indexOf('\n\n')) !== -1) {
+          const frame = buffer.slice(0, idx);
+          buffer      = buffer.slice(idx + 2);
+          const line  = frame.split('\n').find(l => l.startsWith('data: '));
+          if (!line) continue;
+          try { onSseFrame(JSON.parse(line.slice(6))); }
+          catch (e) { onError && onError(`parse: ${e.message}`); }
+        }
+      });
+      xhr.addEventListener('load', () => {
+        if (xhr.status >= 200 && xhr.status < 300) resolve();
+        else reject(new Error(`HTTP ${xhr.status}: ${xhr.responseText.slice(0, 200)}`));
+      });
+      xhr.addEventListener('error',   () => reject(new Error('network error')));
+      xhr.addEventListener('abort',   () => reject(new Error('aborted')));
+      xhr.addEventListener('timeout', () => reject(new Error('timeout')));
+
+      // No timeout — large CSVs through the agent can run for an hour.
+      xhr.timeout = 0;
+      xhr.send(fd);
+    });
+  }
 
   // Init
   renderPhaseTracker();
