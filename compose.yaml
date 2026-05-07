@@ -46,6 +46,12 @@ services:
       NEO4J_USER:      "${NEO4J_USER:-neo4j}"
       NEO4J_PASSWORD:  "${NEO4J_PASSWORD}"
       NEO4J_DATABASE:  "${NEO4J_DATABASE:-neo4j}"
+
+      # Public Neo4j Browser URL used by the `graph-ready` SSE redirect in
+      # sparengine-export/server.mjs:501. Defaults to localhost for local dev;
+      # on production EC2 set NEO4J_BROWSER_URL=https://neo4j.sparengine.com
+      # in .env so the click-through link from the agent works for every user.
+      NEO4J_BROWSER_URL: "${NEO4J_BROWSER_URL:-http://localhost:7474}"
     volumes:
       - sparengine-csvs:/app/csvs
       # Read-only shared mount of the neo4j-import volume so Phase 10 can
@@ -88,6 +94,13 @@ services:
       NEO4J_server_memory_heap_initial__size: "512m"
       NEO4J_server_memory_heap_max__size:     "1g"
       NEO4J_server_memory_pagecache_size:     "512m"
+
+      # ---- production reverse-proxy (uncomment in production .env-driven) ----
+      # When neo4j.sparengine.com proxies → :7474 / :7687, Neo4j Browser needs
+      # to know its public-facing host so the WebSocket Bolt URL it constructs
+      # is reachable from the user's browser. These are read from .env.
+      NEO4J_dbms_default__advertised__address:        "${NEO4J_PUBLIC_HOST:-localhost}"
+      NEO4J_dbms_connector_bolt_advertised__address:  "${NEO4J_PUBLIC_BOLT:-localhost:7687}"
     volumes:
       - neo4j-data:/data
       - neo4j-logs:/logs
