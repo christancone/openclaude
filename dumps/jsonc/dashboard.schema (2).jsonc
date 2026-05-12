@@ -1,0 +1,955 @@
+// =============================================================================
+// SPARENGINE DASHBOARD JSON — SCHEMA
+// =============================================================================
+//
+// Purpose: defines the shape of the per-aircraft audit JSON consumed by the
+// customer dashboard. Every key Lukas's Graph Quality Assessment Checklist
+// asks for is represented here; the dashboard reads this shape and renders
+// per-aircraft views.
+//
+// File format: JSONC (JSON with Comments). Strip `//` and `/* */` comments
+// before parsing as plain JSON. The placeholder values inside this file
+// (e.g. "<HHH:MM string>") are not valid runtime data — they describe what
+// belongs in each slot. See CL650-6134-dashboard-example.jsonc for a real
+// populated instance.
+//
+// =============================================================================
+// SHARED SHAPE — TRACKED CLAIM WRAPPER
+// =============================================================================
+// Every quantitative or factual claim about the aircraft is wrapped in this
+// shape. The wrapper carries the value AND its provenance, so the dashboard
+// can always render "where did this come from?"
+//
+//   {
+//     "value":  <scalar | string | true | false | null | { numerator, denominator, percent }>,
+//     "unit":   "h" | "cy" | "months" | "%" | null,           // null for non-numeric/Yes-No/string
+//     "method": "confirmed" | "calculated" | "inferred" | "unknown" |
+//               "unresolvable" | "not_applicable" | "not_checked",
+//
+//     // Populated when method === "calculated":
+//     "computation": "TSN = AC TSN at cut-off (559:25) - AC TSN at install (0:00) = 559:25",
+//     "inputs":      [ /* nested tracked-claim shapes; each carries its own documents+citations */ ],
+//
+//     // Populated when value === false OR method ∈ {unresolvable, unknown}:
+//     "justification":         "...why we couldn't confirm / why the answer is No...",
+//     "recommended_documents": [ "Description of doc that would resolve the gap", ... ],
+//
+//     // Provenance — always present unless method === "not_checked":
+//     "documents":  [ { "id": "doc_xxx" }, ... ],   // refs into top-level dossier_documents[]
+//     "citations":  [
+//       {
+//         "document": 0,                  // index into local documents[] above
+//         "page":     208,                // 1-based, document-local
+//         "regions":  [
+//           {
+//             "bbox": { "x": 0.35, "y": 0.42, "width": 0.18, "height": 0.05 },  // normalized [0..1], top-left origin
+//             "contribution": "Block 12 — TSN at installation",                  // human-readable description of WHAT this region proves
+//             "excerpt":      "TSN: 0:00"                                        // optional: the literal text in the region
+//           }
+//         ]
+//       }
+//     ]
+//   }
+//
+// Number / % fields use { numerator, denominator, percent } as the value:
+//   "value": { "numerator": 47, "denominator": 53, "percent": 88.7 }
+//
+// =============================================================================
+// CONVENTIONS
+// =============================================================================
+// - Hours:    HHH:MM strings ("410:41"), NOT decimals.
+// - Cycles:   integers.
+// - Dates:    ISO 8601 — "YYYY-MM-DD" for date-only, "YYYY-MM-DDTHH:MM:SSZ" for full timestamps.
+// - Percent:  number 0–100, up to 2 decimals.
+// - IDs:      plain strings, NOT wrapped (component_id, finding_id, document_id are
+//             internal references, not aircraft facts).
+// - Coverage: every checklist item is ALWAYS present in the JSON. Items not yet
+//             assessed have method: "not_checked" and may omit documents/citations.
+// =============================================================================
+{
+  // ---------------------------------------------------------------------------
+  // METADATA ENVELOPE
+  // ---------------------------------------------------------------------------
+  "schema_version":       "<semver string, e.g. '1.0.0'>",                // schema version this document conforms to
+  "generated_at":         "<ISO 8601 UTC timestamp>",                     // when this file was produced
+  "audit_run_id":         "<unique string per audit run>",                // for tracing back to the Sparengine run that produced this
+  "sparengine_version":   "<semver of the Sparengine release>",           // tool version
+  "dossier_cut_off_date": "<YYYY-MM-DD>",                                 // the as-of date for utilization values (TSN/CSN snapshot)
+  "audit_snapshot_date":  "<YYYY-MM-DD>",                                 // when this audit ran (≥ dossier_cut_off_date)
+  "asset_id":             "<asset identifier, e.g. CL650-6134>",          // primary key for the aircraft
+  "asset_type":           "aircraft",                                     // enum reserved for future expansion (engine_only, propeller, etc.)
+
+  // ---------------------------------------------------------------------------
+  // PRE-FLIGHT CHECK
+  // ---------------------------------------------------------------------------
+  // Lukas's first sanity gate: is the corpus complete enough to even attempt
+  // an assessment? If No, the rest of the report is provisional.
+  "pre_flight_check": {
+    "corpus_complete_for_reliable_assessment": {                          // tracked-claim Yes/No
+      "value": null, "unit": null, "method": "not_checked",
+      "justification": "<populate when value === false>",
+      "recommended_documents": [],
+      "documents": [], "citations": []
+    },
+    "missing_corpus_description": {                                       // tracked-claim string — only relevant when corpus_complete is No
+      "value": null, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 1 — AIRCRAFT IDENTIFICATION
+  // ---------------------------------------------------------------------------
+  "aircraft_identification": {
+    "aircraft_registration": {                                            // string identity (e.g. "HB-JTZ"), wrapped for provenance
+      "value": "<string>", "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "serial_number": {                                                    // MSN — manufacturer serial number (e.g. "6134")
+      "value": "<string>", "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "model_and_variant": {                                                // e.g. "Bombardier CL-650 (CL-600-2B16)"
+      "value": "<string>", "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "certification_date": {                                               // C of A issuance / type-cert applicability
+      "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "total_airframe_hours": {                                             // current AC TSN at dossier cut-off
+      "value": "<HHH:MM string>", "unit": "h", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "airframe_hours_match_logbook": {                                     // Yes/No — TSN at cut-off matches last airframe logbook entry
+      "value": null, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "total_airframe_cycles": {                                            // current AC CSN at dossier cut-off
+      "value": 0, "unit": "cy", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "airframe_cycles_match_logbook": {                                    // Yes/No
+      "value": null, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "total_components_found": {                                           // count of records in components[]
+      "value": 0, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "unique_part_numbers_found": {                                        // distinct PN count
+      "value": 0, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "unique_serial_numbers_found": {                                      // distinct SN count
+      "value": 0, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "components_with_pn_and_sn_confirmed": {                              // Number / % — uses ratio value
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 },
+      "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "components_with_pn_only": {                                          // Number / %
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 },
+      "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "components_with_sn_only": {                                          // Number / %
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 },
+      "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "components_with_neither_pn_nor_sn": {                                // Number / %
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 },
+      "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 2 — KEY DOCUMENTS FOUND
+  // ---------------------------------------------------------------------------
+  // Each known document type has its own block. document_id (when present)
+  // refers into top-level dossier_documents[]. Assessment claims (found,
+  // expiry_date, currently_valid) live INLINE here, not on the document record.
+  "key_documents": {
+    "certificate_of_airworthiness": {
+      "document_id": null,                                                // string ref into dossier_documents[] | null when not found
+      "found":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "expiry_date":       { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "currently_valid":   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "airworthiness_review_certificate": {                                 // ARC
+      "document_id": null,
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "expiry_date":     { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "currently_valid": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "certificate_of_registration": {
+      "document_id": null,
+      "found":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "registration_matches_aircraft": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "radio_license": {
+      "document_id": null,
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "currently_valid": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "noise_certificate": {
+      "document_id": null,
+      "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "aircraft_flight_manual": {                                           // AFM
+      "document_id": null,
+      "found":                          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_supplements_found":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "supplements_match_stcs_and_mods": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "weight_and_balance_report": {
+      "document_id": null,
+      "found":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "report_date":            { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "current_and_not_overdue": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "minimum_equipment_list": {                                           // MEL
+      "document_id": null,
+      "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "operations_specifications": {
+      "document_id": null,
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "currently_valid": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "redelivery_or_delivery_acceptance": {                                // optional — Not Applicable for first-owner aircraft
+      "document_id": null,
+      "applicability": "<Applicable | NotApplicable>",                    // string flag — drives whether the next two fields render
+      "found":                              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "matches_current_configuration":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "paint_and_interior_condition_documentation": {
+      "document_id": null,
+      "found":                                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "covers_exterior_and_interior":                { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "dated_and_signed_by_authorised_person":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "noted_defects_have_repair_or_acceptance":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 3 — LOGBOOKS
+  // ---------------------------------------------------------------------------
+  // Each logbook block follows the same pattern: found, sequential continuity,
+  // last entry matches asset node. Engine logbooks reference engine_id; APU
+  // logbook references apu_id; main/APU battery logbooks reference component IDs.
+  "logbooks": {
+    "airframe": {
+      "document_id": null,
+      "found":                              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sequential_continuity_no_gaps":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_entry_tsn_csn_matches_aircraft": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "lh_engine": {
+      "document_id": null,
+      "engine_component_id": null,                                        // ref into components[] for the LH engine
+      "found":                              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sequential_continuity_no_gaps":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_entry_tsn_csn_matches_engine":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "rh_engine": {
+      "document_id": null,
+      "engine_component_id": null,
+      "found":                              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sequential_continuity_no_gaps":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_entry_tsn_csn_matches_engine":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "apu": {
+      "document_id": null,
+      "apu_component_id": null,
+      "found":                              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sequential_continuity_no_gaps":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_entry_tsh_cycles_matches_apu":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "main_battery": {
+      "document_id": null,
+      "battery_component_id": null,
+      "found":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_service_entry_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "apu_battery": {
+      "document_id": null,
+      "battery_component_id": null,
+      "found":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_service_entry_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 4 — BATTERY AND EMERGENCY EQUIPMENT
+  // ---------------------------------------------------------------------------
+  // Calendar-based items. Each equipment instance references a component_id in
+  // components[]. The detailed PN/SN/install/etc. lives on the component; this
+  // section captures the inspection/replacement currency status.
+  "battery_and_emergency_equipment": {
+    "main_battery": {
+      "component_id": null,
+      "service_record_found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_service_date":              { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "next_due_date":                  { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "within_approved_service_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "capacity_check_confirmed":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "apu_battery": {
+      "component_id": null,
+      "service_record_found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_service_date":              { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "next_due_date":                  { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "within_approved_service_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "capacity_check_confirmed":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "elt": {                                                              // Emergency Locator Transmitter
+      "component_id": null,
+      "found":                              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "battery_last_replacement_date":      { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "battery_next_replacement_due_date":  { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "battery_within_approved_interval":   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_operational_test_date":         { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "next_operational_test_due_date":     { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "operational_test_current_not_overdue": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "life_rafts": {
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_count":     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "instances": [                                                      // one entry per life raft, keyed by component_id
+        {
+          "component_id": null,
+          "last_repack_date":           { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "next_repack_due_date":       { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "repack_within_approved_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "hydrostatic_test_date":      { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "next_hydrostatic_test_due":  { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "hydrostatic_test_current":   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+        }
+      ]
+    },
+    "portable_breathing_equipment": {                                     // PBE
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_count":     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "instances": [
+        {
+          "component_id": null,
+          "expiry_date":               { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "time_remaining":            { "value": "<HHH:MM string or N months>", "unit": "months", "method": "not_checked", "documents": [], "citations": [] },
+          "within_approved_service_life": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+        }
+      ]
+    },
+    "portable_fire_extinguishers": {
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "instances": [
+        {
+          "component_id": null,
+          "last_service_date":          { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "next_service_due_date":      { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "service_within_approved_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "hydrostatic_test_date":      { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "next_hydrostatic_test_due":  { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "hydrostatic_test_current":   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+        }
+      ]
+    },
+    "life_vests": {
+      "found":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_count":   { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "instances": [
+        {
+          "component_id": null,
+          "last_inspection_date":       { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "next_inspection_due_date":   { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "inspection_within_approved_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+        }
+      ]
+    },
+    "oxygen_cylinders": {
+      "found":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "instances": [
+        {
+          "component_id": null,
+          "last_hydrostatic_test_date": { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "next_hydrostatic_test_due":  { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+          "hydrostatic_test_current":   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+        }
+      ],
+      "crew_oxygen_mask_regulators": {
+        "overhaul_status_confirmed":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "last_overhaul_date":           { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "next_overhaul_due_date":       { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "overhaul_within_approved_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      }
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 5 — MANUALS
+  // ---------------------------------------------------------------------------
+  "manuals": {
+    "aircraft_maintenance_manual": {                                      // AMM
+      "document_id": null,
+      "found":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "revision_status":        { "value": "<string e.g. 'Rev 23, Jan 2025'>", "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "illustrated_parts_catalog": {                                        // IPC
+      "document_id": null,
+      "found":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "revision_status":        { "value": "<string>", "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "wiring_diagram_manual": {                                            // WDM
+      "document_id": null,
+      "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "fault_isolation_manual": {                                           // FIM
+      "document_id": null,
+      "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "component_maintenance_manuals": {                                    // CMM — for major components
+      "found":                                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "cmms_match_installed_component_pns":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "stc_instructions_for_continued_airworthiness": {                     // ICA per STC
+      "found_for_each_stc":                     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "ica_revision_matches_current_stc":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "stc_documentation_complete": {
+      "complete":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "afms_found_for_each_stc":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "afms_incorporated_into_afm":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 6 — ENGINES AND APU
+  // ---------------------------------------------------------------------------
+  // Each engine and the APU references a component_id in components[]. The
+  // section captures the engine-/APU-level Yes/No checks plus the borescope
+  // and engine-cycle-delta items. PN/SN/TSN/CSN/etc. detail lives on the
+  // component record, but is mirrored here as tracked claims for the
+  // checklist's "PN confirmed", "matches engine logbook", etc. line items.
+  "engines_and_apu": {
+    "lh_engine": {
+      "component_id": null,                                               // ref into components[]
+      "pn_confirmed":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tsn_confirmed_or_calculated": { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tsn_matches_last_logbook_entry": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_confirmed_or_calculated": { "value": 0, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "csn_matches_last_logbook_entry": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tso_confirmed_or_calculated": { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tso_matches_last_shop_visit": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "cso_confirmed_or_calculated": { "value": 0, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "cso_matches_last_shop_visit": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "condition_at_installation_per_sn": [                               // see opening instruction step format
+        // { "sn": "<string>", "tsn_at_installation": <tracked-claim hours>, "csn_at_installation": <tracked-claim cycles>, "condition_classification": "confirmed_new|confirmed_used|inferred_new|unknown" }
+      ],
+      "borescope_inspection_report_found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_stage_findings_severity_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_no_findings_exceeding_serviceable_limits": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "rh_engine": {
+      "component_id": null,
+      // Same shape as lh_engine — see above.
+      "pn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook":                 { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook":                 { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tsn_confirmed_or_calculated":        { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tsn_matches_last_logbook_entry":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_confirmed_or_calculated":        { "value": 0, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "csn_matches_last_logbook_entry":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tso_confirmed_or_calculated":        { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tso_matches_last_shop_visit":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "cso_confirmed_or_calculated":        { "value": 0, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "cso_matches_last_shop_visit":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "condition_at_installation_per_sn":   [],
+      "borescope_inspection_report_found":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_stage_findings_severity_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_no_findings_exceeding_serviceable_limits": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "apu": {
+      "component_id": null,
+      "pn_confirmed":                   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":                   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tsh_confirmed_or_calculated":    { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] }, // APUs are tracked in TSH (time since hours) rather than TSN
+      "tsh_matches_last_logbook_entry": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "cycles_confirmed_or_calculated": { "value": 0, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "cycles_match_last_logbook_entry": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tso_confirmed_or_calculated":    { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tso_matches_last_shop_visit":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "condition_at_installation_per_sn": []
+    },
+    "engine_cycle_delta_documented": {                                    // Yes/No — cycle delta between engines and airframe
+      "value": null, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "engine_cycle_delta_explained_by_pre_install_bookkeeping": {
+      "value": null, "unit": null, "method": "not_checked",
+      "documents": [], "citations": []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 7 — LANDING GEAR
+  // ---------------------------------------------------------------------------
+  // Three primary assemblies: NLG + LH MLG + RH MLG. Each references a
+  // component_id. LG LLPs are individual components in components[] with
+  // component_category="LLP" and parent_assembly_id pointing at the LG.
+  "landing_gear": {
+    "nlg": {
+      "component_id": null,
+      "pn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook_or_install_record": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook_or_install_record": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "lh_mlg": {
+      "component_id": null,
+      "pn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook_or_install_record": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook_or_install_record": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "rh_mlg": {
+      "component_id": null,
+      "pn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook_or_install_record": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook_or_install_record": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "landing_gear_aggregate": {
+      "tsn_confirmed_or_calculated_for_all_three": { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tsn_matches_last_logbook_or_crs":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_confirmed_or_calculated_for_all_three": { "value": 0, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "csn_matches_last_logbook_or_crs":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tso_confirmed_or_calculated":               { "value": "<HHH:MM>", "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tso_within_approved_overhaul_interval":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "overhaul_status_confirmed":                 { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_overhaul_date":                        { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_overhaul_tsn_csn_confirmed":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_crs_for_landing_gear_confirmed":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "crs_issued_by_approved_organisation":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "landing_gear_llps": {
+      "status_confirmed":                          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llps_remaining_life_confirmed_or_calculated": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llps_remaining_life_positive":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llps_csn_at_event_populated":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                         []                     // refs into components[] for each LG LLP
+    },
+    "landing_gear_logbook": {
+      "document_id": null,
+      "found":                          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sequential_continuity_no_gaps":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "condition_at_installation_per_sn": []                                // same shape as engines/APU
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 8 — LIFE LIMITED PARTS (LLP)
+  // ---------------------------------------------------------------------------
+  // Per-engine and APU LLP rollup status. LLP detail records live in
+  // components[] with component_category="LLP". This section reports the
+  // Yes/No status of the rollup checks for each engine and the APU.
+  "life_limited_parts": {
+    "lh_engine_llps": {
+      "engine_component_id": null,
+      "status_fully_populated":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "limit_confirmed_for_each_llp":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_at_event_confirmed_for_each_llp":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "remaining_life_confirmed_or_calculated":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_remaining_life_positive":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                       [],                      // refs into components[]
+      "condition_at_installation_per_sn":        []
+    },
+    "rh_engine_llps": {
+      "engine_component_id": null,
+      "status_fully_populated":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "limit_confirmed_for_each_llp":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_at_event_confirmed_for_each_llp":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "remaining_life_confirmed_or_calculated":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_remaining_life_positive":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                       [],
+      "condition_at_installation_per_sn":        []
+    },
+    "apu_llps": {
+      "apu_component_id": null,
+      "status_fully_populated":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "limit_confirmed_for_each_llp":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_at_event_confirmed_for_each_llp":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "remaining_life_confirmed_or_calculated":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_remaining_life_positive":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                       [],
+      "condition_at_installation_per_sn":        []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 9 — RECORDS COMPLETENESS
+  // ---------------------------------------------------------------------------
+  // Each category sub-block follows the same general pattern (totals, %,
+  // approved-data, gaps) plus its own specific checks. The sub-blocks are
+  // documented inline below.
+  "records_completeness": {
+    "maintenance_records": {
+      "total_items_found":              { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_with_supporting_documentation": { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "documentation_from_approved_organisation": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "documentation_matches_installed_pn_sn":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_with_approved_data_or_authority_reference": { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "authority_reference_currently_valid":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "correct_regulatory_framework_applied":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_with_no_supporting_documentation":   { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "additional_documents_to_resolve_gap_identified": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_confirmed_compliant_or_current":     { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "compliance_in_logbook_and_mts":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_overdue_missing_or_incomplete":      { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "overdue_items_have_known_due_date":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "overdue_items_have_corrective_action":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_requiring_further_investigation":    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "investigation_nature_described":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      // Specific checks unique to maintenance records:
+      "work_packages_with_authorised_signatory":  { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "work_packages_with_crs_attached":          { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "crs_issued_by_approved_organisation":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "crs_references_correct_work_order_and_aircraft": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "non_routine_cards": {
+        "total_raised":                           { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "closed_with_corrective_action":          { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "still_open_or_unresolved":               { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "open_have_description_and_known_status": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      },
+      "operational_defect_history_tech_log": {
+        "tech_log_defect_entries_found":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "total_defect_entries":                   { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "defects_with_corrective_action":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "open_or_deferred_defects":               { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "open_defects_have_known_status_and_wo":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      }
+    },
+    "airworthiness_directives": {                                         // ALWAYS a mandatory PPI deliverable per Lukas
+      "ad_list_file_found":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_applicable_ads":                     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "ads_with_compliance_record":               { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ads_confirmed_complied_with":              { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ads_confirmed_not_applicable":             { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ads_confirmed_overdue":                    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "overdue_ads_have_known_due_date":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "ads_with_no_compliance_record":            { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ads_with_logbook_entry_confirmed":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ads_with_mts_record_confirmed":            { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "service_bulletins": {
+      "sb_list_file_found":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_applicable_sbs":                     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sbs_confirmed_complied_with":              { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "sbs_confirmed_not_applicable":             { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "sbs_open_or_recommended_not_done":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "open_sbs_have_known_due_date":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "alert_sbs_identified":                     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "repairs": {
+      "repair_list_file_found":                   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_repairs_identified":                 { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "repairs_with_approved_data_referenced":    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "repairs_with_ndt_report_where_required":   { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "dent_and_buckle_chart": {
+        "found":                                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "has_entries":                            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "all_entries_have_repair_record":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      }
+    },
+    "modifications_and_stcs": {
+      "total_stcs_identified":                    { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "stcs_with_ica_confirmed":                  { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ica_revision_matches_current_stc":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "stcs_with_afms_confirmed":                 { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "afms_incorporated_into_afm":               { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_modifications_identified":           { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "modifications_with_approved_data":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "components": {
+      "condition_at_installation": {
+        "confirmed_new":          { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "confirmed_overhauled":   { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "confirmed_repaired":     { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "confirmed_inspected":    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "unknown_or_undocumented": { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "source_document_identified": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      },
+      "serviceability_status": {
+        "serviceable":             { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "unserviceable":           { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "core_scrap_or_ber":       { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "unservicable_confirmed_removed_not_reinstalled": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      },
+      "tsn_csn_summary": {
+        "tsn_confirmed_or_calculated_for_all":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "tso_confirmed_or_calculated_for_all":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "csn_confirmed_or_calculated_for_all":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "cso_confirmed_or_calculated_for_all":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      }
+    },
+    "task_compliance": {
+      "tasks_signed_off_with_stamp_and_signature": { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "tasks_listed_not_signed_off":               { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "missing_signoff_reason_identified":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tasks_marked_not_required_or_na":           { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "tasks_deferred":                            { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "deferred_tasks_reference_target_wo":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tasks_with_ambiguous_compliance_status":    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "ambiguity_described":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "mts_vs_physical": {
+      "mts_exports_identified_in_corpus":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "mts_exports_flagged_as_hypothesis":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "every_mts_data_point_has_physical_confirmation": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "configuration_status": {
+      "as_built_matches_current_records":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_modifications_reflected_in_records":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_stcs_reflected_in_afm_supplements":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "configuration_discrepancies_described":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 10 — GRAPH QUALITY INDICATORS
+  // ---------------------------------------------------------------------------
+  // Sparengine-internal data quality metrics. Some counts are EXPECTED to be 0
+  // and only require justification when > 0 (singletons, orphans, stamps with
+  // no binding target, rotation issues, poor scan quality).
+  "graph_quality_indicators": {
+    "total_source_files_ingested":              { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "total_chunks_processed":                   { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "physical_records_and_mts_exports_distinguished": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "mts_data_points_flagged_separately":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "components_with_all_six_key_fields":       { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+    "missing_fields_identified_for_each_component_with_gaps": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "context_discrepancies_detected":           { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "each_discrepancy_described_and_flagged":   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "singleton_nodes_with_no_connections":      { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, // expected 0 — justify only when > 0
+    "orphan_documents":                         { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, // expected 0
+    "cross_references_resolved":                { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+    "tsn_csn_baseline_confidence":              { "value": "<Verified | Config_fallback | Unknown>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "tsn_csn_baseline_discrepancy_source_identified": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "batch_numbers_for_non_serialised_parts":   { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "batch_numbers_linked_to_install_records":  { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+    "evidentiary_weight_assessed_for_all_documents": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "documents_classified_into_evidence_classes": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "secondary_or_administrative_evidence_findings_flagged": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "stamp_binding_and_spatial_context_verified": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "all_stamps_correctly_bound":               { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "stamps_with_ambiguous_binding_flagged":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "stamps_with_no_binding_target":            { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, // expected 0
+    "scan_quality_and_rotation_assessed_for_all_pages": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "pages_with_rotation_issues":               { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, // expected 0
+    "rotation_corrected_before_extraction":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+    "pages_with_poor_scan_quality":             { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, // expected 0
+    "poor_quality_pages_flagged_for_manual_review": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 11 — OVERALL QUALITY SCORE
+  // ---------------------------------------------------------------------------
+  // Note from checklist: only PERCENT items feed the overall score. Yes/No and
+  // counts are excluded. The 'overall' field is calculated as the average of
+  // the six percent inputs and MUST carry method:"calculated" with a
+  // computation string and inputs[] referencing each input's tracked claim.
+  "overall_quality_score": {
+    "documents_complete": {                                               // # docs found across S2,S3,S4 / total expected
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "component_data_complete": {                                          // # components with all key fields / total components
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "ad_compliance_complete": {                                           // # ADs with compliance record / total applicable ADs
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "sb_compliance_complete": {                                           // # SBs with compliance record / total applicable SBs
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "form_1_coverage": {                                                  // # serialised components with Form 1 confirmed and SN match / total serialised
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "task_compliance_complete": {                                         // # tasks signed off / total tasks
+      "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked",
+      "documents": [], "citations": []
+    },
+    "overall": {                                                          // simple average of the six above
+      "value": 0, "unit": "%", "method": "calculated",
+      "computation": "average(documents_complete.percent, component_data_complete.percent, ad_compliance_complete.percent, sb_compliance_complete.percent, form_1_coverage.percent, task_compliance_complete.percent)",
+      "inputs": [
+        // Each input is a tracked-claim shape pointing back to one of the six fields above.
+        // Example shape:
+        // {
+        //   "label": "documents_complete",
+        //   "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "calculated",
+        //   "documents": [], "citations": []
+        // }
+      ],
+      "documents": [], "citations": []
+    }
+  },
+
+  // ===========================================================================
+  // TOP-LEVEL ARRAYS — referenced by ID from the sections above
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // COMPONENTS
+  // ---------------------------------------------------------------------------
+  // ONE unified schema for every serialized item: engines, APU, NLG/MLG,
+  // wheels, brakes, batteries, ELT, life rafts, PBEs, life vests, oxygen
+  // cylinders, fire extinguishers, AND every individual LLP within an
+  // assembly. Filter by component_category to render specialized tables:
+  //   - Component table:  list ALL records.
+  //   - LLP table:        filter component_category === "LLP".
+  // LLP-specific fields are populated only when component_category === "LLP".
+  "components": [
+    {
+      "id":                       "<component id, e.g. comp_wheel_3_MAY18-4688>",  // plain string, internal ref
+      "description":              { "value": "<string>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "part_number":              { "value": "<string>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "alternate_part_numbers": [
+        // Each entry is itself a tracked-claim string. Use this for OEM PN /
+        // vendor PN / operator PN aliases. Lukas's wheel example:
+        //   primary part_number = Honeywell PN "5012373"
+        //   alternate           = Bombardier OEM PN "K600-85032-5"
+      ],
+      "serial_number":            { "value": "<string>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "position":                 { "value": "<string e.g. 'RH INBD (#3)' | 'LH MLG' | 'FWD LH'>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "component_category":       "LLP",        // enum: LLP | Hard_Time | On_Condition | Time_Limit | Calendar
+      "part_status_at_installation": { "value": "<New | Repaired | Overhauled | Inspected | Used | Unknown>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "status":                   "CLOSED",      // enum: CLOSED | PARTIAL | INSTALLED_AT_MANUFACTURING | GAP_IN_DOSSIER
+      "parent_assembly_id":       null,          // string ref into another components[].id — for LLPs and subcomponents (e.g. wheel inside MLG, LLP inside engine); null when standalone
+      "first_install_date":       { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "<HHH:MM>",     "unit": "h",  "method": "not_checked", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0,              "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": "<HHH:MM>",     "unit": "h",  "method": "not_checked", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": 0,              "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "removal_date":             { "value": null,           "unit": null, "method": "not_checked", "documents": [], "citations": [] }, // null when currently installed
+      "removal_tsn":              { "value": null,           "unit": "h",  "method": "not_checked", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null,           "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 0,             "unit": "months", "method": "not_checked", "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "<HHH:MM>",     "unit": "h",  "method": "not_checked", "documents": [], "citations": [] }, // TSO-h
+      "cycles_since_repair":      { "value": 0,              "unit": "cy", "method": "not_checked", "documents": [], "citations": [] }, // TSO-cy
+      "modification_status":      { "value": "<NIL | description of mods>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "special_inspections": [
+        // Array of tracked-claim strings — each describes one special inspection
+        // performed (e.g. "BEAD SEAT EDDY CURRENT NDT (Form 1 Block 12)").
+      ],
+      "subcomponent_change_history": [
+        // Array of subcomponent change events. Use for tire changes on wheels,
+        // blade changes on propellers, module swaps on engines, etc.
+        // Each entry:
+        // {
+        //   "event_date":      <tracked-claim date>,
+        //   "work_order":      <tracked-claim string>,
+        //   "removed_pn":      <tracked-claim string>,
+        //   "removed_sn":      <tracked-claim string>,
+        //   "installed_pn":    <tracked-claim string>,
+        //   "installed_sn":    <tracked-claim string>,
+        //   "release_certificate": <tracked-claim string e.g. "FAA 8130-3">,
+        //   "notes":           <tracked-claim string>
+        // }
+      ],
+      "form_1_reference":         { "value": "<string e.g. 'EASA Form 1 L-337470, AMAC WO R0506421, signer Kaiser Frank (FKA), CH.145.0363'>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "<YYYY-MM-DD>", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "finding_ids":              [ /* array of finding IDs that reference this component */ ],
+
+      // -------------------------------------------------------------------
+      // LLP-only fields — populate ONLY when component_category === "LLP".
+      // For non-LLP components, omit these keys (or set to null + method:"not_applicable").
+      // -------------------------------------------------------------------
+      "life_limit": {
+        "value":  0,                                                      // numeric limit
+        "unit":   "cy",                                                   // "cy" | "h" | "months"
+        "method": "not_checked",
+        "documents": [], "citations": []
+      },
+      "tsn_at_event":             { "value": "<HHH:MM>", "unit": "h",  "method": "not_checked", "documents": [], "citations": [] }, // TSN at the most recent shop visit / overhaul
+      "csn_at_event":             { "value": 0,          "unit": "cy", "method": "not_checked", "documents": [], "citations": [] }, // CSN at the most recent shop visit / overhaul. CRITICAL — without this, remaining life cannot be calculated.
+      "remaining_life_until_overhaul": { "value": null, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] }, // value type matches life_limit.unit; null when unresolvable
+      "remaining_life_until_discard":  { "value": null, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "first_limited_indicator":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }  // true when this LLP has the FEWEST cycles remaining among LLPs on the same engine — drives executive summary surfacing
+    }
+    // ... additional component records follow this same shape ...
+  ],
+
+  // ---------------------------------------------------------------------------
+  // FINDINGS
+  // ---------------------------------------------------------------------------
+  // Top-level flat array of all audit findings. Severity follows Lukas's
+  // L1/L2/L3 scheme exactly:
+  //   level_1 = airworthiness block, must resolve before transaction closes
+  //   level_2 = data correction, work was done but recorded wrong
+  //   level_3 = improvement, will recur in future audits if ignored
+  // Categories are extensible but should use the established enum where applicable.
+  "findings": [
+    {
+      "id":          "<finding id, e.g. F-0001>",                         // plain string
+      "severity":    "level_1",                                           // enum: level_1 | level_2 | level_3
+      "category":    "FORM1_MISSING",                                     // enum: FORM1_MISSING | GAP_IN_DOSSIER | AD_COMPLIANCE_UNVERIFIED | LLP_LIMIT_CRITICAL | TASK_NOT_CONFIRMED | SN_AMBIGUOUS | SB_WITHOUT_CRS | CONTINUITY_BREAK | SHOP_VISIT_MISSING | TIMES_INCOMPLETE | MTS_CONFLICT | DATE_ANOMALY | BATCH_FORM1_PENDING | <extensible>
+      "title":       "<short headline, e.g. 'RH Engine HPT disc has 605 cycles remaining'>",
+      "description": "<long-form description of the finding>",
+      "location": {
+        "section":                   "<section key, e.g. 'engines_and_apu'>",
+        "path":                      "<dotted path into the section, e.g. 'engines_and_apu.rh_engine.llps'>",
+        "affected_component_ids":    [ /* refs into components[].id */ ]
+      },
+      "justification":      "<why this is a finding — must reference the documents and citations below>",
+      "recommended_action": "<what the buyer/operator should do to close the gap>",
+      "documents":          [],                                           // same shape as on tracked claims
+      "citations":          []                                            // same shape as on tracked claims — bbox highlights the proof
+    }
+    // ... additional findings follow this same shape ...
+  ],
+
+  // ---------------------------------------------------------------------------
+  // DOSSIER DOCUMENTS
+  // ---------------------------------------------------------------------------
+  // Master inventory of every document in the corpus. Citations elsewhere
+  // reference these by id. Document-level metadata lives ONLY here (file
+  // name, evidence class, page count, scan-quality flags, ingestion date).
+  // The found/expired/valid assessments for known document types (CofA,
+  // ARC, AFM, etc.) live INLINE in sections 2/3/5 — not on the document.
+  "dossier_documents": [
+    {
+      "id":             "<document id, e.g. doc_018>",                    // plain string, internal ref
+      "file_name":      "<original file name, e.g. CL65HBJTZ015MX.pdf>",
+      "document_type":  "<enum value>",                                   // Form_1 | CRS | WorkOrder | JobCard | Logbook | CofA | ARC | AFM | AMM | IPC | TLMC | MTS_Export | ServiceRecord | NoiseCertificate | RadioLicense | MEL | OpsSpec | WeightAndBalance | DentBuckleChart | RepairOrder | STC | AFMS | ICA | NDTReport | BorescopeReport | ConditionReport | HardTimeStatus | other
+      "evidence_class": "<enum>",                                         // primary | secondary | administrative | reference
+      "page_count":     0,                                                // total pages in the PDF
+      "scan_quality_flags": [
+        // Free-form strings describing per-page quality issues, e.g.
+        // "rotation_issue:p33", "poor_scan:p104", "low_contrast:p77-79".
+        // Empty array when no issues.
+      ],
+      "ingestion_date": "<YYYY-MM-DD>",                                   // when Sparengine ingested this document
+      "asset_id_link":  "<asset_id this document belongs to, e.g. CL650-6134>"
+    }
+    // ... additional document records follow this same shape ...
+  ]
+}

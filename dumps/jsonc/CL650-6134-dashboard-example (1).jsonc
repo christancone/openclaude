@@ -1,0 +1,1510 @@
+// =============================================================================
+// SPARENGINE DASHBOARD JSON — POPULATED EXAMPLE
+// Aircraft: Bombardier CL-650 / Registration HB-JTZ / MSN 6134
+// =============================================================================
+//
+// What this file is:
+//   A real populated instance of the dashboard schema for one specific aircraft.
+//   The dashboard team uses this as a fixture to design the UI; the Sparengine
+//   backend uses it as the target output shape. This file conforms to
+//   dashboard.schema.jsonc.
+//
+// Ground truth used:
+//   The wheel SN MAY18-4688 record (component id "comp_wheel_3_MAY18-4688") is
+//   populated directly from the user-provided Lukas-vs-Joyson comparison table
+//   for the CL650-6134 dossier. Other components, findings, and documents are
+//   representative — realistic for this aircraft type but not derived from a
+//   verified extraction.
+//
+// Coverage convention:
+//   Every checklist item exists in this file. Items not assessed in this run
+//   carry method:"not_checked" and may omit documents/citations. The dashboard
+//   never has to defensively check key existence.
+//
+// Date context:
+//   - dossier_cut_off_date 2022-12-29 — the as-of date for utilization values
+//   - audit_snapshot_date  2026-05-01 — when this audit run executed
+//
+// =============================================================================
+{
+  // ---------------------------------------------------------------------------
+  // METADATA ENVELOPE
+  // ---------------------------------------------------------------------------
+  "schema_version":       "1.0.0",
+  "generated_at":         "2026-05-01T09:00:00Z",
+  "audit_run_id":         "audit_CL650-6134_20260501_001",
+  "sparengine_version":   "0.5.2",
+  "dossier_cut_off_date": "2022-12-29",
+  "audit_snapshot_date":  "2026-05-01",
+  "asset_id":             "CL650-6134",
+  "asset_type":           "aircraft",
+
+  // ---------------------------------------------------------------------------
+  // PRE-FLIGHT CHECK
+  // ---------------------------------------------------------------------------
+  "pre_flight_check": {
+    "corpus_complete_for_reliable_assessment": {
+      "value": true, "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_001" }],
+      "citations": [
+        {
+          "document": 0, "page": 1,
+          "regions": [
+            {
+              "bbox": { "x": 0.10, "y": 0.05, "width": 0.40, "height": 0.04 },
+              "contribution": "Dossier table-of-contents covers all expected document types",
+              "excerpt": "CONTENTS: CofA, ARC, AFM, Engine LBs, MLG records, Form 1s..."
+            }
+          ]
+        }
+      ]
+    },
+    "missing_corpus_description": {
+      "value": null, "unit": null, "method": "not_applicable",
+      "documents": [], "citations": []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 1 — AIRCRAFT IDENTIFICATION
+  // ---------------------------------------------------------------------------
+  "aircraft_identification": {
+    "aircraft_registration": {
+      "value": "HB-JTZ", "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_004" }],   // CofA
+      "citations": [
+        { "document": 0, "page": 1,
+          "regions": [
+            { "bbox": { "x": 0.30, "y": 0.18, "width": 0.20, "height": 0.04 },
+              "contribution": "Registration printed on Certificate of Airworthiness header",
+              "excerpt": "HB-JTZ" }
+          ]
+        }
+      ]
+    },
+    "serial_number": {
+      "value": "6134", "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_004" }],
+      "citations": [
+        { "document": 0, "page": 1,
+          "regions": [
+            { "bbox": { "x": 0.55, "y": 0.18, "width": 0.10, "height": 0.04 },
+              "contribution": "MSN on Certificate of Airworthiness",
+              "excerpt": "MSN 6134" }
+          ]
+        }
+      ]
+    },
+    "model_and_variant": {
+      "value": "Bombardier CL-650 (CL-600-2B16)", "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_004" }],
+      "citations": [
+        { "document": 0, "page": 1,
+          "regions": [
+            { "bbox": { "x": 0.30, "y": 0.24, "width": 0.45, "height": 0.04 },
+              "contribution": "Model/variant on CofA",
+              "excerpt": "BOMBARDIER CL-600-2B16 (CHALLENGER 650)" }
+          ]
+        }
+      ]
+    },
+    "certification_date": {
+      "value": "2019-04-03", "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_004" }],
+      "citations": [
+        { "document": 0, "page": 1,
+          "regions": [
+            { "bbox": { "x": 0.10, "y": 0.32, "width": 0.20, "height": 0.04 },
+              "contribution": "Original C of A issuance date",
+              "excerpt": "Issued: 03 April 2019" }
+          ]
+        }
+      ]
+    },
+    "total_airframe_hours": {
+      "value": "559:25", "unit": "h", "method": "confirmed",
+      "documents": [{ "id": "doc_011" }],   // airframe logbook
+      "citations": [
+        { "document": 0, "page": 142,
+          "regions": [
+            { "bbox": { "x": 0.45, "y": 0.86, "width": 0.18, "height": 0.04 },
+              "contribution": "Last entry — total airframe hours",
+              "excerpt": "AC TSN: 559:25" }
+          ]
+        }
+      ]
+    },
+    "airframe_hours_match_logbook": {
+      "value": true, "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_011" }],
+      "citations": [
+        { "document": 0, "page": 142,
+          "regions": [
+            { "bbox": { "x": 0.45, "y": 0.86, "width": 0.18, "height": 0.04 },
+              "contribution": "Last logbook entry confirms TSN at cut-off",
+              "excerpt": "AC TSN: 559:25" }
+          ]
+        }
+      ]
+    },
+    "total_airframe_cycles": {
+      "value": 231, "unit": "cy", "method": "confirmed",
+      "documents": [{ "id": "doc_011" }],
+      "citations": [
+        { "document": 0, "page": 142,
+          "regions": [
+            { "bbox": { "x": 0.65, "y": 0.86, "width": 0.10, "height": 0.04 },
+              "contribution": "Last entry — airframe cycles",
+              "excerpt": "AC CSN: 231" }
+          ]
+        }
+      ]
+    },
+    "airframe_cycles_match_logbook": {
+      "value": true, "unit": null, "method": "confirmed",
+      "documents": [{ "id": "doc_011" }],
+      "citations": [
+        { "document": 0, "page": 142,
+          "regions": [
+            { "bbox": { "x": 0.65, "y": 0.86, "width": 0.10, "height": 0.04 },
+              "contribution": "Last logbook entry confirms CSN at cut-off",
+              "excerpt": "AC CSN: 231" }
+          ]
+        }
+      ]
+    },
+    "total_components_found": {
+      "value": 8, "unit": null, "method": "confirmed",
+      // Count of records in components[] in this example file. Real audits will be much higher.
+      "documents": [], "citations": []
+    },
+    "unique_part_numbers_found": {
+      "value": 8, "unit": null, "method": "confirmed",
+      "documents": [], "citations": []
+    },
+    "unique_serial_numbers_found": {
+      "value": 8, "unit": null, "method": "confirmed",
+      "documents": [], "citations": []
+    },
+    "components_with_pn_and_sn_confirmed": {
+      "value": { "numerator": 8, "denominator": 8, "percent": 100.0 },
+      "unit": "%", "method": "calculated",
+      "computation": "8 components with PN+SN / 8 total components = 100%",
+      "inputs": [],
+      "documents": [], "citations": []
+    },
+    "components_with_pn_only": {
+      "value": { "numerator": 0, "denominator": 8, "percent": 0.0 },
+      "unit": "%", "method": "calculated",
+      "computation": "0 / 8 = 0%",
+      "inputs": [],
+      "documents": [], "citations": []
+    },
+    "components_with_sn_only": {
+      "value": { "numerator": 0, "denominator": 8, "percent": 0.0 },
+      "unit": "%", "method": "calculated",
+      "computation": "0 / 8 = 0%",
+      "inputs": [],
+      "documents": [], "citations": []
+    },
+    "components_with_neither_pn_nor_sn": {
+      "value": { "numerator": 0, "denominator": 8, "percent": 0.0 },
+      "unit": "%", "method": "calculated",
+      "computation": "0 / 8 = 0%",
+      "inputs": [],
+      "documents": [], "citations": []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 2 — KEY DOCUMENTS FOUND
+  // ---------------------------------------------------------------------------
+  "key_documents": {
+    "certificate_of_airworthiness": {
+      "document_id": "doc_004",
+      "found":             { "value": true, "unit": null, "method": "confirmed",
+                             "documents": [{ "id": "doc_004" }],
+                             "citations": [{ "document": 0, "page": 1,
+                                             "regions": [{ "bbox": { "x": 0.10, "y": 0.05, "width": 0.80, "height": 0.10 },
+                                                           "contribution": "Document title — Certificate of Airworthiness",
+                                                           "excerpt": "CERTIFICATE OF AIRWORTHINESS" }] }] },
+      "expiry_date":       { "value": null, "unit": null, "method": "not_applicable",
+                             // C of A under EASA does not expire; airworthiness is reviewed annually via ARC.
+                             "documents": [], "citations": [] },
+      "currently_valid":   { "value": true, "unit": null, "method": "confirmed",
+                             "documents": [{ "id": "doc_005" }],
+                             "citations": [{ "document": 0, "page": 1,
+                                             "regions": [{ "bbox": { "x": 0.20, "y": 0.40, "width": 0.50, "height": 0.04 },
+                                                           "contribution": "ARC validates the C of A — current",
+                                                           "excerpt": "Valid until: 12 May 2026" }] }] }
+    },
+    "airworthiness_review_certificate": {
+      "document_id": "doc_005",
+      "found":           { "value": true, "unit": null, "method": "confirmed",
+                           "documents": [{ "id": "doc_005" }],
+                           "citations": [{ "document": 0, "page": 1,
+                                           "regions": [{ "bbox": { "x": 0.10, "y": 0.05, "width": 0.80, "height": 0.10 },
+                                                         "contribution": "Document title — ARC",
+                                                         "excerpt": "AIRWORTHINESS REVIEW CERTIFICATE" }] }] },
+      "expiry_date":     { "value": "2026-05-12", "unit": null, "method": "confirmed",
+                           "documents": [{ "id": "doc_005" }],
+                           "citations": [{ "document": 0, "page": 1,
+                                           "regions": [{ "bbox": { "x": 0.55, "y": 0.40, "width": 0.20, "height": 0.04 },
+                                                         "contribution": "ARC validity expiry date",
+                                                         "excerpt": "12 May 2026" }] }] },
+      "currently_valid": { "value": true, "unit": null, "method": "calculated",
+                           "computation": "ARC expiry 2026-05-12 ≥ audit_snapshot_date 2026-05-01 → valid",
+                           "inputs": [
+                             { "label": "ARC expiry", "value": "2026-05-12", "unit": null, "method": "confirmed",
+                               "documents": [{ "id": "doc_005" }],
+                               "citations": [{ "document": 0, "page": 1,
+                                               "regions": [{ "bbox": { "x": 0.55, "y": 0.40, "width": 0.20, "height": 0.04 },
+                                                             "contribution": "ARC expiry date",
+                                                             "excerpt": "12 May 2026" }] }] }
+                           ],
+                           "documents": [], "citations": [] }
+    },
+    "certificate_of_registration": {
+      "document_id": "doc_012",
+      "found":                       { "value": true, "unit": null, "method": "confirmed",
+                                       "documents": [{ "id": "doc_012" }],
+                                       "citations": [{ "document": 0, "page": 1,
+                                                       "regions": [{ "bbox": { "x": 0.15, "y": 0.05, "width": 0.70, "height": 0.10 },
+                                                                     "contribution": "Document title",
+                                                                     "excerpt": "CERTIFICATE OF REGISTRATION" }] }] },
+      "registration_matches_aircraft": { "value": true, "unit": null, "method": "confirmed",
+                                         "documents": [{ "id": "doc_012" }],
+                                         "citations": [{ "document": 0, "page": 1,
+                                                         "regions": [{ "bbox": { "x": 0.30, "y": 0.20, "width": 0.20, "height": 0.04 },
+                                                                       "contribution": "Registration on CofR matches aircraft node",
+                                                                       "excerpt": "HB-JTZ" }] }] }
+    },
+    "radio_license":      { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "currently_valid": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "noise_certificate":  { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "aircraft_flight_manual": {
+      "document_id": "doc_006",
+      "found":                          { "value": true, "unit": null, "method": "confirmed",
+                                          "documents": [{ "id": "doc_006" }],
+                                          "citations": [{ "document": 0, "page": 1,
+                                                          "regions": [{ "bbox": { "x": 0.20, "y": 0.10, "width": 0.60, "height": 0.10 },
+                                                                        "contribution": "AFM cover",
+                                                                        "excerpt": "AIRCRAFT FLIGHT MANUAL — CL-650" }] }] },
+      "all_supplements_found":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "supplements_match_stcs_and_mods": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "weight_and_balance_report":      { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "report_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "current_and_not_overdue": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "minimum_equipment_list":         { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "operations_specifications":      { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "currently_valid": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "redelivery_or_delivery_acceptance": { "document_id": null, "applicability": "NotApplicable", "found": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }, "matches_current_configuration": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] } },
+    "paint_and_interior_condition_documentation": { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "covers_exterior_and_interior": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "dated_and_signed_by_authorised_person": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "noted_defects_have_repair_or_acceptance": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 3 — LOGBOOKS
+  // ---------------------------------------------------------------------------
+  "logbooks": {
+    "airframe": {
+      "document_id": "doc_011",
+      "found":                              { "value": true, "unit": null, "method": "confirmed",
+                                              "documents": [{ "id": "doc_011" }],
+                                              "citations": [{ "document": 0, "page": 1,
+                                                              "regions": [{ "bbox": { "x": 0.20, "y": 0.10, "width": 0.60, "height": 0.10 },
+                                                                            "contribution": "Logbook cover",
+                                                                            "excerpt": "AIRFRAME LOG BOOK — HB-JTZ" }] }] },
+      "sequential_continuity_no_gaps":      { "value": true, "unit": null, "method": "confirmed",
+                                              "documents": [{ "id": "doc_011" }],
+                                              "citations": [{ "document": 0, "page": 1,
+                                                              "regions": [{ "bbox": { "x": 0.10, "y": 0.20, "width": 0.80, "height": 0.60 },
+                                                                            "contribution": "All page numbers sequential 1-142, no gaps",
+                                                                            "excerpt": "" }] }] },
+      "last_entry_tsn_csn_matches_aircraft": { "value": true, "unit": null, "method": "confirmed",
+                                               "documents": [{ "id": "doc_011" }],
+                                               "citations": [{ "document": 0, "page": 142,
+                                                               "regions": [{ "bbox": { "x": 0.45, "y": 0.86, "width": 0.30, "height": 0.04 },
+                                                                             "contribution": "Last entry TSN/CSN matches aircraft_identification node",
+                                                                             "excerpt": "AC TSN: 559:25 / CSN: 231" }] }] }
+    },
+    "lh_engine":   { "document_id": "doc_007", "engine_component_id": "comp_lh_engine", "found": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [{ "document": 0, "page": 1, "regions": [{ "bbox": { "x": 0.20, "y": 0.10, "width": 0.60, "height": 0.10 }, "contribution": "Engine logbook cover (LH)", "excerpt": "ENGINE LOG — LH POSITION" }] }] }, "sequential_continuity_no_gaps": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] }, "last_entry_tsn_csn_matches_engine": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] } },
+    "rh_engine":   { "document_id": "doc_008", "engine_component_id": "comp_rh_engine", "found": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 1, "regions": [{ "bbox": { "x": 0.20, "y": 0.10, "width": 0.60, "height": 0.10 }, "contribution": "Engine logbook cover (RH)", "excerpt": "ENGINE LOG — RH POSITION" }] }] }, "sequential_continuity_no_gaps": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] }, "last_entry_tsn_csn_matches_engine": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] } },
+    "apu":         { "document_id": null, "apu_component_id": "comp_apu", "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "sequential_continuity_no_gaps": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "last_entry_tsh_cycles_matches_apu": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "main_battery": { "document_id": null, "battery_component_id": "comp_main_battery", "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "last_service_entry_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "apu_battery": { "document_id": null, "battery_component_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "last_service_entry_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 4 — BATTERY AND EMERGENCY EQUIPMENT (mostly not_checked in this run)
+  // ---------------------------------------------------------------------------
+  "battery_and_emergency_equipment": {
+    "main_battery": {
+      "component_id": "comp_main_battery",
+      "service_record_found":            { "value": false, "unit": null, "method": "confirmed",
+                                           "justification": "No service record sheet for the main battery is included in the dossier.",
+                                           "recommended_documents": ["Operator's main battery capacity-check log or AMM 24-31 service card sequence."],
+                                           "documents": [], "citations": [] },
+      "last_service_date":               { "value": null, "unit": null, "method": "unresolvable",
+                                           "justification": "No service record found; cannot determine last service date.",
+                                           "recommended_documents": ["Most recent capacity-check entry from the operator's MTS or battery shop log."],
+                                           "documents": [], "citations": [] },
+      "next_due_date":                   { "value": null, "unit": null, "method": "unresolvable",
+                                           "justification": "Cannot calculate without last service date.",
+                                           "recommended_documents": ["Last service date + AMM 24-31 service interval (typically 12 months)."],
+                                           "documents": [], "citations": [] },
+      "within_approved_service_interval": { "value": null, "unit": null, "method": "unresolvable",
+                                            "justification": "Service interval undetermined.",
+                                            "recommended_documents": [],
+                                            "documents": [], "citations": [] },
+      "capacity_check_confirmed":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "apu_battery":                       { "component_id": null, "service_record_found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "last_service_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "next_due_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "within_approved_service_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "capacity_check_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "elt":                               { "component_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "battery_last_replacement_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "battery_next_replacement_due_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "battery_within_approved_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "last_operational_test_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "next_operational_test_due_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "operational_test_current_not_overdue": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "life_rafts":                        { "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "total_count": { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "instances": [] },
+    "portable_breathing_equipment":      { "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "total_count": { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "instances": [] },
+    "portable_fire_extinguishers":       { "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "instances": [] },
+    "life_vests":                        { "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "total_count": { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "instances": [] },
+    "oxygen_cylinders":                  { "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "instances": [], "crew_oxygen_mask_regulators": { "overhaul_status_confirmed": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "last_overhaul_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "next_overhaul_due_date": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "overhaul_within_approved_interval": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } } }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 5 — MANUALS
+  // ---------------------------------------------------------------------------
+  "manuals": {
+    "aircraft_maintenance_manual": {
+      "document_id": null,
+      "found":           { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "revision_status": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "illustrated_parts_catalog":               { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "revision_status": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "wiring_diagram_manual":                   { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "fault_isolation_manual":                  { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "component_maintenance_manuals":           { "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "cmms_match_installed_component_pns": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "stc_instructions_for_continued_airworthiness": { "found_for_each_stc": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "ica_revision_matches_current_stc": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "stc_documentation_complete":              { "complete": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "afms_found_for_each_stc": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "afms_incorporated_into_afm": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 6 — ENGINES AND APU
+  // ---------------------------------------------------------------------------
+  "engines_and_apu": {
+    "lh_engine": {
+      "component_id": "comp_lh_engine",
+      "pn_confirmed":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [{ "document": 0, "page": 4, "regions": [{ "bbox": { "x": 0.10, "y": 0.10, "width": 0.30, "height": 0.04 }, "contribution": "Engine PN on logbook header", "excerpt": "PN: CF34-3B" }] }] },
+      "pn_matches_logbook": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "sn_confirmed":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [{ "document": 0, "page": 4, "regions": [{ "bbox": { "x": 0.45, "y": 0.10, "width": 0.20, "height": 0.04 }, "contribution": "Engine SN on logbook header", "excerpt": "SN: 947251" }] }] },
+      "sn_matches_logbook": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "tsn_confirmed_or_calculated":          { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [{ "document": 0, "page": 78, "regions": [{ "bbox": { "x": 0.50, "y": 0.86, "width": 0.18, "height": 0.04 }, "contribution": "Engine TSN — last logbook entry", "excerpt": "TSN: 559:25" }] }] },
+      "tsn_matches_last_logbook_entry":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "csn_confirmed_or_calculated":          { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [{ "document": 0, "page": 78, "regions": [{ "bbox": { "x": 0.70, "y": 0.86, "width": 0.10, "height": 0.04 }, "contribution": "Engine CSN — last logbook entry", "excerpt": "CSN: 231" }] }] },
+      "csn_matches_last_logbook_entry":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "tso_confirmed_or_calculated":          { "value": "559:25", "unit": "h", "method": "confirmed",
+                                                "justification": null,
+                                                // No shop visit on this engine since installation at manufacturing — TSO equals TSN.
+                                                "documents": [{ "id": "doc_007" }], "citations": [] },
+      "tso_matches_last_shop_visit":          { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "cso_confirmed_or_calculated":          { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "cso_matches_last_shop_visit":          { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "condition_at_installation_per_sn": [
+        { "sn": "947251",
+          "tsn_at_installation": { "value": "0:00", "unit": "h", "method": "inferred", "justification": "Form 1 Block 12 was blank but unit confirmed new at OEM serialisation.", "documents": [{ "id": "doc_007" }], "citations": [] },
+          "csn_at_installation": { "value": 0, "unit": "cy", "method": "inferred", "documents": [{ "id": "doc_007" }], "citations": [] },
+          "condition_classification": "inferred_new" }
+      ],
+      "borescope_inspection_report_found":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_stage_findings_severity_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_no_findings_exceeding_serviceable_limits": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "rh_engine": {
+      "component_id": "comp_rh_engine",
+      "pn_confirmed":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 4, "regions": [{ "bbox": { "x": 0.10, "y": 0.10, "width": 0.30, "height": 0.04 }, "contribution": "Engine PN on logbook header", "excerpt": "PN: CF34-3B" }] }] },
+      "pn_matches_logbook": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "sn_confirmed":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 4, "regions": [{ "bbox": { "x": 0.45, "y": 0.10, "width": 0.20, "height": 0.04 }, "contribution": "Engine SN on logbook header", "excerpt": "SN: 947252" }] }] },
+      "sn_matches_logbook": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "tsn_confirmed_or_calculated":          { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 80, "regions": [{ "bbox": { "x": 0.50, "y": 0.86, "width": 0.18, "height": 0.04 }, "contribution": "Engine TSN — last logbook entry", "excerpt": "TSN: 559:25" }] }] },
+      "tsn_matches_last_logbook_entry":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "csn_confirmed_or_calculated":          { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "csn_matches_last_logbook_entry":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "tso_confirmed_or_calculated":          { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "tso_matches_last_shop_visit":          { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "cso_confirmed_or_calculated":          { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "cso_matches_last_shop_visit":          { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "condition_at_installation_per_sn": [
+        { "sn": "947252",
+          "tsn_at_installation": { "value": "0:00", "unit": "h", "method": "inferred", "documents": [{ "id": "doc_008" }], "citations": [] },
+          "csn_at_installation": { "value": 0, "unit": "cy", "method": "inferred", "documents": [{ "id": "doc_008" }], "citations": [] },
+          "condition_classification": "inferred_new" }
+      ],
+      "borescope_inspection_report_found":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_stage_findings_severity_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "borescope_no_findings_exceeding_serviceable_limits": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "apu": {
+      "component_id": "comp_apu",
+      "pn_confirmed":                   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "pn_matches_logbook":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_confirmed":                   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sn_matches_logbook":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tsh_confirmed_or_calculated":    { "value": null, "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tsh_matches_last_logbook_entry": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "cycles_confirmed_or_calculated": { "value": null, "unit": "cy", "method": "not_checked", "documents": [], "citations": [] },
+      "cycles_match_last_logbook_entry": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "tso_confirmed_or_calculated":    { "value": null, "unit": "h", "method": "not_checked", "documents": [], "citations": [] },
+      "tso_matches_last_shop_visit":    { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "condition_at_installation_per_sn": []
+    },
+    "engine_cycle_delta_documented":                              { "value": false, "unit": null, "method": "confirmed",
+                                                                     "justification": "No pre-install bookkeeping note found in dossier; both engines were installed at manufacturing, so cycle delta vs airframe is 0 by construction.",
+                                                                     "recommended_documents": ["Bombardier final assembly sheet for MSN 6134 confirming engine pairings."],
+                                                                     "documents": [], "citations": [] },
+    "engine_cycle_delta_explained_by_pre_install_bookkeeping":    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 7 — LANDING GEAR
+  // ---------------------------------------------------------------------------
+  "landing_gear": {
+    "nlg":    { "component_id": "comp_nlg",    "pn_confirmed": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }, "pn_matches_logbook_or_install_record": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] }, "sn_confirmed": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }, "sn_matches_logbook_or_install_record": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] } },
+    "lh_mlg": { "component_id": "comp_lh_mlg", "pn_confirmed": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }, "pn_matches_logbook_or_install_record": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] }, "sn_confirmed": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }, "sn_matches_logbook_or_install_record": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] } },
+    "rh_mlg": { "component_id": "comp_rh_mlg", "pn_confirmed": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }, "pn_matches_logbook_or_install_record": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] }, "sn_confirmed": { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }, "sn_matches_logbook_or_install_record": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] } },
+    "landing_gear_aggregate": {
+      "tsn_confirmed_or_calculated_for_all_three": { "value": "559:25", "unit": "h",  "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "tsn_matches_last_logbook_or_crs":           { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "csn_confirmed_or_calculated_for_all_three": { "value": 231,  "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "csn_matches_last_logbook_or_crs":           { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "tso_confirmed_or_calculated":               { "value": null, "unit": "h", "method": "not_applicable",
+                                                     "justification": "Landing gear has not been overhauled since installation at manufacturing — TSO not yet meaningful.",
+                                                     "documents": [], "citations": [] },
+      "tso_within_approved_overhaul_interval":     { "value": true, "unit": null, "method": "calculated",
+                                                     "computation": "TSN 559:25 well below CL650 LG overhaul threshold (~10,000 cy / 12 yr)",
+                                                     "inputs": [], "documents": [], "citations": [] },
+      "overhaul_status_confirmed":                 { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "last_overhaul_date":                        { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_overhaul_tsn_csn_confirmed":           { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_crs_for_landing_gear_confirmed":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [{ "document": 0, "page": 211, "regions": [{ "bbox": { "x": 0.10, "y": 0.50, "width": 0.80, "height": 0.20 }, "contribution": "CRS following the wheel repair sequence", "excerpt": "CRS issued by AMAC Aerospace, CH.145.0363" }] }] },
+      "crs_issued_by_approved_organisation":       { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }
+    },
+    "landing_gear_llps": {
+      "status_confirmed":                                { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llps_remaining_life_confirmed_or_calculated": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llps_remaining_life_positive":                { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llps_csn_at_event_populated":                 { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                               []
+    },
+    "landing_gear_logbook":                              { "document_id": null, "found": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }, "sequential_continuity_no_gaps": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] } },
+    "condition_at_installation_per_sn": []
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 8 — LIFE LIMITED PARTS (LLP)
+  // ---------------------------------------------------------------------------
+  "life_limited_parts": {
+    "lh_engine_llps": {
+      "engine_component_id": "comp_lh_engine",
+      "status_fully_populated":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "limit_confirmed_for_each_llp":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_at_event_confirmed_for_each_llp":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "remaining_life_confirmed_or_calculated":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_remaining_life_positive":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                       [],
+      "condition_at_installation_per_sn":        []
+    },
+    "rh_engine_llps": {
+      "engine_component_id": "comp_rh_engine",
+      "status_fully_populated":                  { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":  { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "limit_confirmed_for_each_llp":            { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "csn_at_event_confirmed_for_each_llp":     { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "remaining_life_confirmed_or_calculated":  { "value": true, "unit": null, "method": "calculated",
+                                                   "computation": "All RH engine LLPs have life_limit, csn_at_event, and accumulated cycles populated; remaining_life = limit - csn_at_event - cycles_since_event.",
+                                                   "inputs": [],
+                                                   "documents": [], "citations": [] },
+      "all_remaining_life_positive":             { "value": true, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "llp_component_ids":                       ["comp_rh_engine_hpt_disc"],
+      "condition_at_installation_per_sn":        []
+    },
+    "apu_llps": {
+      "apu_component_id": "comp_apu",
+      "status_fully_populated":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_llp_nodes_have_pn_and_sn_confirmed":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "limit_confirmed_for_each_llp":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "csn_at_event_confirmed_for_each_llp":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "remaining_life_confirmed_or_calculated":  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "all_remaining_life_positive":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "llp_component_ids":                       [],
+      "condition_at_installation_per_sn":        []
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 9 — RECORDS COMPLETENESS
+  // ---------------------------------------------------------------------------
+  "records_completeness": {
+    "maintenance_records": {
+      "total_items_found":                              { "value": 412, "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "items_with_supporting_documentation":            { "value": { "numerator": 398, "denominator": 412, "percent": 96.6 }, "unit": "%", "method": "calculated", "computation": "398 / 412 = 96.6%", "inputs": [], "documents": [], "citations": [] },
+      "documentation_from_approved_organisation":       { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "documentation_matches_installed_pn_sn":          { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "items_with_approved_data_or_authority_reference": { "value": { "numerator": 398, "denominator": 412, "percent": 96.6 }, "unit": "%", "method": "calculated", "computation": "398 / 412 = 96.6%", "inputs": [], "documents": [], "citations": [] },
+      "authority_reference_currently_valid":            { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "correct_regulatory_framework_applied":           { "value": true, "unit": null, "method": "confirmed",
+                                                          // EASA Part-145 — operator is Switzerland-registered
+                                                          "documents": [], "citations": [] },
+      "items_with_no_supporting_documentation":         { "value": { "numerator": 14, "denominator": 412, "percent": 3.4 }, "unit": "%", "method": "calculated", "computation": "14 / 412 = 3.4%", "inputs": [], "documents": [], "citations": [] },
+      "additional_documents_to_resolve_gap_identified": { "value": true, "unit": null, "method": "confirmed",
+                                                          "justification": null,
+                                                          "documents": [], "citations": [] },
+      "items_confirmed_compliant_or_current":           { "value": { "numerator": 398, "denominator": 412, "percent": 96.6 }, "unit": "%", "method": "calculated", "computation": "398 / 412 = 96.6%", "inputs": [], "documents": [], "citations": [] },
+      "compliance_in_logbook_and_mts":                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "items_overdue_missing_or_incomplete":            { "value": { "numerator": 0, "denominator": 412, "percent": 0.0 }, "unit": "%", "method": "calculated", "computation": "0 / 412 = 0%", "inputs": [], "documents": [], "citations": [] },
+      "overdue_items_have_known_due_date":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "overdue_items_have_corrective_action":           { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "items_requiring_further_investigation":          { "value": { "numerator": 14, "denominator": 412, "percent": 3.4 }, "unit": "%", "method": "calculated", "computation": "14 / 412 = 3.4%", "inputs": [], "documents": [], "citations": [] },
+      "investigation_nature_described":                 { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "work_packages_with_authorised_signatory":        { "value": { "numerator": 88, "denominator": 88, "percent": 100.0 }, "unit": "%", "method": "calculated", "computation": "88 / 88 = 100%", "inputs": [], "documents": [], "citations": [] },
+      "work_packages_with_crs_attached":                { "value": { "numerator": 87, "denominator": 88, "percent": 98.9 }, "unit": "%", "method": "calculated", "computation": "87 / 88 = 98.9%", "inputs": [], "documents": [], "citations": [] },
+      "crs_issued_by_approved_organisation":            { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "crs_references_correct_work_order_and_aircraft": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "non_routine_cards": {
+        "total_raised":                                 { "value": 23, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+        "closed_with_corrective_action":                { "value": { "numerator": 22, "denominator": 23, "percent": 95.7 }, "unit": "%", "method": "calculated", "computation": "22 / 23 = 95.7%", "inputs": [], "documents": [], "citations": [] },
+        "still_open_or_unresolved":                     { "value": { "numerator": 1, "denominator": 23, "percent": 4.3 }, "unit": "%", "method": "calculated", "computation": "1 / 23 = 4.3%", "inputs": [], "documents": [], "citations": [] },
+        "open_have_description_and_known_status":       { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] }
+      },
+      "operational_defect_history_tech_log": {
+        "tech_log_defect_entries_found":                { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "total_defect_entries":                         { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "defects_with_corrective_action":               { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "open_or_deferred_defects":                     { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        "open_defects_have_known_status_and_wo":        { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      }
+    },
+    "airworthiness_directives": {
+      // Lukas: AD compliance is ALWAYS a mandatory PPI deliverable. If the register cannot be reviewed, this is a Level 1 finding (see findings F-0003).
+      "ad_list_file_found":                       { "value": false, "unit": null, "method": "confirmed",
+                                                    "justification": "No comprehensive AD compliance register found in dossier (neither AD list file nor MTS export with AD section).",
+                                                    "recommended_documents": ["Operator's AD compliance register or MTS AD section export"],
+                                                    "documents": [], "citations": [] },
+      "total_applicable_ads":                     { "value": null, "unit": null, "method": "unresolvable",
+                                                    "justification": "Cannot determine without an AD list file.",
+                                                    "recommended_documents": ["EASA AD list filtered for CL-600-2B16 + GE CF34-3B + APU model"],
+                                                    "documents": [], "citations": [] },
+      "ads_with_compliance_record":               { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+      "ads_confirmed_complied_with":              { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+      "ads_confirmed_not_applicable":             { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+      "ads_confirmed_overdue":                    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+      "overdue_ads_have_known_due_date":          { "value": null, "unit": null, "method": "unresolvable", "documents": [], "citations": [] },
+      "ads_with_no_compliance_record":            { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+      "ads_with_logbook_entry_confirmed":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+      "ads_with_mts_record_confirmed":            { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "unresolvable", "documents": [], "citations": [] }
+    },
+    "service_bulletins": {
+      "sb_list_file_found":                       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_applicable_sbs":                     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "sbs_confirmed_complied_with":              { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "sbs_confirmed_not_applicable":             { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "sbs_open_or_recommended_not_done":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "open_sbs_have_known_due_date":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "alert_sbs_identified":                     { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "repairs": {
+      "repair_list_file_found":                   { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "total_repairs_identified":                 { "value": 0, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "repairs_with_approved_data_referenced":    { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "repairs_with_ndt_report_where_required":   { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+      "dent_and_buckle_chart": {
+        "found":                                  { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "has_entries":                            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+        "all_entries_have_repair_record":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+      }
+    },
+    "modifications_and_stcs": {
+      "total_stcs_identified":                    { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "stcs_with_ica_confirmed":                  { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_applicable", "documents": [], "citations": [] },
+      "ica_revision_matches_current_stc":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "stcs_with_afms_confirmed":                 { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_applicable", "documents": [], "citations": [] },
+      "afms_incorporated_into_afm":               { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "total_modifications_identified":           { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "modifications_with_approved_data":         { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_applicable", "documents": [], "citations": [] }
+    },
+    "components": {
+      "condition_at_installation": {
+        "confirmed_new":          { "value": { "numerator": 6, "denominator": 8, "percent": 75.0 }, "unit": "%", "method": "calculated", "computation": "6 / 8 = 75%", "inputs": [], "documents": [], "citations": [] },
+        "confirmed_overhauled":   { "value": { "numerator": 0, "denominator": 8, "percent": 0.0 }, "unit": "%", "method": "calculated", "computation": "0 / 8 = 0%", "inputs": [], "documents": [], "citations": [] },
+        "confirmed_repaired":     { "value": { "numerator": 1, "denominator": 8, "percent": 12.5 }, "unit": "%", "method": "calculated", "computation": "1 / 8 = 12.5% (the wheel SN MAY18-4688)", "inputs": [], "documents": [], "citations": [] },
+        "confirmed_inspected":    { "value": { "numerator": 0, "denominator": 8, "percent": 0.0 }, "unit": "%", "method": "calculated", "computation": "0 / 8 = 0%", "inputs": [], "documents": [], "citations": [] },
+        "unknown_or_undocumented": { "value": { "numerator": 1, "denominator": 8, "percent": 12.5 }, "unit": "%", "method": "calculated", "computation": "1 / 8 = 12.5% (APU — not yet assessed)", "inputs": [], "documents": [], "citations": [] },
+        "source_document_identified": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] }
+      },
+      "serviceability_status": {
+        "serviceable":             { "value": { "numerator": 8, "denominator": 8, "percent": 100.0 }, "unit": "%", "method": "calculated", "computation": "8 / 8 = 100%", "inputs": [], "documents": [], "citations": [] },
+        "unserviceable":           { "value": { "numerator": 0, "denominator": 8, "percent": 0.0 }, "unit": "%", "method": "calculated", "computation": "0 / 8 = 0%", "inputs": [], "documents": [], "citations": [] },
+        "core_scrap_or_ber":       { "value": { "numerator": 0, "denominator": 8, "percent": 0.0 }, "unit": "%", "method": "calculated", "computation": "0 / 8 = 0%", "inputs": [], "documents": [], "citations": [] },
+        "unservicable_confirmed_removed_not_reinstalled": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+      },
+      "tsn_csn_summary": {
+        "tsn_confirmed_or_calculated_for_all":    { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+        "tso_confirmed_or_calculated_for_all":    { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+        "csn_confirmed_or_calculated_for_all":    { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+        "cso_confirmed_or_calculated_for_all":    { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] }
+      }
+    },
+    "task_compliance": {
+      "tasks_signed_off_with_stamp_and_signature": { "value": { "numerator": 387, "denominator": 412, "percent": 93.9 }, "unit": "%", "method": "calculated", "computation": "387 / 412 = 93.9%", "inputs": [], "documents": [], "citations": [] },
+      "tasks_listed_not_signed_off":               { "value": { "numerator": 11, "denominator": 412, "percent": 2.7 }, "unit": "%", "method": "calculated", "computation": "11 / 412 = 2.7%", "inputs": [], "documents": [], "citations": [] },
+      "missing_signoff_reason_identified":         { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "tasks_marked_not_required_or_na":           { "value": { "numerator": 9, "denominator": 412, "percent": 2.2 }, "unit": "%", "method": "calculated", "computation": "9 / 412 = 2.2%", "inputs": [], "documents": [], "citations": [] },
+      "tasks_deferred":                            { "value": { "numerator": 5, "denominator": 412, "percent": 1.2 }, "unit": "%", "method": "calculated", "computation": "5 / 412 = 1.2%", "inputs": [], "documents": [], "citations": [] },
+      "deferred_tasks_reference_target_wo":        { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "tasks_with_ambiguous_compliance_status":    { "value": { "numerator": 0, "denominator": 412, "percent": 0.0 }, "unit": "%", "method": "calculated", "computation": "0 / 412 = 0%", "inputs": [], "documents": [], "citations": [] },
+      "ambiguity_described":                       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+    "mts_vs_physical": {
+      "mts_exports_identified_in_corpus":          { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "mts_exports_flagged_as_hypothesis":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "every_mts_data_point_has_physical_confirmation": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] }
+    },
+    "configuration_status": {
+      "as_built_matches_current_records":          { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "all_modifications_reflected_in_records":    { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "all_stcs_reflected_in_afm_supplements":     { "value": null, "unit": null, "method": "not_applicable",
+                                                     "justification": "No STCs identified for this aircraft.",
+                                                     "documents": [], "citations": [] },
+      "configuration_discrepancies_described":     { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 10 — GRAPH QUALITY INDICATORS
+  // ---------------------------------------------------------------------------
+  "graph_quality_indicators": {
+    "total_source_files_ingested":              { "value": 12, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "total_chunks_processed":                   { "value": 4781, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "physical_records_and_mts_exports_distinguished": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "mts_data_points_flagged_separately":       { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "components_with_all_six_key_fields":       { "value": { "numerator": 8, "denominator": 8, "percent": 100.0 }, "unit": "%", "method": "calculated", "computation": "8 / 8 = 100% — six key fields are PN, SN, position, TSN, CSN, Form 1", "inputs": [], "documents": [], "citations": [] },
+    "missing_fields_identified_for_each_component_with_gaps": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+    "context_discrepancies_detected":           { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "each_discrepancy_described_and_flagged":   { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+    "singleton_nodes_with_no_connections":      { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] }, // expected 0 — no justification needed
+    "orphan_documents":                         { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "cross_references_resolved":                { "value": { "numerator": 318, "denominator": 320, "percent": 99.4 }, "unit": "%", "method": "calculated", "computation": "318 / 320 = 99.4%", "inputs": [], "documents": [], "citations": [] },
+    "tsn_csn_baseline_confidence":              { "value": "Verified", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+    "tsn_csn_baseline_discrepancy_source_identified": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+    "batch_numbers_for_non_serialised_parts":   { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "batch_numbers_linked_to_install_records":  { "value": { "numerator": 0, "denominator": 0, "percent": 0 }, "unit": "%", "method": "not_applicable", "documents": [], "citations": [] },
+    "evidentiary_weight_assessed_for_all_documents": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "documents_classified_into_evidence_classes": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "secondary_or_administrative_evidence_findings_flagged": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "stamp_binding_and_spatial_context_verified": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "all_stamps_correctly_bound":               { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "stamps_with_ambiguous_binding_flagged":    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+    "stamps_with_no_binding_target":            { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "scan_quality_and_rotation_assessed_for_all_pages": { "value": true, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "pages_with_rotation_issues":               { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "rotation_corrected_before_extraction":     { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+    "pages_with_poor_scan_quality":             { "value": 0, "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+    "poor_quality_pages_flagged_for_manual_review": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTION 11 — OVERALL QUALITY SCORE
+  // ---------------------------------------------------------------------------
+  // Only PERCENT items feed the overall score. The 'overall' field is the
+  // average of the six percent inputs and is method:"calculated" with the
+  // computation showing the math.
+  "overall_quality_score": {
+    "documents_complete":         { "value": { "numerator": 6,  "denominator": 12, "percent": 50.0 }, "unit": "%", "method": "calculated", "computation": "6 docs found across S2,S3,S4 / 12 expected = 50%", "inputs": [], "documents": [], "citations": [] },
+    "component_data_complete":    { "value": { "numerator": 8,  "denominator": 8,  "percent": 100.0 }, "unit": "%", "method": "calculated", "computation": "8 / 8 = 100%", "inputs": [], "documents": [], "citations": [] },
+    "ad_compliance_complete":     { "value": { "numerator": 0,  "denominator": 0,  "percent": 0.0 },  "unit": "%", "method": "unresolvable", "computation": "Cannot calculate — AD list file missing.", "inputs": [], "justification": "AD register not in dossier.", "recommended_documents": ["EASA AD list filtered for type"], "documents": [], "citations": [] },
+    "sb_compliance_complete":     { "value": { "numerator": 0,  "denominator": 0,  "percent": 0.0 },  "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+    "form_1_coverage":            { "value": { "numerator": 7,  "denominator": 8,  "percent": 87.5 }, "unit": "%", "method": "calculated", "computation": "7 / 8 = 87.5%", "inputs": [], "documents": [], "citations": [] },
+    "task_compliance_complete":   { "value": { "numerator": 387, "denominator": 412, "percent": 93.9 }, "unit": "%", "method": "calculated", "computation": "387 / 412 = 93.9%", "inputs": [], "documents": [], "citations": [] },
+    "overall": {
+      "value": 65.86, "unit": "%", "method": "calculated",
+      "computation": "average(50.0, 100.0, 0.0, 0.0, 87.5, 93.9) = 65.23 % — note: ad_compliance and sb_compliance fed in as 0 because data is missing/not_checked; these drag the score down significantly. With AD/SB resolved at typical values (~95%), overall would rise to ~87%.",
+      "inputs": [
+        { "label": "documents_complete",        "value": 50.0,  "unit": "%", "method": "calculated", "documents": [], "citations": [] },
+        { "label": "component_data_complete",   "value": 100.0, "unit": "%", "method": "calculated", "documents": [], "citations": [] },
+        { "label": "ad_compliance_complete",    "value": 0.0,   "unit": "%", "method": "unresolvable", "documents": [], "citations": [] },
+        { "label": "sb_compliance_complete",    "value": 0.0,   "unit": "%", "method": "not_checked", "documents": [], "citations": [] },
+        { "label": "form_1_coverage",           "value": 87.5,  "unit": "%", "method": "calculated", "documents": [], "citations": [] },
+        { "label": "task_compliance_complete",  "value": 93.9,  "unit": "%", "method": "calculated", "documents": [], "citations": [] }
+      ],
+      "documents": [], "citations": []
+    }
+  },
+
+  // ===========================================================================
+  // TOP-LEVEL ARRAYS
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // COMPONENTS
+  // ---------------------------------------------------------------------------
+  "components": [
+
+    // ─────────────────────────────────────────────────────────────────────
+    // GROUND TRUTH — Wheel #3 (RH INBD) SN MAY18-4688
+    // Source: user-provided Lukas-vs-Joyson comparison table for CL650-6134.
+    // This record is the canonical example for the dashboard team.
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_wheel_3_MAY18-4688",
+      "description":              { "value": "Main Wheel Assembly, MLG", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 208,
+                                                    "regions": [{ "bbox": { "x": 0.10, "y": 0.20, "width": 0.50, "height": 0.04 },
+                                                                  "contribution": "Block 1 — description on EASA Form 1",
+                                                                  "excerpt": "Main Wheel Assembly, MLG" }] }] },
+      "part_number":              { "value": "5012373", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 208,
+                                                    "regions": [{ "bbox": { "x": 0.65, "y": 0.20, "width": 0.20, "height": 0.04 },
+                                                                  "contribution": "Block 6 — Honeywell PN",
+                                                                  "excerpt": "5012373" }] }] },
+      "alternate_part_numbers": [
+        { "value": "K600-85032-5", "unit": null, "method": "confirmed",
+          // Bombardier OEM PN — Lukas tags this as a critical alternate. The TLMC uses this PN; the Honeywell shop uses 5012373.
+          "documents": [{ "id": "doc_001" }],
+          "citations": [{ "document": 0, "page": 209,
+                          "regions": [{ "bbox": { "x": 0.30, "y": 0.40, "width": 0.20, "height": 0.04 },
+                                        "contribution": "Bombardier OEM PN listed alongside Honeywell PN in Block 12",
+                                        "excerpt": "Bombardier PN: K600-85032-5" }] }] }
+      ],
+      "serial_number":            { "value": "MAY18-4688", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 208,
+                                                    "regions": [{ "bbox": { "x": 0.65, "y": 0.26, "width": 0.20, "height": 0.04 },
+                                                                  "contribution": "Block 7 — serial number",
+                                                                  "excerpt": "MAY18-4688" }] }] },
+      "position":                 { "value": "RH INBD (#3)", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 210,
+                                                    "regions": [{ "bbox": { "x": 0.10, "y": 0.50, "width": 0.30, "height": 0.04 },
+                                                                  "contribution": "Position label on installation card",
+                                                                  "excerpt": "Position 3 — RH INBD" }] }] },
+      "component_category":       "On_Condition",   // No hard time, no LLP. TLMC interval is "A/R" (As Required).
+      "part_status_at_installation": { "value": "Repaired", "unit": null, "method": "confirmed",
+                                       "documents": [{ "id": "doc_001" }],
+                                       "citations": [{ "document": 0, "page": 208,
+                                                       "regions": [{ "bbox": { "x": 0.20, "y": 0.32, "width": 0.30, "height": 0.04 },
+                                                                     "contribution": "Block 11 — status on EASA Form 1 at last shop event",
+                                                                     "excerpt": "Block 11: REPAIRED" }] }] },
+      "status":                   "CLOSED",
+      "parent_assembly_id":       "comp_rh_mlg",
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred",
+                                    "justification": "First-install date inferred from C of A issuance date — no separate installation card found for the original install at manufacturing.",
+                                    "recommended_documents": ["Bombardier final assembly card for MSN 6134 listing wheel installations"],
+                                    "documents": [{ "id": "doc_004" }],
+                                    "citations": [{ "document": 0, "page": 1,
+                                                    "regions": [{ "bbox": { "x": 0.10, "y": 0.32, "width": 0.20, "height": 0.04 },
+                                                                  "contribution": "C of A issuance date used as install proxy",
+                                                                  "excerpt": "Issued: 03 April 2019" }] }] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred",
+                                    "justification": "Aircraft TSN at first install assumed 0:00 — wheel installed at manufacturing.",
+                                    "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": "2021-07-16", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 208,
+                                                    "regions": [{ "bbox": { "x": 0.55, "y": 0.32, "width": 0.20, "height": 0.04 },
+                                                                  "contribution": "Block 13 — date of issue / last shop event",
+                                                                  "excerpt": "16-JUL-2021" }] }] },
+      "last_repair_ac_tsn":       { "value": "410:41", "unit": "h", "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 209,
+                                                    "regions": [{ "bbox": { "x": 0.30, "y": 0.50, "width": 0.18, "height": 0.04 },
+                                                                  "contribution": "AC TSN at last repair event — work order R0506421",
+                                                                  "excerpt": "AC TSN: 410:41" }] }] },
+      "last_repair_ac_csn":       { "value": 171, "unit": "cy", "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 209,
+                                                    "regions": [{ "bbox": { "x": 0.50, "y": 0.50, "width": 0.10, "height": 0.04 },
+                                                                  "contribution": "AC CSN at last repair event",
+                                                                  "excerpt": "AC CSN: 171" }] }] },
+      "removal_date":             { "value": "2021-07-15", "unit": null, "method": "confirmed",
+                                    "justification": null,
+                                    // Same SN was reinstalled the next day after the bead-seat NDT — currently installed. removal_date here is the temporary removal at the shop visit, not a final removal.
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 210,
+                                                    "regions": [{ "bbox": { "x": 0.20, "y": 0.40, "width": 0.30, "height": 0.04 },
+                                                                  "contribution": "Removal record — temporary removal for shop event",
+                                                                  "excerpt": "Removed 15-JUL-2021 — sent to AMAC, returned 16-JUL-2021" }] }] },
+      "removal_tsn":              { "value": "410:41", "unit": "h", "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 210,
+                                                    "regions": [{ "bbox": { "x": 0.30, "y": 0.42, "width": 0.18, "height": 0.04 },
+                                                                  "contribution": "TSN at temporary removal",
+                                                                  "excerpt": "TSN: 410:41" }] }] },
+      "removal_csn":              { "value": 171, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated",
+                                     "computation": "Dossier cut-off 2022-12-29 minus C of A 2019-04-03 ≈ 45 months",
+                                     "inputs": [
+                                       { "label": "dossier cut-off",  "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+                                       { "label": "C of A issuance", "value": "2019-04-03", "unit": null, "method": "confirmed",
+                                         "documents": [{ "id": "doc_004" }],
+                                         "citations": [{ "document": 0, "page": 1,
+                                                         "regions": [{ "bbox": { "x": 0.10, "y": 0.32, "width": 0.20, "height": 0.04 },
+                                                                       "contribution": "C of A issuance",
+                                                                       "excerpt": "Issued: 03 April 2019" }] }] }
+                                     ],
+                                     "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "148:44", "unit": "h", "method": "calculated",
+                                    "computation": "TSO = AC TSN at cut-off (559:25) - AC TSN at last shop visit (410:41) = 148:44",
+                                    "inputs": [
+                                      { "label": "AC TSN at cut-off",        "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [{ "document": 0, "page": 142, "regions": [{ "bbox": { "x": 0.45, "y": 0.86, "width": 0.18, "height": 0.04 }, "contribution": "Last logbook entry — TSN", "excerpt": "AC TSN: 559:25" }] }] },
+                                      { "label": "AC TSN at last shop visit", "value": "410:41", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [{ "document": 0, "page": 209, "regions": [{ "bbox": { "x": 0.30, "y": 0.50, "width": 0.18, "height": 0.04 }, "contribution": "AC TSN at last repair", "excerpt": "AC TSN: 410:41" }] }] }
+                                    ],
+                                    "documents": [], "citations": [] },
+      "cycles_since_repair":      { "value": 60, "unit": "cy", "method": "calculated",
+                                    "computation": "TSO = AC CSN at cut-off (231) - AC CSN at last shop visit (171) = 60",
+                                    "inputs": [
+                                      { "label": "AC CSN at cut-off",        "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+                                      { "label": "AC CSN at last shop visit", "value": 171, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }
+                                    ],
+                                    "documents": [], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [{ "document": 0, "page": 211,
+                                                    "regions": [{ "bbox": { "x": 0.20, "y": 0.30, "width": 0.40, "height": 0.04 },
+                                                                  "contribution": "Modification status section — none recorded for this PN/SN",
+                                                                  "excerpt": "Modifications: NONE FOUND" }] }] },
+      "special_inspections": [
+        { "value": "BEAD SEAT EDDY CURRENT NDT", "unit": null, "method": "confirmed",
+          "documents": [{ "id": "doc_001" }],
+          "citations": [{ "document": 0, "page": 209,
+                          "regions": [{ "bbox": { "x": 0.20, "y": 0.60, "width": 0.50, "height": 0.05 },
+                                        "contribution": "Block 12 — special inspection performed at last shop event",
+                                        "excerpt": "Bead Seat Eddy Current NDT — passed" }] }] }
+      ],
+      "subcomponent_change_history": [
+        {
+          "event_date":      { "value": "2021-07-16", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+          "work_order":      { "value": "989878", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [{ "document": 0, "page": 210, "regions": [{ "bbox": { "x": 0.20, "y": 0.58, "width": 0.20, "height": 0.04 }, "contribution": "Work order for tire change", "excerpt": "W/O 989878" }] }] },
+          "removed_pn":      { "value": "Michelin H27X8.5", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+          "removed_sn":      { "value": "8087R00354", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [{ "document": 0, "page": 210, "regions": [{ "bbox": { "x": 0.50, "y": 0.58, "width": 0.20, "height": 0.04 }, "contribution": "Removed tire SN", "excerpt": "Removed: SN 8087R00354" }] }] },
+          "installed_pn":    { "value": "Michelin H27X8.5", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+          "installed_sn":    { "value": "0118P05085", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [{ "document": 0, "page": 210, "regions": [{ "bbox": { "x": 0.70, "y": 0.58, "width": 0.20, "height": 0.04 }, "contribution": "Installed tire SN", "excerpt": "Installed: SN 0118P05085" }] }] },
+          "release_certificate": { "value": "FAA 8130-3", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [{ "document": 0, "page": 210, "regions": [{ "bbox": { "x": 0.20, "y": 0.65, "width": 0.20, "height": 0.04 }, "contribution": "Release certificate type for new tire", "excerpt": "FAA 8130-3 attached" }] }] },
+          "notes":           { "value": "Tire change performed at AMAC during wheel bead-seat NDT shop event; same wheel SN MAY18-4688 reinstalled with new tire.", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }
+        }
+      ],
+      "form_1_reference":         { "value": "EASA Form 1 L-337470, AMAC WO R0506421, signer Kaiser Frank (FKA), CH.145.0363", "unit": null, "method": "confirmed",
+                                    "documents": [{ "id": "doc_001" }],
+                                    "citations": [
+                                      { "document": 0, "page": 208,
+                                        "regions": [{ "bbox": { "x": 0.10, "y": 0.10, "width": 0.50, "height": 0.04 },
+                                                      "contribution": "Form 1 number on header",
+                                                      "excerpt": "EASA Form 1 — L-337470" }] },
+                                      { "document": 0, "page": 211,
+                                        "regions": [{ "bbox": { "x": 0.40, "y": 0.78, "width": 0.40, "height": 0.05 },
+                                                      "contribution": "Block 14a/14b — authorised signature and approval number",
+                                                      "excerpt": "Kaiser Frank (FKA) — CH.145.0363" }] }
+                                    ] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+
+      // LLP-only fields — this wheel is On-Condition, NOT an LLP. We omit them.
+      // (Schema lists them as optional; the dashboard checks component_category before reading.)
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // LH ENGINE — GE CF34-3B — illustrative (not from ground truth)
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_lh_engine",
+      "description":              { "value": "Engine, GE CF34-3B (LH Position)", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "part_number":              { "value": "CF34-3B", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "alternate_part_numbers":   [],
+      "serial_number":            { "value": "947251", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "position":                 { "value": "LH ENG", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "Hard_Time",
+      "part_status_at_installation": { "value": "New", "unit": null, "method": "inferred", "justification": "Installed at manufacturing — Form 1 Block 12 was blank but unit confirmed new at OEM serialisation listing.", "documents": [], "citations": [] },
+      "status":                   "INSTALLED_AT_MANUFACTURING",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred", "documents": [{ "id": "doc_004" }], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": "h", "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": "cy", "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": "h", "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": "cy", "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated", "computation": "2022-12-29 - 2019-04-03 ≈ 45 months", "inputs": [], "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "cycles_since_repair":      { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_007" }], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": "Installed at manufacturing — covered by Bombardier serialisation listing for MSN 6134", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_004" }], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // RH ENGINE — same shape as LH; SN differs
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_rh_engine",
+      "description":              { "value": "Engine, GE CF34-3B (RH Position)", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "part_number":              { "value": "CF34-3B", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "alternate_part_numbers":   [],
+      "serial_number":            { "value": "947252", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "position":                 { "value": "RH ENG", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "Hard_Time",
+      "part_status_at_installation": { "value": "New", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "status":                   "INSTALLED_AT_MANUFACTURING",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": "h", "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": "cy", "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": "h", "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": "cy", "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated", "computation": "2022-12-29 - 2019-04-03 ≈ 45 months", "inputs": [], "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "cycles_since_repair":      { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": "Installed at manufacturing — covered by Bombardier serialisation listing for MSN 6134", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_004" }], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // RH ENGINE HPT DISC — an LLP, illustrating LLP-only field population
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_rh_engine_hpt_disc",
+      "description":              { "value": "HPT Disc, Stage 1, GE CF34-3B", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 32, "regions": [{ "bbox": { "x": 0.10, "y": 0.30, "width": 0.50, "height": 0.04 }, "contribution": "LLP table — disc identification", "excerpt": "HPT Disc S1, PN 6076T74G02" }] }] },
+      "part_number":              { "value": "6076T74G02", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "alternate_part_numbers":   [],
+      "serial_number":            { "value": "WJYW0481", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 32, "regions": [{ "bbox": { "x": 0.65, "y": 0.30, "width": 0.20, "height": 0.04 }, "contribution": "LLP table — serial number column", "excerpt": "SN: WJYW0481" }] }] },
+      "position":                 { "value": "RH ENG — HPT Stage 1", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "LLP",
+      "part_status_at_installation": { "value": "New", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "status":                   "INSTALLED_AT_MANUFACTURING",
+      "parent_assembly_id":       "comp_rh_engine",
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": "h", "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": "cy", "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": "h", "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": "cy", "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated", "computation": "2022-12-29 - 2019-04-03 ≈ 45 months", "inputs": [], "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "cycles_since_repair":      { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": "Installed at manufacturing — covered by GE serialisation listing for engine SN 947252", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+
+      // LLP-specific fields — populated because component_category === "LLP"
+      "life_limit": {
+        "value": 12000, "unit": "cy", "method": "confirmed",
+        // Per CF34-3B AMM Section 05-10 / GE LLP supplement: HPT S1 disc limit = 12000 cy
+        "documents": [{ "id": "doc_008" }],
+        "citations": [{ "document": 0, "page": 32, "regions": [{ "bbox": { "x": 0.85, "y": 0.30, "width": 0.10, "height": 0.04 }, "contribution": "Life limit column in engine LLP table", "excerpt": "Limit: 12000 cy" }] }]
+      },
+      "tsn_at_event":             { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "csn_at_event":             { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable",
+                                         "justification": "LLPs have no overhaul interval — they are discarded at life limit.",
+                                         "documents": [], "citations": [] },
+      "remaining_life_until_discard": {
+        "value": 11769, "unit": "cy", "method": "calculated",
+        "computation": "Remaining life = Life limit (12000 cy) - CSN at event (0 cy) - cycles since event (231 cy) = 11769 cy",
+        "inputs": [
+          { "label": "Life limit",         "value": 12000, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [{ "document": 0, "page": 32, "regions": [{ "bbox": { "x": 0.85, "y": 0.30, "width": 0.10, "height": 0.04 }, "contribution": "Life limit", "excerpt": "12000 cy" }] }] },
+          { "label": "CSN at event",       "value": 0,     "unit": "cy", "method": "inferred",  "documents": [], "citations": [] },
+          { "label": "Cycles since event", "value": 231,   "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_008" }], "citations": [] }
+        ],
+        "documents": [], "citations": []
+      },
+      "first_limited_indicator": { "value": true, "unit": null, "method": "calculated",
+                                   "computation": "Among RH engine LLPs, this disc has the FEWEST remaining cycles in this example (only LLP populated here).",
+                                   "inputs": [],
+                                   "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // APU — illustrative, mostly not_checked
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_apu",
+      "description":              { "value": "APU (Auxiliary Power Unit)", "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "part_number":              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "alternate_part_numbers":   [],
+      "serial_number":            { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "position":                 { "value": "APU bay", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "Hard_Time",
+      "part_status_at_installation": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "status":                   "PARTIAL",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "cycles_since_repair":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "modification_status":      { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": null, "unit": null, "method": "not_checked", "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              ["F-0002"],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // NLG — installed at manufacturing
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_nlg",
+      "description":              { "value": "Nose Landing Gear Assembly", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "part_number":              { "value": "601-86001-12", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "alternate_part_numbers":   [],
+      "serial_number":            { "value": "NLG-6134-A", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "position":                 { "value": "NLG", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "On_Condition",
+      "part_status_at_installation": { "value": "New", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "status":                   "INSTALLED_AT_MANUFACTURING",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated", "computation": "2022-12-29 - 2019-04-03 ≈ 45 months", "inputs": [], "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "cycles_since_repair":      { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": "Installed at manufacturing — covered by Bombardier serialisation listing for MSN 6134", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // LH MLG
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_lh_mlg",
+      "description":              { "value": "Main Landing Gear Assembly (LH)", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "part_number":              { "value": "19090-110", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "alternate_part_numbers": [
+        { "value": "604-85001-28", "unit": null, "method": "confirmed",
+          // Bombardier OEM PN — alias for the Safran 19090-110. Lukas explicitly flagged this aliasing on the CL650-6134 case.
+          "documents": [{ "id": "doc_001" }], "citations": [] }
+      ],
+      "serial_number":            { "value": "MLG-LH-6134", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "position":                 { "value": "LH MLG", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "On_Condition",
+      "part_status_at_installation": { "value": "New", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "status":                   "INSTALLED_AT_MANUFACTURING",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated", "computation": "2022-12-29 - 2019-04-03 ≈ 45 months", "inputs": [], "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "559:25", "unit": "h", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "cycles_since_repair":      { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": "Installed at manufacturing — covered by Bombardier serialisation listing for MSN 6134", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // RH MLG — parent of the wheel SN MAY18-4688
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_rh_mlg",
+      "description":              { "value": "Main Landing Gear Assembly (RH)", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "part_number":              { "value": "19090-110", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] },
+      "alternate_part_numbers": [
+        { "value": "604-85001-28", "unit": null, "method": "confirmed", "documents": [{ "id": "doc_001" }], "citations": [] }
+      ],
+      "serial_number":            { "value": "08MDT0455", "unit": null, "method": "confirmed",
+                                    // From the lukas-weiss skill's CL650-6134 case — installed SN for the RH MLG
+                                    "documents": [{ "id": "doc_001" }], "citations": [] },
+      "position":                 { "value": "RH MLG", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "On_Condition",
+      "part_status_at_installation": { "value": "Used", "unit": null, "method": "confirmed",
+                                       "justification": null,
+                                       // Lukas flagged: this assembly's history spans CL604/5783 and CL605/5784 before arriving on CL650/6134. Prior service must be traced back-to-birth.
+                                       "documents": [{ "id": "doc_001" }], "citations": [] },
+      "status":                   "PARTIAL",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred",
+                                    "justification": "Installation on this aircraft inferred from C of A; the assembly itself has prior service on CL604/5783 and CL605/5784 (back-to-birth tracing required).",
+                                    "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred",
+                                    "justification": "AC TSN at install on THIS aircraft is 0:00; the assembly's own TSN includes prior service (which is what matters for remaining life).",
+                                    "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": null, "unit": null, "method": "unresolvable",
+                                     "justification": "Calendar age cannot be confirmed without prior-aircraft installation history (the assembly is older than this aircraft).",
+                                     "recommended_documents": ["MLG SN 08MDT0455 birth record from Safran or Bombardier"],
+                                     "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": "559:25", "unit": "h", "method": "confirmed",
+                                    "justification": null,
+                                    // TSO on THIS aircraft. Prior aircraft TSO not included.
+                                    "documents": [{ "id": "doc_011" }], "citations": [] },
+      "cycles_since_repair":      { "value": 231, "unit": "cy", "method": "confirmed", "documents": [{ "id": "doc_011" }], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": null, "unit": null, "method": "unresolvable",
+                                    "justification": "RH MLG Form 1 from prior shop visit (before installation on this aircraft) not in dossier.",
+                                    "recommended_documents": ["EASA Form 1 from prior shop event for RH MLG SN 08MDT0455"],
+                                    "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              [],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // MAIN BATTERY — Calendar category, illustrating the calendar workflow
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":                       "comp_main_battery",
+      "description":              { "value": "Main Aircraft Battery", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "part_number":              { "value": "BAT-9-105B", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "alternate_part_numbers":   [],
+      "serial_number":            { "value": "B19-44021", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "position":                 { "value": "FWD electrical bay", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "component_category":       "Calendar",
+      "part_status_at_installation": { "value": "New", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "status":                   "GAP_IN_DOSSIER",
+      "parent_assembly_id":       null,
+      "first_install_date":       { "value": "2019-04-03", "unit": null, "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_tsn":     { "value": "0:00", "unit": "h", "method": "inferred", "documents": [], "citations": [] },
+      "first_install_ac_csn":     { "value": 0, "unit": "cy", "method": "inferred", "documents": [], "citations": [] },
+      "last_repair_date":         { "value": null, "unit": null, "method": "unresolvable",
+                                    "justification": "No service or capacity-check record for this battery in dossier.",
+                                    "recommended_documents": ["Operator's main battery capacity-check log entries since 2019"],
+                                    "documents": [], "citations": [] },
+      "last_repair_ac_tsn":       { "value": null, "unit": null, "method": "unresolvable", "documents": [], "citations": [] },
+      "last_repair_ac_csn":       { "value": null, "unit": null, "method": "unresolvable", "documents": [], "citations": [] },
+      "removal_date":             { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_tsn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "removal_csn":              { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "calendar_months_since_new": { "value": 45, "unit": "months", "method": "calculated", "computation": "2022-12-29 - 2019-04-03 ≈ 45 months", "inputs": [], "documents": [], "citations": [] },
+      "hours_since_repair":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "cycles_since_repair":      { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "modification_status":      { "value": "NIL", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "special_inspections":      [],
+      "subcomponent_change_history": [],
+      "form_1_reference":         { "value": null, "unit": null, "method": "unresolvable",
+                                    "justification": "Initial Form 1 for battery installation not in dossier.",
+                                    "recommended_documents": ["EASA Form 1 from battery vendor at original install"],
+                                    "documents": [], "citations": [] },
+      "snapshot_date":            { "value": "2022-12-29", "unit": null, "method": "confirmed", "documents": [], "citations": [] },
+      "finding_ids":              ["F-0004"],
+      "life_limit":                    { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "tsn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "csn_at_event":                  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_overhaul": { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "remaining_life_until_discard":  { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] },
+      "first_limited_indicator":       { "value": null, "unit": null, "method": "not_applicable", "documents": [], "citations": [] }
+    }
+  ],
+
+  // ---------------------------------------------------------------------------
+  // FINDINGS
+  // ---------------------------------------------------------------------------
+  "findings": [
+
+    // ─────────────────────────────────────────────────────────────────────
+    // F-0001 — LEVEL 1 — AD register missing (mandatory PPI deliverable)
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":          "F-0001",
+      "severity":    "level_1",
+      "category":    "AD_COMPLIANCE_UNVERIFIED",
+      "title":       "Airworthiness Directive compliance register not found in dossier",
+      "description": "No comprehensive AD compliance register or MTS export with AD section present. Per Lukas Weiss's audit doctrine, AD compliance is ALWAYS a mandatory PPI deliverable; absence at this level blocks airworthiness assessment regardless of how complete the rest of the records are.",
+      "location": {
+        "section":                "records_completeness",
+        "path":                   "records_completeness.airworthiness_directives.ad_list_file_found",
+        "affected_component_ids": []
+      },
+      "justification":      "Records search across all 12 ingested documents for 'AD compliance', 'airworthiness directive', and known EASA AD numbers for CL-600-2B16 / CF34-3B returned no matching content. Operator's MTS export not provided.",
+      "recommended_action": "Request from operator: complete AD compliance register for HB-JTZ as of 2022-12-29 dossier date, OR a MTS export including the AD compliance section.",
+      "documents":          [],
+      "citations":          []
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // F-0002 — LEVEL 2 — APU records gap
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":          "F-0002",
+      "severity":    "level_2",
+      "category":    "GAP_IN_DOSSIER",
+      "title":       "APU records (PN, SN, logbook, TSH) not in compiled dossier",
+      "description": "APU identification and utilization records were not included in the dossier provided. This appears to be a dossier-completeness issue, not an airworthiness issue — the operator likely maintains these records in their MTS or in a separate APU binder that was not bundled.",
+      "location": {
+        "section":                "engines_and_apu",
+        "path":                   "engines_and_apu.apu",
+        "affected_component_ids": ["comp_apu"]
+      },
+      "justification":      "No APU logbook found; APU PN/SN not present in any ingested document. Lukas: 'not in this dossier' ≠ 'does not exist' — recommend GAP_IN_DOSSIER classification, not FORM1_MISSING.",
+      "recommended_action": "Request from operator: APU logbook, current APU TSH/cycles status, and APU shop visit history.",
+      "documents":          [],
+      "citations":          []
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // F-0003 — LEVEL 1 — first-limited LLP surfacing (executive summary lead)
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":          "F-0003",
+      "severity":    "level_1",
+      "category":    "LLP_LIMIT_CRITICAL",
+      "title":       "RH Engine HPT Stage 1 disc — 11,769 cy remaining (first-limited LLP on RH engine)",
+      "description": "Among RH engine LLPs surfaced in this run, the HPT Stage 1 disc has the most remaining cycles. Note: in the example data only one LLP is populated; in production this finding would surface the LLP with the FEWEST remaining cycles per Lukas's executive-summary priority.",
+      "location": {
+        "section":                "life_limited_parts",
+        "path":                   "life_limited_parts.rh_engine_llps",
+        "affected_component_ids": ["comp_rh_engine_hpt_disc"]
+      },
+      "justification":      "Remaining life (cycles) = Life limit (12000 cy) − CSN at event (0 cy) − cycles since event (231 cy) = 11769 cy. Source: Engine logbook RH p32, life limit table. Threshold for L1 surfacing is < 1500 cy remaining; THIS specific disc is well above threshold but the finding pattern is shown for shape demonstration. In a real CL650-6134 audit, the LLP nearest the threshold would be surfaced.",
+      "recommended_action": "Continue monitoring; no immediate action. Schedule next LLP review at 9000 CSN.",
+      "documents":          [{ "id": "doc_008" }],
+      "citations": [
+        { "document": 0, "page": 32,
+          "regions": [
+            { "bbox": { "x": 0.10, "y": 0.30, "width": 0.85, "height": 0.04 },
+              "contribution": "LLP table row for HPT Stage 1 disc",
+              "excerpt": "HPT Disc S1 — PN 6076T74G02 — SN WJYW0481 — Limit 12000 cy" }
+          ]
+        }
+      ]
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // F-0004 — LEVEL 2 — battery service record missing
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":          "F-0004",
+      "severity":    "level_2",
+      "category":    "TIMES_INCOMPLETE",
+      "title":       "Main battery service record absent — calendar interval check unresolvable",
+      "description": "No capacity-check or service record present in the dossier for the main battery (PN BAT-9-105B, SN B19-44021). Cannot determine last service date, next due date, or calendar interval compliance.",
+      "location": {
+        "section":                "battery_and_emergency_equipment",
+        "path":                   "battery_and_emergency_equipment.main_battery",
+        "affected_component_ids": ["comp_main_battery"]
+      },
+      "justification":      "No record of battery capacity check, replacement, or service event found in any of the 12 ingested documents. Battery age (~45 months since aircraft delivery) exceeds typical 12-month capacity check interval, suggesting service must have occurred — but the record is not in the dossier.",
+      "recommended_action": "Request from operator: full main battery service log since aircraft delivery (2019-04-03) including capacity check entries.",
+      "documents":          [],
+      "citations":          []
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // F-0005 — LEVEL 2 — RH MLG prior aircraft history not traced
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":          "F-0005",
+      "severity":    "level_2",
+      "category":    "CONTINUITY_BREAK",
+      "title":       "RH MLG SN 08MDT0455 has prior service on CL604/5783 and CL605/5784 — back-to-birth trace incomplete",
+      "description": "The RH MLG installed on HB-JTZ (PN 19090-110 / 604-85001-28, SN 08MDT0455) has prior service on two other aircraft per the receiving documentation. Birth-to-current trace requires the prior shop visit Form 1s and removal records, which are not in this dossier.",
+      "location": {
+        "section":                "landing_gear",
+        "path":                   "landing_gear.rh_mlg",
+        "affected_component_ids": ["comp_rh_mlg"]
+      },
+      "justification":      "Receiving doc references CL604/5783 and CL605/5784 prior installs; no prior-aircraft Form 1s or removal records present. Lukas: a component with prior service on another aircraft is normal, but back-to-birth trace IS required for transaction integrity.",
+      "recommended_action": "Request from operator (or prior MROs): EASA Form 1 from last shop event before installation on HB-JTZ; removal records from CL605/5784 covering the transition.",
+      "documents":          [{ "id": "doc_001" }],
+      "citations":          []
+    },
+
+    // ─────────────────────────────────────────────────────────────────────
+    // F-0006 — LEVEL 3 — alternate PN convention noted (improvement)
+    // ─────────────────────────────────────────────────────────────────────
+    {
+      "id":          "F-0006",
+      "severity":    "level_3",
+      "category":    "GAP_IN_DOSSIER",
+      "title":       "Alternate PN documentation pattern not standardised",
+      "description": "Several components use both an OEM (Bombardier) PN and a vendor (Honeywell, Safran) PN, but the dossier doesn't include a master alias map. Future audits and MTS reconciliations will repeatedly hit this issue.",
+      "location": {
+        "section":                "graph_quality_indicators",
+        "path":                   "graph_quality_indicators",
+        "affected_component_ids": ["comp_wheel_3_MAY18-4688", "comp_lh_mlg", "comp_rh_mlg"]
+      },
+      "justification":      "Lukas: 'The Form 1 and shop report typically list both customer PN and manufacturer PN. The TLMC may use only one. The job card may use another. Build the alias map before searching.' This dossier doesn't carry one.",
+      "recommended_action": "Request operator to maintain a PN alias master list; meanwhile Sparengine builds it during ingestion.",
+      "documents":          [],
+      "citations":          []
+    }
+  ],
+
+  // ---------------------------------------------------------------------------
+  // DOSSIER DOCUMENTS
+  // ---------------------------------------------------------------------------
+  "dossier_documents": [
+
+    {
+      "id":             "doc_001",
+      "file_name":      "CL65HBJTZ015MX.pdf",
+      "document_type":  "Logbook",
+      // Logbook compilation that contains the wheel work order R0506421, the AMAC Form 1 L-337470, and the CRS sequence on pages 208-211. Multiple document types inside one PDF — categorised by primary purpose.
+      "evidence_class": "primary",
+      "page_count":     247,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_004",
+      "file_name":      "CofA_HBJTZ_2019.pdf",
+      "document_type":  "CofA",
+      "evidence_class": "primary",
+      "page_count":     2,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_005",
+      "file_name":      "ARC_HBJTZ_2025.pdf",
+      "document_type":  "ARC",
+      "evidence_class": "primary",
+      "page_count":     2,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_006",
+      "file_name":      "AFM_CL650_Rev23.pdf",
+      "document_type":  "AFM",
+      "evidence_class": "reference",
+      "page_count":     412,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_007",
+      "file_name":      "Engine_LH_LB_947251.pdf",
+      "document_type":  "Logbook",
+      "evidence_class": "primary",
+      "page_count":     78,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_008",
+      "file_name":      "Engine_RH_LB_947252.pdf",
+      "document_type":  "Logbook",
+      "evidence_class": "primary",
+      "page_count":     80,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_011",
+      "file_name":      "Airframe_LB_HBJTZ.pdf",
+      "document_type":  "Logbook",
+      "evidence_class": "primary",
+      "page_count":     142,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    },
+    {
+      "id":             "doc_012",
+      "file_name":      "CofR_HBJTZ.pdf",
+      "document_type":  "CofR",                                             // Certificate of Registration
+      "evidence_class": "primary",
+      "page_count":     2,
+      "scan_quality_flags": [],
+      "ingestion_date": "2026-04-15",
+      "asset_id_link":  "CL650-6134"
+    }
+  ]
+}
