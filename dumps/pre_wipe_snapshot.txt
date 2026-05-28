@@ -1,0 +1,253 @@
+=== Pre-wipe snapshot 2026-05-18T20:12:23Z ===
+
+--- Node label counts ---
+label, n
+"Event", 27640
+"Stamp", 19407
+"Page", 16376
+"PartNumber", 14601
+"Component", 13491
+"NeedsAliasReview", 6365
+"Quarantined", 5915
+"SerialNumber", 4166
+"RegulatoryRef", 2566
+"ATAChapter", 1849
+"Date", 1766
+"CertificateNumber", 1480
+"Person", 1345
+"PurchaseOrder", 1337
+"ServiceBulletin", 1328
+"AirworthinessDirective", 1085
+"JobCard", 1065
+"Finding", 1034
+"PriorityItem", 968
+"Document", 683
+"BatchNumber", 472
+"STC", 303
+"Modification", 289
+"CRS", 276
+"WorkPackage", 206
+"DrawingNumber", 155
+"Form1", 111
+"DocumentType", 80
+"NonRoutineCard", 35
+"V7Finding", 27
+"ConsolidatedFinding", 26
+"DuplicateOf", 16
+"AuditRun", 8
+"DentBuckleEntry", 2
+"Asset", 1
+"Aircraft", 1
+"TypeCertificate", 1
+"CountryRegistration", 1
+"Repair", 1
+"QualityScorecard", 1
+
+--- Relationship type counts ---
+edge, n
+"EVIDENCED_BY", 42141
+"MENTIONS_PN", 29039
+"OCCURRED_ON", 25190
+"ON_DATE", 20884
+"COVERS_ATA", 19495
+"HAS_STAMP", 19407
+"HAS_PAGE", 16376
+"HAS_PRIMARY_PN", 13491
+"HAS_SN", 13491
+"MENTIONS_SN", 12726
+"CITES", 10708
+"RELATED_TO_ATA", 7701
+"STAMPED_BY", 6476
+"MENTIONS_CERT", 5972
+"MENTIONS_PO", 5093
+"MENTIONS_SB", 4175
+"AFFECTED", 3396
+"HAS_PRIMARY_PN_V8", 3182
+"MENTIONS_AD", 2807
+"CARRIES_CERT", 2768
+"CARRIES", 2753
+"PRODUCED_BY", 1614
+"INCLUDES", 1167
+"HAS_FINDING", 1008
+"FLAGS", 1002
+"HAS_PRIORITY_ITEM", 968
+"HAS_ALIAS_PN", 882
+"RELEASES_WORK_ON", 849
+"CLASSIFIED_AS", 682
+"MENTIONS_BATCH", 682
+"CONSOLIDATES", 677
+"RELEASES", 583
+"PAIRED_WITH", 500
+"DASH_FAMILY_OF", 323
+"MENTIONS_DRAWING", 260
+"PERFORMED_ON", 240
+"ALIAS_OF", 216
+"BINDS_TO", 206
+"RELEASES_PN", 173
+"RELEASES_PN_STRUCT", 170
+"RELEASES_SN", 166
+"SIGNED_BY", 139
+"RELEASES_SN_STRUCT", 99
+"RELEASES_STRUCT", 85
+"COVERS_RANGE", 47
+"REVISION_OF", 21
+"MERGED_INTO", 16
+"RUN_ON", 8
+"POST_SB_RELEASE", 3
+"CERTIFIED_UNDER", 1
+"REGISTERED_IN", 1
+"HAS_COMPONENT", 1
+
+--- Form1 outgoing edges ---
+edge, n
+"RELEASES", 583
+"RELEASES_PN", 173
+"RELEASES_PN_STRUCT", 170
+"RELEASES_SN", 166
+"ON_DATE", 154
+"SIGNED_BY", 139
+"RELEASES_SN_STRUCT", 99
+"RELEASES_STRUCT", 85
+"COVERS_RANGE", 47
+"POST_SB_RELEASE", 3
+
+--- NiCad case (form1::c608f9ce-...) ---
+tracking_no, signer, date, dispo, components
+"00029737", "Sklyarenko Natalya", "2019-08-27", "overhauled", ["component::024453-000::090520021095E"]
+
+--- Bombardier case (form1::B0462730 / 12 - 58) ---
+components
+["component::604DX2529029AND001::4005", "component::604DX2529029AND001::4006", "component::604DX2529029AND001::4007"]
+
+--- ITT valve (form1::BV4R090M) ---
+tracking_no, signer, date, dispo, components
+"283704", "Olivia Mora", "2019-10-22", "repaired", ["component::601-62900-7::AA441157"]
+
+--- Constraint list ---
+name, type, labelsOrTypes, properties
+"airworthiness_directive_uid", "UNIQUENESS", ["AirworthinessDirective"], ["asset_id", "value"]
+"apu_model_uid", "UNIQUENESS", ["APUModel"], ["asset_id", "value"]
+"asset_uid", "UNIQUENESS", ["Asset"], ["asset_id"]
+"ata_chapter_uid", "UNIQUENESS", ["ATAChapter"], ["asset_id", "value"]
+"audit_run_uid", "UNIQUENESS", ["AuditRun"], ["asset_id", "value"]
+"batch_number_uid", "UNIQUENESS", ["BatchNumber"], ["asset_id", "value"]
+"benchmark_run_uid", "UNIQUENESS", ["BenchmarkRun"], ["asset_id", "value"]
+"binder_uid", "UNIQUENESS", ["Binder"], ["asset_id", "value"]
+"borescope_report_uid", "UNIQUENESS", ["BorescopeReport"], ["asset_id", "value"]
+"box_uid", "UNIQUENESS", ["Box"], ["asset_id", "value"]
+"certificate_number_uid", "UNIQUENESS", ["CertificateNumber"], ["asset_id", "value"]
+"component_snapshot_uid", "UNIQUENESS", ["ComponentSnapshot"], ["asset_id", "value"]
+"component_uid", "UNIQUENESS", ["Component"], ["asset_id", "value"]
+"country_registration_uid", "UNIQUENESS", ["CountryRegistration"], ["asset_id", "value"]
+"crs_uid", "UNIQUENESS", ["CRS"], ["asset_id", "value"]
+"date_uid", "UNIQUENESS", ["Date"], ["asset_id", "iso"]
+"dent_buckle_entry_uid", "UNIQUENESS", ["DentBuckleEntry"], ["asset_id", "value"]
+"design_organization_uid", "UNIQUENESS", ["DesignOrganization"], ["asset_id", "value"]
+"document_type_uid", "UNIQUENESS", ["DocumentType"], ["asset_id", "value"]
+"document_uid", "UNIQUENESS", ["Document"], ["asset_id", "value"]
+"drawing_number_uid", "UNIQUENESS", ["DrawingNumber"], ["asset_id", "value"]
+"electronic_data_entry_uid", "UNIQUENESS", ["ElectronicDataEntry"], ["asset_id", "value"]
+"engine_model_uid", "UNIQUENESS", ["EngineModel"], ["asset_id", "value"]
+"engineering_order_uid", "UNIQUENESS", ["EngineeringOrder"], ["asset_id", "value"]
+"event_uid", "UNIQUENESS", ["Event"], ["asset_id", "value"]
+"finding_uid", "UNIQUENESS", ["Finding"], ["asset_id", "value"]
+"fleet_uid", "UNIQUENESS", ["Fleet"], ["asset_id", "value"]
+"folder_uid", "UNIQUENESS", ["Folder"], ["asset_id", "value"]
+"form1_uid", "UNIQUENESS", ["Form1"], ["asset_id", "value"]
+"job_card_uid", "UNIQUENESS", ["JobCard"], ["asset_id", "value"]
+"logbook_entry_uid", "UNIQUENESS", ["LogbookEntry"], ["asset_id", "value"]
+"maintenance_organization_uid", "UNIQUENESS", ["MaintenanceOrganization"], ["asset_id", "value"]
+"manual_uid", "UNIQUENESS", ["Manual"], ["asset_id", "value"]
+"modification_uid", "UNIQUENESS", ["Modification"], ["asset_id", "value"]
+"ndt_report_uid", "UNIQUENESS", ["NDTReport"], ["asset_id", "value"]
+"non_routine_card_uid", "UNIQUENESS", ["NonRoutineCard"], ["asset_id", "value"]
+"organization_uid", "UNIQUENESS", ["Organization"], ["asset_id", "value"]
+"page_uid", "UNIQUENESS", ["Page"], ["asset_id", "value"]
+"part_family_uid", "UNIQUENESS", ["PartFamily"], ["asset_id", "value"]
+"part_number_uid", "UNIQUENESS", ["PartNumber"], ["asset_id", "value"]
+"person_uid", "UNIQUENESS", ["Person"], ["asset_id", "value"]
+"phase_scorecard_uid", "UNIQUENESS", ["PhaseScorecard"], ["asset_id", "value"]
+"priority_item_uid", "UNIQUENESS", ["PriorityItem"], ["asset_id", "value"]
+"production_organization_uid", "UNIQUENESS", ["ProductionOrganization"], ["asset_id", "value"]
+"propeller_model_uid", "UNIQUENESS", ["PropellerModel"], ["asset_id", "value"]
+"purchase_order_uid", "UNIQUENESS", ["PurchaseOrder"], ["asset_id", "value"]
+"quality_scorecard_uid", "UNIQUENESS", ["QualityScorecard"], ["asset_id", "value"]
+"reference_uid", "UNIQUENESS", ["Reference"], ["asset_id", "ref_type", "value"]
+"regulatory_authority_uid", "UNIQUENESS", ["RegulatoryAuthority"], ["asset_id", "value"]
+"regulatory_ref_uid", "UNIQUENESS", ["RegulatoryRef"], ["asset_id", "value"]
+"repair_uid", "UNIQUENESS", ["Repair"], ["asset_id", "value"]
+"rotor_assembly_model_uid", "UNIQUENESS", ["RotorAssemblyModel"], ["asset_id", "value"]
+"serial_number_uid", "UNIQUENESS", ["SerialNumber"], ["asset_id", "value"]
+"service_bulletin_uid", "UNIQUENESS", ["ServiceBulletin"], ["asset_id", "value"]
+"stamp_uid", "UNIQUENESS", ["Stamp"], ["asset_id", "value"]
+"stc_uid", "UNIQUENESS", ["STC"], ["asset_id", "value"]
+"tech_log_entry_uid", "UNIQUENESS", ["TechLogEntry"], ["asset_id", "value"]
+"tech_log_page_uid", "UNIQUENESS", ["TechLogPage"], ["asset_id", "value"]
+"type_certificate_uid", "UNIQUENESS", ["TypeCertificate"], ["asset_id", "value"]
+"work_package_uid", "UNIQUENESS", ["WorkPackage"], ["asset_id", "value"]
+
+--- Index list ---
+name, type, labelsOrTypes, properties
+"airworthiness_directive_uid", "RANGE", ["AirworthinessDirective"], ["asset_id", "value"]
+"apu_model_uid", "RANGE", ["APUModel"], ["asset_id", "value"]
+"asset_uid", "RANGE", ["Asset"], ["asset_id"]
+"ata_chapter_uid", "RANGE", ["ATAChapter"], ["asset_id", "value"]
+"audit_run_uid", "RANGE", ["AuditRun"], ["asset_id", "value"]
+"batch_number_uid", "RANGE", ["BatchNumber"], ["asset_id", "value"]
+"benchmark_run_uid", "RANGE", ["BenchmarkRun"], ["asset_id", "value"]
+"binder_uid", "RANGE", ["Binder"], ["asset_id", "value"]
+"borescope_report_uid", "RANGE", ["BorescopeReport"], ["asset_id", "value"]
+"box_uid", "RANGE", ["Box"], ["asset_id", "value"]
+"certificate_number_uid", "RANGE", ["CertificateNumber"], ["asset_id", "value"]
+"component_snapshot_uid", "RANGE", ["ComponentSnapshot"], ["asset_id", "value"]
+"component_uid", "RANGE", ["Component"], ["asset_id", "value"]
+"country_registration_uid", "RANGE", ["CountryRegistration"], ["asset_id", "value"]
+"crs_uid", "RANGE", ["CRS"], ["asset_id", "value"]
+"date_uid", "RANGE", ["Date"], ["asset_id", "iso"]
+"dent_buckle_entry_uid", "RANGE", ["DentBuckleEntry"], ["asset_id", "value"]
+"design_organization_uid", "RANGE", ["DesignOrganization"], ["asset_id", "value"]
+"document_type_uid", "RANGE", ["DocumentType"], ["asset_id", "value"]
+"document_uid", "RANGE", ["Document"], ["asset_id", "value"]
+"drawing_number_uid", "RANGE", ["DrawingNumber"], ["asset_id", "value"]
+"electronic_data_entry_uid", "RANGE", ["ElectronicDataEntry"], ["asset_id", "value"]
+"engine_model_uid", "RANGE", ["EngineModel"], ["asset_id", "value"]
+"engineering_order_uid", "RANGE", ["EngineeringOrder"], ["asset_id", "value"]
+"event_uid", "RANGE", ["Event"], ["asset_id", "value"]
+"finding_uid", "RANGE", ["Finding"], ["asset_id", "value"]
+"fleet_uid", "RANGE", ["Fleet"], ["asset_id", "value"]
+"folder_uid", "RANGE", ["Folder"], ["asset_id", "value"]
+"form1_uid", "RANGE", ["Form1"], ["asset_id", "value"]
+"index_343aff4e", "LOOKUP", NULL, NULL
+"index_f7700477", "LOOKUP", NULL, NULL
+"job_card_uid", "RANGE", ["JobCard"], ["asset_id", "value"]
+"logbook_entry_uid", "RANGE", ["LogbookEntry"], ["asset_id", "value"]
+"maintenance_organization_uid", "RANGE", ["MaintenanceOrganization"], ["asset_id", "value"]
+"manual_uid", "RANGE", ["Manual"], ["asset_id", "value"]
+"modification_uid", "RANGE", ["Modification"], ["asset_id", "value"]
+"ndt_report_uid", "RANGE", ["NDTReport"], ["asset_id", "value"]
+"non_routine_card_uid", "RANGE", ["NonRoutineCard"], ["asset_id", "value"]
+"organization_uid", "RANGE", ["Organization"], ["asset_id", "value"]
+"page_text", "FULLTEXT", ["Page"], ["text", "title"]
+"page_uid", "RANGE", ["Page"], ["asset_id", "value"]
+"part_family_uid", "RANGE", ["PartFamily"], ["asset_id", "value"]
+"part_number_uid", "RANGE", ["PartNumber"], ["asset_id", "value"]
+"person_uid", "RANGE", ["Person"], ["asset_id", "value"]
+"phase_scorecard_uid", "RANGE", ["PhaseScorecard"], ["asset_id", "value"]
+"priority_item_uid", "RANGE", ["PriorityItem"], ["asset_id", "value"]
+"production_organization_uid", "RANGE", ["ProductionOrganization"], ["asset_id", "value"]
+"propeller_model_uid", "RANGE", ["PropellerModel"], ["asset_id", "value"]
+"purchase_order_uid", "RANGE", ["PurchaseOrder"], ["asset_id", "value"]
+"quality_scorecard_uid", "RANGE", ["QualityScorecard"], ["asset_id", "value"]
+"reference_uid", "RANGE", ["Reference"], ["asset_id", "ref_type", "value"]
+"regulatory_authority_uid", "RANGE", ["RegulatoryAuthority"], ["asset_id", "value"]
+"regulatory_ref_uid", "RANGE", ["RegulatoryRef"], ["asset_id", "value"]
+"repair_uid", "RANGE", ["Repair"], ["asset_id", "value"]
+"rotor_assembly_model_uid", "RANGE", ["RotorAssemblyModel"], ["asset_id", "value"]
+"serial_number_uid", "RANGE", ["SerialNumber"], ["asset_id", "value"]
+"service_bulletin_uid", "RANGE", ["ServiceBulletin"], ["asset_id", "value"]
+"stamp_uid", "RANGE", ["Stamp"], ["asset_id", "value"]
+"stc_uid", "RANGE", ["STC"], ["asset_id", "value"]
+"tech_log_entry_uid", "RANGE", ["TechLogEntry"], ["asset_id", "value"]
+"tech_log_page_uid", "RANGE", ["TechLogPage"], ["asset_id", "value"]
+"type_certificate_uid", "RANGE", ["TypeCertificate"], ["asset_id", "value"]
+"work_package_uid", "RANGE", ["WorkPackage"], ["asset_id", "value"]

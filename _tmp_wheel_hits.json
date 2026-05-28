@@ -1,0 +1,3315 @@
+[
+  {
+    "row_id": "f75ba6ff-982a-40a1-8064-f35157b2bc53",
+    "document_id": "907b91d2-8d42-4fc4-b6cf-c7c2da4a6670",
+    "file_name": "Annex 1 – Life Limited & Overhaul Components Status Report.pdf",
+    "page_index": "10",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "life_limited_parts_status",
+    "title": "StatusReport(Life Limit & Overhaul Items Only)",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task ID",
+          "Description",
+          "Part Number (PN field)",
+          "Serial Number (SN field)",
+          "Part Number (Description)",
+          "NHA Part Number",
+          "Unit Type",
+          "C/W",
+          "Interval",
+          "TSX/Adj",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Status",
+          "Disposition Type",
+          "ATA Chapter",
+          "Procedure Reference"
+        ],
+        "row_idx": 18,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE LH INBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4690",
+          null,
+          null,
+          "MOS/MSC",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task ID",
+          "Description",
+          "Part Number (PN field)",
+          "Serial Number (SN field)",
+          "Part Number (Description)",
+          "NHA Part Number",
+          "Unit Type",
+          "C/W",
+          "Interval",
+          "TSX/Adj",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Status",
+          "Disposition Type",
+          "ATA Chapter",
+          "Procedure Reference"
+        ],
+        "row_idx": 19,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE LH INBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4690",
+          null,
+          null,
+          "HRS",
+          "0",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task ID",
+          "Description",
+          "Part Number (PN field)",
+          "Serial Number (SN field)",
+          "Part Number (Description)",
+          "NHA Part Number",
+          "Unit Type",
+          "C/W",
+          "Interval",
+          "TSX/Adj",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Status",
+          "Disposition Type",
+          "ATA Chapter",
+          "Procedure Reference"
+        ],
+        "row_idx": 20,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE LH INBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4690",
+          null,
+          null,
+          "AFL",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task ID",
+          "Description",
+          "Part Number (PN field)",
+          "Serial Number (SN field)",
+          "Part Number (Description)",
+          "NHA Part Number",
+          "Unit Type",
+          "C/W",
+          "Interval",
+          "TSX/Adj",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Status",
+          "Disposition Type",
+          "ATA Chapter",
+          "Procedure Reference"
+        ],
+        "row_idx": 21,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE LH INBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4690",
+          null,
+          null,
+          "T/C",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_28",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "table row",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "19400-1",
+        "19400-2",
+        "17027-9",
+        "17027-8",
+        "17014-8",
+        "17014-6/-8",
+        "5012373"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "c637fc85-9976-4dc5-81b7-d8a42874e65c",
+    "document_id": "0a00464f-5d72-4625-8c30-1f4a7d2d0665",
+    "file_name": "PPI Report_CL650_SN 6134_25.10.2023.pdf",
+    "page_index": "22",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "inspection_report",
+    "title": "Challenger 650 - 6134 Pre-Purchase Inspection Report",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "Date",
+          "Work Report",
+          "PN / Description",
+          "Form 1 or 8130-3",
+          "Comment"
+        ],
+        "row_idx": 0,
+        "row": [
+          "Jul 16th\n2021",
+          "AMAC\nCL65HBJTZ015M",
+          "Main Whell Assy RH I/B\nPN: 5012373\nSN: MAY18-4688",
+          "Y",
+          "Repaired Unit installed\n(NDT Eddy Current performed)"
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "Date",
+          "Work Report",
+          "PN / Description",
+          "Form 1 or 8130-3",
+          "Comment"
+        ],
+        "row_idx": 1,
+        "row": [
+          "Jul 16th\n2021",
+          "AMAC\nCL65HBJTZ015M",
+          "Main Whell Assy RH O/B\nPN: 5012373\nSN: MAY18-4687",
+          "Y",
+          "Repaired Unit installed\n(NDT Eddy Current performed)"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_4",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "table row 1, PN / Description column",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_5",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "table row 1, PN / Description column",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "6622-9968-102",
+        "586110-9",
+        "822-0809-810",
+        "822-0182-101",
+        "822-2189-101",
+        "798976-1-1",
+        "601-62900-7",
+        "ST315-3L",
+        "604-59007-1",
+        "EV8327G042-24VDC",
+        "600-59152-35",
+        "600-59199-9"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "work_order",
+          "value": "CL65HBJTZ015M"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4687"
+        },
+        {
+          "type": "work_order",
+          "value": "CL65HBJTZ017MX"
+        },
+        {
+          "type": "part_number",
+          "value": "6622-9968-102"
+        },
+        {
+          "type": "serial_number",
+          "value": "494GN"
+        },
+        {
+          "type": "part_number",
+          "value": "586110-9"
+        },
+        {
+          "type": "serial_number",
+          "value": "18-3133"
+        },
+        {
+          "type": "work_order",
+          "value": "6134"
+        },
+        {
+          "type": "part_number",
+          "value": "822-0809-810"
+        },
+        {
+          "type": "serial_number",
+          "value": "4CX4R4"
+        },
+        {
+          "type": "part_number",
+          "value": "822-0182-101"
+        },
+        {
+          "type": "serial_number",
+          "value": "3PP8C"
+        },
+        {
+          "type": "work_order",
+          "value": "182703"
+        },
+        {
+          "type": "serial_number",
+          "value": "486DY1"
+        },
+        {
+          "type": "part_number",
+          "value": "822-2189-101"
+        },
+        {
+          "type": "serial_number",
+          "value": "4G5619"
+        },
+        {
+          "type": "serial_number",
+          "value": "4G569H"
+        },
+        {
+          "type": "work_order",
+          "value": "CL65HBJTZ009MX"
+        },
+        {
+          "type": "part_number",
+          "value": "798976-1-1"
+        },
+        {
+          "type": "serial_number",
+          "value": "79897IN00681"
+        },
+        {
+          "type": "part_number",
+          "value": "601-62900-7"
+        },
+        {
+          "type": "serial_number",
+          "value": "AA601326"
+        },
+        {
+          "type": "part_number",
+          "value": "ST315-3L"
+        },
+        {
+          "type": "serial_number",
+          "value": "AS05181750"
+        },
+        {
+          "type": "work_order",
+          "value": "CL65HBJTZ008MX"
+        },
+        {
+          "type": "part_number",
+          "value": "604-59007-1"
+        },
+        {
+          "type": "serial_number",
+          "value": "599"
+        },
+        {
+          "type": "part_number",
+          "value": "EV8327G042-24VDC"
+        },
+        {
+          "type": "serial_number",
+          "value": "A22308373"
+        },
+        {
+          "type": "work_order",
+          "value": "CL65HBJTZ004MX"
+        },
+        {
+          "type": "part_number",
+          "value": "600-59152-35"
+        },
+        {
+          "type": "serial_number",
+          "value": "M4245"
+        },
+        {
+          "type": "work_order",
+          "value": "CL65HBJTZ002MX"
+        },
+        {
+          "type": "part_number",
+          "value": "600-59199-9"
+        },
+        {
+          "type": "serial_number",
+          "value": "DT6322N"
+        },
+        {
+          "type": "serial_number",
+          "value": "6134"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "cda64108-a876-446b-a5df-0b08c4758f8f",
+    "document_id": "0a00464f-5d72-4625-8c30-1f4a7d2d0665",
+    "file_name": "PPI Report_CL650_SN 6134_25.10.2023.pdf",
+    "page_index": "21",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "inspection_report",
+    "title": "Challenger 650 - 6134 Pre-Purchase Inspection Report",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Life Limited Parts & Sample of Serialized Parts",
+        "headers": [
+          "Date",
+          "Work Report",
+          "PN / Description",
+          "Form 1 or 8130-3",
+          "Comment"
+        ],
+        "row_idx": 12,
+        "row": [
+          "Jul 16th\n2021",
+          "AMAC\nCL65HBJT2015M",
+          "Main Whell Assy LH O/B\nPN: 5012373\nSN: MAY18-4689",
+          "Y",
+          "Repaired Unit installed\n(NDT Eddy Current performed)"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Life Limited Parts & Sample of Serialized Parts",
+        "headers": [
+          "Date",
+          "Work Report",
+          "PN / Description",
+          "Form 1 or 8130-3",
+          "Comment"
+        ],
+        "row_idx": 13,
+        "row": [
+          "Jul 16th\n2021",
+          "AMAC\nCL65HBJT2015M",
+          "Main Whell Assy LH I/B\nPN: 5012373\nSN: MAY18-4690",
+          "Y",
+          "Repaired Unit installed\n(NDT Eddy Current performed)"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_46",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "table row 13",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "725051",
+        "725040",
+        "866-0016-001",
+        "61-0478-9",
+        "024637-000",
+        "024453-000",
+        "1015FASA-6K4-1-150",
+        "228-56334-103",
+        "625692-2",
+        "6622-9968-102",
+        "DL2233M7",
+        "5012373",
+        "5010598-IAB"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "a8f630ba-6a3a-4e0c-8636-699c1b65448b",
+    "document_id": "907b91d2-8d42-4fc4-b6cf-c7c2da4a6670",
+    "file_name": "Annex 1 – Life Limited & Overhaul Components Status Report.pdf",
+    "page_index": "11",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "life_limited_parts_status",
+    "title": "StatusReport (Life Limit & Overhaul Items Only)",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task Code",
+          "Description",
+          "Part Number",
+          "Serial Number",
+          "Unit MOS/MSC",
+          "Unit HRS",
+          "Unit AFL",
+          "C/W Type",
+          "Interval",
+          "TSX/Adj.",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Service",
+          "Disposition Status",
+          "Disposition ATA",
+          "Procedure Reference"
+        ],
+        "row_idx": 0,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE LH OUTBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4689",
+          "MOS/MSC",
+          "HRS",
+          "0",
+          "T/C",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task Code",
+          "Description",
+          "Part Number",
+          "Serial Number",
+          "Unit MOS/MSC",
+          "Unit HRS",
+          "Unit AFL",
+          "C/W Type",
+          "Interval",
+          "TSX/Adj.",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Service",
+          "Disposition Status",
+          "Disposition ATA",
+          "Procedure Reference"
+        ],
+        "row_idx": 1,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE RH INBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4688",
+          "MOS/MSC",
+          "HRS",
+          "0",
+          "T/C",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Life Limit & Overhaul Items",
+        "headers": [
+          "Task Code",
+          "Description",
+          "Part Number",
+          "Serial Number",
+          "Unit MOS/MSC",
+          "Unit HRS",
+          "Unit AFL",
+          "C/W Type",
+          "Interval",
+          "TSX/Adj.",
+          "Next Due (ENG/APU) A/C",
+          "Max Limit",
+          "Remaining",
+          "Disposition Service",
+          "Disposition Status",
+          "Disposition ATA",
+          "Procedure Reference"
+        ],
+        "row_idx": 2,
+        "row": [
+          "32-40-00-207",
+          "RESTORATION (OVERHAUL) OF THE RH OUTBOARD MAIN LANDING GEAR WHEEL.",
+          "5012373",
+          "MAY18-4687",
+          "MOS/MSC",
+          "HRS",
+          "0",
+          "T/C",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Service",
+          "OVERHAUL",
+          "32",
+          "AMM 32-41-01"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_10",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "table row 1, 2, 3",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_13",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "table row 2",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "5010598-1AB"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "registration",
+          "value": "HB-JTZ"
+        },
+        {
+          "type": "aircraft_hours",
+          "value": "609:35"
+        },
+        {
+          "type": "aircraft_cycles",
+          "value": "249"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4689"
+        },
+        {
+          "type": "procedure_reference",
+          "value": "AMM 32-41-01"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4687"
+        },
+        {
+          "type": "serial_number",
+          "value": "DEC16-8591"
+        },
+        {
+          "type": "procedure_reference",
+          "value": "AMM 32-42-01"
+        },
+        {
+          "type": "serial_number",
+          "value": "APR18-8705"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "6f41dfbc-20b2-484c-a335-2028c99552a3",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "208",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "mis_task_card",
+    "title": null,
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Part Request",
+        "headers": [
+          "Partnumber",
+          "Description",
+          "IPC Reference",
+          "Customer Provision",
+          "QTY"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MLG WHEEL ASSY",
+          null,
+          "No",
+          "1"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MAY18-4688",
+          "746278",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A"
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 1,
+        "row": [
+          "N/A",
+          "N/A",
+          "337470",
+          "N/A",
+          "5012373",
+          "MAY18-4688",
+          "MLG WHEEL ASSY",
+          "N/A"
+        ],
+        "sn": true,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_14",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Part Request table / Action 1-1 / Action 1-2",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_17",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "Action 1-1 / Action 1-2 / Component Changes table",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "QD1R200",
+        "QD2R1000"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "work_order",
+          "value": "989878"
+        },
+        {
+          "type": "project_number",
+          "value": "CL65HBJTZ015M"
+        },
+        {
+          "type": "work_package_number",
+          "value": "CL65HBJTZ015MX"
+        },
+        {
+          "type": "registration",
+          "value": "HB-JTZ"
+        },
+        {
+          "type": "aircraft_model",
+          "value": "CL650"
+        },
+        {
+          "type": "camp_card_number",
+          "value": "32-40-00-202"
+        },
+        {
+          "type": "camp_card_number",
+          "value": "32-40-00-206"
+        },
+        {
+          "type": "camp_card_number",
+          "value": "32-41-01-900-801"
+        },
+        {
+          "type": "work_order",
+          "value": "6134-21-13"
+        },
+        {
+          "type": "revision",
+          "value": "REV.2"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "revision",
+          "value": "REV.22"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "label",
+          "value": "746278"
+        },
+        {
+          "type": "label",
+          "value": "337470"
+        },
+        {
+          "type": "part_number",
+          "value": "QD1R200"
+        },
+        {
+          "type": "serial_number",
+          "value": "1018917493"
+        },
+        {
+          "type": "part_number",
+          "value": "QD2R1000"
+        },
+        {
+          "type": "serial_number",
+          "value": "0508400719"
+        },
+        {
+          "type": "approval_number",
+          "value": "CH.145.0363"
+        }
+      ]
+    },
+    "section_hits": [
+      {
+        "data": {
+          "PN OFF": "5012373",
+          "SN OFF": "MAY18-4688"
+        },
+        "type": "form_fields",
+        "heading": null
+      },
+      {
+        "data": {
+          "PN ON": "5012373",
+          "SN ON": "MAY18-4688"
+        },
+        "type": "form_fields",
+        "heading": null
+      }
+    ],
+    "text_hits": []
+  },
+  {
+    "row_id": "6384da6c-bf10-4ff1-a356-6be53ff1bc39",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "227",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_task_card",
+    "title": null,
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Part Request",
+        "headers": [
+          "Partnumber",
+          "Description",
+          "IPC Reference",
+          "Customer Provision",
+          "QTY"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MLG WHEEL ASSY",
+          null,
+          "No",
+          "1"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MAY18-4687",
+          "746281",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 1,
+        "row": [
+          "N/A",
+          "N/A",
+          "337466",
+          "N/A",
+          "5012373",
+          "MAY18-4687",
+          "MLG WHEEL ASSY",
+          "N/A"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_15",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Part Request table, Action 1-1, Action 1-2, Component Changes table",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "QD1R200",
+        "QD2R1000"
+      ]
+    },
+    "section_hits": [
+      {
+        "data": "WHEEL ASSY #4 REMOVED IAW AMM 32-41-01 REV.22\nPN OFF: 5012373\nSN OFF: MAY18-4687",
+        "type": "corrective_action",
+        "heading": "Action 1-1"
+      },
+      {
+        "data": "WHEEL ASSY #4 INSTALLED IAW AMM 32-41-01 REV.22.\nPN ON: 5012373\nSN ON: MAY18-4687",
+        "type": "corrective_action",
+        "heading": "Action 1-2"
+      }
+    ],
+    "text_hits": []
+  },
+  {
+    "row_id": "cadf157a-184d-4f3a-ad13-4500df7305b1",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "228",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "easa_form_one",
+    "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "6. Item",
+          "7. Description",
+          "8. Part No.",
+          "9. Qty.",
+          "10. Serial No.",
+          "11. Status / Work"
+        ],
+        "row_idx": 0,
+        "row": [
+          "1",
+          "MLG WHEEL ASSY",
+          "5012373",
+          "1.0 EA",
+          "MAY18-4687",
+          "REPAIRED"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_6",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Table row 1, Part No.",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "027-697-0"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "1d515b81-882e-4995-ac64-b736ff1fc9cb",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "209",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "easa_form_one",
+    "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "6. Item",
+          "7. Description.",
+          "8. Part No.:",
+          "9. Qty.:",
+          "10. Serial No.:",
+          "11. Status / Work:"
+        ],
+        "row_idx": 0,
+        "row": [
+          "1",
+          "MLG WHEEL ASSY",
+          "5012373",
+          "1.0 EA",
+          "MAY18-4688",
+          "REPAIRED"
+        ],
+        "sn": true,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_7",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Block 8, table row 1",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_8",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "Block 10, table row 1",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "027-697-0"
+      ],
+      "meta::serial_number": "MAY18-4688"
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "b4889eaa-47f9-4ad6-9a34-f60c9dd2a6d5",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "211",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "mis_task_card",
+    "title": null,
+    "excerpts": [],
+    "tables_hits": [],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_13",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Removed P/N and Installed P/N fields",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_14",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "Removed S/N and Installed S/N fields",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "work_card_number",
+          "value": "32-41-01-900-801"
+        },
+        {
+          "type": "work_order",
+          "value": "989878"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "task_card_number",
+          "value": "32-40-00-202"
+        },
+        {
+          "type": "other",
+          "value": "53275774-1",
+          "type_label": "WID"
+        }
+      ]
+    },
+    "section_hits": [
+      {
+        "data": {
+          "S/N": "MAY18-4688",
+          "REMOVED P/N": "5012373",
+          "INSTALLED P/N": "5012373",
+          "INSTALLED S/N": "MAY18-4688"
+        },
+        "type": "form_fields",
+        "heading": null
+      }
+    ],
+    "text_hits": []
+  },
+  {
+    "row_id": "fe0f9834-1359-4870-bb5e-8658478a9ee4",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "157",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "HB-JTZ/WO 989819/LFSB/BFR",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Component Change Data",
+        "headers": [
+          "REMOVED P/N",
+          "S/N",
+          "INSTALLED P/N",
+          "S/N",
+          "INSTALLED TSN MOS HRS LDGS",
+          "INSTALLED TSO MOS HRS LDGS",
+          "TIME SINCE REPAIR MOS HRS LDGS",
+          "WARRANTY TIME REMAINING MOS HRS LDGS",
+          "LABOR-HRS",
+          "PART COST$"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MAY18-4690",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Component Change Data",
+        "headers": [
+          "REMOVED P/N",
+          "S/N",
+          "INSTALLED P/N",
+          "S/N",
+          "INSTALLED TSN MOS HRS LDGS",
+          "INSTALLED TSO MOS HRS LDGS",
+          "TIME SINCE REPAIR MOS HRS LDGS",
+          "WARRANTY TIME REMAINING MOS HRS LDGS",
+          "LABOR-HRS",
+          "PART COST$"
+        ],
+        "row_idx": 1,
+        "row": [
+          null,
+          null,
+          "5012373",
+          "MAY18-4690",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_14",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "REMOVED P/N and INSTALLED P/N fields in table",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "f40ea882-e8f6-4c94-b549-20427d2b2c33",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "154",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_task_card",
+    "title": "Work Order Execution Record",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Part Request",
+        "headers": [
+          "Partnumber",
+          "Description",
+          "IPC Reference",
+          "Customer Provision",
+          "QTY"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MLG WHEEL ASSY",
+          null,
+          "No",
+          "1"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MAY18-4690",
+          "746277",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 1,
+        "row": [
+          "N/A",
+          "N/A",
+          "337465",
+          "N/A",
+          "5012373",
+          "MAY18-4690",
+          "MLG WHEEL ASSY",
+          "N/A"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_14",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Part Request table and Action 1-1/1-2",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "QD1R200",
+        "QD2R1000"
+      ]
+    },
+    "section_hits": [
+      {
+        "data": "WHEEL ASSY #2 REMOVED IAW AMM 32-41-01 REV.22\nPN OFF: 5012373\nSN OFF: MAY18-4690",
+        "type": "corrective_action",
+        "heading": "Action 1-1"
+      },
+      {
+        "data": "WHEEL ASSY #2 INSTALLED IAW AMM 32-41-01 REV.22.\nPN ON: 5012373\nSN ON: MAY18-4690",
+        "type": "corrective_action",
+        "heading": "Action 1-2"
+      }
+    ],
+    "text_hits": []
+  },
+  {
+    "row_id": "ef1a880c-aad2-496f-9a71-7c86dcccec12",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "133",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_task_card",
+    "title": null,
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Part Request",
+        "headers": [
+          "Partnumber",
+          "Description",
+          "IPC Reference",
+          "Customer Provision",
+          "QTY"
+        ],
+        "row_idx": 1,
+        "row": [
+          "5012373",
+          "MLG WHEEL ASSY",
+          null,
+          "No",
+          "1"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          "MAY18-4689",
+          "746276",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A",
+          "N/A"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes",
+        "headers": [
+          "PN Off",
+          "SN Off",
+          "Label",
+          "Position",
+          "PN On",
+          "SN On",
+          "Description",
+          "Certificate"
+        ],
+        "row_idx": 1,
+        "row": [
+          "N/A",
+          "N/A",
+          "337469",
+          "N/A",
+          "5012373",
+          "MAY18-4689",
+          "MLG WHEEL ASSY",
+          "N/A"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_15",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Part Request table, Action 1-1, Action 1-2, Component Changes table",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "AN960KD10L",
+        "5012373",
+        "QD1R200",
+        "QD2R1000"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "a9af07f9-44c1-4fb8-8120-2c062f136a0e",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "155",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "easa_form_one",
+    "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+    "excerpts": [],
+    "tables_hits": [],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_4",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Item block 8",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "8_part_no": "5012373",
+      "meta::part_numbers": [
+        "5012373",
+        "027-697-0"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "form_tracking_number",
+          "value": "L-337465"
+        },
+        {
+          "type": "work_order",
+          "value": "R0506321"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4690"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "part_number",
+          "value": "027-697-0"
+        },
+        {
+          "type": "serial_number",
+          "value": "0113P05064"
+        },
+        {
+          "type": "cmm_reference",
+          "value": "32-42-28"
+        },
+        {
+          "type": "faa_certificate_number",
+          "value": "5SZY682C"
+        },
+        {
+          "type": "approval_number",
+          "value": "CH-2624"
+        },
+        {
+          "type": "certificate_number",
+          "value": "CH.145.0363"
+        },
+        {
+          "type": "approval_number",
+          "value": "CH.145.0383"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "10f91be5-7656-483a-ac3a-37fbebb67507",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "136",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_task_card",
+    "title": "CHECK CURRENT DUE LIST FOR DUE TIME CHANGES",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "",
+          "P/N",
+          "S/N",
+          "LABOR-HRS",
+          "PART COSTS"
+        ],
+        "row_idx": 0,
+        "row": [
+          "REMOVED",
+          "5012373",
+          "MAY18-4689",
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "",
+          "P/N",
+          "S/N",
+          "LABOR-HRS",
+          "PART COSTS"
+        ],
+        "row_idx": 1,
+        "row": [
+          "INSTALLED",
+          "5012373",
+          "MAY18-4689",
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "mixed",
+        "entity_id": "ent_11",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Removed P/N and Installed P/N fields",
+        "confidence_reason": "printed and handwritten, clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "work_card_number",
+          "value": "32-41-01-900-801"
+        },
+        {
+          "type": "work_order",
+          "value": "6134-21-13"
+        },
+        {
+          "type": "registration",
+          "value": "HB-JTZ"
+        },
+        {
+          "type": "certificate_number",
+          "value": "CH.145.0363"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4689"
+        },
+        {
+          "type": "work_card_number",
+          "value": "32-40-00-202"
+        },
+        {
+          "type": "document_control_number",
+          "value": "989481/LFSB"
+        },
+        {
+          "type": "other",
+          "value": "53184513-1"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "25a758de-dc0e-4475-afc0-298c8b8deb3a",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "134",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "easa_form_one",
+    "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+    "excerpts": [],
+    "tables_hits": [],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_6",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Block 8",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "8. Part No.": "5012373",
+      "meta::part_numbers": [
+        "5012373",
+        "027-697-0"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "tracking_number",
+          "value": "L-337469"
+        },
+        {
+          "type": "work_order",
+          "value": "R0506221"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4689"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "part_number",
+          "value": "027-697-0"
+        },
+        {
+          "type": "serial_number",
+          "value": "7070R00013"
+        },
+        {
+          "type": "certificate_number",
+          "value": "5SZY682C"
+        },
+        {
+          "type": "approval_number",
+          "value": "CH-2624"
+        },
+        {
+          "type": "certificate_number",
+          "value": "CH.145.0363"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "a5e755b4-57c5-4aa2-8576-50db10da6591",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "4",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "certificate_of_release_to_service",
+    "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+    "excerpts": [],
+    "tables_hits": [],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_10",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Chapter 32 Main Wheel Assy P/N OFF/ON",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "2524.014.01",
+        "5012373",
+        "027-697-0"
+      ]
+    },
+    "section_hits": [
+      {
+        "data": [
+          "-REMOVED AND INSTALLED MAIN WHEEL ASSY #1 AS PER AMM 32-41-01 REV.22 DUE TO TIRE CHANGE",
+          "P/N OFF/ON: 5012373 S/N OFF/ON: MAY18-4689",
+          "REPLACED MAIN WHEEL TIRE #1 AS PER CMM 32-42-28 REV.06",
+          "P/N OFF: 027-697-0 P/N ON: 027-697-0",
+          "S/N OFF: 8085R00176 S/N ON: 7070R00013",
+          "REMOVED AND INSTALLED MAIN WHEEL ASSY #2 AS PER AMM 32-41-01 REV.22 DUE TO TIRE CHANGE",
+          "P/N OFF/ON: 5012373 S/N OFF/ON: MAY18-4690",
+          "REPLACED MAIN WHEEL TIRE #2 AS PER CMM 32-42-28 REV.06",
+          "P/N OFF: 027-697-0 P/N ON: 027-697-0",
+          "S/N OFF: 7216R00345 S/N ON: 0113P05064",
+          "REMOVED AND INSTALLED MAIN WHEEL ASSY #3 AS PER AMM 32-41-01 REV.22 DUE TO TIRE CHANGE",
+          "P/N OFF/ON: 5012373 S/N OFF/ON: MAY18-4688",
+          "REPLACED MAIN WHEEL TIRE #3 AS PER CMM 32-42-28 REV.06",
+          "P/N OFF: 027-697-0 P/N ON: 027-697-0",
+          "S/N OFF: 8087R00354 S/N ON: 7070R00013",
+          "REMOVED AND INSTALLED MAIN WHEEL ASSY #4 AS PER AMM 32-41-01 REV.22 DUE TO TIRE CHANGE",
+          "P/N OFF/ON: 5012373 S/N OFF/ON: MAY18-4687",
+          "REPLACED MAIN WHEEL TIRE #4 AS PER CMM 32-42-28 REV.06",
+          "P/N OFF: 027-697-0 P/N ON: 027-697-0",
+          "S/N OFF: 7215R00360 S/N ON: 0121P05094"
+        ],
+        "type": "list",
+        "heading": "CHAPTER 32:"
+      }
+    ],
+    "text_hits": []
+  },
+  {
+    "row_id": "98752b2f-d492-4e61-be6f-f2d61974cf9f",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "14",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "WO-Summary (AMAC)",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "WO Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 0,
+        "row": [
+          "21",
+          "989819",
+          "HB-JTZ",
+          "Closed",
+          "14.Jul.2021",
+          "16.Jul.2021",
+          null,
+          "32",
+          "DUE DATE: 27.04.2022\nPart Number\nPosition\nS/N\nOn/Off\nDescription\n5012373\nMAY18-4690\nOff\nMLG WHEEL ASSY\n5012373\nMAY18-4690\nOn\nMLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_5",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Table row 1 Text column",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "5010598-1AB",
+        "QD1R200",
+        "QD2R1000"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "41550a47-0a5d-4868-8b87-74dd2e469e2d",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "15",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "WO-Summary (AMAC)",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "WO-Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due-/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 0,
+        "row": [
+          "24",
+          "989878",
+          "HB-JTZ",
+          "Closed",
+          "15.Jul.2021",
+          "16.Jul.2021",
+          "APR18-8705",
+          "32",
+          [
+            {
+              "on_off": "Off",
+              "references": [
+                "CAMP CARDS 32-40-00-202",
+                "32-40-00-206",
+                "32-41-01-900-801",
+                "EXECUJET W/A # 6134-21-13 REV 2"
+              ],
+              "action_text": "WHEEL ASSY #3 REMOVED IAW AMM 32-41-01 REV 22",
+              "description": "NOSE WHEEL",
+              "part_removed": {
+                "part_number": "5012373",
+                "serial_number": "MAY18-4688"
+              },
+              "workstep_text": "PERFORM RH INBOARD TIRE CHANGE (#3)"
+            }
+          ]
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "WO-Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due-/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 1,
+        "row": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "DEC16-8591",
+          null,
+          [
+            {
+              "on_off": "Off",
+              "tools_used": [
+                {
+                  "due_date": "14.01.2022",
+                  "part_number": "QD1R200",
+                  "serial_number": "1018917493"
+                },
+                {
+                  "due_date": "27.04.2022",
+                  "part_number": "QD2R1000",
+                  "serial_number": "0508400719"
+                }
+              ],
+              "action_text": "WHEEL ASSY #3 INSTALLED IAW AMM 32-41-01 REV 22",
+              "description": "NOSE WHEEL",
+              "workstep_text": "INSPECTED",
+              "part_installed": {
+                "part_number": "5012373",
+                "serial_number": "MAY18-4688"
+              }
+            }
+          ]
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "WO-Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due-/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 2,
+        "row": [
+          "25",
+          "989880",
+          "HB-JTZ",
+          "Closed",
+          "15.Jul.2021",
+          "16.Jul.2021",
+          null,
+          "32",
+          [
+            {
+              "references": [
+                "CAMP CARDS 32-40-00-202",
+                "32-40-00-206",
+                "32-41-01-900-801",
+                "EXECUJET W/A # 6134-21-13 REV 2"
+              ],
+              "action_text": "WHEEL ASSY #4 REMOVED IAW AMM 32-41-01 REV 22",
+              "part_removed": {
+                "part_number": "5012373",
+                "serial_number": "MAY18-4687"
+              },
+              "workstep_text": "PERFORM RH OUTBOARD TIRE CHANGE (#4)",
+              "on_off_context": "Off",
+              "position_context": null,
+              "description_context": "MLG WHEEL ASSY",
+              "part_number_context": "5012373",
+              "serial_number_context": "MAY18-4688"
+            }
+          ]
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "WO-Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due-/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 3,
+        "row": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          [
+            {
+              "tools_used": [
+                {
+                  "due_date": "14.01.2022",
+                  "part_number": "QD1R200",
+                  "serial_number": "1018917493"
+                }
+              ],
+              "action_text": "WHEEL ASSY #4 INSTALLED IAW AMM 32-41-01 REV 22",
+              "on_off_context": "On",
+              "part_installed": {
+                "part_number": "5012373",
+                "serial_number": "MAY18-4687"
+              },
+              "position_context": null,
+              "description_context": "MLG WHEEL ASSY",
+              "part_number_context": "5012373",
+              "serial_number_context": "MAY18-4688"
+            }
+          ]
+        ],
+        "sn": true,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_13",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "PN OFF/ON in Text column",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_14",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "SN OFF/ON in Text column",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "QD1R200",
+        "QD2R1000"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "work_order",
+          "value": "989878"
+        },
+        {
+          "type": "registration",
+          "value": "HB-JTZ"
+        },
+        {
+          "type": "mel_entry",
+          "value": "APR18-8705"
+        },
+        {
+          "type": "reference_document",
+          "value": "CAMP CARDS 32-40-00-202"
+        },
+        {
+          "type": "reference_document",
+          "value": "CAMP CARDS 32-40-00-206"
+        },
+        {
+          "type": "reference_document",
+          "value": "CAMP CARDS 32-41-01-900-801"
+        },
+        {
+          "type": "work_order",
+          "value": "6134-21-13 REV 2"
+        },
+        {
+          "type": "maintenance_manual",
+          "value": "AMM 32-41-01 REV 22"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "mel_entry",
+          "value": "DEC16-8591"
+        },
+        {
+          "type": "part_number",
+          "value": "QD1R200"
+        },
+        {
+          "type": "serial_number",
+          "value": "1018917493"
+        },
+        {
+          "type": "part_number",
+          "value": "QD2R1000"
+        },
+        {
+          "type": "serial_number",
+          "value": "0508400719"
+        },
+        {
+          "type": "work_order",
+          "value": "989880"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4687"
+        },
+        {
+          "type": "other",
+          "value": "BFR"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "cf3ce83a-601c-4119-b2b4-6950b370a3fa",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "13",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "WO-Summary (AMAC)",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes for WO 989481",
+        "headers": [
+          "Part Number",
+          "Position",
+          "S/N",
+          "On/Off",
+          "Description"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          null,
+          "MAY18-4689",
+          "Off",
+          "MLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 1,
+        "table_title": "Component Changes for WO 989481",
+        "headers": [
+          "Part Number",
+          "Position",
+          "S/N",
+          "On/Off",
+          "Description"
+        ],
+        "row_idx": 1,
+        "row": [
+          "5012373",
+          null,
+          "MAY18-4689",
+          "On",
+          "MLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 2,
+        "table_title": "Component Changes for WO 989819",
+        "headers": [
+          "Part Number",
+          "Position",
+          "S/N",
+          "On/Off",
+          "Description"
+        ],
+        "row_idx": 0,
+        "row": [
+          "5012373",
+          null,
+          "MAY18-4690",
+          "Off",
+          "MLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 2,
+        "table_title": "Component Changes for WO 989819",
+        "headers": [
+          "Part Number",
+          "Position",
+          "S/N",
+          "On/Off",
+          "Description"
+        ],
+        "row_idx": 1,
+        "row": [
+          "5012373",
+          null,
+          "MAY18-4690",
+          "On",
+          "MLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_8",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "WO 989481 Text description, PN OFF",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "5012373",
+        "QD1R200",
+        "QD2R1000"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "work_order",
+          "value": "989481"
+        },
+        {
+          "type": "registration",
+          "value": "HB-JTZ"
+        },
+        {
+          "type": "work_order",
+          "value": "6134-21-13"
+        },
+        {
+          "type": "work_order",
+          "value": "AMAC21077913"
+        },
+        {
+          "type": "part_number",
+          "value": "5012373"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4689"
+        },
+        {
+          "type": "part_number",
+          "value": "QD1R200"
+        },
+        {
+          "type": "serial_number",
+          "value": "1018917493"
+        },
+        {
+          "type": "part_number",
+          "value": "QD2R1000"
+        },
+        {
+          "type": "serial_number",
+          "value": "0508400719"
+        },
+        {
+          "type": "work_order",
+          "value": "989819"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4690"
+        },
+        {
+          "type": "document_control_number",
+          "value": "32-40-00-202"
+        },
+        {
+          "type": "document_control_number",
+          "value": "32-40-00-206"
+        },
+        {
+          "type": "document_control_number",
+          "value": "32-41-01-900-801"
+        },
+        {
+          "type": "document_control_number",
+          "value": "AMM 32-41-01 REV 22"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "dd09b263-f4c0-4c5c-884d-440c82efa100",
+    "document_id": "0abfcf4b-ec85-499d-a31a-e0def60e7b3f",
+    "file_name": "CL650-6134_bo2_bi7_CL65HBJTZ015MX_6134-21-13_16-Jul-2021.pdf",
+    "page_index": "16",
+    "has_sn": false,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "WO-Summary (AMAC)",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "WO-Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due-/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 2,
+        "row": [
+          null,
+          null,
+          null,
+          null,
+          "5012373",
+          null,
+          "MAY18-4687",
+          "Off",
+          "MLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "WO-Summary",
+        "headers": [
+          "No.",
+          "W/O",
+          "A/C",
+          "Status",
+          "Issue Date",
+          "Due-/C.-Date",
+          "MEL/CF",
+          "ATA",
+          "Text"
+        ],
+        "row_idx": 3,
+        "row": [
+          null,
+          null,
+          null,
+          null,
+          "5012373",
+          null,
+          "MAY18-4687",
+          "On",
+          "MLG WHEEL ASSY"
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_9",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Table row 3, Part Number column",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "QD2R1000",
+        "5012373"
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "cb2cb09d-08b7-4da3-9067-23597b0aaa5e",
+    "document_id": "6770dcc4-0756-4444-a659-789c1a1c8fe6",
+    "file_name": "PART NUMBERS.pdf",
+    "page_index": "12",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "AIRCRAFT SERIALIZATION LISTING",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check Date",
+          "Expiration Date"
+        ],
+        "row_idx": 24,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4687",
+          "32-41-01",
+          "RH OUTBD (#4)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check Date",
+          "Expiration Date"
+        ],
+        "row_idx": 25,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4688",
+          "32-41-01",
+          "RH INBD (#3)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check Date",
+          "Expiration Date"
+        ],
+        "row_idx": 26,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4689",
+          "32-41-01",
+          "LH OUTBD (#1)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check Date",
+          "Expiration Date"
+        ],
+        "row_idx": 27,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4690",
+          "32-41-01",
+          "LH INBD (#2)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_72",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "table row 25",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_75",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "table row 26",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "42RT64-1",
+        "42RT65-1",
+        "452-0133",
+        "453-5060",
+        "4619-3",
+        "4620-113",
+        "4622",
+        "466090",
+        "472428-2",
+        "473597-2",
+        "4E3156-03",
+        "4E3160-1",
+        "500097",
+        "50012",
+        "501-1258-02",
+        "501-1259-04",
+        "5010598-1AB",
+        "5012333MH",
+        "5012373",
+        "5020-1",
+        "5071T98P05",
+        "510ZT01Y01",
+        "5360-1-14",
+        "5399-00-5",
+        "54303-6C35"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "serial_number",
+          "value": "FG943"
+        },
+        {
+          "type": "serial_number",
+          "value": "FE069"
+        },
+        {
+          "type": "serial_number",
+          "value": "FE075"
+        },
+        {
+          "type": "serial_number",
+          "value": "FD028"
+        },
+        {
+          "type": "serial_number",
+          "value": "379519-035"
+        },
+        {
+          "type": "serial_number",
+          "value": "252-03494"
+        },
+        {
+          "type": "serial_number",
+          "value": "2415B"
+        },
+        {
+          "type": "serial_number",
+          "value": "0329"
+        },
+        {
+          "type": "serial_number",
+          "value": "2479A"
+        },
+        {
+          "type": "serial_number",
+          "value": "E93264483"
+        },
+        {
+          "type": "serial_number",
+          "value": "4417T"
+        },
+        {
+          "type": "serial_number",
+          "value": "SHA0198"
+        },
+        {
+          "type": "serial_number",
+          "value": "SHA0242"
+        },
+        {
+          "type": "serial_number",
+          "value": "MM18"
+        },
+        {
+          "type": "serial_number",
+          "value": "B003944"
+        },
+        {
+          "type": "serial_number",
+          "value": "112718038"
+        },
+        {
+          "type": "serial_number",
+          "value": "0431"
+        },
+        {
+          "type": "serial_number",
+          "value": "80575"
+        },
+        {
+          "type": "serial_number",
+          "value": "80556"
+        },
+        {
+          "type": "serial_number",
+          "value": "APR18-8705"
+        },
+        {
+          "type": "serial_number",
+          "value": "DEC16-8591"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-3156"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-3157"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-3159"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4687"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4689"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4690"
+        },
+        {
+          "type": "serial_number",
+          "value": "4475"
+        },
+        {
+          "type": "serial_number",
+          "value": "LMDK4798"
+        },
+        {
+          "type": "serial_number",
+          "value": "LMDK4801"
+        },
+        {
+          "type": "serial_number",
+          "value": "2131"
+        },
+        {
+          "type": "serial_number",
+          "value": "A00RRR"
+        },
+        {
+          "type": "serial_number",
+          "value": "2849"
+        },
+        {
+          "type": "serial_number",
+          "value": "2852"
+        },
+        {
+          "type": "serial_number",
+          "value": "M4245"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "fa7f6f3a-51ea-4f10-bbfa-3b0b7139b114",
+    "document_id": "3dacc818-2c36-428d-a65f-0a39b82a5405",
+    "file_name": "190220_HB-JTZ_PART_NUMBERS.pdf",
+    "page_index": "9",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "mis_export",
+    "title": "AIRCRAFT SERIALIZATION LISTING",
+    "excerpts": [],
+    "tables_hits": [
+      {
+        "table_idx": 0,
+        "table_title": "Aircraft Serialization Listing",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check date",
+          "Expiration Date"
+        ],
+        "row_idx": 9,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4687",
+          "32-41-01",
+          "RH OUTBD (#4)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Aircraft Serialization Listing",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check date",
+          "Expiration Date"
+        ],
+        "row_idx": 10,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4688",
+          "32-41-01",
+          "RH INBD (#3)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": true,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Aircraft Serialization Listing",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check date",
+          "Expiration Date"
+        ],
+        "row_idx": 11,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4689",
+          "32-41-01",
+          "LH OUTBD (#1)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      },
+      {
+        "table_idx": 0,
+        "table_title": "Aircraft Serialization Listing",
+        "headers": [
+          "Part Number",
+          "Part Description",
+          "Serial number",
+          "ATA chapter",
+          "Location ID",
+          "Mod Status",
+          "Manufacturing Date",
+          "Inspection Date",
+          "Hydrostatic Check Date",
+          "Weight Check date",
+          "Expiration Date"
+        ],
+        "row_idx": 12,
+        "row": [
+          "5012373",
+          "WHEEL ASSY, MLG",
+          "MAY18-4690",
+          "32-41-01",
+          "LH INBD (#2)",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sn": false,
+        "pn": true
+      }
+    ],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_23",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "table row 10, 11, 12, 13",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_26",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "table row 11",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "4E3160-1",
+        "50012",
+        "501-1258-02",
+        "501-1259-04",
+        "5010598-1AB",
+        "5012333MH",
+        "5012373",
+        "5020-1",
+        "510ZT01Y01",
+        "54303-6C35",
+        "5619-0016",
+        "563-127",
+        "5914249",
+        "596A010000",
+        "60-1321-1",
+        "600-10057-5",
+        "600-10057-6",
+        "600-10502-51",
+        "600-10502-52",
+        "600-10602-77"
+      ],
+      "meta::reference_numbers": [
+        {
+          "type": "msn",
+          "value": "6134"
+        },
+        {
+          "type": "page_number",
+          "value": "10 of 23"
+        },
+        {
+          "type": "serial_number",
+          "value": "B003944"
+        },
+        {
+          "type": "serial_number",
+          "value": "0431"
+        },
+        {
+          "type": "serial_number",
+          "value": "80575"
+        },
+        {
+          "type": "serial_number",
+          "value": "80556"
+        },
+        {
+          "type": "serial_number",
+          "value": "APR18-8705"
+        },
+        {
+          "type": "serial_number",
+          "value": "DEC16-8591"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-3156"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-3157"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-3159"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4687"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4688"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4689"
+        },
+        {
+          "type": "serial_number",
+          "value": "MAY18-4690"
+        },
+        {
+          "type": "serial_number",
+          "value": "4475"
+        },
+        {
+          "type": "serial_number",
+          "value": "2131"
+        },
+        {
+          "type": "serial_number",
+          "value": "M4245"
+        },
+        {
+          "type": "serial_number",
+          "value": "1267-1"
+        },
+        {
+          "type": "serial_number",
+          "value": "1267-5"
+        },
+        {
+          "type": "serial_number",
+          "value": "1267-6"
+        },
+        {
+          "type": "serial_number",
+          "value": "2763"
+        },
+        {
+          "type": "serial_number",
+          "value": "2764"
+        },
+        {
+          "type": "serial_number",
+          "value": "CR2404"
+        },
+        {
+          "type": "serial_number",
+          "value": "50303"
+        },
+        {
+          "type": "serial_number",
+          "value": "50309"
+        },
+        {
+          "type": "serial_number",
+          "value": "50310"
+        },
+        {
+          "type": "serial_number",
+          "value": "50311"
+        },
+        {
+          "type": "serial_number",
+          "value": "26554"
+        },
+        {
+          "type": "serial_number",
+          "value": "26555"
+        },
+        {
+          "type": "serial_number",
+          "value": "26556"
+        },
+        {
+          "type": "serial_number",
+          "value": "26557"
+        },
+        {
+          "type": "serial_number",
+          "value": "TRI00042"
+        },
+        {
+          "type": "serial_number",
+          "value": "TRI00048"
+        },
+        {
+          "type": "serial_number",
+          "value": "Q866729"
+        },
+        {
+          "type": "serial_number",
+          "value": "Q811673"
+        },
+        {
+          "type": "serial_number",
+          "value": "Q906725"
+        }
+      ]
+    },
+    "section_hits": [],
+    "text_hits": []
+  },
+  {
+    "row_id": "76af7873-a340-4498-aa24-6ba875c3d20a",
+    "document_id": "0e80f9d3-e6a8-4848-808b-aa94f23cb66c",
+    "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+    "page_index": "87",
+    "has_sn": true,
+    "has_pn": true,
+    "document_type": "certificate_of_release_to_service",
+    "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+    "excerpts": [],
+    "tables_hits": [],
+    "entities_hits": [
+      {
+        "value": "5012373",
+        "source": "printed",
+        "entity_id": "ent_15",
+        "confidence": "high",
+        "entity_type": "part_number",
+        "location_context": "Chapter 32 main wheel assy P/N OFF/ON",
+        "confidence_reason": "printed and clear"
+      },
+      {
+        "value": "MAY18-4688",
+        "source": "printed",
+        "entity_id": "ent_24",
+        "confidence": "high",
+        "entity_type": "serial_number",
+        "location_context": "Chapter 32 main wheel assy #3 S/N OFF/ON",
+        "confidence_reason": "printed and clear"
+      }
+    ],
+    "header_hits": {
+      "meta::part_numbers": [
+        "2524.014.01",
+        "5012373",
+        "027-697-0"
+      ]
+    },
+    "section_hits": [
+      {
+        "data": "REMOVED AND INSTALLED MAIN WHEEL ASSY #1 AS PER AMM 32-41-01 REV.22 DUE TO TIRE CHANGE\nP/N OFF/ON: 5012373 S/N OFF/ON: MAY18-4689\nREPLACED MAIN WHEEL TIRE #1 AS PER CMM 32-42-28 REV.06\nP/N OFF: 027-697-0 P/N ON: 027-697-0\nS/N OFF: 8085R00176 S/N ON: 7070R00013\n\nREMOVED AND INSTALLED MAIN WHEEL ASSY #2 AS PER AMM 32-41-01 REV.22 DUE TO TIRE CHANGE\nP/N OFF/ON: 5012373 S/N OFF/ON: MAY18-4690\nREPLACED",
+        "type": "text",
+        "heading": "CHAPTER 32:"
+      }
+    ],
+    "text_hits": []
+  }
+]

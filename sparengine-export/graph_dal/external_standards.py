@@ -183,3 +183,53 @@ def link_cites(tx: Any, *, asset_id, source_label, source_uid, target_value, lev
            source_label=source_label, source_uid=source_uid,
            target_value=target_value, level=level,
            created_in_phase=current_phase(),).consume()
+
+
+# =============================================================================
+#  Typed (label-bound) fast-path variants
+# =============================================================================
+#
+# Same semantics as the untyped helpers above, but the source label is
+# baked into the query so Neo4j uses the (asset_id, value) unique-constraint
+# index for an index seek instead of an AllNodesScan.
+
+def _typed(edge: str, src: str, tgt: str) -> str:
+    return f"""
+MATCH (src:{src} {{asset_id: $asset_id, value: $source_uid}})
+MATCH (tgt:{tgt} {{asset_id: $asset_id, value: $target_value}})
+MERGE (src)-[r:{edge}]->(tgt)
+ON CREATE SET r.level = $level
+ON MATCH  SET r.level = $level
+"""
+
+
+_PAGE_COVERS_ATA = _typed("COVERS_ATA", "Page", "ATAChapter")
+_PAGE_MENTIONS_SB = _typed("MENTIONS_SB", "Page", "ServiceBulletin")
+_PAGE_MENTIONS_AD = _typed("MENTIONS_AD", "Page", "AirworthinessDirective")
+_PAGE_MENTIONS_EO = _typed("MENTIONS_EO", "Page", "EngineeringOrder")
+_PAGE_CITES = _typed("CITES", "Page", "RegulatoryRef")
+
+
+def page_covers_ata(tx, *, asset_id, page_uid, ata_value, level="page"):
+    tx.run(_PAGE_COVERS_ATA, asset_id=asset_id,
+           source_uid=page_uid, target_value=ata_value, level=level).consume()
+
+
+def page_mentions_sb(tx, *, asset_id, page_uid, sb_value, level="page"):
+    tx.run(_PAGE_MENTIONS_SB, asset_id=asset_id,
+           source_uid=page_uid, target_value=sb_value, level=level).consume()
+
+
+def page_mentions_ad(tx, *, asset_id, page_uid, ad_value, level="page"):
+    tx.run(_PAGE_MENTIONS_AD, asset_id=asset_id,
+           source_uid=page_uid, target_value=ad_value, level=level).consume()
+
+
+def page_mentions_eo(tx, *, asset_id, page_uid, eo_value, level="page"):
+    tx.run(_PAGE_MENTIONS_EO, asset_id=asset_id,
+           source_uid=page_uid, target_value=eo_value, level=level).consume()
+
+
+def page_cites(tx, *, asset_id, page_uid, regref_value, level="page"):
+    tx.run(_PAGE_CITES, asset_id=asset_id,
+           source_uid=page_uid, target_value=regref_value, level=level).consume()

@@ -201,19 +201,57 @@ def link_was_installed_on(
 #  Form1 / CRS → Component edges (created in Phase 5 when we know the binding)
 # =============================================================================
 
+_DISPOSITION_NORMAL = {
+    "new":         "new",
+    "overhauled":  "overhauled", "overhaul":  "overhauled",
+    "repaired":    "repaired",   "repair":    "repaired",
+    "inspected":   "inspected",  "inspect":   "inspected",
+    "tested":      "inspected",  "inspected/tested": "inspected",
+    "serviceable": "new",
+    "as-removed":  "as_removed", "as removed": "as_removed",
+    "modified":    "modified",   "modification": "modified",
+}
+
+
+def _normalize_disposition(value: str | None) -> str | None:
+    """Map block-11 free text to the closed enum.
+
+    Returns None if value is None/empty; 'unknown' if unparseable.
+    """
+    if not value:
+        return None
+    s = value.strip().lower()
+    if s in _DISPOSITION_NORMAL:
+        return _DISPOSITION_NORMAL[s]
+    for key, val in _DISPOSITION_NORMAL.items():
+        if key in s:
+            return val
+    return "unknown"
+
+
 def link_form1_releases_component(
     tx: Any, *, asset_id: str, form1_uid: str, component_uid: str,
     block: str | None = None,
+    disposition: str | None = None,
+    source: str | None = None,
+    confidence: str | None = None,
 ) -> None:
-    """:Form1-[:RELEASES {block}]->:Component."""
-    tx.run(
-        "MATCH (f:Form1 {asset_id: $aid, value: $f}) "
-        "MATCH (c:Component {asset_id: $aid, value: $c}) "
-        "MERGE (f)-[r:RELEASES]->(c) "
-        "ON CREATE SET r.block = $block "
-        "ON MATCH  SET r.block = coalesce($block, r.block)",
-        aid=asset_id, f=form1_uid, c=component_uid, block=block,
-    ).consume()
+    """DEPRECATED 2026-05-19. No-op.
+
+    Per the simplified Form 1 contract, there is no direct
+    ``:Form1-[:RELEASES]->:Component`` edge. The bridge is the shared
+    :SerialNumber node:
+
+        :Form1-[:RELEASES_SN]->:SerialNumber<-[:HAS_SN]-:Component
+
+    Disposition (overhauled/repaired/etc.) lives on the :Form1 node as
+    ``block_11_status`` / ``block_11_status_norm`` properties. Queries that
+    need "what does this Form 1 release" walk the SN bridge:
+
+        MATCH (f:Form1 {value:$tracking})-[:RELEASES_SN]->(sn)<-[:HAS_SN]-(c:Component)
+        RETURN c, f.block_11_status AS disposition
+    """
+    return  # intentional no-op
 
 
 def link_crs_certifies(

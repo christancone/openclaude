@@ -1,0 +1,46 @@
+=== Pre-wipe v2 snapshot 2026-05-19T09:04:37Z ===
+label, n
+"Event", 29013
+"Stamp", 19403
+"Component", 18220
+"Page", 16482
+"PartNumber", 14647
+"Reference", 8788
+"SerialNumber", 4112
+"RegulatoryRef", 2516
+"PriorityItem", 2104
+"Date", 1837
+"ATAChapter", 1681
+"CertificateNumber", 1503
+"ServiceBulletin", 1481
+"Person", 1351
+"AirworthinessDirective", 1170
+"JobCard", 1065
+"Document", 661
+"BatchNumber", 474
+"STC", 352
+"Modification", 289
+"PurchaseOrder", 285
+"CRS", 276
+"DrawingNumber", 257
+"WorkPackage", 206
+"Finding", 200
+"Form1", 151
+"TechLogPage", 100
+"DocumentType", 70
+"MaintenanceOrganization", 66
+"NonRoutineCard", 35
+"DentBuckleEntry", 3
+"AuditRun", 2
+"Asset", 1
+"Aircraft", 1
+"Repair", 1
+"TypeCertificate", 1
+
+edge, n
+"RELEASES_PN", 258
+"RELEASES_SN", 149
+"SIGNED_BY", 148
+
+edge, n
+"CARRIES", 185

@@ -1,0 +1,644 @@
+
+========== PHASE 1 START 2026-05-19T06:04:43.251191+00:00 ==========
+CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+asset_id: 62368985-01a6-4f6d-b6de-932775401d76
+[phase1] :Asset seeded
+[phase1] chunk 0 OK rows_processed=100 pages=100 stamps=0 records_form1=0
+[phase1] running verify_phase_1 ...
+========== PHASE 1 END 2026-05-19T06:05:26.704357+00:00  dur=43s ==========
+== Phase 1 verification ==
+  - binders: 0
+  - boxes: 0
+  - connector_identifiers: 765
+  - dates: 0
+  - documents: 9
+  - evidence_records: 0
+  - fact_nodes_no_evidence: 0
+  - folders: 0
+  - ids_batchnumber: 0
+  - ids_certificatenumber: 0
+  - ids_drawingnumber: 0
+  - ids_partnumber: 389
+  - ids_purchaseorder: 1
+  - ids_reference: 130
+  - ids_serialnumber: 245
+  - ids_techlogpage: 0
+  - page_text_online: 1
+  - pages: 200
+  - records_borescopereport: 0
+  - records_crs: 0
+  - records_dentbuckleentry: 0
+  - records_form1: 0
+  - records_jobcard: 0
+  - records_modification: 0
+  - records_ndtreport: 0
+  - records_nonroutinecard: 0
+  - records_repair: 0
+  - records_stc: 0
+  - records_workpackage: 0
+  - stamps: 0
+== Phase 1 counters ==
+  - documents: 9
+  - mention_ad: 263
+  - mention_ata: 306
+  - mention_pn: 570
+  - mention_pn_from_entity: 5
+  - mention_po: 1
+  - mention_ref_doc_control: 91
+  - mention_ref_tracking: 56
+  - mention_regref: 44
+  - mention_sb: 17
+  - mention_sn: 497
+  - mention_sn_from_entity: 59
+  - pages: 200
+  - rows_processed: 200
+
+========== PHASE 1 START 2026-05-19T06:06:01.352643+00:00 ==========
+CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+asset_id: 62368985-01a6-4f6d-b6de-932775401d76
+[phase1] :Asset seeded
+[phase1] chunk 0 OK rows_processed=500 pages=500 stamps=1341 records_form1=12
+[phase1] chunk 2 FAILED: AttributeError("'list' object has no attribute 'get'")
+
+========== PHASE 1 START 2026-05-19T06:12:26.623450+00:00 ==========
+CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+asset_id: 62368985-01a6-4f6d-b6de-932775401d76
+[phase1] :Asset seeded
+[phase1] chunk 0 OK rows_processed=500 pages=500 stamps=1341 records_form1=12
+[phase1] chunk 5 OK rows_processed=3000 pages=3000 stamps=9754 records_form1=93
+[phase1] chunk 10 OK rows_processed=5500 pages=5500 stamps=15161 records_form1=166
+[phase1] chunk 15 OK rows_processed=8000 pages=8000 stamps=15203 records_form1=166
+
+========== PHASE 1 START 2026-05-19T06:45:56.953411+00:00 ==========
+CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+asset_id: 62368985-01a6-4f6d-b6de-932775401d76
+[phase1] :Asset seeded
+[phase1] chunk 0 OK rows_processed=500 pages=500 stamps=1341 records_form1=12
+[phase1] running verify_phase_1 ...
+========== PHASE 1 END 2026-05-19T06:46:44.951926+00:00  dur=47s ==========
+== Phase 1 verification ==
+  - binders: 0
+  - boxes: 0
+  - connector_identifiers: 1696
+  - dates: 51
+  - documents: 11
+  - evidence_records: 104
+  - fact_nodes_no_evidence: 0
+  - folders: 0
+  - ids_batchnumber: 24
+  - ids_certificatenumber: 122
+  - ids_drawingnumber: 2
+  - ids_partnumber: 647
+  - ids_purchaseorder: 20
+  - ids_reference: 493
+  - ids_serialnumber: 385
+  - ids_techlogpage: 3
+  - page_text_online: 1
+  - pages: 500
+  - records_borescopereport: 0
+  - records_crs: 4
+  - records_dentbuckleentry: 1
+  - records_form1: 12
+  - records_jobcard: 67
+  - records_modification: 2
+  - records_ndtreport: 0
+  - records_nonroutinecard: 8
+  - records_repair: 0
+  - records_stc: 0
+  - records_workpackage: 10
+  - stamps: 1341
+== Phase 1 counters ==
+  - documents: 11
+  - mention_ad: 271
+  - mention_ata: 568
+  - mention_batch: 33
+  - mention_cert: 310
+  - mention_drawing: 4
+  - mention_pn: 935
+  - mention_pn_from_entity: 6
+  - mention_po: 21
+  - mention_ref_doc_control: 481
+  - mention_ref_tracking: 388
+  - mention_regref: 267
+  - mention_sb: 26
+  - mention_sn: 871
+  - mention_sn_from_entity: 102
+  - mention_techlog: 5
+  - pages: 500
+  - records_crs: 4
+  - records_dent_buckle_entry: 1
+  - records_form1: 12
+  - records_job_card: 71
+  - records_modification: 2
+  - records_non_routine_card: 8
+  - records_work_package: 16
+  - rows_processed: 500
+  - stamp_binds_to: 18
+  - stamps: 1341
+
+========== PHASE 1 START 2026-05-19T06:47:02.311874+00:00 ==========
+CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+asset_id: 62368985-01a6-4f6d-b6de-932775401d76
+[phase1] :Asset seeded
+[phase1] chunk 0 OK rows_processed=500 pages=500 stamps=1341 records_form1=12
+[phase1] chunk 5 OK rows_processed=3000 pages=3000 stamps=9754 records_form1=93
+[phase1] chunk 10 OK rows_processed=5500 pages=5500 stamps=15161 records_form1=166
+[phase1] chunk 15 OK rows_processed=8000 pages=8000 stamps=15203 records_form1=166
+[phase1] chunk 20 OK rows_processed=10500 pages=10500 stamps=16691 records_form1=168
+[phase1] chunk 25 OK rows_processed=13000 pages=13000 stamps=16726 records_form1=168
+[phase1] chunk 30 OK rows_processed=15500 pages=15500 stamps=18647 records_form1=174
+[phase1] running verify_phase_1 ...
+========== PHASE 1 END 2026-05-19T07:04:11.788162+00:00  dur=1029s ==========
+== Phase 1 verification ==
+  - binders: 0
+  - boxes: 0
+  - connector_identifiers: 30150
+  - dates: 694
+  - documents: 661
+  - evidence_records: 2378
+  - fact_nodes_no_evidence: 0
+  - folders: 0
+  - ids_batchnumber: 474
+  - ids_certificatenumber: 1463
+  - ids_drawingnumber: 257
+  - ids_partnumber: 14652
+  - ids_purchaseorder: 285
+  - ids_reference: 8788
+  - ids_serialnumber: 4131
+  - ids_techlogpage: 100
+  - page_text_online: 1
+  - pages: 16482
+  - records_borescopereport: 0
+  - records_crs: 276
+  - records_dentbuckleentry: 3
+  - records_form1: 151
+  - records_jobcard: 1065
+  - records_modification: 289
+  - records_ndtreport: 0
+  - records_nonroutinecard: 35
+  - records_repair: 1
+  - records_stc: 352
+  - records_workpackage: 206
+  - stamps: 19403
+== Phase 1 counters ==
+  - documents: 661
+  - mention_ad: 1925
+  - mention_ata: 18575
+  - mention_batch: 685
+  - mention_cert: 6098
+  - mention_drawing: 440
+  - mention_pn: 28566
+  - mention_pn_from_entity: 725
+  - mention_po: 528
+  - mention_ref_amendment: 5
+  - mention_ref_doc_control: 26774
+  - mention_ref_tracking: 5177
+  - mention_regref: 10522
+  - mention_sb: 546
+  - mention_sn: 14138
+  - mention_sn_from_entity: 2851
+  - mention_techlog: 127
+  - pages: 16482
+  - records_crs: 276
+  - records_dent_buckle_entry: 3
+  - records_form1: 185
+  - records_job_card: 1370
+  - records_modification: 289
+  - records_non_routine_card: 40
+  - records_repair: 1
+  - records_stc: 352
+  - records_work_package: 238
+  - rows_processed: 16482
+  - sn_blocked_total: 86
+  - stamp_binds_to: 236
+  - stamps: 19403
+
+========== PHASE 1.5 START 2026-05-19T07:04:45.962513+00:00 ==========
+[phase1.5] 185 form1-carrier pages
+[phase1.5] updated 184 form1 nodes
+========== PHASE 1.5 END 2026-05-19T07:04:52.869856+00:00 dur=6s ==========
+
+========== PHASE 2 START 2026-05-19T07:05:18.609735+00:00 ==========
+[phase2] top_sn=6134 count=3470
+[phase2] top_pn=CDP490-00 count=154
+[phase2] top_doc_type=other count=296
+[phase2] latest_date=2026-12-08
+[phase2] running verify_phase_2 ...
+========== PHASE 2 END 2026-05-19T07:05:21.503301+00:00  dur=2s ==========
+== Phase 2 verification ==
+  - asset_class_aircraft: 1
+  - asset_class_apu: 0
+  - asset_class_engine: 0
+  - asset_class_gearbox: 0
+  - asset_class_label_total: 1
+  - asset_class_landinggearassembly: 0
+  - asset_class_propeller: 0
+  - asset_class_rotorsystem: 0
+  - assets: 1
+  - fact_nodes_no_evidence: 0
+
+========== PHASE 4 START 2026-05-19T07:05:28.102704+00:00 ==========
+[phase4] running verify_no_fact_orphans ...
+========== PHASE 4 END 2026-05-19T07:23:24.177952+00:00  dur=1076s ==========
+== Phase 4 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 4 counters ==
+  - alt_pn_wired: 180
+  - distinct_pn_sn_pairs: 72807
+  - pages_examined: 16482
+  - pairs_promoted_to_components: 18295
+  - pairs_rejected_evidence_class: 52814
+  - pairs_rejected_threshold: 1698
+  - cluster_size_distribution: {219: 1, 129: 23, 99: 12, 128: 1, 13: 23, 36: 25, 9: 80, 145: 1, 1: 597, 44: 5, 114: 10, 34: 7, 7: 74, 45: 3, 26: 3, 19: 26, 8: 30, 11: 19, 24: 18, 42: 10, 10: 13, 28: 16, 40: 14, 18: 10, 31: 8, 48: 2, 43: 3, 2: 154, 340: 1, 21: 4, 17: 8, 22: 8, 37: 5, 113: 3, 63: 2, 3: 108, 41: 12, 14: 10, 109: 1, 4: 51, 39: 3, 20: 16, 38: 5, 162: 1, 64: 2, 15: 12, 16: 7, 47: 1, 12: 12, 72: 1, 106: 1, 25: 3, 5: 46, 52: 1, 6: 19, 53: 2, 66: 1, 33: 1}
+
+========== PHASE 5 START 2026-05-19T07:23:47.771942+00:00 ==========
+[phase5] resolver: 1970 SNs, 1535 PNs indexed
+
+========== PHASE 5 START 2026-05-19T07:28:20.325470+00:00 ==========
+[phase5] resolver: 1970 SNs, 1535 PNs indexed
+[phase5] chunk 0 events_total=2498
+[phase5] chunk 5 events_total=8391
+[phase5] chunk 10 events_total=13179
+[phase5] chunk 15 events_total=13691
+[phase5] chunk 20 events_total=15591
+[phase5] chunk 25 events_total=16480
+[phase5] chunk 30 events_total=24069
+[phase5] running verify_no_fact_orphans ...
+========== PHASE 5 END 2026-05-19T07:33:01.198688+00:00  dur=280s ==========
+== Phase 5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 5 counters ==
+  - events_compliance: 22807
+  - events_inspection: 5213
+  - events_install: 708
+  - events_removal: 282
+  - events_shop_visit: 3
+  - events_total: 29013
+  - form1_releases_component: 94
+  - releases_pn: 258
+  - releases_sn: 203
+  - resolve_ambiguous: 3065
+  - resolve_high: 1306
+  - resolve_medium: 337
+  - resolve_none: 24305
+
+========== PHASE 6 START 2026-05-19T07:33:38.792797+00:00 ==========
+[phase6] stamped_by=6473 carries_cert=2768
+[phase6] form1_signed_by=148
+[phase6] form1_issued_by=131
+[phase6] post_sb_release=3
+[phase6] wp_includes: jc=4601, nrc=173, crs=833, f1=579
+[phase6] pn_alias_ocr_variant=293
+[phase6] pn_alias_incomplete=23
+[phase6] sn_alias_separator=47
+[phase6] binds_to_fallback=128
+[phase6] running verify_no_fact_orphans ...
+========== PHASE 6 END 2026-05-19T07:34:24.167271+00:00  dur=45s ==========
+== Phase 6 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6 counters ==
+  - binds_to_fallback: 128
+  - carries_cert: 2768
+  - form1_issued_by: 131
+  - form1_signed_by: 148
+  - pn_alias_incomplete: 23
+  - pn_alias_ocr_variant: 293
+  - post_sb_release: 3
+  - sn_alias_separator: 47
+  - stamped_by: 6473
+  - wp_includes_crs: 833
+  - wp_includes_form1: 579
+  - wp_includes_jobcard: 4601
+  - wp_includes_nonroutinecard: 173
+
+========== PHASE 6.5 START 2026-05-19T07:34:31.742423+00:00 ==========
+
+========== PHASE 6.5 START 2026-05-19T07:34:59.586191+00:00 ==========
+[phase6.5] running verify_no_fact_orphans ...
+========== PHASE 6.5 END 2026-05-19T07:35:06.343452+00:00  dur=6s ==========
+== Phase 6.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6.5 counters ==
+  - ad_gaps: 100
+  - lease_return_signal_count: 1
+  - lease_return_state: redelivery_active
+  - llp_components: 2004
+  - priority_ad_gap: 100
+  - urgency_informational: 2004
+
+========== PHASE 7 START 2026-05-19T07:35:19.131842+00:00 ==========
+[phase7] components_walked=200
+[phase7] running verify_no_fact_orphans ...
+========== PHASE 7 END 2026-05-19T07:35:38.106263+00:00  dur=18s ==========
+== Phase 7 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7 counters ==
+  - components_walked: 200
+  - findings_raised: 200
+
+========== PHASE 7.5 START 2026-05-19T07:35:45.109913+00:00 ==========
+[phase7.5] open findings: 200
+
+[phase7.5] Running acceptance cases ...
+
+[phase7.5] ACCEPTANCE PASS: NiCad battery (EASA single-item header_fields variant)
+   - value: OK :: form1::00029737
+   - pn: OK :: found 024453-000
+   - sn: OK :: found 090520021095E
+   - status: FAIL :: got='' want='OVERHAULED'
+   - signer: OK :: got='Sklyarenko Natalya' want='Sklyarenko Natalya'
+   - cert: OK :: got='EASA.145.0321' want='EASA.145.0321'
+   - date: OK :: got='2019-08-27' want='2019-08-27'
+
+[phase7.5] ACCEPTANCE PASS: Bombardier window-shade batch cert (TCCA, multi-SN cell)
+   - value: OK :: form1::170001777769 - 1
+   - pn: OK :: found 604DX2529029AND001
+   - sns: OK :: found all of ['4005', '4006', '4007']
+   - status: FAIL :: got='' want='NEW'
+   - signer: OK :: got='Michael Jernigan' want='Michael Jernigan'
+   - date: OK :: got='2019-07-01' want='2019-07-01'
+
+[phase7.5] ACCEPTANCE PASS: ITT valve (FAA 8130-3, multi-PN block 8)
+   - value: OK :: form1::283704
+   - pns: OK :: found all of ['AV16B2177-3', '601-62900-7']
+   - sn: OK :: found AA441157
+   - status: FAIL :: got='' want='REPAIRED'
+   - signer: OK :: got='Olivia Mora' want='Olivia Mora'
+   - cert: OK :: got='BV4R090M' want='BV4R090M'
+   - date: OK :: got='2019-10-22' want='2019-10-22'
+[phase7.5] running verify_no_fact_orphans ...
+========== PHASE 7.5 END 2026-05-19T07:35:51.609178+00:00  dur=6s ==========
+== Phase 7.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7.5 counters ==
+  - closed_false_positive: 53
+  - findings_examined: 200
+  - still_open: 147
+[phase7.5] final report -> D:\work\openclaude\dumps\build_final_report.md
+
+========== PHASE 7.5 START 2026-05-19T07:36:31.221186+00:00 ==========
+[phase7.5] open findings: 147
+
+[phase7.5] Running acceptance cases ...
+
+[phase7.5] ACCEPTANCE PASS: NiCad battery (EASA single-item header_fields variant)
+   - value: OK :: form1::00029737
+   - pn: OK :: found 024453-000
+   - sn: OK :: found 090520021095E
+   - status: OK :: got='OVERHAULED' want='OVERHAULED'
+   - signer: OK :: got='Sklyarenko Natalya' want='Sklyarenko Natalya'
+   - cert: OK :: got='EASA.145.0321' want='EASA.145.0321'
+   - date: OK :: got='2019-08-27' want='2019-08-27'
+
+[phase7.5] ACCEPTANCE PASS: Bombardier window-shade batch cert (TCCA, multi-SN cell)
+   - value: OK :: form1::170001777769 - 1
+   - pn: OK :: found 604DX2529029AND001
+   - sns: OK :: found all of ['4005', '4006', '4007']
+   - status: OK :: got='NEW' want='NEW'
+   - signer: OK :: got='Michael Jernigan' want='Michael Jernigan'
+   - date: OK :: got='2019-07-01' want='2019-07-01'
+
+[phase7.5] ACCEPTANCE PASS: ITT valve (FAA 8130-3, multi-PN block 8)
+   - value: OK :: form1::283704
+   - pns: OK :: found all of ['AV16B2177-3', '601-62900-7']
+   - sn: OK :: found AA441157
+   - status: OK :: got='REPAIRED' want='REPAIRED'
+   - signer: OK :: got='Olivia Mora' want='Olivia Mora'
+   - cert: OK :: got='BV4R090M' want='BV4R090M'
+   - date: OK :: got='2019-10-22' want='2019-10-22'
+[phase7.5] running verify_no_fact_orphans ...
+========== PHASE 7.5 END 2026-05-19T07:36:34.296909+00:00  dur=3s ==========
+== Phase 7.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7.5 counters ==
+  - findings_examined: 147
+  - still_open: 147
+[phase7.5] final report -> D:\work\openclaude\dumps\build_final_report.md
+
+========== PHASE 1 START 2026-05-19T09:12:48.994757+00:00 ==========
+CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+asset_id: 62368985-01a6-4f6d-b6de-932775401d76
+[phase1] :Asset seeded
+[phase1] chunk 0 OK rows_processed=500 pages=500 stamps=1341 records_form1=12
+[phase1] chunk 5 OK rows_processed=3000 pages=3000 stamps=9754 records_form1=93
+[phase1] chunk 10 OK rows_processed=5500 pages=5500 stamps=15161 records_form1=166
+[phase1] chunk 15 OK rows_processed=8000 pages=8000 stamps=15203 records_form1=166
+[phase1] chunk 20 OK rows_processed=10500 pages=10500 stamps=16691 records_form1=168
+[phase1] chunk 25 OK rows_processed=13000 pages=13000 stamps=16726 records_form1=168
+[phase1] chunk 30 OK rows_processed=15500 pages=15500 stamps=18647 records_form1=174
+[phase1] running verify_phase_1 ...
+========== PHASE 1 END 2026-05-19T09:28:55.374598+00:00  dur=966s ==========
+== Phase 1 verification ==
+  - binders: 0
+  - boxes: 0
+  - connector_identifiers: 30092
+  - dates: 694
+  - documents: 661
+  - evidence_records: 2378
+  - fact_nodes_no_evidence: 0
+  - folders: 0
+  - ids_batchnumber: 474
+  - ids_certificatenumber: 1463
+  - ids_drawingnumber: 257
+  - ids_partnumber: 14624
+  - ids_purchaseorder: 285
+  - ids_reference: 8788
+  - ids_serialnumber: 4101
+  - ids_techlogpage: 100
+  - page_text_online: 1
+  - pages: 16482
+  - records_borescopereport: 0
+  - records_crs: 276
+  - records_dentbuckleentry: 3
+  - records_form1: 151
+  - records_jobcard: 1065
+  - records_modification: 289
+  - records_ndtreport: 0
+  - records_nonroutinecard: 35
+  - records_repair: 1
+  - records_stc: 352
+  - records_workpackage: 206
+  - stamps: 19403
+== Phase 1 counters ==
+  - documents: 661
+  - mention_ad: 1925
+  - mention_ata: 18575
+  - mention_batch: 685
+  - mention_cert: 6098
+  - mention_drawing: 440
+  - mention_pn: 28566
+  - mention_pn_from_entity: 725
+  - mention_po: 528
+  - mention_ref_amendment: 5
+  - mention_ref_doc_control: 26774
+  - mention_ref_tracking: 5177
+  - mention_regref: 10522
+  - mention_sb: 546
+  - mention_sn: 14043
+  - mention_sn_from_entity: 2755
+  - mention_techlog: 127
+  - pages: 16482
+  - records_crs: 276
+  - records_dent_buckle_entry: 3
+  - records_form1: 185
+  - records_job_card: 1370
+  - records_modification: 289
+  - records_non_routine_card: 40
+  - records_repair: 1
+  - records_stc: 352
+  - records_work_package: 238
+  - rows_processed: 16482
+  - sn_blocked_total: 399
+  - stamp_binds_to: 236
+  - stamps: 19403
+
+========== PHASE 1.5 START 2026-05-19T09:29:32.692206+00:00 ==========
+[phase1.5] 185 form1-carrier pages
+[phase1.5] updated 184 form1 nodes
+========== PHASE 1.5 END 2026-05-19T09:29:41.133590+00:00 dur=8s ==========
+
+========== PHASE 2 START 2026-05-19T09:29:43.017864+00:00 ==========
+[phase2] top_sn=6134 count=3470
+[phase2] top_pn=CDP490-00 count=154
+[phase2] top_doc_type=other count=296
+[phase2] latest_date=2026-12-08
+[phase2] running verify_phase_2 ...
+========== PHASE 2 END 2026-05-19T09:29:46.666116+00:00  dur=3s ==========
+== Phase 2 verification ==
+  - asset_class_aircraft: 1
+  - asset_class_apu: 0
+  - asset_class_engine: 0
+  - asset_class_gearbox: 0
+  - asset_class_label_total: 1
+  - asset_class_landinggearassembly: 0
+  - asset_class_propeller: 0
+  - asset_class_rotorsystem: 0
+  - assets: 1
+  - fact_nodes_no_evidence: 0
+
+========== PHASE 4 START 2026-05-19T09:29:50.392072+00:00 ==========
+[phase4] pn_skipped_noise=0 sn_skipped_noise=0 (Lukas Cheatsheet §13)
+[phase4] running verify_no_fact_orphans ...
+========== PHASE 4 END 2026-05-19T09:33:19.755257+00:00  dur=209s ==========
+== Phase 4 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 4 counters ==
+  - alt_pn_wired: 155
+  - distinct_pn_sn_pairs: 72488
+  - pages_examined: 16482
+  - pairs_promoted_to_components: 18161
+  - pairs_rejected_evidence_class: 52673
+  - pairs_rejected_threshold: 1654
+  - cluster_size_distribution: {129: 23, 145: 1, 99: 12, 114: 10, 21: 5, 340: 1, 20: 16, 40: 13, 5: 50, 36: 23, 37: 5, 31: 7, 9: 82, 6: 19, 24: 17, 3: 105, 2: 134, 7: 74, 28: 15, 34: 5, 19: 26, 41: 12, 26: 3, 64: 1, 45: 3, 42: 10, 113: 3, 25: 3, 1: 549, 8: 31, 219: 1, 52: 1, 44: 5, 13: 26, 15: 13, 53: 2, 48: 2, 162: 1, 23: 2, 16: 5, 38: 5, 30: 1, 106: 1, 11: 18, 66: 1, 39: 4, 17: 9, 10: 11, 33: 3, 35: 2, 128: 1, 63: 3, 4: 42, 18: 9, 27: 1, 43: 3, 22: 6, 12: 12, 72: 1, 47: 1, 14: 8, 109: 1}
+
+========== PHASE 5 START 2026-05-19T09:33:21.489622+00:00 ==========
+[phase5] resolver: 1967 SNs, 1459 PNs indexed
+[phase5] chunk 0 events_total=2498
+[phase5] chunk 5 events_total=8391
+[phase5] chunk 10 events_total=13179
+[phase5] chunk 15 events_total=13691
+[phase5] chunk 20 events_total=15591
+[phase5] chunk 25 events_total=16480
+[phase5] chunk 30 events_total=24069
+[phase5] running verify_no_fact_orphans ...
+========== PHASE 5 END 2026-05-19T09:37:59.024080+00:00  dur=277s ==========
+== Phase 5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 5 counters ==
+  - events_compliance: 22807
+  - events_inspection: 5213
+  - events_install: 708
+  - events_removal: 282
+  - events_shop_visit: 3
+  - events_total: 29013
+  - releases_pn: 258
+  - releases_sn: 146
+  - resolve_ambiguous: 3043
+  - resolve_high: 1270
+  - resolve_medium: 333
+  - resolve_none: 24367
+
+========== PHASE 6 START 2026-05-19T09:38:01.296408+00:00 ==========
+[phase6] stamped_by=6473 carries_cert=2768
+[phase6] form1_signed_by=148
+[phase6] wp_includes (Form1 EXCLUDED per simple contract): jc=4601, nrc=173, crs=833
+[phase6] pn_alias_ocr_variant=292
+[phase6] pn_alias_incomplete=22
+[phase6] sn_alias_separator=45
+[phase6] running verify_no_fact_orphans ...
+========== PHASE 6 END 2026-05-19T09:38:59.067283+00:00  dur=57s ==========
+== Phase 6 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6 counters ==
+  - carries_cert: 2768
+  - form1_signed_by: 148
+  - pn_alias_incomplete: 22
+  - pn_alias_ocr_variant: 292
+  - sn_alias_separator: 45
+  - stamped_by: 6473
+  - wp_includes_crs: 833
+  - wp_includes_jobcard: 4601
+  - wp_includes_nonroutinecard: 173
+
+========== PHASE 6.5 START 2026-05-19T09:39:00.690425+00:00 ==========
+[phase6.5] running verify_no_fact_orphans ...
+========== PHASE 6.5 END 2026-05-19T09:39:10.406571+00:00  dur=9s ==========
+== Phase 6.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6.5 counters ==
+  - ad_gaps: 100
+  - lease_return_signal_count: 1
+  - lease_return_state: redelivery_active
+  - llp_components: 1992
+  - priority_ad_gap: 100
+  - urgency_informational: 1992
+
+========== PHASE 7 START 2026-05-19T09:39:13.590208+00:00 ==========
+[phase7] components_walked=200
+[phase7] running verify_no_fact_orphans ...
+========== PHASE 7 END 2026-05-19T09:39:37.079956+00:00  dur=23s ==========
+== Phase 7 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7 counters ==
+  - components_walked: 200
+  - findings_raised: 200
+
+========== PHASE 7.5 START 2026-05-19T09:39:38.777462+00:00 ==========
+[phase7.5] open findings: 200
+
+[phase7.5] Running acceptance cases ...
+
+[phase7.5] ACCEPTANCE PASS: NiCad battery (EASA single-item header_fields variant)
+   - value: OK :: form1::00029737
+   - pn: OK :: found 024453-000
+   - sn: OK :: found 090520021095E
+   - status: OK :: got='OVERHAULED' want='OVERHAULED'
+   - signer: OK :: got='Sklyarenko Natalya' want='Sklyarenko Natalya'
+   - cert: OK :: got='EASA.145.0321' want='EASA.145.0321'
+   - date: OK :: got='2019-08-27' want='2019-08-27'
+
+[phase7.5] ACCEPTANCE PASS: Bombardier window-shade batch cert (TCCA, multi-SN cell)
+   - value: OK :: form1::170001777769 - 1
+   - pn: OK :: found 604DX2529029AND001
+   - sns: OK :: found all of ['4005', '4006', '4007']
+   - status: OK :: got='NEW' want='NEW'
+   - signer: OK :: got='Michael Jernigan' want='Michael Jernigan'
+   - date: OK :: got='2019-07-01' want='2019-07-01'
+
+[phase7.5] ACCEPTANCE PASS: ITT valve (FAA 8130-3, multi-PN block 8)
+   - value: OK :: form1::283704
+   - pns: OK :: found all of ['AV16B2177-3', '601-62900-7']
+   - sn: OK :: found AA441157
+   - status: OK :: got='REPAIRED' want='REPAIRED'
+   - signer: OK :: got='Olivia Mora' want='Olivia Mora'
+   - cert: OK :: got='BV4R090M' want='BV4R090M'
+   - date: OK :: got='2019-10-22' want='2019-10-22'
+[phase7.5] running verify_no_fact_orphans ...
+========== PHASE 7.5 END 2026-05-19T09:39:43.184439+00:00  dur=4s ==========
+== Phase 7.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7.5 counters ==
+  - closed_false_positive: 40
+  - findings_examined: 200
+  - still_open: 160
+[phase7.5] final report -> D:\work\openclaude\dumps\build_final_report.md

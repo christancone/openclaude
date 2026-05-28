@@ -1,0 +1,56 @@
+
+========== PHASE 5 START 2026-05-19T07:28:20.325470+00:00 ==========
+[phase5] resolver: 1970 SNs, 1535 PNs indexed
+[phase5] chunk 0 events_total=2498
+link_date: skipping unparseable date_iso='2018-03-XX' for Event(value='event::9bbe54da-b31f-4ba2-9870-40bfe1b0ad96::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-04-XX' for Event(value='event::683ae3a8-9222-4876-80ab-249ad10c4a84::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-07-XX' for Event(value='event::bd2edcf4-c075-4e5d-b351-9cc7be11088c::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-06-XX' for Event(value='event::b8801e58-cc0a-462d-ac6a-f8692c829227::evt_1', role='event')
+[phase5] chunk 5 events_total=8391
+[phase5] chunk 10 events_total=13179
+[phase5] chunk 15 events_total=13691
+[phase5] chunk 20 events_total=15591
+[phase5] chunk 25 events_total=16480
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_1', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_2', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_3', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_4', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_5', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_6', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_7', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_8', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_9', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_10', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_11', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_12', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_13', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_14', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_15', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_16', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_17', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_18', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_19', role='event')
+[phase5] chunk 30 events_total=24069
+link_date: skipping unparseable date_iso='2018-09-XX' for Event(value='event::6ee3a67e-7f72-4d23-b915-54dce03f9989::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-17-02' for Event(value='event::aad0d43d-afad-4094-baa8-0ad8dde89e02::evt_3', role='event')
+link_date: skipping unparseable date_iso='2016-13-09' for Event(value='event::ba957094-4560-4652-875b-ce3af1ce2cd4::evt_4', role='event')
+link_date: skipping unparseable date_iso='2016-20-09' for Event(value='event::ba957094-4560-4652-875b-ce3af1ce2cd4::evt_5', role='event')
+[phase5] running verify_no_fact_orphans ...
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `CORROBORATED_BY` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=4, column=57, offset=139>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 139, 'line': 4, 'column': 57}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\nMATCH (n {asset_id: $asset_id})\nWHERE any(l IN labels(n) WHERE l IN $fact_labels)\n  AND NOT EXISTS { (n)-[:EVIDENCED_BY|CARRIES|HAS_STAMP|CORROBORATED_BY]-(:Page) }\nRETURN labels(n) AS labels, count(*) AS n\n'
+========== PHASE 5 END 2026-05-19T07:33:01.198688+00:00  dur=280s ==========
+== Phase 5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 5 counters ==
+  - events_compliance: 22807
+  - events_inspection: 5213
+  - events_install: 708
+  - events_removal: 282
+  - events_shop_visit: 3
+  - events_total: 29013
+  - form1_releases_component: 94
+  - releases_pn: 258
+  - releases_sn: 203
+  - resolve_ambiguous: 3065
+  - resolve_high: 1306
+  - resolve_medium: 337
+  - resolve_none: 24305

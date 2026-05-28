@@ -1,0 +1,216 @@
+==== orchestrate start 2026-05-19T09:29:30Z ====
+
+==== START phase1_5_patch.py 2026-05-19T09:29:30Z ====
+
+========== PHASE 1.5 START 2026-05-19T09:29:32.692206+00:00 ==========
+[phase1.5] 185 form1-carrier pages
+[phase1.5] updated 184 form1 nodes
+========== PHASE 1.5 END 2026-05-19T09:29:41.133590+00:00 dur=8s ==========
+==== END phase1_5_patch.py rc=0 2026-05-19T09:29:41Z ====
+
+==== START phase2.py 2026-05-19T09:29:41Z ====
+
+========== PHASE 2 START 2026-05-19T09:29:43.017864+00:00 ==========
+D:\work\openclaude\csvs\CL650-6134\phase2.py:76: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  run_id = f"audit::phase2::{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}"
+D:\work\openclaude\csvs\CL650-6134\phase2.py:81: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  audit_snapshot_date_iso=datetime.utcnow().date().isoformat(),
+[phase2] top_sn=6134 count=3470
+[phase2] top_pn=CDP490-00 count=154
+[phase2] top_doc_type=other count=296
+[phase2] latest_date=2026-12-08
+[phase2] running verify_phase_2 ...
+========== PHASE 2 END 2026-05-19T09:29:46.666116+00:00  dur=3s ==========
+== Phase 2 verification ==
+  - asset_class_aircraft: 1
+  - asset_class_apu: 0
+  - asset_class_engine: 0
+  - asset_class_gearbox: 0
+  - asset_class_label_total: 1
+  - asset_class_landinggearassembly: 0
+  - asset_class_propeller: 0
+  - asset_class_rotorsystem: 0
+  - assets: 1
+  - fact_nodes_no_evidence: 0
+==== END phase2.py rc=0 2026-05-19T09:29:47Z ====
+
+==== START phase4.py 2026-05-19T09:29:47Z ====
+
+========== PHASE 4 START 2026-05-19T09:29:50.392072+00:00 ==========
+[phase4] pn_skipped_noise=0 sn_skipped_noise=0 (Lukas Cheatsheet §13)
+[phase4] running verify_no_fact_orphans ...
+========== PHASE 4 END 2026-05-19T09:33:19.755257+00:00  dur=209s ==========
+== Phase 4 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 4 counters ==
+  - alt_pn_wired: 155
+  - distinct_pn_sn_pairs: 72488
+  - pages_examined: 16482
+  - pairs_promoted_to_components: 18161
+  - pairs_rejected_evidence_class: 52673
+  - pairs_rejected_threshold: 1654
+  - cluster_size_distribution: {129: 23, 145: 1, 99: 12, 114: 10, 21: 5, 340: 1, 20: 16, 40: 13, 5: 50, 36: 23, 37: 5, 31: 7, 9: 82, 6: 19, 24: 17, 3: 105, 2: 134, 7: 74, 28: 15, 34: 5, 19: 26, 41: 12, 26: 3, 64: 1, 45: 3, 42: 10, 113: 3, 25: 3, 1: 549, 8: 31, 219: 1, 52: 1, 44: 5, 13: 26, 15: 13, 53: 2, 48: 2, 162: 1, 23: 2, 16: 5, 38: 5, 30: 1, 106: 1, 11: 18, 66: 1, 39: 4, 17: 9, 10: 11, 33: 3, 35: 2, 128: 1, 63: 3, 4: 42, 18: 9, 27: 1, 43: 3, 22: 6, 12: 12, 72: 1, 47: 1, 14: 8, 109: 1}
+==== END phase4.py rc=0 2026-05-19T09:33:20Z ====
+
+==== START phase5.py 2026-05-19T09:33:20Z ====
+
+========== PHASE 5 START 2026-05-19T09:33:21.489622+00:00 ==========
+[phase5] resolver: 1967 SNs, 1459 PNs indexed
+[phase5] chunk 0 events_total=2498
+link_date: skipping unparseable date_iso='2018-03-XX' for Event(value='event::9bbe54da-b31f-4ba2-9870-40bfe1b0ad96::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-04-XX' for Event(value='event::683ae3a8-9222-4876-80ab-249ad10c4a84::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-07-XX' for Event(value='event::bd2edcf4-c075-4e5d-b351-9cc7be11088c::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-06-XX' for Event(value='event::b8801e58-cc0a-462d-ac6a-f8692c829227::evt_1', role='event')
+[phase5] chunk 5 events_total=8391
+[phase5] chunk 10 events_total=13179
+[phase5] chunk 15 events_total=13691
+[phase5] chunk 20 events_total=15591
+[phase5] chunk 25 events_total=16480
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_1', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_2', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_3', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_4', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_5', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_6', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_7', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_8', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_9', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_10', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_11', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_12', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_13', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_14', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_15', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_16', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_17', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_18', role='event')
+link_date: skipping unparseable date_iso='2019-02-XX' for Event(value='event::b2339472-7aa9-458f-9700-1960266ff929::evt_19', role='event')
+[phase5] chunk 30 events_total=24069
+link_date: skipping unparseable date_iso='2018-09-XX' for Event(value='event::6ee3a67e-7f72-4d23-b915-54dce03f9989::evt_1', role='event')
+link_date: skipping unparseable date_iso='2018-17-02' for Event(value='event::aad0d43d-afad-4094-baa8-0ad8dde89e02::evt_3', role='event')
+link_date: skipping unparseable date_iso='2016-13-09' for Event(value='event::ba957094-4560-4652-875b-ce3af1ce2cd4::evt_4', role='event')
+link_date: skipping unparseable date_iso='2016-20-09' for Event(value='event::ba957094-4560-4652-875b-ce3af1ce2cd4::evt_5', role='event')
+[phase5] running verify_no_fact_orphans ...
+========== PHASE 5 END 2026-05-19T09:37:59.024080+00:00  dur=277s ==========
+== Phase 5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 5 counters ==
+  - events_compliance: 22807
+  - events_inspection: 5213
+  - events_install: 708
+  - events_removal: 282
+  - events_shop_visit: 3
+  - events_total: 29013
+  - releases_pn: 258
+  - releases_sn: 146
+  - resolve_ambiguous: 3043
+  - resolve_high: 1270
+  - resolve_medium: 333
+  - resolve_none: 24367
+==== END phase5.py rc=0 2026-05-19T09:37:59Z ====
+
+==== START phase6.py 2026-05-19T09:37:59Z ====
+
+========== PHASE 6 START 2026-05-19T09:38:01.296408+00:00 ==========
+[phase6] stamped_by=6473 carries_cert=2768
+[phase6] form1_signed_by=148
+[phase6] wp_includes (Form1 EXCLUDED per simple contract): jc=4601, nrc=173, crs=833
+[phase6] pn_alias_ocr_variant=292
+[phase6] pn_alias_incomplete=22
+[phase6] sn_alias_separator=45
+[phase6] running verify_no_fact_orphans ...
+========== PHASE 6 END 2026-05-19T09:38:59.067283+00:00  dur=57s ==========
+== Phase 6 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6 counters ==
+  - carries_cert: 2768
+  - form1_signed_by: 148
+  - pn_alias_incomplete: 22
+  - pn_alias_ocr_variant: 292
+  - sn_alias_separator: 45
+  - stamped_by: 6473
+  - wp_includes_crs: 833
+  - wp_includes_jobcard: 4601
+  - wp_includes_nonroutinecard: 173
+==== END phase6.py rc=0 2026-05-19T09:38:59Z ====
+
+==== START phase6_5.py 2026-05-19T09:38:59Z ====
+
+========== PHASE 6.5 START 2026-05-19T09:39:00.690425+00:00 ==========
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `life_limit` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=5, column=26, offset=200>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 200, 'line': 5, 'column': 26}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                MATCH (c:Component {asset_id: $aid})\n                WHERE c.is_llp = true\n                RETURN c.value AS uid, c.canonical_pn AS pn, c.installed_sn AS sn,\n                       c.life_limit AS life_limit, c.tsn AS tsn\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `tsn` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=5, column=54, offset=228>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 228, 'line': 5, 'column': 54}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                MATCH (c:Component {asset_id: $aid})\n                WHERE c.is_llp = true\n                RETURN c.value AS uid, c.canonical_pn AS pn, c.installed_sn AS sn,\n                       c.life_limit AS life_limit, c.tsn AS tsn\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `COMPLIES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=50, offset=117>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 117, 'line': 3, 'column': 50}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                MATCH (ad:AirworthinessDirective {asset_id: $aid})\n                WHERE NOT EXISTS { (:Document)-[:COMPLIES_WITH]->(ad) }\n                  AND NOT EXISTS { (:WorkPackage)-[:COMPLIES_WITH]->(ad) }\n                RETURN ad.value AS v LIMIT 100\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `COMPLIES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=4, column=53, offset=192>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 192, 'line': 4, 'column': 53}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                MATCH (ad:AirworthinessDirective {asset_id: $aid})\n                WHERE NOT EXISTS { (:Document)-[:COMPLIES_WITH]->(ad) }\n                  AND NOT EXISTS { (:WorkPackage)-[:COMPLIES_WITH]->(ad) }\n                RETURN ad.value AS v LIMIT 100\n            '
+[phase6.5] running verify_no_fact_orphans ...
+========== PHASE 6.5 END 2026-05-19T09:39:10.406571+00:00  dur=9s ==========
+== Phase 6.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6.5 counters ==
+  - ad_gaps: 100
+  - lease_return_signal_count: 1
+  - lease_return_state: redelivery_active
+  - llp_components: 1992
+  - priority_ad_gap: 100
+  - urgency_informational: 1992
+==== END phase6_5.py rc=0 2026-05-19T09:39:10Z ====
+
+==== START phase7.py 2026-05-19T09:39:11Z ====
+
+========== PHASE 7 START 2026-05-19T09:39:13.590208+00:00 ==========
+D:\work\openclaude\csvs\CL650-6134\phase7.py:78: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  run_id = f"audit::phase7::{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}"
+D:\work\openclaude\csvs\CL650-6134\phase7.py:83: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  audit_snapshot_date_iso=datetime.utcnow().date().isoformat(),
+[phase7] components_walked=200
+[phase7] running verify_no_fact_orphans ...
+========== PHASE 7 END 2026-05-19T09:39:37.079956+00:00  dur=23s ==========
+== Phase 7 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7 counters ==
+  - components_walked: 200
+  - findings_raised: 200
+==== END phase7.py rc=0 2026-05-19T09:39:37Z ====
+
+==== START phase7_5.py 2026-05-19T09:39:37Z ====
+
+========== PHASE 7.5 START 2026-05-19T09:39:38.777462+00:00 ==========
+[phase7.5] open findings: 200
+
+[phase7.5] Running acceptance cases ...
+
+[phase7.5] ACCEPTANCE PASS: NiCad battery (EASA single-item header_fields variant)
+   - value: OK :: form1::00029737
+   - pn: OK :: found 024453-000
+   - sn: OK :: found 090520021095E
+   - status: OK :: got='OVERHAULED' want='OVERHAULED'
+   - signer: OK :: got='Sklyarenko Natalya' want='Sklyarenko Natalya'
+   - cert: OK :: got='EASA.145.0321' want='EASA.145.0321'
+   - date: OK :: got='2019-08-27' want='2019-08-27'
+
+[phase7.5] ACCEPTANCE PASS: Bombardier window-shade batch cert (TCCA, multi-SN cell)
+   - value: OK :: form1::170001777769 - 1
+   - pn: OK :: found 604DX2529029AND001
+   - sns: OK :: found all of ['4005', '4006', '4007']
+   - status: OK :: got='NEW' want='NEW'
+   - signer: OK :: got='Michael Jernigan' want='Michael Jernigan'
+   - date: OK :: got='2019-07-01' want='2019-07-01'
+
+[phase7.5] ACCEPTANCE PASS: ITT valve (FAA 8130-3, multi-PN block 8)
+   - value: OK :: form1::283704
+   - pns: OK :: found all of ['AV16B2177-3', '601-62900-7']
+   - sn: OK :: found AA441157
+   - status: OK :: got='REPAIRED' want='REPAIRED'
+   - signer: OK :: got='Olivia Mora' want='Olivia Mora'
+   - cert: OK :: got='BV4R090M' want='BV4R090M'
+   - date: OK :: got='2019-10-22' want='2019-10-22'
+[phase7.5] running verify_no_fact_orphans ...
+========== PHASE 7.5 END 2026-05-19T09:39:43.184439+00:00  dur=4s ==========
+== Phase 7.5 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 7.5 counters ==
+  - closed_false_positive: 40
+  - findings_examined: 200
+  - still_open: 160
+[phase7.5] final report -> D:\work\openclaude\dumps\build_final_report.md
+==== END phase7_5.py rc=0 2026-05-19T09:39:44Z ====
+==== orchestrate complete 2026-05-19T09:39:44Z ====

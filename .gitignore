@@ -17,3 +17,6 @@ agent.log
 plan/
 # Generated dump exceeds GitHub 100 MB file limit
 dumps/jsonc/bombardier.jsonc
+
+# Large CSV dossiers — exceed GitHub 100 MB file limit
+csvs/*.csv

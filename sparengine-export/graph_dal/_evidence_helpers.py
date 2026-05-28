@@ -50,20 +50,43 @@ def require_evidence(
         )
 
 
-_LINK_EVIDENCED_BY_CYPHER = """
-MATCH (src {asset_id: $asset_id, value: $source_uid})
-WHERE $source_label IN labels(src)
-MATCH (p:Page {asset_id: $asset_id, value: $page_uid})
+# NB: the label is interpolated into the Cypher string at call time so
+# Neo4j can use the per-label (asset_id, value) uniqueness-constraint index
+# for a fast index seek. The label is a closed enum from the fact-bearing
+# label set in verify.py:FACT_BEARING_LABELS — interpolation is safe (it
+# is never user-supplied input).
+
+_FACT_LABELS = frozenset({
+    "Component", "Event", "Form1", "CRS", "WorkPackage", "JobCard",
+    "NonRoutineCard", "Repair", "Modification", "STC", "Finding",
+    "Stamp", "ComponentSnapshot", "BorescopeReport", "NDTReport",
+    "DentBuckleEntry",
+})
+
+
+def _link_evidenced_by_query(source_label: str) -> str:
+    if source_label not in _FACT_LABELS:
+        raise ValueError(
+            f"link_evidenced_by: source_label={source_label!r} not in fact-bearing set"
+        )
+    return f"""
+MATCH (src:{source_label} {{asset_id: $asset_id, value: $source_uid}})
+MATCH (p:Page {{asset_id: $asset_id, value: $page_uid}})
 MERGE (src)-[r:EVIDENCED_BY]->(p)
 ON CREATE SET r.quote = $quote
 ON MATCH  SET r.quote = $quote
 RETURN 1 AS ok
 """
 
-_LINK_PAGE_CARRIES_CYPHER = """
-MATCH (src {asset_id: $asset_id, value: $source_uid})
-WHERE $source_label IN labels(src)
-MATCH (p:Page {asset_id: $asset_id, value: $page_uid})
+
+def _link_page_carries_query(source_label: str) -> str:
+    if source_label not in _FACT_LABELS:
+        raise ValueError(
+            f"link_page_carries: source_label={source_label!r} not in fact-bearing set"
+        )
+    return f"""
+MATCH (src:{source_label} {{asset_id: $asset_id, value: $source_uid}})
+MATCH (p:Page {{asset_id: $asset_id, value: $page_uid}})
 MERGE (p)-[r:CARRIES]->(src)
 ON CREATE SET r.quote = $quote
 ON MATCH  SET r.quote = $quote
@@ -96,10 +119,9 @@ def link_evidenced_by(
         If either the source node or the page is missing.
     """
     record = tx.run(
-        _LINK_EVIDENCED_BY_CYPHER,
+        _link_evidenced_by_query(source_label),
         asset_id=asset_id,
         source_uid=source_uid,
-        source_label=source_label,
         page_uid=page_uid,
         quote=quote,
     ).single()
@@ -138,10 +160,9 @@ def link_page_carries(
     Both nodes must already exist; raises ``GoldenRuleViolation`` if not.
     """
     record = tx.run(
-        _LINK_PAGE_CARRIES_CYPHER,
+        _link_page_carries_query(source_label),
         asset_id=asset_id,
         source_uid=source_uid,
-        source_label=source_label,
         page_uid=page_uid,
         quote=quote,
     ).single()

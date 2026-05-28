@@ -1,0 +1,694 @@
+
+====================================================================================================
+ROW 1747 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.58
+  doc_type: mis_export  title: None
+  metadata: {'dates': '["2021-05-20", "2021-05-21", "2021-05-22"]', 'mis_system': 'AMOS', 'ata_chapters': '["22", "31", "34"]', 'part_numbers': '["822-0809-810", "622-9968-102", "M83536-10-024M", "MS222N", "AN960-416", "MS24665-134", "822-782-001"]', 'document_type': 'mis_export', 'is_mis_export': 'True', 'reference_numbers': '[{"type": "work_order", "value": "984356"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "other", "value": "CL650"}, {"type": "other", "value": "CL65HBJTZ011M"}, {"type": "work_order", "value": "CL65HBJTZ011MX"}, {"type": "task_card_number", "value": "210520-2"}, {"type": "work_order", "val', 'regulatory_references': '[]'}
+  entities: [{"value": "984356", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Header W/O field", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "Header Registration field", "confidence_reason": "printed and clear"}, {"value": "CL650", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "other", "location_context": "Header Type field", "confidence_reason": "printed and clear"}, {"value": "CL65HBJTZ011M", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "Header Projekt No field", "confidence_reason": "printed and clear"}, {"value": "CL65HBJTZ011MX", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_order", "location_context": "Header Workpackage No field", "confidence_reason": "printed and clear"}, {"value": "20.May.2021", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "date", "location_context": "Header Issue Date field", "confidence_reason": "printed and clear"}, {"value": "22", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "ata_chapter", "location_context": "Header ATA field", "confidence_reason": "printed and clear"}, {"value": "Boris Fricker", "source": "printed", "entity_id": "ent_8", "confidence":
+  [$.events[2].description] PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1-A/B REPORTED YD DISENGAGE CODE "ID#=BE-003058".
+  [$.events[3].description] SWAPPED FCC 1A WITH FCC 1B
+  [$.events[11].description] REMOVED AND RE-INSTALLED FLIGHT CONTROL COMPUTERS (FCC)
+  [$.events[12].description] PERFORMED OPERATIONAL TEST OF THE FLIGHT CONTROL COMPUTERS (FCC)
+  [$.tables[0].rows[0][0]] 822-0809-810
+  [$.tables[0].rows[0][1]] COMPUTER FCC4006
+  [$.entities[10].value] 822-0809-810
+  [$.entities[16].location_context] Action 1-1, FCC 1A S/N OFF
+  [$.entities[17].value] 4CX4R4
+  [$.entities[17].location_context] Action 1-1, FCC 1A S/N ON
+  [$.entities[18].value] 4CX4R4S
+  [$.entities[18].location_context] Action 1-1, FCC 1B S/N OFF
+  [$.entities[19].location_context] Action 1-1, FCC 1B S/N ON
+  [$.entities[20].location_context] Action 1-1, FCC swap reference
+  [$.entities[35].location_context] Action 1-2, FCC R&I reference
+  [$.entities[36].location_context] Action 1-2, FCC operational test reference
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[8].value] 4CX4R4
+  [$.metadata.reference_numbers[9].value] 4CX4R4S
+  [$.sections[1].data] PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM.
+PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1-A/B REPORTED YD DISENGAGE CODE "ID#=BE-003058" ON 20MAY2021 @ 09:21 IN AIR.
+
+AS PER BOMBARDIER REQUEST SWAPPED FCC 1A WITH FCC 1B I.A.W. CL-650 AMM 22-12-10-000/400-801 REV. 21.
+FCC 1A (P/N: 822-0809-810S/N OFF: 4F1KNXS/N ON: 4CX4R4)
+FCC 1B (P/N: 822-0809-810S/N OFF: 4CX4R4S/N ON: 4F1KNX)
+
+AS PER BOMBARDIER REQUEST SWAPPED SSM 1 WITH SSM 2 I.A.W. CL-650 AMM 22-12-28-000/400-801 REV. 21.
+SSM 1 (P/N: 822-782-001 S/N OFF: 4FM5V6S/N ON: 4FM5V5)
+SSM 2
+  [$.sections[2].data] AS PER BOMBARDIER REQUEST REMOVED, CLEANED AND RE-INSTALLED ALL CARDS INSIDE IAPS.
+
+REMOVED AND RE-INSTALLED INPUT/OUTPUT CONCENTRATORS (IOC) I.A.W. CL-650 AMM TASK 22-12-04-0007400-801 REV. 21.
+PERFORMED OPERATIONAL TEST OF THE INPUT/OUTPUT CONCENTRATOR (IOC) I.A.W. CL-650 AMM TASK 22-12-04-710-801 REV. 21.
+
+REMOVED AND RE-INSTALLED IAPS POWER SUPPLIES (PWR) I.A.W. CL-650 AMM TASK 22-12-07-0007400-801 REV. 21.
+PERFORMED OPERATIONAL TEST OF THE INTEGRATED AVIONICS PROCESSOR (IAPS) POWER SUPPLY I.A.W. CL-650 AMM TASK 22-12-07-710-801 REV. 21.
+
+REMOVED AND RE-INSTALLED FLIGHT CONTROL COMPUTERS (
+  [$.header_fields.Sched] AUTO FLIGHT System
+
+====================================================================================================
+ROW 1763 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.59
+  doc_type: mis_export  title: None
+  metadata: {'dates': '["2021-05-22", "2021-03-18", "2021-05-25", "2021-05-26", "2021-05-27"]', 'mis_system': 'AMOS', 'ata_chapters': '["22", "45", "24"]', 'part_numbers': '["DL2233M7", "QD1R50", "M83536-10-024M", "822-0809-810"]', 'document_type': 'mis_export', 'is_mis_export': 'True', 'reference_numbers': '[{"type": "work_order", "value": "984356"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "task_card_number", "value": "22-12-22-710-801"}, {"type": "task_card_number", "value": "22-12-25-000/400-801"}, {"type": "task_card_number", "value": "45-45-04-710-801"}, {"type": "task_card_number", "', 'regulatory_references': '[]'}
+  entities: [{"value": "AMAC Aerospace (Switzerland) AG", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "mro", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "984356", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "registration", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "CL650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "aircraft_type", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "22-12-22-710-801", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "task_card_number", "location_context": "Initial work description", "confidence_reason": "printed and clear"}, {"value": "22", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "ata_chapter", "location_context": "Initial work description", "confidence_reason": "printed and clear"}, {"value": "22-12-25-000/400-801", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "task_card_number", "location_context": "Initial work description", "confidence_reason": "printed and clear"}, {"value": "45-45-04-710-801", "source": "printed", "entity_id": "ent_8", "confide
+  [$.events[4].description] AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL. AS PER BOMBARDIER REQUEST SWAPPED FCC 1A & 1B WITH FCC 2A & 2B. FOUND YD 2 STILL FAIL. Performed replacement of NO.2 YAW DAMPER LINEAR ACTUATOR IAW AMM TASK 22-22-01-000/400-801 REV.21 DTD MAR 18/2021.
+  [$.entities[30].value] 822-0809-810
+  [$.entities[30].location_context] Action 2-1 FCC cards
+  [$.entities[31].location_context] Action 2-1 FCC cards
+  [$.entities[32].value] 4FM4CT
+  [$.entities[32].location_context] Action 2-1 FCC cards
+  [$.entities[33].value] 4CX4R4
+  [$.entities[33].location_context] Action 2-1 FCC cards
+  [$.entities[34].location_context] Action 2-1 FCC cards
+  [$.metadata.part_numbers[3]] 822-0809-810
+  [$.metadata.reference_numbers[16].value] 4FM4CT
+  [$.metadata.reference_numbers[17].value] 4CX4R4
+  [$.sections[6].data] AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL.
+  [$.sections[7].data.FCC 2A P/N] 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4FM4CT
+  [$.sections[7].data.FCC 2B P/N] 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4F1KNY
+  [$.sections[8].data] AS PER BOMBARDIER REQUEST SWAPPED FCC 1A & 1B WITH FCC 2A & 2B. FOUND YD 2 STILL FAIL.
+  [$.sections[9].data.FCC 1A (S/N ON] 4FM4CT) FCC 1B (S/N ON: 4F1KNY)
+  [$.sections[9].data.FCC 2A (S/N ON] 4CX4R4) FCC 2B (S/N ON: 4F1KNX)
+
+====================================================================================================
+ROW 1766 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.21
+  doc_type: mis_export  title: WC -Summary (AMAC)
+  metadata: {'dates': '["2021-06-09", "2021-05-20", "2021-05-27"]', 'mis_system': 'AMOS', 'ata_chapters': '["21", "22"]', 'part_numbers': '["586110-9", "822-0809-810S", "822-782-001"]', 'document_type': 'mis_export', 'is_mis_export': 'True', 'serial_number': 'HB-JTZ', 'reference_numbers': '[{"type": "work_order", "value": "984355"}, {"type": "work_order", "value": "984356"}, {"type": "task_card_number", "value": "210520-2"}, {"type": "work_order", "value": "6134-21-08"}, {"type": "approval_number", "value": "1"}, {"type": "other", "value": "BE-003058"}, {"type": "document_control_numb', 'regulatory_references': '[]'}
+  entities: [{"value": "HB-JTZ", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "registration", "location_context": "table row 1, A/C column", "confidence_reason": "printed and clear"}, {"value": "984355", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "table row 1, W/O column", "confidence_reason": "printed and clear"}, {"value": "2021-05-20", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "date", "location_context": "table row 1, Issue Date column", "confidence_reason": "printed and clear"}, {"value": "2021-05-27", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "date", "location_context": "table row 1, Due/C.-Date column", "confidence_reason": "printed and clear"}, {"value": "21", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "ata_chapter", "location_context": "table row 1, ATA column", "confidence_reason": "printed and clear"}, {"value": "586110-9", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "part_number", "location_context": "table row 1, Text column (part list)", "confidence_reason": "printed and clear"}, {"value": "18-3133", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "serial_number", "location_context": "table row 1, Text column (part list)", "confidence_reason": "printed and clear"}, {"value": "5121", "source": 
+  [$.events[0].description] Workstep Text: "YD 1 INOP" WHITE CAS MESSAGE - INVESTIGATE AND RECTIFY. REFER TO TASKCARD 210520-2 AND CUSTOMER ORK ORDER #: 6134-21-08 - REV: 1. Action Text: PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM. PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1A/B REPORTED YD DISENGAGE CODE "ID#=BE-003058" ON 20MAY2021 @ 09:21 IN AIR. AS PER BOMBARDIER REQUEST SWAPPED FCC 1A WITH FCC 1B I.A.W. CL-650 AMM 22-12-10-000/400-801 REV. 21. FCC 1A (P/N: 822-0809-810S/N OFF: 4F1KNXS/N ON: 4CX4R4). FCC 1B (P/N: 822-0809-810S/N OFF: 4CX4R4S/N ON: 4F1KNX). A
+  [$.events[1].description] PERFORMED DOWNLOAD OF FDR DATA I.A.W. CL-650 AMM 31-31-00-970-804 REV. 21 AND SENT TO BOMBARDIER FOR ANALYSIS. AS PER BOMBARDIER REQUEST REMOVED, CLEANED AND RE-INSTALLED ALL CARDS INSIDE IAPS. REMOVED AND RE-INSTALLED INPUT/OUTPUT CONCENTRATORS (IOC) I.A.W. CL-650 AMM TASK 22-12-04-0007400-801 REV. 21. PERFORMED OPERATIONAL TEST OF THE INPUT/OUTPUT CONCENTRATOR (IOC) I.A.W. CL-650 AMM TASK 22-12-04-710-801 REV. 21. REMOVED AND RE-INSTALLED IAPS POWER SUPPLIES (PWR) I.A.W. CL-650 AMM TASK 22-12-07-0007400-801 REV. 21. PERFORMED OPERATIONAL TEST OF THE INTEGRATED AVIONICS PROCESSOR (IAPS) POWER
+  [$.tables[0].rows[0][8]] Part Number	Position	S/N	On/Off	Description
+586110-9	LH	18-3133	On	COOLING TURBINE
+586110-9	LH	5121	Off	COOLING TURBINE
+Workstep Text: "YD 1 INOP" WHITE CAS MESSAGE - INVESTIGATE AND RECTIFY.
+REFER TO TASKCARD 210520-2 AND CUSTOMER ORK ORDER #: 6134-21-08 - REV: 1
+Action Text: PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM.
+PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1A/B REPORTED YD DISENGAGE CODE "ID#=BE-003058" ON 20MAY2021 @ 09:21 IN AIR.
+AS PER BOMBARDIER REQUEST SWAPPED FCC 1A WITH FCC 1B I.A.W. CL-650 AMM 22-12-10-000/400-801 REV. 
+  [$.tables[0].rows[1][8]] PERFORMED DOWNLOAD OF FDR DATA I.A.W. CL-650 AMM 31-31-00-970-804 REV. 21 AND SENT TO BOMBARDIER FOR ANALYSIS.
+AS PER BOMBARDIER REQUEST REMOVED, CLEANED AND RE-INSTALLED ALL CARDS INSIDE IAPS.
+REMOVED AND RE-INSTALLED INPUT/OUTPUT CONCENTRATORS (IOC) I.A.W. CL-650 AMM TASK 22-12-04-0007400-801 REV. 21.
+PERFORMED OPERATIONAL TEST OF THE INPUT/OUTPUT CONCENTRATOR (IOC) I.A.W. CL-650 AMM TASK 22-12-04-710-801 REV. 21.
+REMOVED AND RE-INSTALLED IAPS POWER SUPPLIES (PWR) I.A.W. CL-650 AMM TASK 22-12-07-0007400-801 REV. 21.
+PERFORMED OPERATIONAL TEST OF THE INTEGRATED AVIONICS PROCESSOR (IAPS) POWER
+  [$.entities[15].value] 822-0809-810S
+  [$.entities[15].location_context] table row 1, Text column (FCC P/N)
+  [$.entities[16].location_context] table row 1, Text column (FCC 1A S/N OFF)
+  [$.entities[17].value] 4CX4R4
+  [$.entities[17].location_context] table row 1, Text column (FCC 1A S/N ON)
+  [$.entities[18].value] 4CX4R4S
+  [$.entities[18].location_context] table row 1, Text column (FCC 1B S/N OFF)
+  [$.entities[19].location_context] table row 1, Text column (FCC 1B S/N ON)
+  [$.metadata.part_numbers[1]] 822-0809-810S
+  [$.metadata.reference_numbers[11].value] 4CX4R4
+  [$.metadata.reference_numbers[12].value] 4CX4R4S
+
+====================================================================================================
+ROW 1783 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.61
+  doc_type: mis_task_card  title: None
+  metadata: {'dates': '["2021-05-27", "2021-05-26"]', 'mis_system': 'CAMP', 'ata_chapters': '["22-12-10"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "984356"}, {"type": "task_card_number", "value": "22-12-10-900-801"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "serial_number", "value": "486DY1"}, {"type": "serial_number", "value": "4FM4CT"}, {"type": "approval_number"', 'regulatory_references': '[]'}
+  entities: [{"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "operator", "location_context": "Operator field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "msn", "location_context": "Serial No. field", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "registration", "location_context": "Reg No. field", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "Model field", "confidence_reason": "printed and clear"}, {"value": "22-12-10-900-801", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "task_card_number", "location_context": "Work Card No. field", "confidence_reason": "printed and clear"}, {"value": "984356", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "work_order", "location_context": "Workorder No. field", "confidence_reason": "printed and clear"}, {"value": "2021-05-27", "source": "handwritten", "entity_id": "ent_7", "confidence": "high", "entity_type": "date", "location_context": "Accomplished Date field", "confidence_reason": "handwritten and clear"}, {"value": "357:11", "source": "handwritten", "entity_id": "ent_8", "confidence": "high", 
+  [$.events[0].description] NO. 1 1A FLIGHT CONTROL COMPUTER task performed.
+  [$.events[1].description] Removal of Flight Control Computer P/N 822-0809-810 S/N 486DY1 due to swap/troubleshoot.
+  [$.events[2].description] Installation of Flight Control Computer P/N 822-0809-810 S/N 4FM4CT.
+  [$.entities[12].value] 822-0809-810
+  [$.entities[14].value] 4FM4CT
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[5].value] 4FM4CT
+  [$.sections[1].data] NO. 1 1A FLIGHT CONTROL COMPUTER
+  [$.sections[4].data.REMOVED P/N] 822-0809-810
+  [$.sections[4].data.INSTALLED P/N] 822-0809-810
+  [$.sections[4].data.S/N (Installed)] 4FM4CT
+
+====================================================================================================
+ROW 1818 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.64
+  doc_type: mis_task_card  title: HB-JTZ/SRO/WO:984356/LFSB
+  metadata: {'dates': '["2021-05-27"]', 'mis_system': 'CAMP', 'ata_chapters': '["22-12-10"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "work_card_number", "value": "22-12-10-900-801"}, {"type": "work_order", "value": "984356"}, {"type": "serial_number", "value": "4F1KNY"}, {"type": "serial_number", "value": "4F1KNX"}, {"type": "certificate_numb', 'regulatory_references': '["CH.145.0363"]'}
+  entities: [{"value": "HB-JTZ", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "registration", "location_context": "Reg No. field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "msn", "location_context": "Serial No. field", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "operator", "location_context": "Operator field", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "Model field", "confidence_reason": "printed and clear"}, {"value": "22-12-10-900-801", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_card_number", "location_context": "Work Card No. field", "confidence_reason": "printed and clear"}, {"value": "984356", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "work_order", "location_context": "Workorder No. field", "confidence_reason": "printed and clear"}, {"value": "2021-05-27", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "date", "location_context": "Accomplished date field", "confidence_reason": "printed and clear"}, {"value": "S. Neumann", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_
+  [$.events[0].description] Swap of NO. 4 2B FLIGHT CONTROL COMPUTER. Removed P/N 822-0809-810 S/N 4F1KNY, Installed P/N 822-0809-810 S/N 4F1KNX.
+  [$.entities[11].value] 822-0809-810
+  [$.entities[13].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.header_fields.REMOVED P/N] 822-0809-810
+  [$.header_fields.INSTALLED P/N] 822-0809-810
+
+====================================================================================================
+ROW 1820 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.63
+  doc_type: mis_task_card  title: UNSCHEDULED
+  metadata: {'dates': '["2021-05-27"]', 'mis_system': 'CAMP', 'ata_chapters': '["22-12-10"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "984356"}, {"type": "task_card_number", "value": "22-12-10-900-801"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "approval_number", "value": "CH.145.0363"}, {"type": "approval_number", "value": "CH.145.0368"}, {"type": "se', 'regulatory_references': '["CH.145.0363", "CH.145.0368"]'}
+  entities: [{"value": "HB-JTZ", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "registration", "location_context": "Header and top banner", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "operator", "location_context": "Header field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "Header field", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "Header field (Model)", "confidence_reason": "printed and clear"}, {"value": "984356", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_order", "location_context": "Header field and top banner", "confidence_reason": "printed and clear"}, {"value": "22-12-10-900-801", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "task_card_number", "location_context": "Header field and section heading", "confidence_reason": "printed and clear"}, {"value": "2021-05-27", "source": "handwritten", "entity_id": "ent_7", "confidence": "high", "entity_type": "date", "location_context": "Accomplished Date field", "confidence_reason": "handwritten and clear"}, {"value": "357:11", "source": "handwritten", "entity_id":
+  [$.events[0].description] Removal and installation of No. 3 2A Flight Control Computer due to swap/troubleshoot.
+  [$.tables[0].rows[0][1]] 822-0809-810
+  [$.tables[0].rows[0][2]] 4FM4CT
+  [$.tables[0].rows[1][1]] 822-0809-810
+  [$.tables[0].rows[1][2]] 4CX4R4
+  [$.entities[13].value] 822-0809-810
+  [$.entities[14].value] 4FM4CT
+  [$.entities[15].value] 4CX4R4
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 4FM4CT
+  [$.metadata.reference_numbers[7].value] 4CX4R4
+
+====================================================================================================
+ROW 1823 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.62
+  doc_type: mis_task_card  title: UNSCHEDULED
+  metadata: {'dates': '["2021-05-27", "2021-05-26"]', 'mis_system': 'CAMP', 'ata_chapters': '["22-12-10"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "984356"}, {"type": "task_card_number", "value": "22-12-10-900-801"}, {"type": "serial_number", "value": "4F1KNX"}, {"type": "serial_number", "value": "4FIKNY"}, {"type": "certificate_number", "value": "CH.145.0363 SNE"}, {"type": "other", "value": "WID: 52171502-1"}', 'regulatory_references': '["CH.145.0363"]'}
+  entities: [{"value": "HB-JTZ", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "registration", "location_context": "Header Reg No.", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "msn", "location_context": "Header Serial No.", "confidence_reason": "printed and clear"}, {"value": "984356", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "work_order", "location_context": "Header Workorder No.", "confidence_reason": "printed and clear"}, {"value": "22-12-10-900-801", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "task_card_number", "location_context": "Header Work Card No.", "confidence_reason": "printed and clear"}, {"value": "2021-05-27", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "date", "location_context": "Accomplished Date field", "confidence_reason": "printed and clear"}, {"value": "S. Neumann", "source": "handwritten", "entity_id": "ent_6", "confidence": "high", "entity_type": "person", "location_context": "Technician and Inspector signature fields", "confidence_reason": "handwritten, clear signature"}, {"value": "CH.145.0363 SNE", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "certificate_number", "location_context": "Certificate & No. fields", "confidence_reason": "printed and clear"}, {"value": "22-12-10", "source": "p
+  [$.events[0].description] Removal and installation of NO. 2 1B FLIGHT CONTROL COMPUTER due to swap/troubleshoot.
+  [$.entities[8].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.sections[2].data] 22-12-10-900-801
+NO. 2 1B FLIGHT CONTROL COMPUTER
+AMM 22-12-10
+  [$.sections[5].data.REMOVED P/N] 822-0809-810
+  [$.sections[5].data.INSTALLED P/N] 822-0809-810
+
+====================================================================================================
+ROW 1825 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.4
+  doc_type: certificate_of_release_to_service  title: Release to Service Certificate - Airframe Inspection / Maintenance Record
+  entities: [{"value": "CL650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_model", "location_context": "Aircraft Model field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "serial_number", "location_context": "Serial Number field (aircraft)", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "registration", "location_context": "Registration field", "confidence_reason": "printed and clear"}, {"value": "357:11", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "tsn", "location_context": "Airframe TAH field", "confidence_reason": "printed and clear"}, {"value": "147", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "csn", "location_context": "Airframe TAC field", "confidence_reason": "printed and clear"}, {"value": "801539", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "serial_number", "location_context": "Engine No 1 SN field", "confidence_reason": "printed and clear"}, {"value": "357:11", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "tsn", "location_context": "Engine No 1 TH field", "confidence_reason": "printed and clear"}, {"value": "159", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "csn",
+  [$.events[5].description] "YD 1 INOP" WHITE CAS MESSAGE - INVESTIGATE AND RECTIFY. PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM. PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1A/B REPORTED YD DISENGAGE CODE "ID#=BE-003058" ON 20MAY2021 @ 09:21 IN AIR.
+  [$.events[6].description] AS PER BOMBARDIER REQUEST SWAPPED FCC 1A WITH FCC 1B AS PER AMM 22-12-10 REV. 21. FCC 1A P/N: 822-0809-810 S/N OFF: 4F1KNX S/N ON: 4CX4R4. FCC 1B P/N: 822-0809-810 S/N OFF: 4CX4R4 S/N ON: 4F1KNX
+  [$.entities[28].value] 822-0809-810
+  [$.entities[28].location_context] FCC 1A P/N in corrective action
+  [$.entities[29].location_context] FCC 1A S/N OFF in corrective action
+  [$.entities[30].value] 4CX4R4
+  [$.entities[30].location_context] FCC 1A S/N ON in corrective action
+  [$.entities[31].value] 822-0809-810
+  [$.entities[31].location_context] FCC 1B P/N in corrective action
+  [$.entities[32].value] 4CX4R4
+  [$.entities[32].location_context] FCC 1B S/N OFF in corrective action
+  [$.entities[33].location_context] FCC 1B S/N ON in corrective action
+  [$.sections[4].data.corrective_action] - PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER
+SYSTEM. PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1A/B REPORTED YD DISENGAGE
+CODE "ID#=BE-003058" ON 20MAY2021 @ 09:21 IN AIR.
+- AS PER BOMBARDIER REQUEST SWAPPED FCC 1A WITH FCC 1B AS PER AMM 22-12-10 REV. 21
+FCC 1A P/N: 822-0809-810 S/N OFF: 4F1KNX S/N ON: 4CX4R4
+FCC 1B P/N: 822-0809-810 S/N OFF: 4CX4R4 S/N ON: 4F1KNX
+- AS PER BOMBARDIER REQUEST SWAPPED SSM 1 WITH SSM AS PER AMM 22-12-28 REV. 21
+SSM 1 P/N: 822-782-001 S/N OFF: 4FM5V6 S/N ON: 4FM5V5
+SSM 2 P/N: 822-782-001 S/N OFF: 4FM5V5 S/N ON
+
+====================================================================================================
+ROW 1833 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.23
+  doc_type: mis_export  title: WC -Summary (AMAC)
+  metadata: {'dates': '["2021-06-09", "2021-05-20", "2021-05-27", "2021-03-18", "2021-05-26"]', 'mis_system': 'AMOS', 'ata_chapters': '["22", "25"]', 'part_numbers': '["M83536-10-024M", "822-0809-810", "DL2233M7", "QD1R50", "622-9968-102"]', 'document_type': 'mis_export', 'is_mis_export': 'True', 'reference_numbers': '[{"type": "work_order", "value": "984356"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "aircraft_type", "value": "CL-650"}, {"type": "serial_number", "value": "N/A"}, {"type": "serial_number", "value": "4F1KNY"}, {"type": "serial_number", "value": "4FM4CT"}, {"type": "serial_number", "val', 'regulatory_references': '[]'}
+  entities: [{"value": "984356", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Main table, row 10", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "Main table, row 10", "confidence_reason": "printed and clear"}, {"value": "2021-05-20", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "date", "location_context": "Main table, row 10, Issue Date", "confidence_reason": "printed and clear"}, {"value": "2021-05-27", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "date", "location_context": "Main table, row 10, Due-/C.-Date", "confidence_reason": "printed and clear"}, {"value": "22", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "ata_chapter", "location_context": "Main table, row 10, ATA", "confidence_reason": "printed and clear"}, {"value": "CL-650", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "aircraft_type", "location_context": "Main table, row 10, Text column", "confidence_reason": "printed and clear"}, {"value": "M83536-10-024M", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "part_number", "location_context": "Main table, row 10, Text column (RELAY)", "confidence_reason": "printed and clear"}, {"value": "N/A", "source": "printe
+  [$.events[0].description] RE-INSTALLED JB 14 AND PERFORMED OPERATIONAL TEST OF JUNCTION BOX JB 14 SYSTEMS I.A.W. CL-650 AMM 24-01-14-710-801 REV. 21. RELAY P/N OFF/ON: M83536-10-024M S/N: N/A. YAW DAMPER NO.2 OPERATIONAL TEST NOT PASSED. AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL. FCC 2A P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4FM4CT. FCC 2B P/N: 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4F1KNY. AS PER BOMBARDIER REQUEST SWAPPED FCC 1A & 1B WITH FCC 2A & 2B. FOUND YD 2 STILL FAIL. FCC 1A (S/N ON: 4FM4CT)FCC 1B (S/N ON: 4F1KNY). FCC 2A (S/N ON: 4CX4R4)FCC 2B (S/N ON: 4F1KNX). IAW B
+  [$.tables[0].rows[0][8]] RE-INSTALLED JB 14 AND PERFORMED OPERATIONAL TEST OF JUNCTION BOX JB 14 SYSTEMS I.A.W. CL-650 AMM 24-01-14-710-801 REV. 21.
+RELAY
+P/N OFF/ON: M83536-10-024M
+S/N: N/A
+Workstep Text: YAW DAMPER NO.2 OPERATIONAL TEST NOT PASSED.
+Action Text: AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL.
+FCC 2A P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4FM4CT
+FCC 2B P/N: 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4F1KNY
+AS PER BOMBARDIER REQUEST SWAPPED FCC 1A & 1B WITH FCC 2A & 2B. FOUND YD 2 STILL FAIL.
+FCC 1A (S/N ON: 4FM4CT)FCC 1B (S/N ON: 4F1KNY)
+FCC 2A (S/N ON: 4CX4R4)FCC 2B
+  [$.entities[8].value] 822-0809-810
+  [$.entities[8].location_context] Main table, row 10, Text column (FCC 2A/2B)
+  [$.entities[9].location_context] Main table, row 10, Text column (FCC 2A S/N OFF, FCC 1B S/N ON)
+  [$.entities[10].value] 4FM4CT
+  [$.entities[10].location_context] Main table, row 10, Text column (FCC 2A S/N ON, FCC 1A S/N ON, FCC 2B S/N OFF)
+  [$.entities[11].value] 4CX4R4
+  [$.entities[11].location_context] Main table, row 10, Text column (FCC 2A S/N ON)
+  [$.entities[12].location_context] Main table, row 10, Text column (FCC 2B S/N ON)
+  [$.metadata.part_numbers[1]] 822-0809-810
+  [$.metadata.reference_numbers[5].value] 4FM4CT
+  [$.metadata.reference_numbers[6].value] 4CX4R4
+
+====================================================================================================
+ROW 1835 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.5
+  doc_type: certificate_of_release_to_service  title: Release to Service Certificate - Airframe Inspection / Maintenance Record
+  metadata: {'dates': '["2021-05-29"]', 'ata_chapters': '["22", "24", "21", "27"]', 'part_numbers': '["622-9968-102", "M83536-10-024M", "822-0809-810", "586110-9"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'reference_numbers': '[{"type": "work_order", "value": "CL65HBJTZ011MX"}, {"type": "purchase_order", "value": "6134-21-08 REV.02"}, {"type": "task_card_number", "value": "210520-3"}, {"type": "mel_entry", "value": "21-51-02-A"}, {"type": "task_card_number", "value": "210520-1"}, {"type": "document_control_number", "value', 'regulatory_references': '["EASA"]'}
+  entities: [{"value": "CL65HBJTZ011MX", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Work Package No field", "confidence_reason": "printed and clear"}, {"value": "6134-21-08 REV.02", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "purchase_order", "location_context": "ExecuJet Europe AG PO# field", "confidence_reason": "printed and clear"}, {"value": "622-9968-102", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "part_number", "location_context": "Yaw Damper Linear Actuators section", "confidence_reason": "printed and clear"}, {"value": "4NONV", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "serial_number", "location_context": "Yaw Damper Linear Actuators section, S/N OFF", "confidence_reason": "printed and clear"}, {"value": "494GN", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "serial_number", "location_context": "Yaw Damper Linear Actuators section, S/N ON", "confidence_reason": "printed and clear"}, {"value": "4CV3RV", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "serial_number", "location_context": "Yaw Damper Linear Actuators section, S/N OFF", "confidence_reason": "printed and clear"}, {"value": "4H1ML8", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "serial_number", "location_context": "Yaw Damper Linear Actua
+  [$.events[2].description] Swapped FCC 2A card with 2B card and found YD 2 still fail.
+  [$.events[3].description] Swapped FCC 1A & 1B with FCC 2A & 2B and found YD 2 still fail.
+  [$.entities[9].value] 822-0809-810
+  [$.entities[9].location_context] FCC Card Swap sections
+  [$.entities[10].location_context] FCC Card Swap sections
+  [$.entities[11].value] 4FM4CT
+  [$.entities[11].location_context] FCC Card Swap sections
+  [$.entities[12].value] 4CX4R4
+  [$.entities[12].location_context] FCC 1A & 1B Card Swap section
+  [$.entities[13].location_context] FCC 1A & 1B Card Swap section
+  [$.metadata.part_numbers[2]] 822-0809-810
+  [$.sections[2].data] - AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL.
+FCC 2A P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4FM4CT
+FCC 2B P/N: 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4F1KNY
+  [$.sections[3].data] - AS PER BOMBARDIER REQUEST SWAPPED FCC 1A & 1B WITH FCC 2A & 2B. FOUND YD 2 STILL FAIL.
+FCC 1A P/N: 822-0809-810 S/N OFF: 4CX4R4 S/N ON: 4FM4CT
+FCC 1B P/N: 822-0809-810 S/N OFF: 4F1KNX S/N ON: 4F1KNY
+FCC 2A P/N: 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4F1KNX
+FCC 2B P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4F1KNX
+
+====================================================================================================
+ROW 1859 | CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf p.3
+  doc_type: mel_entry  title: Hold Item List
+  metadata: {'dates': '["2020-12-03", "2020-12-06", "2020-12-13", "2021-05-13", "2021-05-28", "2021-05-29"]', 'ata_chapters': '["22-20-02", "21-51-02-A", "21-51-16"]', 'part_numbers': '["822-0809-810", "586110-9"]', 'document_type': 'mel_entry', 'is_mis_export': 'False', 'serial_number': 'HB-JTZ', 'reference_numbers': '[{"type": "tech_log_page", "value": "13506"}, {"type": "tech_log_page", "value": "13508"}, {"type": "approval_number", "value": "JPT-009"}, {"type": "approval_number", "value": "EASA.145.0472"}, {"type": "ata_chapter", "value": "22-20-02"}, {"type": "tech_log_page", "value": "13492"}, {"type": "seri', 'regulatory_references': '["EASA.145", "CH.145"]'}
+  entities: [{"value": "CL650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_type", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "13506", "source": "handwritten", "entity_id": "ent_3", "confidence": "high", "entity_type": "tech_log_page", "location_context": "table row 1", "confidence_reason": "handwritten, clear"}, {"value": "822-0809-810", "source": "handwritten", "entity_id": "ent_4", "confidence": "high", "entity_type": "part_number", "location_context": "table row 1, Reason for Hold", "confidence_reason": "handwritten, clear"}, {"value": "2020-12-03", "source": "handwritten", "entity_id": "ent_5", "confidence": "high", "entity_type": "date", "location_context": "table row 1, Sign / Date", "confidence_reason": "handwritten, clear"}, {"value": "13508", "source": "handwritten", "entity_id": "ent_6", "confidence": "high", "entity_type": "tech_log_page", "location_context": "table row 1, Details for Hold Defect Cleared", "confidence_reason": "handwritten, clear"}, {"value": "JPT-009", "source": "stamp", "entity_id": "ent_7", "confidence": "high", "entity_type": "approval_number", "location_context": "table row 1, Sign / Appr. No / Date", "confidence_reason": "printed in stamp, clear"}, {"value": "EASA.145.0472", "source"
+  [$.events[0].description] YD 2 INOP. BOMBARDIER CONFIRMED FCC 2A AT FAULT & TO BE REPLACED - PNA -
+  [$.tables[0].rows[0][3]] YD 2 INOP. BOMBARDIER CONFIRMED FCC 2A AT FAULT & TO BE REPLACED - PNA -
+  [$.tables[0].rows[0][4]] 822-0809-810
+  [$.tables[0].rows[0][6]] Oper test YD Liner Actuators cl'out. NFF. FCC1A swapped FCC2A, FCC1B swapped with FCC2B Oper test FCCs cl'out. Satisfactory. CRS issued on Tech. Log No.: 13508
+  [$.entities[3].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+
+====================================================================================================
+ROW 1899 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.101
+  doc_type: non_routine_card  title: None
+  metadata: {'dates': '["2021-04-12", "2021-04-13", "2021-04-14", "2021-04-15"]', 'ata_chapters': '["22"]', 'part_numbers': '["822-0809-810", "822-0182-101"]', 'document_type': 'non_routine_card', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "40001"}, {"type": "work_order", "value": "WP46219"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "approval_number", "value": "CH.145.0248"}, {"type": "approval_number", "value": "66 B2/C-IE276999"}, {"type": "approval_numb', 'regulatory_references': '["CH.145.0248", "66 B2/C-IE276999", "66 A/B1-IE276999"]'}
+  entities: [{"value": "40001", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "header field Task#", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "header field WP#", "confidence_reason": "printed and clear"}, {"value": "PSMITH", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "person", "location_context": "header field Raised by", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "header field A/C Type", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "registration", "location_context": "header field Reg.", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "msn", "location_context": "header field S/N", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "operator", "location_context": "header field Customer", "confidence_reason": "printed and clear"}, {"value": "22", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "at
+  [$.entities[9].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.sections[0].data] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC. PN 822-0809-810.
+
+====================================================================================================
+ROW 1930 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.3
+  doc_type: certificate_of_release_to_service  title: Certificate of Release to Service
+  metadata: {'dates': '["2021-04-12", "2021-04-19"]', 'ata_chapters': '["28-10-00-620-802", "72-00-00", "49-30-52", "25-30-05-000-803", "20-50-00-04", "22-11-710-802", "22-12-10-000-801"]', 'part_numbers': '["822-0809-810", "822-0182-101", "MJ13E20WHT", "MJ13P20", "MJ14P20"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "work_order", "value": "WP46219"}, {"type": "work_order", "value": "WO 6134-21-04"}, {"type": "task_card_number", "value": "30004"}, {"type": "serial_number", "value": "4B6DY1"}, {"type": "serial_number", "value', 'regulatory_references': '[]'}
+  entities: [{"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_type", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "WO 6134-21-04", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_order", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "2021-04-12", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "date", "location_context": "Header, Work Period start date", "confidence_reason": "printed and clear"}, {"value": "2021-04-19", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "date", "location_context": "Header, Work Period end date", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "operator", "location_co
+  [$.events[5].description] 210406-4 YAW DAMPER 1 IS PERODICALLY DROPPING OUT DURING FLIGHT - INVESTIGATE AND RECTIFY. SUPPLIED FAULT HISTORY INDICATED THAT YD2 WAS ORIGINAL FAULT BUT AFTER SWAPPING FCC1A WITH FCC2B & FCC1B TRANSFERRED TO YD1. ON ARRIVAL AT THE A/C, NO YAW DAMPER FAULT WAS EVIDENT FCC1A & FCC1B YAW DAMPER TESTED IAW 22-11-710-802, NO FAULTS SHOWING. AS PER OPERATOR/BOMBARDIER REQUEST, FCC1A SWAPPED WITH FCCA1B IAW 22-12-10-000-801. FCC1A NOW S/N 4F1KNX. FCC1B S/N 4B6DY1. FCC1B REPLACED IAW AMM 22-12-10-000-801. FCC2A SWAPPED WITH FCC2B IAW AMM 22-12-10-000-801. FCC2A NOW S/N 4F1KNY. FCC2B NOW S/N 4FM4CT.
+  [$.events[7].description] FLIGHT CONTROL COMPUTER removed
+  [$.events[8].description] FLIGHT CONTROL COMPUTER installed
+  [$.events[11].description] FLIGHT CONTROL COMPUTER removed
+  [$.events[12].description] FLIGHT CONTROL COMPUTER installed
+  [$.tables[1].rows[0][0]] FLIGHT CONTROL COMPUTER
+  [$.tables[1].rows[0][3]] FCC1B
+  [$.tables[1].rows[0][4]] 822-0809-810
+  [$.tables[1].rows[0][6]] 822-0809-810
+  [$.tables[1].rows[0][7]] 4CX4R4
+  [$.tables[2].rows[0][0]] FLIGHT CONTROL COMPUTER
+  [$.tables[2].rows[0][1]] 822-0809-810
+  [$.tables[2].rows[0][3]] 822-0809-810
+  [$.tables[2].rows[0][4]] 4CX4R4
+  [$.entities[17].value] 822-0809-810
+  [$.entities[19].value] 822-0809-810
+  [$.entities[20].value] 4CX4R4
+  [$.entities[49].value] 4FM4CT
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 4CX4R4
+  [$.metadata.reference_numbers[21].value] 4FM4CT
+  [$.sections[2].data[3]] 30004 210406-4 YAW DAMPER 1 IS PERODICALLY DROPPING OUT DURING FLIGHT - INVESTIGATE AND RECTIFY. SUPPLIED FAULT HISTORY INDICATED THAT YD2 WAS ORIGINAL FAULT BUT AFTER SWAPPING FCC1A WITH FCC2B & FCC1B TRANSFERRED TO YD1. ON ARRIVAL AT THE A/C, NO YAW DAMPER FAULT WAS EVIDENT FCC1A & FCC1B YAW DAMPER TESTED IAW 22-11-710-802, NO FAULTS SHOWING. AS PER OPERATOR/BOMBARDIER REQUEST, FCC1A SWAPPED WITH FCCA1B IAW 22-12-10-000-801. FCC1A NOW S/N 4F1KNX. FCC1B S/N 4B6DY1. FCC1B REPLACED IAW AMM 22-12-10-000-801. FCC2A SWAPPED WITH FCC2B IAW AMM 22-12-10-000-801. FCC2A NOW S/N 4F1KNY. FCC2B NOW S/N 4
+
+====================================================================================================
+ROW 1940 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.79
+  doc_type: non_routine_card  title: Defect Rectification Record
+  metadata: {'dates': '["2021-04-12", "2021-04-15"]', 'ata_chapters': '["27"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'non_routine_card', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "task_card_number", "value": "30004"}, {"type": "work_order", "value": "WP46219"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "part_number", "value": "822-0809-810"}, {"type": "serial_number", "value": "486DY1"}, {"type": "serial_number", "value', 'regulatory_references': '["AMM"]'}
+  entities: [{"value": "30004", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "task_card_number", "location_context": "2.1 Task#", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "2.2 WP#", "confidence_reason": "printed and clear"}, {"value": "KHITCHINGS", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "person", "location_context": "2.3 Raised by", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "2.4 A/C Type", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "registration", "location_context": "2.5 Reg.", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "msn", "location_context": "2.6 S/N", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "operator", "location_context": "2.7 Customer", "confidence_reason": "printed and clear"}, {"value": "27", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "ata_chapter", "location_context": "2.9 ATA", "confidenc
+  [$.events[1].description] SUPPLIED FAULT HISTORY INDICATES THAT YD2 WAS ORIGINAL FAULT, BUT AFTER SWOPPING, FCC 1A WITH FCC 2A AND FCC 1B WITH FCC 2B, Calib. Tool xxx: THE YAW DAMPER FAULT TRANSFERRED TO YD1. THE OPERATOR / BOMBARDIER REQUESTED TO SWOP FCC 1A WITH FCC 1B AND FCC 2A WITH FCC 2B, AND THEN REPLACE FCC 1B WITH A Calib. Tool xxx: REPAIRED FCC, EMAIL ATTACHED. ON AIRCRAFT ARRIVAL, NO YAW DAMPER FAULT WERE EVIDENT. FCC 1A AND FCC 1B YAW DAMPER TESTED IAW AMM 22-11-710-802 Calib. Tool xxx: WITH NO FAULTS SHOWING. FCC 1A AND FCC 1B INTER CHANGED IAW AMM 22-12-10-000-801 IAW AMM FCC 1A NOW # 4F1KNX FCC 1B NOW # 
+  [$.events[2].description] FCC 1B replaced
+  [$.tables[0].rows[0][0]] Fcc 1B
+  [$.tables[0].rows[0][1]] 822-0809-810
+  [$.tables[0].rows[0][3]] 4CX4R4
+  [$.entities[11].value] 822-0809-810
+  [$.entities[13].value] 4CX4R4
+  [$.entities[22].value] FCC 1A
+  [$.entities[23].value] FCC 2A
+  [$.entities[24].value] FCC 1B
+  [$.entities[25].value] FCC 2B
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[4].value] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 4CX4R4
+  [$.sections[1].data] SUPPLIED FAULT HISTORY INDICATES THAT YD2 WAS ORIGINAL FAULT, BUT AFTER SWOPPING, FCC 1A WITH FCC 2A AND FCC 1B WITH FCC 2B, Calib. Tool xxx: THE YAW DAMPER FAULT TRANSFERRED TO YD1. THE OPERATOR / BOMBARDIER REQUESTED TO SWOP FCC 1A WITH FCC 1B AND FCC 2A WITH FCC 2B, AND THEN REPLACE FCC 1B WITH A Calib. Tool xxx: REPAIRED FCC, EMAIL ATTACHED. ON AIRCRAFT ARRIVAL, NO YAW DAMPER FAULT WERE EVIDENT. FCC 1A AND FCC 1B YAW DAMPER TESTED IAW AMM 22-11-710-802 Calib. Tool xxx: WITH NO FAULTS SHOWING. FCC 1A AND FCC 1B INTER CHANGED IAW AMM 22-12-10-000-801 IAW AMM FCC 1A NOW # 4F1KNX FCC 1B NOW # 
+
+====================================================================================================
+ROW 1941 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.109
+  doc_type: mis_task_card  title: None
+  metadata: {'dates': '["2021-04-04", "2021-04-15", "2021-04-06"]', 'mis_system': 'CAMP', 'ata_chapters': '[]', 'part_numbers': '["822-0182-101", "822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "document_control_number", "value": "WP 46219"}, {"type": "work_card_number", "value": "210404-1"}, {"type": "work_order", "value": "6134-21-04"}, {"type": "serial_number", "value": "40L9F9"}, {"type": "certificate_number", "value": "CH.145.0248"}, {"type": "approval_number", "value": "C3 ', 'regulatory_references': '["CH.145.0248"]'}
+  entities: [{"value": "WP 46219", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "document_control_number", "location_context": "top right", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "operator", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "header, Serial No", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "registration", "location_context": "header, RegNo", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "aircraft_model", "location_context": "header, Model", "confidence_reason": "printed and clear"}, {"value": "2021-04-04", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "date", "location_context": "header, Date Logged", "confidence_reason": "printed and clear"}, {"value": "210404-1", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "work_card_number", "location_context": "header, Work Card No.", "confidence_reason": "printed and clear"}, {"value": "6134-21-04", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_t
+  [$.entities[14].value] 822-0809-810
+  [$.metadata.part_numbers[1]] 822-0809-810
+  [$.header_fields.PART NUMBER] 822-0809-810
+
+====================================================================================================
+ROW 1961 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.82
+  doc_type: faa_form_8130  title: AUTHORIZED RELEASE CERTIFICATE
+FAA Form 8130-3, AIRWORTHINESS APPROVAL TAG
+  metadata: {'dates': '["2021-02-26", "2015-10-26"]', 'ata_chapters': '[]', 'part_numbers': '["822-0809-810"]', 'document_type': 'faa_form_8130', 'is_mis_export': 'False', 'serial_number': '4CX4R4', 'reference_numbers': '[{"type": "form_tracking_number", "value": "105990083"}, {"type": "work_order", "value": "3351809/001010/POOL"}, {"type": "approval_number", "value": "ED7Y210Y"}, {"type": "certificate_number", "value": "245489"}, {"type": "document_control_number", "value": "WP46219"}, {"type": "task_card_number", ', 'regulatory_references': '["Federal Aviation Administration Regulation 43.3(e)", "Title 14, Code of Federal Regulations, part 43", "14 CFR 43.9"]'}
+  entities: [{"value": "WP46219", "source": "handwritten", "entity_id": "ent_1", "confidence": "high", "entity_type": "document_control_number", "location_context": "top left of page", "confidence_reason": "handwritten, clear"}, {"value": "TASK 30004-3", "source": "handwritten", "entity_id": "ent_2", "confidence": "high", "entity_type": "task_card_number", "location_context": "top right of page", "confidence_reason": "handwritten, clear"}, {"value": "105990083", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "form_tracking_number", "location_context": "Block 3", "confidence_reason": "printed and clear"}, {"value": "Ensambladores Electrónicos de México S. de R.L. de C.V.", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "mro", "location_context": "Block 4 Organization Name", "confidence_reason": "printed and clear"}, {"value": "Rockwell Collins", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "mro", "location_context": "Block 4 Organization Name", "confidence_reason": "printed and clear"}, {"value": "ED7Y210Y", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "approval_number", "location_context": "Block 4 AIR Agency Certificate", "confidence_reason": "printed and clear"}, {"value": "3351809/001010/POOL", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "work_order", "location_context": "Block 5 Work Order/Contract/Invoice Number",
+  [$.events[0].description] Overhaul of FLIGHT CONTROL COMPUTER - FCC-4006, P/N 822-0809-810, S/N 4CX4R4. Inspected/tested by CMM 523-0777245 REV: 19, Dated 10/26/2015. Service Bulletins installed: None. Airworthiness Directive Complied with: N/A.
+  [$.events[1].description] Release to service for FLIGHT CONTROL COMPUTER - FCC-4006, P/N 822-0809-810, S/N 4CX4R4, certifying conformity to approved design data and condition for safe operation, and work accomplished in accordance with Title 14, Code of Federal Regulations, part 43.
+  [$.entities[7].value] 822-0809-810
+  [$.entities[8].value] 4CX4R4
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.serial_number] 4CX4R4
+  [$.header_fields.7. Description] FLIGHT CONTROL COMPUTER - FCC-4006
+  [$.header_fields.8. Part Number] 822-0809-810
+  [$.header_fields.10. Serial Number] 4CX4R4
+
+====================================================================================================
+ROW 1969 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.84
+  doc_type: shop_visit_report  title: Service Memorandum
+  metadata: {'dates': '["2021-12-02"]', 'ata_chapters': '[]', 'part_numbers': '["FCC-4006", "822-0809-810", "A4"]', 'document_type': 'shop_visit_report', 'is_mis_export': 'False', 'serial_number': '6160', 'reference_numbers': '[{"type": "work_order", "value": "WP 46219"}, {"type": "task_card_number", "value": "30004-5"}, {"type": "document_control_number", "value": "105990083"}, {"type": "purchase_order", "value": "3351809/001010/POOL"}, {"type": "certificate_number", "value": "ED7Y210Y"}, {"type": "certificate_number", "', 'context_discrepancy': "The asset name and file path (CL650-6134) suggest MSN '6134', but the document explicitly states 'Aircraft Information - Serial Number: 6160'.", 'regulatory_references': '["FAA 8130", "EASA Form 1"]'}
+  entities: [{"value": "WP 46219", "source": "handwritten", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "top of page", "confidence_reason": "handwritten, clear, matches filename context"}, {"value": "30004-5", "source": "handwritten", "entity_id": "ent_2", "confidence": "high", "entity_type": "task_card_number", "location_context": "top of page", "confidence_reason": "handwritten, clear"}, {"value": "105990083", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "document_control_number", "location_context": "Service Notification field", "confidence_reason": "printed and clear"}, {"value": "RC GLOBAL LOGISTICS SOLUTIONS LLC", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "operator", "location_context": "Customer field", "confidence_reason": "printed and clear"}, {"value": "3351809/001010/POOL", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "purchase_order", "location_context": "Customer P.O. Number field", "confidence_reason": "printed and clear"}, {"value": "2021-12-02", "source": "printed", "entity_id": "ent_6", "confidence": "medium", "entity_type": "date", "location_context": "Date Equipment Received field", "confidence_reason": "printed, MM/DD/YYYY assumed for US company (Rockwell Collins), could be DD/MM/YYYY"}, {"value": "ED7Y210Y", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "certificate_number", "loc
+  [$.entities[10].value] FCC-4006
+  [$.entities[11].value] 822-0809-810
+  [$.entities[12].value] 4CX4R4
+  [$.metadata.part_numbers[0]] FCC-4006
+  [$.metadata.part_numbers[1]] 822-0809-810
+  [$.sections[0].data.Part Number] 822-0809-810
+  [$.sections[0].data.Serial Number/MCN] 4CX4R4
+  [$.sections[0].data.Equipment Type/Model] FCC-4006
+  [$.sections[1].data.Part Number] 822-0809-810
+  [$.sections[1].data.Serial Number/MCN] 4CX4R4
+  [$.sections[1].data.Equipment Type/Model] FCC-4006
+
+====================================================================================================
+ROW 1976 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.83
+  doc_type: other  title: CERTIFICATE OF CONFORMANCE
+  metadata: {'dates': '["2021-02-26"]', 'ata_chapters': '[]', 'part_numbers': '["822-0809-810"]', 'document_type': 'other', 'is_mis_export': 'False', 'serial_number': '4CX4R4', 'reference_numbers': '[{"type": "notification_number", "value": "105990083"}, {"type": "work_order", "value": "403567223"}, {"type": "purchase_order", "value": "33518909/001010/POOL"}, {"type": "tracking_number", "value": "4CX4R4"}, {"type": "work_order", "value": "WP46219"}, {"type": "task_card_number", "value": "30004-', 'document_type_reason': 'This is a Certificate of Conformance, which is not explicitly listed in the document_type enum but serves as a primary certification document for component airworthiness.', 'regulatory_references': '[]'}
+  entities: [{"value": "Rockwell Collins", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "organization", "location_context": "Header and Statement of Conformance", "confidence_reason": "printed and clear"}, {"value": "105990083", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "notification_number", "location_context": "Header field 'Notification No'", "confidence_reason": "printed and clear"}, {"value": "2021-02-26", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "date", "location_context": "Header field 'Certificate Date'", "confidence_reason": "printed and clear"}, {"value": "403567223", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "Header field 'Collins Order No.'", "confidence_reason": "printed and clear"}, {"value": "33518909/001010/POOL", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "purchase_order", "location_context": "Header field 'Customer PO No.'", "confidence_reason": "printed and clear"}, {"value": "RC GLOBAL LOGISTICS SOLUTIONS LLC", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "organization", "location_context": "SHIP TO and SOLD TO addresses", "confidence_reason": "printed and clear"}, {"value": "822-0809-810", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "part_number", "location_context": "Table row, '
+  [$.events[0].description] Issuance of Certificate of Conformance for FLIGHT CONTROL COMPUTER - FCC-4006, S/N 4CX4R4, P/N 822-0809-810. The component was serviced in accordance with Rockwell Collins, Inc. approved procedures and current civil aviation regulations, and found to conform to applicable requirements.
+  [$.tables[0].rows[0][2]] 822-0809-810
+  [$.tables[0].rows[0][3]] FCC-4006
+  [$.tables[0].rows[0][4]] FLIGHT CONTROL COMPUTER - FCC-4006
+Internal tracking #: 4CX4R4
+Nameplate Serial #: 4CX4R4
+  [$.entities[6].value] 822-0809-810
+  [$.entities[7].value] FCC-4006
+  [$.entities[8].value] 4CX4R4
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.serial_number] 4CX4R4
+  [$.metadata.reference_numbers[3].value] 4CX4R4
+
+====================================================================================================
+ROW 1979 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.80
+  doc_type: mis_task_card  title: None
+  metadata: {'dates': '["2021-04-12", "2021-04-13", "2021-04-15"]', 'mis_system': 'custom', 'ata_chapters': '["22", "53"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "WP46219"}, {"type": "task_card_number", "value": "30004-1"}, {"type": "serial_number", "value": "4F1KNY"}, {"type": "serial_number", "value": "4FMACT"}, {"type": "approval_number", "value": "CH.145.0248"}, {"type": "approval_number", "value": "GB.B2/C-IE27699"}, {"t', 'regulatory_references': '["Part-145"]'}
+  entities: [{"value": "HB-JTZ", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "registration", "location_context": "header field Reg", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "msn", "location_context": "header field S/N", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "work_order", "location_context": "header field WP", "confidence_reason": "printed and clear"}, {"value": "30004-1", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "task_card_number", "location_context": "header field Task#", "confidence_reason": "printed and clear"}, {"value": "AMM 22-12-10-000-801", "source": "handwritten", "entity_id": "ent_5", "confidence": "high", "entity_type": "other", "location_context": "Action Taken section, first entry", "confidence_reason": "handwritten and clear"}, {"value": "4F1KNY", "source": "handwritten", "entity_id": "ent_6", "confidence": "high", "entity_type": "serial_number", "location_context": "Action Taken section, first entry (FCC 2A S/N)", "confidence_reason": "handwritten and clear"}, {"value": "4FMACT", "source": "handwritten", "entity_id": "ent_7", "confidence": "high", "entity_type": "serial_number", "location_context": "Action Taken section, first entry (FCC 2B S/N)", "confidence_reason": "handwritten and clear"}, {"
+  [$.events[0].description] FCC 2A INTERCHANGED WITH FCC 2B IAW AMM 22-12-10-000-801. FCC 2A NOW # 4F1KNY. FCC 2B NOW # 4FMACT.
+  [$.events[1].description] OPERATIONAL TEST OF ALL FCC'S CARRIED OUT IAW AMM 22-11-00-710-802 WITH NO FAULTS.
+  [$.entities[5].location_context] Action Taken section, first entry (FCC 2A S/N)
+  [$.entities[6].value] 4FMACT
+  [$.entities[6].location_context] Action Taken section, first entry (FCC 2B S/N)
+  [$.metadata.reference_numbers[3].value] 4FMACT
+  [$.sections[0].data] FCC 2A INTERCHANGED WITH FCC 2B IAW AMM 22-12-10-000-801.
+FCC 2A NOW # 4F1KNY. FCC 2B NOW # 4FMACT.
+  [$.sections[1].data] OPERATIONAL TEST OF ALL FCC'S CARRIED OUT IAW AMM 22-11-00-710-802 WITH NO FAULTS.
+
+====================================================================================================
+ROW 1984 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.81
+  doc_type: easa_form_one  title: AUTHORISED RELEASE CERTIFICATE
+  metadata: {'dates': '["2015-10-26", "2021-02-26"]', 'ata_chapters': '[]', 'part_numbers': '["822-0809-810"]', 'document_type': 'easa_form_one', 'is_mis_export': 'False', 'serial_number': '4CX4R4', 'reference_numbers': '[{"type": "work_order", "value": "3351809/001010/POOL"}, {"type": "tracking_number", "value": "105990083"}, {"type": "approval_number", "value": "EASA.145.0328"}, {"type": "document_control_number", "value": "CMM 523-0777245 REV: 19"}, {"type": "service_memorandum", "value": "105990083"}, {"type": "', 'regulatory_references': '["Part-145.A.50", "Part-145"]'}
+  entities: [{"value": "EASA", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "other", "location_context": "Block 1. Approving Competent Authority/Country", "confidence_reason": "printed and clear"}, {"value": "105990083", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "tracking_number", "location_context": "Block 3. Form Tracking Number", "confidence_reason": "printed and clear"}, {"value": "Ensambradores Electrónicos de México S. de R.L. de C.V.", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "mro", "location_context": "Block 4. Organisation Name and Address", "confidence_reason": "printed and clear"}, {"value": "EASA.145.0328", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "approval_number", "location_context": "Block 4. AIR Agency Certificate", "confidence_reason": "printed and clear"}, {"value": "3351809/001010/POOL", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_order", "location_context": "Block 5. Work Order/Contract/Invoice", "confidence_reason": "printed and clear"}, {"value": "FLIGHT CONTROL COMPUTER - FCC-4006", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "other", "location_context": "Block 7. Description", "confidence_reason": "printed and clear"}, {"value": "822-0809-810", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "part_number", "
+  [$.events[0].description] Overhaul of FLIGHT CONTROL COMPUTER - FCC-4006, Part No. 822-0809-810, Serial No. 4CX4R4. Work performed in compliance with Part-145.A.50 and Service Memorandum 105990083. Inspected/tested by CMM 523-0777245 REV: 19, Dated 10/26/2015. Service Bulletins installed: None. Airworthiness Directive Complied with: N/A.
+  [$.entities[5].value] FLIGHT CONTROL COMPUTER - FCC-4006
+  [$.entities[6].value] 822-0809-810
+  [$.entities[7].value] 4CX4R4
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.serial_number] 4CX4R4
+  [$.header_fields.8. Part No.] 822-0809-810
+  [$.header_fields.10. Serial No.] 4CX4R4
+  [$.header_fields.7. Description] FLIGHT CONTROL COMPUTER - FCC-4006
+
+====================================================================================================
+ROW 1985 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.87
+  doc_type: mis_task_card  title: Work Card
+  metadata: {'dates': '["2021-04-06", "2021-04-15"]', 'mis_system': 'CAMP', 'ata_chapters': '[]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "document_control_number", "value": "WP 46219"}, {"type": "serial_number", "value": "6134"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "work_order", "value": "210406-4"}, {"type": "task_card_number", "value": "210406-4"}, {"type": "work_order", "value": "6134-21-04"}, {"type": ', 'regulatory_references': '["CH.145.0248"]'}
+  entities: [{"value": "WP 46219", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "document_control_number", "location_context": "Top right header", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "operator", "location_context": "Operator field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "Serial No field", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "registration", "location_context": "RegNo field", "confidence_reason": "printed and clear"}, {"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "other", "location_context": "Model field", "confidence_reason": "printed and clear"}, {"value": "2021-04-06", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "date", "location_context": "Date Logged field", "confidence_reason": "printed and clear"}, {"value": "210406-4", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "work_order", "location_context": "Work Card No. field", "confidence_reason": "printed and clear"}, {"value": "6134-21-04", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "wor
+  [$.events[0].description] YAW DAMPER 1 IS PERIODICALLY DROPPING OUT DURING FLIGHT - INVESTIGATE AND RECTIFY. Part 822-0809-810, S/N 4CX4R4 fitted in FCC 1B.
+  [$.entities[11].value] 822-0809-810
+  [$.entities[12].value] 4CX4R4
+  [$.entities[14].value] FCC 1B
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 4CX4R4
+  [$.header_fields.P/N] 822-0809-810
+  [$.header_fields.S/N] 4CX4R4
+  [$.header_fields.FITTED IN] FCC 1B.
+
+====================================================================================================
+ROW 1988 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.86
+  doc_type: correspondence  title: AW: HB-JTZ CL-650 6134 Flight level issue {{{11/04/21 Support Request}}}
+  metadata: {'dates': '["2021-04-09", "2021-04-07"]', 'ata_chapters': '[]', 'part_numbers': '["822-0809-810"]', 'document_type': 'correspondence', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "46219"}, {"type": "task_card_number", "value": "30004-7"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "serial_number", "value": "486F99"}, {"type": "serial_number", "value": "4FM4CT"}, {"type": "serial_number", "value": "AF1KNX"}, {"type": "serial_number"', 'regulatory_references': '[]'}
+  entities: [{"value": "46219", "source": "handwritten", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Top left of page", "confidence_reason": "handwritten and clear"}, {"value": "30004-7", "source": "handwritten", "entity_id": "ent_2", "confidence": "high", "entity_type": "task_card_number", "location_context": "Top center of page", "confidence_reason": "handwritten and clear"}, {"value": "Marcus Ludewig", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "person", "location_context": "From field, and signature block", "confidence_reason": "printed and clear"}, {"value": "2021-04-09", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "date", "location_context": "Sent date", "confidence_reason": "printed and clear"}, {"value": "Sebastien Pfeffer", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "person", "location_context": "To field", "confidence_reason": "printed and clear"}, {"value": "David Brotherhood", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "person", "location_context": "Cc field", "confidence_reason": "printed and clear"}, {"value": "Christian Putz", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "person", "location_context": "Cc field", "confidence_reason": "printed and clear"}, {"value": "Paul Scott", "source": "printed", "entity_id": "ent_8", "confidence": "high", "en
+  [$.events[0].description] Request for troubleshooting steps regarding Autopilot malfunctions and suggestion to swap FCC Cards from B to A.
+  [$.events[1].description] FCC s/n 4CX4R4 had the fault confirmed and corrected by having the A4 Circuit board.
+  [$.entities[13].value] 822-0809-810
+  [$.entities[13].location_context] FCC PNR fields
+  [$.entities[14].location_context] FCC 1A SNR (Current) and FCC 1B SNR (Suggested)
+  [$.entities[15].value] 4FM4CT
+  [$.entities[15].location_context] FCC 2A SNR (Current) and FCC 2B SNR (Suggested)
+  [$.entities[16].location_context] FCC 1B SNR (Current) and FCC 1A SNR (Suggested)
+  [$.entities[17].location_context] FCC 2B SNR (Current) and FCC 2A SNR (Suggested)
+  [$.entities[18].value] 4CX4R4
+  [$.entities[25].value] FCC Cards
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[4].value] 4FM4CT
+  [$.metadata.reference_numbers[7].value] 4CX4R4
+  [$.sections[0].data] Hello everyone,
+
+Could you please provide the next troubleshooting steps in regards to the Autopilot malfunctions?
+May we should swap the FCC Cards from B to A ?
+  [$.sections[1].data.FCC 2A PNR 822-0809-810 SNR] 4FM4CT
+  [$.sections[2].data.FCC 1B PNR 822-0809-810 SNR] 486F99 will be replaced by 4CX4R4
+  [$.sections[2].data.FCC 2B PNR 822-0809-810 SNR] 4FM4CT
+  [$.sections[5].data] Good evening Marcus,
+
+Having checked the previous FCCs all being NFF by Rockwell Collins we fully understood the suspicion this has build up on
+
+But we want to highlight that this FCC s/n 4CX4R4 has had the fault confirmed and corrected by having the A4 Circuit boar
+
+====================================================================================================
+ROW 1991 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.88
+  doc_type: parts_identification_tag  title: None
+  metadata: {'dates': '["2021-04-06", "2021-02-26"]', 'ata_chapters': '[]', 'part_numbers': '["822-0809-810"]', 'document_type': 'parts_identification_tag', 'is_mis_export': 'False', 'serial_number': '4CX4R4', 'reference_numbers': '[{"type": "other", "value": "112481"}, {"type": "other", "value": "1"}, {"type": "purchase_order", "value": "P154048"}, {"type": "approval_number", "value": "CH.145.0248"}]', 'regulatory_references': '["FAA/EASA DUAL RELEASE"]'}
+  entities: [{"value": "112481", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "other", "location_context": "Crtl# field", "confidence_reason": "printed and clear"}, {"value": "1", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "other", "location_context": "CrtlID field", "confidence_reason": "printed and clear"}, {"value": "822-0809-810", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "part_number", "location_context": "PN field", "confidence_reason": "printed and clear"}, {"value": "4CX4R4", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "serial_number", "location_context": "SN field", "confidence_reason": "printed and clear"}, {"value": "P154048", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "purchase_order", "location_context": "PO field", "confidence_reason": "printed and clear"}, {"value": "2021-04-06", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "date", "location_context": "REC.DATE field", "confidence_reason": "printed and clear"}, {"value": "2021-02-26", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "date", "location_context": "CERT DATE field", "confidence_reason": "printed and clear"}, {"value": "ROCKWELL COLLINS", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "organization", "location_context": "TAGGED BY fie
+  [$.entities[2].value] 822-0809-810
+  [$.entities[3].value] 4CX4R4
+  [$.entities[12].value] FLIGHT CONTROL COMPUTER
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.serial_number] 4CX4R4
+  [$.header_fields.PN] 822-0809-810
+  [$.header_fields.SN] 4CX4R4
+  [$.header_fields.DESC] FLIGHT CONTROL COMPUTER
+
+====================================================================================================
+ROW 2041 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.4
+  doc_type: certificate_of_release_to_service  title: Certificate of Release to Service
+  metadata: {'dates': '["2021-04-19"]', 'ata_chapters': '["22"]', 'part_numbers': '["822-0182-101", "822-0809-810"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "WP46219"}, {"type": "task_card_number", "value": "40001"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "serial_number", "value": "4DL9F9"}, {"type": "serial_number", "value": "3PP8C"}, {"type": "approval_number", "value": ', 'regulatory_references': '["Part-145"]'}
+  entities: [{"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_type", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "header and footer", "confidence_reason": "printed and clear"}, {"value": "40001", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "task_card_number", "location_context": "section heading", "confidence_reason": "printed and clear"}, {"value": "822-0182-101", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "part_number", "location_context": "table row 1, removed part", "confidence_reason": "printed and clear"}, {"value": "4DL9F9", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "serial_number", "location_context": "table row 1, removed serial number", "confidence_reason": "printed and clear"}, {"value": "822-0182-101", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type
+  [$.events[0].description] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE. INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC PN 822-0809-810. ALTITUDE SELECT ADJUSTER FOUND TO OPERATE ON AP1 & AP2 WITH CO-PILOT AS SOURCE DATA. ALTITUDE SELECT DOES NOT OPERTE WITH CAPTAIN AS SOURCE DATA. FLIGHT CONTROL PANEL OPERATIONAL TEST C/OUT IAW 22-11-01-710-801. FAILS ALTITUDE TEST. INTERROGATION OF REPAIR CODES C/OUT. REPAIR SUMMARY SHOWED FC5: PANEL (LEFT) AS PER BOMBARDIER RECOMMENDATIONS. FCS IS REPLACED IAW 22-11-01-000/400-801. OPERATI
+  [$.entities[15].value] 822-0809-810
+  [$.metadata.part_numbers[1]] 822-0809-810
+  [$.sections[0].data] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE. INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC PN 822-0809-810. ALTITUDE SELECT ADJUSTER FOUND TO OPERATE ON AP1 & AP2 WITH CO-PILOT AS SOURCE DATA. ALTITUDE SELECT DOES NOT OPERTE WITH CAPTAIN AS SOURCE DATA. FLIGHT CONTROL PANEL OPERATIONAL TEST C/OUT IAW 22-11-01-710-801. FAILS ALTITUDE TEST. INTERROGATION OF REPAIR CODES C/OUT. REPAIR SUMMARY SHOWED FC5: PANEL (LEFT) AS PER BOMBARDIER RECOMMENDATIONS. FCS IS REPLACED IAW 22-11-01-000/400-801. OPERATI
+
+====================================================================================================
+ROW 2042 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.8
+  doc_type: certificate_of_release_to_service  title: Certificate of Release to Service Aircraft Flight Technical Log
+  metadata: {'dates': '["2021-04-12", "2021-04-19", "2021-04-19"]', 'ata_chapters': '["28-10-00"]', 'part_numbers': '["822-0809-810", "822-0182-101"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "WP46219"}, {"type": "work_order", "value": "WO 6134-21-04"}, {"type": "other", "value": "CHALLENGER 650", "subtype": "aircraft_type"}, {"type": "aircraft_model", "value": "CL-600-2B16 (CL650)"}, {"type": "other", "value": "CH-AMP-CL650-6134 ISS 1", "subtype": "AMP R', 'regulatory_references': '[]'}
+  entities: [{"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "other", "location_context": "header, Aircraft Type", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "header, Registration", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "header, S/N and Airframe data table", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "header, WP", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "operator", "location_context": "General Data, Operator/Customer", "confidence_reason": "printed and clear"}, {"value": "WO 6134-21-04", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "work_order", "location_context": "General Data, PO N°", "confidence_reason": "printed and clear"}, {"value": "TAG Maintenance Services SA (TMS Farnborough)", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "mro", "location_context": "General Data, AMO/MRO identification / Contact", "confidence_reason": "printed and clear"}, {"va
+  [$.events[7].description] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC PN 822-0809-810
+  [$.events[8].description] Installation of FLIGHT CONTROL COMPUTER
+  [$.tables[1].rows[0][1]] FLIGHT CONTROL COMPUTER
+  [$.tables[1].rows[0][2]] 822-0809-810
+  [$.tables[1].rows[0][3]] 4CX4R4
+  [$.tables[2].name] Maintenance carried out * : FCC REPLACEMENT EXPERIENCED INTERMITTENT ISSUES
+  [$.tables[2].rows[7][1]] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC PN 822-0809-810
+  [$.entities[15].value] 822-0809-810
+  [$.entities[16].value] 4CX4R4
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 4CX4R4
+
+====================================================================================================
+ROW 2056 | CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf p.6
+  doc_type: work_order_contents_report  title: Maintenance Work Report
+  metadata: {'dates': '[]', 'mis_system': 'unknown', 'ata_chapters': '["25", "27", "38", "22"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'work_order_contents_report', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "work_order", "value": "WP46219"}, {"type": "task_card_number", "value": "30003"}, {"type": "task_card_number", "value": "30004"}, {"type": "task_card_number", "value": "30005"}, {"type": "task_card_number", "va', 'regulatory_references': '[]'}
+  entities: [{"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_type", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "30003", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "task_card_number", "location_context": "Task # 30003 block", "confidence_reason": "printed and clear"}, {"value": "25", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "ata_chapter", "location_context": "Task # 30003 block", "confidence_reason": "printed and clear"}, {"value": "30004", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "task_card_number", "location_context": "Task # 30004 block", "confidence_reason": "printed and clear"}, {"value": "27", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "ata_chapter", "location_context": "Task # 300
+  [$.events[3].description] JTOTPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC. PN 822-0809-810.
+  [$.entities[11].value] 4FM4CT
+  [$.entities[16].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[10].value] 4FM4CT
+  [$.sections[5].data] 210406-4 YAW DAMPER 1 IS PERODICALLY DROPPING OUT DURING FLIGHT - INVESTIGATE AND RECTIFY.
+SUPPLIED FAULT HISTORY INDICATED THAT YD2 WAS ORIGINAL FAULT BUT AFTER SWAPPING FCC1A WITH FCC2A & FCC1B WITH FCC2B, THE YAW DAMPER FAULT TRANSFERRED TO YD1. ON ARRIVAL AT THE A/C, NO YAW DAMPER FAULT WAS EVIDENT. FCC1A & FCC1B YAW DAMPER TESTED IAW 22-11-10-802, NO FAULTS SHOWING. AS PER OPERATOR/BOMBARDIER REQUEST, FCC1A SWAPPED WITH FCCA1B IAW 22-12-10-000-801. FCC1A NOW S/N 4F1KNX. FCC1B S/N 4B6DY1. FCC1B REPLACED IAW AMM 22-12-10-000-801. FCC2A SWAPPED WITH FCC2B IAW 22-12-10-000-801. FCC2A NOW S/N 
+  [$.sections[10].data] JTOTPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC. PN 822-0809-810.
+  [$.sections[11].data] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY.
+BBD ADVICE REPLACE FCC. PN 822-0809-810.
+ALTITUDE SELECT ADJUSTER FOUND TO OPERATE ON AP1 & AP2 BUT NOT AP3. DATA SOURCE IS ALTITUDE SELECT. DOES NOT OPERTE WITH CAPTAIN AS SOURCE DATA. FLIGHT CONTROL PANEL OPERATIONAL TEST C/OUT IAW 22-11-01-710-801. FAILS ALTITUDE TEST. INTERROGATION OF REPAIR CODES C/OUT. REPAIR SUMMARY SHOWED FC5' PANEL (LEFT). AS PER BOMBARDIER RECOMMENDATIONS, FCS REPLACED IAW 22-11-01-000/400-801. OPERATIO
+
+====================================================================================================
+ROW 2443 | CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf p.203
+  doc_type: mis_export  title: None
+  metadata: {'dates': '["2020-11-26", "2020-12-13", "2020-11-27", "2020-12-03"]', 'mis_system': 'AMOS', 'ata_chapters': '["22", "45-45-00"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_export', 'is_mis_export': 'True', 'reference_numbers': '[{"type": "work_order", "value": "968646"}, {"type": "work_order", "value": "WO968646"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "aircraft_type", "value": "CL650"}, {"type": "work_order", "value": "CL65HBJTZ008M"}, {"type": "work_order", "value": "CL65HBJTZ008MX"}, {"type": "task_card_', 'regulatory_references': '[]'}
+  entities: [{"value": "AMAC Aerospace (Switzerland) AG", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "mro", "location_context": "Header", "confidence_reason": "printed and clear"}, {"value": "968646", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "Header W/O field", "confidence_reason": "printed and clear"}, {"value": "WO968646", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "work_order", "location_context": "Header Barcode", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "registration", "location_context": "Header Registration field", "confidence_reason": "printed and clear"}, {"value": "CL650", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "aircraft_type", "location_context": "Header Type field", "confidence_reason": "printed and clear"}, {"value": "CL65HBJTZ008M", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "work_order", "location_context": "Header Projekt No field", "confidence_reason": "printed and clear"}, {"value": "CL65HBJTZ008MX", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "work_order", "location_context": "Header Workpackage No field", "confidence_reason": "printed and clear"}, {"value": "26.Nov.2020", "source": "printed", "entity_id": "ent_8
+  [$.events[1].description] PERFORMED TROUBLESHOOTING I.A.W. WM 22-11-00 REV. 19. AND SMARTFIX PLUS TROUBLESHOOTING RECOMMENDATIONS. PERFORMED ACCESS TO FAULTS HISTORY AND FOUND SEVERAL YAW DAMPER DISCONNECT MESSAGES. DOWNLOADED FAULT MESSAGE HISTORY I.A.W. CL-650 AMM 45-45-00-970-801 REV. 19. AND SENT TO BOMBARDIER FOR ANALYSIS AND CONFIRMATION. BOMBARDIER CONFIRMED FCC 2A AT FAULT AND TO BE REPLACED.
+  [$.tables[0].rows[0][0]] 822-0809-810
+  [$.tables[0].rows[0][1]] COMPUTER FCC4006
+  [$.entities[15].value] 822-0809-810
+  [$.entities[16].value] COMPUTER FCC4006
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.sections[1].data] PERFORMED TROUBLESHOOTING I.A.W. WM 22-11-00 REV. 19. AND SMARTFIX PLUS TROUBLESHOOTING RECOMMENDATIONS. PERFORMED ACCESS TO FAULTS HISTORY AND FOUND SEVERAL YAW DAMPER DISCONNECT MESSAGES. DOWNLOADED FAULT MESSAGE HISTORY I.A.W. CL-650 AMM 45-45-00-970-801 REV. 19. AND SENT TO BOMBARDIER FOR ANALYSIS AND CONFIRMATION. BOMBARDIER CONFIRMED FCC 2A AT FAULT AND TO BE REPLACED.
+
+====================================================================================================
+ROW 2452 | CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf p.206
+  doc_type: mis_task_card  title: None
+  metadata: {'dates': '["2020-12-22", "2020-12-30", "2021-01-04"]', 'mis_system': 'AMOS', 'ata_chapters': '["22", "45"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'reference_numbers': '[{"type": "work_order", "value": "970629"}, {"type": "project_number", "value": "CL65HBJTZ009M"}, {"type": "work_package", "value": "CL65HBJTZ009MX"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "task_card_number", "value": "201222-2"}, {"type": "part_number", "value": "822-0809-810"}, {"t', 'regulatory_references': '[]'}
+  entities: [{"value": "970629", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Header field W/O", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "Header field Registration", "confidence_reason": "printed and clear"}, {"value": "CL650", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "aircraft_type", "location_context": "Header field Type", "confidence_reason": "printed and clear"}, {"value": "CL65HBJTZ009M", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "project_number", "location_context": "Header field Projekt No", "confidence_reason": "printed and clear"}, {"value": "CL65HBJTZ009MX", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_package", "location_context": "Header field Workpackage No", "confidence_reason": "printed and clear"}, {"value": "2020-12-22", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "date", "location_context": "Header field Issue Date", "confidence_reason": "printed and clear"}, {"value": "22", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "ata_chapter", "location_context": "Header field ATA", "confidence_reason": "printed and clear"}, {"value": "Boris Fricker", "source": "printed", "entity_id": "ent
+  [$.events[1].description] PERFORMED TROUBLESHOOTING I.A.W. CL-650 AMM REV. 20. CHECKED MDC FOR ACTIVE FAULTS RELATED TO AUTO PILOT SYSTEM. FOUND NO FAULTS. CHECKED MDC FOR HISTORICAL FAULTS RELATED TO AUTO PILOT SYSTEM. FOUND 2 FAULTS (BE-003050 AND BE-003054) POINTING TO ROLL SERVO. PERFORMED MDC FAULT MESSAGE HISTORY REPORT DOWNLOAD I.A.W. CL-650 AMM 45-45-00-970-801 REV. 20. SENT MDC HISTORY TO BOMBARDIER CRC AND ASKED FOR TROUBLESHOOTING RECOMMENDATIONS DUE TO MISSING RECOMMENDATIONS IN SMARTFIX PLUS. BOMBARDIER CRC RECOMMENDED TO SWAP FCC A-CARDS WITH B-CARDS AND MONITOR FOR RE-ACCURRENCE. CUSTOMER REFUSED TO SWAP
+  [$.events[2].description] Removed FCC 1A card P/N 822-0809-810 S/N 1262
+  [$.events[3].description] Installed FCC 1A card P/N 822-0809-810 S/N 4FM601 I.A.W. CL-650 AMM 22-12-10-000/400-801 REV. 20.
+  [$.events[4].description] PERFORMED OPERATIONAL TEST OF FLIGHT CONTROL COMPUTERS (FCC) I.A.W. CL-650 AMM 22-11-00-710-802 REV. 20.
+  [$.tables[0].rows[0][0]] 822-0809-810
+  [$.tables[0].rows[0][1]] COMPUTER FCC4006
+  [$.tables[1].rows[0][0]] 822-0809-810
+  [$.tables[1].rows[0][4]] 822-0809-810
+  [$.tables[1].rows[0][6]] COMPUTER FCC4006
+  [$.entities[9].value] 822-0809-810
+  [$.entities[10].value] COMPUTER FCC4006
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[5].value] 822-0809-810
+  [$.sections[2].data] PERFORMED TROUBLESHOOTING I.A.W. CL-650 AMM REV. 20.
+CHECKED MDC FOR ACTIVE FAULTS RELATED TO AUTO PILOT SYSTEM. FOUND NO FAULTS.
+CHECKED MDC FOR HISTORICAL FAULTS RELATED TO AUTO PILOT SYSTEM. FOUND 2 FAULTS (BE-003050 AND BE-003054) POINTING TO ROLL SERVO.
+PERFORMED MDC FAULT MESSAGE HISTORY REPORT DOWNLOAD I.A.W. CL-650 AMM 45-45-00-970-801 REV. 20.
+SENT MDC HISTORY TO BOMBARDIER CRC AND ASKED FOR TROUBLESHOOTING RECOMMENDATIONS DUE TO MISSING RECOMMENDATIONS IN SMARTFIX PLUS.
+BOMBARDIER CRC RECOMMENDED TO SWAP FCC A-CARDS WITH B-CARDS AND MONITOR FOR RE-ACCURRENCE.
+CUSTOMER REFUSED TO SWAP
+  [$.sections[3].data] CUSTOMER AGREED TO REPLACE FCC 1A CARD BECAUSE THE AUTO PILOT ISSUES STARTED AFTER REPLACEMENT OF FCC 1A CARD.
+  [$.sections[4].data] REPLACED FCC 1A CARD I.A.W. CL-650 AMM 22-12-10-000/400-801 REV. 20.
+PERFORMED OPERATIONAL TEST OF FLIGHT CONTROL COMPUTERS (FCC) I.A.W. CL-650 AMM 22-11-00-710-802 REV. 20.
+
+FCC 1A
+P/N OFF: 822-0809-810S/N OFF: 1262
+P/N ON: 822-0809-810S/N ON: 4FM601
+
+====================================================================================================
+ROW 2465 | CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf p.205
+  doc_type: mis_task_card  title: WORK CARD Рабочая карта
+  metadata: {'dates': '["2020-12-08", "2020-06-10"]', 'mis_system': 'custom', 'ata_chapters': '["22"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'mis_task_card', 'is_mis_export': 'True', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "WC-001"}, {"type": "work_order", "value": "2020-12-08-406-HBJTZ"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "serial_number", "value": "6134"}, {"type": "other", "value": "201207-1"}, {"type": "task_card_number", "value": "22-12-10-000/400-801"}, {"type"', 'regulatory_references': '["MOE 2.6", "MOE 2.16", "145.A.48", "M.A.402(i)", "MOE 3.8.4"]'}
+  entities: [{"value": "WC-001", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Work card № field", "confidence_reason": "printed and clear"}, {"value": "UUWW - VKO", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "other", "location_context": "Location field", "confidence_reason": "printed and clear"}, {"value": "CL650", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "other", "location_context": "Aircraft type field", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "registration", "location_context": "Aircraft reg. field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "msn", "location_context": "Aircraft S/N field", "confidence_reason": "printed and clear"}, {"value": "201207-1", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "other", "location_context": "REFERENCE field", "confidence_reason": "printed and clear"}, {"value": "2020-12-08-406-HBJTZ", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "work_order", "location_context": "WPSS No field", "confidence_reason": "printed and clear"}, {"value": "255:25", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "tsn", "location_con
+  [$.events[0].description] FCC MALFUNCTION - INVESTIGATE AND RECTIFY. FCC1A is replaced IAW Bombardier recommendation, ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC) TASK 22-11-00-710-802 Operational Test of the Flight Control Computer(FCC) passed satisfactory.On/Off PNR 822-0809-810, off SNR 4FM4CV, on SNR 1262
+  [$.entities[11].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[7].value] 822-0809-810
+  [$.sections[0].data] FCC MALFUNCTION - INVESTIGATE AND RECTIFY
+  [$.sections[1].data] FCC1A is replaced IAW Bombardier recommendation,ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC) TASK 22-11-00-710-802 Operational Test of the Flight Control Computer(FCC) passed satisfactory.On/Off PNR 822-0809-810, off SNR 4FM4CV, on SNR 1262
+  [$.sections[2].data[0]] 1) FLIGHT CONTROL COMPUTER P/N 822-0809-810; P/N:822-0809-810; S/N:1262; QTY:1
+
+====================================================================================================
+ROW 16294 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.78
+  doc_type: certificate_of_release_to_service  title: Release to Service Certificate - Airframe Inspection / Maintenance Record
+  metadata: {'dates': '["2021-05-20", "2021-05-28", "2019-05-31"]', 'ata_chapters': '["72", "45", "20", "22", "31"]', 'part_numbers': '["C471120-601", "822-0809-810", "822-782-001"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "CL65HBJTZ011MX"}, {"type": "purchase_order", "value": "6134-21-08"}, {"type": "revision_number", "value": "02"}, {"type": "page_number", "value": "1 of 3"}, {"type": "document_control_number", "value": "AA-MO-12-AC-EASA"}, {"type": "revision_number", "value": "F"}, ', 'regulatory_references': '[]'}
+  entities: [{"value": "CL65HBJTZ011MX", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Work Package No field", "confidence_reason": "printed and clear"}, {"value": "6134-21-08", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "purchase_order", "location_context": "ExecuJet Europe AG PO# field", "confidence_reason": "printed and clear"}, {"value": "02", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "revision_number", "location_context": "ExecuJet Europe AG PO# field", "confidence_reason": "printed and clear"}, {"value": "2021-05-20", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "date", "location_context": "Start Date field", "confidence_reason": "printed and clear"}, {"value": "2021-05-28", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "date", "location_context": "End Date field", "confidence_reason": "printed and clear"}, {"value": "1 of 3", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "page_number", "location_context": "Footer", "confidence_reason": "printed and clear"}, {"value": "AA-MO-12-AC-EASA", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "document_control_number", "location_context": "Footer", "confidence_reason": "printed and clear"}, {"value": "F", "source": "printed", "entity_id": "ent_8", "confidence": "hig
+  [$.events[6].description] SWAPPED FCC 1A WITH FCC 1B AS PER AMM 22-12-10 REV. 21
+  [$.entities[40].value] 822-0809-810
+  [$.entities[40].location_context] Defect Rectifications section (FCC 1A)
+  [$.entities[41].location_context] Defect Rectifications section (FCC 1A S/N OFF)
+  [$.entities[42].value] 4CX4R4
+  [$.entities[42].location_context] Defect Rectifications section (FCC 1A S/N ON)
+  [$.entities[43].value] 822-0809-810
+  [$.entities[43].location_context] Defect Rectifications section (FCC 1B)
+  [$.entities[44].value] 4CX4R4
+  [$.entities[44].location_context] Defect Rectifications section (FCC 1B S/N OFF)
+  [$.entities[45].location_context] Defect Rectifications section (FCC 1B S/N ON)
+  [$.metadata.part_numbers[1]] 822-0809-810
+  [$.metadata.reference_numbers[26].value] 4CX4R4
+  [$.sections[4].data.corrective_action] - PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM. PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1A/B REPORTED YD DISENGAGE CODE "ID#=BE-003058" ON 20MAY2021 @ 09:21 IN AIR.
+- AS PER BOMBARDIER REQUEST SWAPPED FCC 1A WITH FCC 1B AS PER AMM 22-12-10 REV. 21
+FCC 1A P/N: 822-0809-810 S/N OFF: 4F1KNX S/N ON: 4CX4R4
+FCC 1B P/N: 822-0809-810 S/N OFF: 4CX4R4 S/N ON: 4F1KNX
+- AS PER BOMBARDIER REQUEST SWAPPED SSM 1 WITH SSM AS PER AMM 22-12-28 REV. 21
+SSM 1 P/N: 822-782-001 S/N OFF: 4FM5V5 S/N ON: 4FM5V6
+SSM 2 P/N: 822-782-001 S/N OFF: 4FM5V6 S/N ON
+
+====================================================================================================
+ROW 16319 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.79
+  doc_type: certificate_of_release_to_service  title: Release to Service Certificate - Airframe Inspection / Maintenance Record
+  metadata: {'dates': '["2021-05-29"]', 'ata_chapters': '["27", "21"]', 'part_numbers': '["622-9968-102", "M83536-10-024M", "822-0809-810", "586110-9"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'reference_numbers': '[{"type": "work_order", "value": "CL65HBJTZ011MX"}, {"type": "purchase_order", "value": "6134-21-08 REV.02"}, {"type": "serial_number", "value": "4NONV"}, {"type": "serial_number", "value": "494GN"}, {"type": "serial_number", "value": "4CV3RV"}, {"type": "serial_number", "value": "4H1ML8"}, {"type":', 'regulatory_references': '[]'}
+  entities: [{"value": "CL65HBJTZ011MX", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Work Package No field", "confidence_reason": "printed and clear"}, {"value": "6134-21-08 REV.02", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "purchase_order", "location_context": "ExecuJet Europe AG PO# field", "confidence_reason": "printed and clear"}, {"value": "622-9968-102", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "part_number", "location_context": "P/N OFF/ON in NO.1 and NO.2 blocks", "confidence_reason": "printed and clear"}, {"value": "4NONV", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "serial_number", "location_context": "S/N OFF in NO.1 block", "confidence_reason": "printed and clear"}, {"value": "494GN", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "serial_number", "location_context": "S/N ON in NO.1 block", "confidence_reason": "printed and clear"}, {"value": "4CV3RV", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "serial_number", "location_context": "S/N OFF in NO.2 block (first instance)", "confidence_reason": "printed and clear"}, {"value": "4H1ML8", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "serial_number", "location_context": "S/N ON in NO.2 block (first instance)", "confidence_reason": "printed and cl
+  [$.events[3].description] Swapped FCC 2A card with 2B card and found YD 2 still fail.
+  [$.events[4].description] Swapped FCC 1A & 1B with FCC 2A & 2B and found YD 2 still fail.
+  [$.entities[9].value] 822-0809-810
+  [$.entities[9].location_context] FCC P/N
+  [$.entities[10].location_context] FCC S/N OFF/ON
+  [$.entities[11].value] 4FM4CT
+  [$.entities[11].location_context] FCC S/N OFF/ON
+  [$.entities[12].value] 4CX4R4
+  [$.entities[12].location_context] FCC 1A S/N OFF
+  [$.entities[13].location_context] FCC 1B S/N OFF
+  [$.metadata.part_numbers[2]] 822-0809-810
+  [$.metadata.reference_numbers[8].value] 4FM4CT
+  [$.metadata.reference_numbers[9].value] 4CX4R4
+  [$.sections[3].data] - AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL.
+FCC 2A P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4FM4CT
+FCC 2B P/N: 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4F1KNY
+  [$.sections[4].data] - AS PER BOMBARDIER REQUEST SWAPPED FCC 1A & 1B WITH FCC 2A & 2B. FOUND YD 2 STILL FAIL.
+FCC 1A P/N: 822-0809-810 S/N OFF: 4CX4R4 S/N ON: 4FM4CT
+FCC 1B P/N: 822-0809-810 S/N OFF: 4F1KNX S/N ON: 4F1KNY
+FCC 2A P/N: 822-0809-810 S/N OFF: 4FM4CT S/N ON: 4CX4R4
+FCC 2B P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4F1KNX
+
+====================================================================================================
+ROW 16333 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.73
+  doc_type: certificate_of_release_to_service  title: Certificate of Release to Service AIRCRAFT
+  metadata: {'dates': '["2021-04-12", "2021-04-19"]', 'ata_chapters': '["28-10-00-620-802", "72-00-00", "49-30-52", "25-30-05-000-803", "20-50-00-04", "22-11-710-802", "22-12-10-000-801", "22-11-00-710-802", "20-12-00-20-20-00"]', 'part_numbers': '["822-0809-810", "822-0182-101"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "WP46219"}, {"type": "work_order", "value": "WO 6134-21-04"}, {"type": "other", "value": "REV 21"}, {"type": "other", "value": "REV 60"}, {"type": "task_card_number", "value": "30004"}, {"type": "serial_number", "value": "4B6DY1"}, {"type": "serial_number", "value": ', 'regulatory_references': '[]'}
+  entities: [{"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_type", "location_context": "Header field 'Aircraft Type'", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "Header field 'Registration'", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "Header field 'S/N'", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "Header field 'WP'", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "operator", "location_context": "Section '1 General Data', field 'Operator/Customer'", "confidence_reason": "printed and clear"}, {"value": "TAG Maintenance Services SA (TMS Farnborough)", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "mro", "location_context": "Section '1 General Data', field 'AMO/MRO identification / Contact'", "confidence_reason": "printed and clear"}, {"value": "Whatley J.", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "person", "location_context": "Section '1 General Data'
+  [$.events[7].description] Installation of FLIGHT CONTROL COMPUTER P/N 822-0809-810 S/N 4CX4R4
+  [$.events[8].description] Removal of FLIGHT CONTROL COMPUTER P/N 822-0809-810 S/N 4B6DY1
+  [$.tables[0].rows[0][0]] FLIGHT CONTROL COMPUTER
+  [$.tables[0].rows[0][3]] FCC1B
+  [$.tables[0].rows[0][4]] 822-0809-810
+  [$.tables[0].rows[0][6]] 822-0809-810
+  [$.tables[0].rows[0][7]] 4CX4R4
+  [$.entities[16].value] 822-0809-810
+  [$.entities[18].value] 4CX4R4
+  [$.entities[45].value] 4FM4CT
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 4CX4R4
+  [$.metadata.reference_numbers[27].value] 4FM4CT
+  [$.sections[9].data.corrective_action] INVESTIGATE AND RECTIFY. SUPPLIED FAULT HISTORY INDICATED THAT YD2 WAS ORIGINAL FAULT BUT AFTER SWAPPING FCC1A WITH FCC2A & FCC1B WITH FCC2B, THE YAW DAMPER FAULT TRANSFERRED TO YD1. ON ARRIVAL AT THE A/C, NO YAW DAMPER FAULT WAS EVIDENT. FCC1A & FCC1B YAW DAMPER TESTED IAW 22-11-710-802. NO FAULTS SHOWING. AS PER OPERATOR/BOMBARDIER REQUEST, FCC1A SWAPPED WITH FCCA1B IAW 22-12-10-000-801. FCC1A NOW S/N 4F1KNX. FCC1B S/N 4B6DY1. FCC1B SWAPPED WITH FCC2B IAW 22-12-10-000-801. FCC2A NOW S/N 4F1KNX. FCC2B SWAPPED WITH FCC2A NOW S/N 4FM4CT. OPERTIOANL TEST OF ALL FCC'S C/OUT IAW 22-11-00-710-802. 
+
+====================================================================================================
+ROW 16370 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.59
+  doc_type: certificate_of_release_to_service  title: CERTIFICATE OF RELEASE TO SERVICE
+  metadata: {'dates': '["2020-08-10", "2020-12-05", "2021-12-05", "2020-11"]', 'ata_chapters': '["25", "26"]', 'part_numbers': '["822-0809-810", "26-23-01-720-802"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "approval_number", "value": "EASA.145.0472"}, {"type": "work_order", "value": "2020-12-05-397-HBJTZ"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "msn", "value": "6134"}, {"type": "other", "value": "CH-AMP-CL650-6134 Issue"}, {"type": "work_order", "value": "6134-20-16"}, {"type', 'regulatory_references': '["Part-145", "MOE 2.6", "MOE 2.16"]'}
+  entities: [{"value": "EASA.145.0472", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "approval_number", "location_context": "Header field", "confidence_reason": "printed and clear"}, {"value": "2020-12-05-397-HBJTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "Header field 'Project/WPSS ref.'", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "operator", "location_context": "Header field 'Operator'", "confidence_reason": "printed and clear"}, {"value": "CL650", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "other", "location_context": "Header field 'Aircraft type'", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "registration", "location_context": "Header field 'Aircraft reg.'", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "msn", "location_context": "Header field 'Aircraft S/N'", "confidence_reason": "printed and clear"}, {"value": "CH-AMP-CL650-6134 Issue", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "other", "location_context": "Header field 'AMP ref.'", "confidence_reason": "printed and clear"}, {"value": "6134-20-16", 
+  [$.entities[10].value] 822-0809-810
+  [$.entities[10].location_context] Works description section 1, FCC PNR
+  [$.entities[11].location_context] Works description section 1, FCC 1A SNR
+  [$.entities[12].value] 4FM4CT
+  [$.entities[12].location_context] Works description section 1, FCC 2A SNR
+  [$.entities[13].location_context] Works description section 1, FCC 1B SNR
+  [$.entities[14].location_context] Works description section 1, FCC 2B SNR
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[6].value] 822-0809-810
+  [$.metadata.reference_numbers[8].value] 4FM4CT
+  [$.sections[0].data.corrective_action] Operational Test of the Yaw Damper Linear Actuators c/out.No fault found..FCC 1A card swapped with FCC2A and FCC1B swapped with FCC2B i.a.w.BBD Smart Fix Plus recommendation. Operational Test of the Flight Control Computers (FCC) c/out.satis.HIL ITEM Page 1 Item 1 is cleared. Current position: FCC 1A:PNR 822-0809-810 SNR:4FM4CV; FCC 2A PNR: 822-0809-810 SNR:4FM4CT FCC1B :PNR 822-0809-810 SNR:4F1KNX FCC 2B PNR:822-0809-810 SNR:4F1KNY
+
+====================================================================================================
+ROW 16378 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.74
+  doc_type: certificate_of_release_to_service  title: Certificate of Release to Service AIRCRAFT
+  metadata: {'dates': '["2021-04-19"]', 'ata_chapters': '["22-11-01"]', 'part_numbers': '["822-0809-810", "822-0182-101"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "registration", "value": "HB-JTZ"}, {"type": "serial_number", "value": "6134"}, {"type": "work_order", "value": "WP46219"}, {"type": "task_card_number", "value": "40001"}, {"type": "part_number", "value": "822-0809-810"}, {"type": "task_card_number", "value": "30004"}, {"type": "part_numbe', 'regulatory_references': '["Part-145"]'}
+  entities: [{"value": "CHALLENGER 650", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "aircraft_type", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "registration", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "header", "confidence_reason": "printed and clear"}, {"value": "WP46219", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "work_order", "location_context": "header and footer", "confidence_reason": "printed and clear"}, {"value": "40001", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "task_card_number", "location_context": "section heading", "confidence_reason": "printed and clear"}, {"value": "822-0809-810", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "part_number", "location_context": "section 40001 text", "confidence_reason": "printed and clear"}, {"value": "22-11-01", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "ata_chapter", "location_context": "section 40001 text", "confidence_reason": "printed and clear, from AMM reference"}, {"value": "30004", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type": "task_c
+  [$.events[0].description] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC. PN 822-0809-810. FCC REPLACED. AIRCRAFT FUNCTIONAL OPERATIONAL TEST CARRIED OUT IAW AMM 22-11-01-000/400-801. ALTITUDE SELECT DOES NOT OPERTE WITH CAPTAIN AS SOURCE DATA. FLIGHT CONTROL PANEL OPERATIONAL TEST C/OUT IAW 22-11-01-000/400-801. FAILS ALTITUDE TEST. INTERROGATION OF REPAIR CODES C/OUT. REPAIR SUMMARY SHOWED FC5: PANEL (LEFT). AS PER BOMBARDIER RECOMMENDATIONS, FCS REPLACED IAW 22-11-01-000/400-
+  [$.entities[5].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.metadata.reference_numbers[4].value] 822-0809-810
+  [$.sections[0].data] AUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC. PN 822-0809-810. FCC REPLACED. AIRCRAFT FUNCTIONAL OPERATIONAL TEST CARRIED OUT IAW AMM 22-11-01-000/400-801. ALTITUDE SELECT DOES NOT OPERTE WITH CAPTAIN AS SOURCE DATA. FLIGHT CONTROL PANEL OPERATIONAL TEST C/OUT IAW 22-11-01-000/400-801. FAILS ALTITUDE TEST. INTERROGATION OF REPAIR CODES C/OUT. REPAIR SUMMARY SHOWED FC5: PANEL (LEFT). AS PER BOMBARDIER RECOMMENDATIONS, FCS REPLACED IAW 22-11-01-000/400-
+
+====================================================================================================
+ROW 16381 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.60
+  doc_type: certificate_of_release_to_service  title: CERTIFICATE OF RELEASE TO SERVICE
+  metadata: {'dates': '["2020-08-10", "2020-12-08"]', 'ata_chapters': '["22"]', 'part_numbers': '["822-0809-810"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "form_number", "value": "2.16-2"}, {"type": "revision_number", "value": "Iss.2, Rev.0"}, {"type": "approval_number", "value": "EASA.145.0472"}, {"type": "project_reference", "value": "2020-12-08-406-HBJTZ"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "work_order", "value": "6134', 'regulatory_references': '["Part-145", "MOE 2.6", "MOE 2.16"]'}
+  entities: [{"value": "EASA.145.0472", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "certificate_number", "location_context": "Header field 'EASA.145.0472'", "confidence_reason": "printed and clear"}, {"value": "2020-12-08-406-HBJTZ", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "work_order", "location_context": "Header field 'Project/WPSS ref.'", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "registration", "location_context": "Header field 'Aircraft reg.'", "confidence_reason": "printed and clear"}, {"value": "EXECUJET EUROPE AG", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "operator", "location_context": "Header field 'Operator'", "confidence_reason": "printed and clear"}, {"value": "6134-20-17", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "work_order", "location_context": "Header field 'Work order'", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "msn", "location_context": "Header field 'Aircraft S/N'", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "serial_number", "location_context": "Header field 'Aircraft S/N'", "confidence_reason": "printed and clear"}, {"val
+  [$.events[0].description] FCC MALFUNCTION - INVESTIGATE AND RECTIFY
+  [$.events[1].description] FCC1A is replaced IAW Bombardier recommendation, ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC)
+  [$.events[2].description] Operational Test of the Flight Control Computer(FCC) passed satisfactory.
+  [$.entities[14].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.sections[0].data] 1. 201207-1 FCC MALFUNCTION - INVESTIGATE AND RECTIFY
+FCC1A is replaced IAW Bombardier recommendation, ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC),TASK 22-11-00-710-802 Operational Test of the Flight Control Computer(FCC) passed satisfactory.On/Off PNR 822-0809-810,off SNR 4FM4CV, on SNR 1262
+
+====================================================================================================
+ROW 16387 | CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf p.61
+  doc_type: certificate_of_release_to_service  title: Release to Service Certificate - Airframe Inspection / Maintenance Record
+  metadata: {'dates': '["2020-12-22", "2021-01-04", "2019-05-31"]', 'ata_chapters': '["22", "28", "33", "34"]', 'part_numbers': '["822-0809-810", "798976-1-1", "601-62900-7", "ST315-3L"]', 'document_type': 'certificate_of_release_to_service', 'is_mis_export': 'False', 'serial_number': '6134', 'reference_numbers': '[{"type": "work_order", "value": "CL65HBJTZ009MX"}, {"type": "purchase_order", "value": "6134-20-18 REV.2"}, {"type": "registration", "value": "HB-JTZ"}, {"type": "serial_number", "value": "801539"}, {"type": "serial_number", "value": "801538"}, {"type": "serial_number", "value": "P-0535"}, {"type":', 'regulatory_references': '[]'}
+  entities: [{"value": "CL65HBJTZ009MX", "source": "printed", "entity_id": "ent_1", "confidence": "high", "entity_type": "work_order", "location_context": "Work Package No field", "confidence_reason": "printed and clear"}, {"value": "6134-20-18 REV.2", "source": "printed", "entity_id": "ent_2", "confidence": "high", "entity_type": "purchase_order", "location_context": "ExecuJet Europe AG PO# field", "confidence_reason": "printed and clear"}, {"value": "6134", "source": "printed", "entity_id": "ent_3", "confidence": "high", "entity_type": "msn", "location_context": "Serial Number field", "confidence_reason": "printed and clear"}, {"value": "HB-JTZ", "source": "printed", "entity_id": "ent_4", "confidence": "high", "entity_type": "registration", "location_context": "Registration field", "confidence_reason": "printed and clear"}, {"value": "269:46", "source": "printed", "entity_id": "ent_5", "confidence": "high", "entity_type": "tsn", "location_context": "Airframe TAH field", "confidence_reason": "printed and clear"}, {"value": "110", "source": "printed", "entity_id": "ent_6", "confidence": "high", "entity_type": "csn", "location_context": "Airframe TAC field", "confidence_reason": "printed and clear"}, {"value": "801539", "source": "printed", "entity_id": "ent_7", "confidence": "high", "entity_type": "esn", "location_context": "Engine No 1 SN field", "confidence_reason": "printed and clear"}, {"value": "269:46", "source": "printed", "entity_id": "ent_8", "confidence": "high", "entity_type":
+  [$.entities[17].value] 822-0809-810
+  [$.entities[19].value] 822-0809-810
+  [$.metadata.part_numbers[0]] 822-0809-810
+  [$.sections[1].data.corrective_action] REPLACED FAULTY FCC 1A CARD AS PER AMM 22-12-10 REV.20
+P/N OFF: 822-0809-810		P/N ON: 822-0809-810
+S/N OFF: 1262			S/N ON: 4FM601
+
+DONE

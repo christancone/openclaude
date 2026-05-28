@@ -30,6 +30,28 @@ MERGE (src)-[r:ON_DATE {role: $role}]->(d)
 RETURN d.iso AS iso
 """
 
+# Fast-path: label baked in for index-seek.
+_DATE_LABELS = frozenset({
+    "Asset", "Document", "Page", "Form1", "CRS", "WorkPackage", "JobCard",
+    "NonRoutineCard", "Repair", "Modification", "STC", "BorescopeReport",
+    "NDTReport", "DentBuckleEntry", "Stamp", "Event", "ComponentSnapshot",
+    "AuditRun", "Component",
+})
+
+
+def _link_date_typed_query(source_label: str) -> str:
+    if source_label not in _DATE_LABELS:
+        return _LINK_DATE_CYPHER  # fallback to the slow but correct query
+    return f"""
+MATCH (src:{source_label} {{asset_id: $asset_id, value: $source_uid}})
+WITH src
+MERGE (d:Date {{asset_id: $asset_id, iso: $iso}})
+ON CREATE SET d.year = $year, d.month = $month, d.day = $day, d.dow = $dow,
+              d.created_in_phase = $created_in_phase
+MERGE (src)-[r:ON_DATE {{role: $role}}]->(d)
+RETURN d.iso AS iso
+"""
+
 # Special form when the source node uses `iso` as its key (i.e. another Date
 # node — won't happen in practice). Kept symmetric for completeness; not used.
 
@@ -163,7 +185,7 @@ def link_date(
 
     iso = d.isoformat()
     result = tx.run(
-        _LINK_DATE_CYPHER,
+        _link_date_typed_query(source_label),
         asset_id=asset_id,
         source_uid=source_uid,
         source_label=source_label,

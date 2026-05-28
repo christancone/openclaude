@@ -1,0 +1,30 @@
+
+========== PHASE 6 START 2026-05-19T07:33:38.792797+00:00 ==========
+[phase6] stamped_by=6473 carries_cert=2768
+[phase6] form1_signed_by=148
+[phase6] form1_issued_by=131
+[phase6] post_sb_release=3
+[phase6] wp_includes: jc=4601, nrc=173, crs=833, f1=579
+[phase6] pn_alias_ocr_variant=293
+[phase6] pn_alias_incomplete=23
+[phase6] sn_alias_separator=47
+[phase6] binds_to_fallback=128
+[phase6] running verify_no_fact_orphans ...
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `CORROBORATED_BY` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=4, column=57, offset=139>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 139, 'line': 4, 'column': 57}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\nMATCH (n {asset_id: $asset_id})\nWHERE any(l IN labels(n) WHERE l IN $fact_labels)\n  AND NOT EXISTS { (n)-[:EVIDENCED_BY|CARRIES|HAS_STAMP|CORROBORATED_BY]-(:Page) }\nRETURN labels(n) AS labels, count(*) AS n\n'
+========== PHASE 6 END 2026-05-19T07:34:24.167271+00:00  dur=45s ==========
+== Phase 6 verification ==
+  - fact_nodes_no_evidence: 0
+== Phase 6 counters ==
+  - binds_to_fallback: 128
+  - carries_cert: 2768
+  - form1_issued_by: 131
+  - form1_signed_by: 148
+  - pn_alias_incomplete: 23
+  - pn_alias_ocr_variant: 293
+  - post_sb_release: 3
+  - sn_alias_separator: 47
+  - stamped_by: 6473
+  - wp_includes_crs: 833
+  - wp_includes_form1: 579
+  - wp_includes_jobcard: 4601
+  - wp_includes_nonroutinecard: 173

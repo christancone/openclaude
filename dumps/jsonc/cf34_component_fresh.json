@@ -1,0 +1,883 @@
+﻿{
+    "schema_version":  "1.0.0",
+    "generated_at":  "2026-05-12T15:36:22Z",
+    "audit_run_id":  "poc_cf34_walked_edges",
+    "asset_id":  "CL650-6134",
+    "note":  "Proof-of-concept: ONE component (CF34 RH engine) rebuilt by walking [:AFFECTED]-\u003e[:ON_DATE] and [:EVIDENCED_BY]-\u003ePage\u003c-[:HAS_PAGE]-Document. Compare to components[0] in aircraft_audit.json.",
+    "components":  [
+                       {
+                           "id":  "comp_engine_CF34-3B_801538",
+                           "description":  {
+                                               "value":  "Engine (seeded from asset_profile.expected_components) — CF34-3B S/N 801538",
+                                               "unit":  null,
+                                               "method":  "confirmed",
+                                               "documents":  [
+                                                                 {
+                                                                     "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                                 }
+                                                             ],
+                                               "citations":  [
+
+                                                             ]
+                                           },
+                           "part_number":  {
+                                               "value":  "CF34-3B",
+                                               "unit":  null,
+                                               "method":  "confirmed",
+                                               "documents":  [
+                                                                 {
+                                                                     "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                                 }
+                                                             ],
+                                               "citations":  [
+
+                                                             ]
+                                           },
+                           "alternate_part_numbers":  [
+
+                                                      ],
+                           "serial_number":  {
+                                                 "value":  "801538",
+                                                 "unit":  null,
+                                                 "method":  "confirmed",
+                                                 "documents":  [
+                                                                   {
+                                                                       "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                                   }
+                                                               ],
+                                                 "citations":  [
+
+                                                               ]
+                                             },
+                           "position":  {
+                                            "value":  "RH",
+                                            "unit":  null,
+                                            "method":  "confirmed",
+                                            "justification":  "Position parsed from install event description (R/H position)",
+                                            "documents":  [
+                                                              {
+                                                                  "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                              }
+                                                          ],
+                                            "citations":  [
+                                                              {
+                                                                  "document":  3,
+                                                                  "page":  73,
+                                                                  "regions":  [
+                                                                                  {
+                                                                                      "bbox":  null,
+                                                                                      "contribution":  "Install event for CF34-3B S/N 801538 on 2018-12-05",
+                                                                                      "excerpt":  "This engine has been installed on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. The work desc…"
+                                                                                  }
+                                                                              ]
+                                                              }
+                                                          ]
+                                        },
+                           "component_category":  "Engine_Assembly",
+                           "part_status_at_installation":  {
+                                                               "value":  "New",
+                                                               "unit":  null,
+                                                               "method":  "inferred",
+                                                               "justification":  "Install description contains \u0027New Installation of General Electric Company CF34-3B engine\u0027.",
+                                                               "documents":  [
+
+                                                                             ],
+                                                               "citations":  [
+
+                                                                             ]
+                                                           },
+                           "status":  "DISCOVERED",
+                           "parent_assembly_id":  null,
+                           "first_install_date":  {
+                                                      "value":  "2018-12-05",
+                                                      "unit":  null,
+                                                      "method":  "confirmed",
+                                                      "documents":  [
+                                                                        {
+                                                                            "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                                        }
+                                                                    ],
+                                                      "citations":  [
+                                                                        {
+                                                                            "document":  3,
+                                                                            "page":  73,
+                                                                            "regions":  [
+                                                                                            {
+                                                                                                "bbox":  null,
+                                                                                                "contribution":  "Install event for CF34-3B S/N 801538 on 2018-12-05",
+                                                                                                "excerpt":  "This engine has been installed on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. The work desc…"
+                                                                                            }
+                                                                                        ]
+                                                                        }
+                                                                    ]
+                                                  },
+                           "first_install_ac_tsn":  {
+                                                        "value":  null,
+                                                        "unit":  "h",
+                                                        "method":  "unresolvable",
+                                                        "justification":  "Event description references TSN but value not parsed into structured event property. Free-text extraction needed.",
+                                                        "recommended_documents":  [
+                                                                                      "Engine logbook page showing AC TSN at install on 2018-12-05"
+                                                                                  ],
+                                                        "documents":  [
+
+                                                                      ],
+                                                        "citations":  [
+
+                                                                      ]
+                                                    },
+                           "first_install_ac_csn":  {
+                                                        "value":  null,
+                                                        "unit":  "cy",
+                                                        "method":  "unresolvable",
+                                                        "justification":  "Same as TSN — not parsed into structured field.",
+                                                        "recommended_documents":  [
+                                                                                      "Engine logbook page showing AC CSN at install on 2018-12-05"
+                                                                                  ],
+                                                        "documents":  [
+
+                                                                      ],
+                                                        "citations":  [
+
+                                                                      ]
+                                                    },
+                           "last_repair_date":  {
+                                                    "value":  null,
+                                                    "unit":  null,
+                                                    "method":  "unresolvable",
+                                                    "justification":  "Zero shop_visit events linked to this component in graph (out of 3 globally).",
+                                                    "recommended_documents":  [
+                                                                                  "Engine shop visit report / overhaul Form 1"
+                                                                              ],
+                                                    "documents":  [
+
+                                                                  ],
+                                                    "citations":  [
+
+                                                                  ]
+                                                },
+                           "last_repair_ac_tsn":  {
+                                                      "value":  null,
+                                                      "unit":  "h",
+                                                      "method":  "unresolvable",
+                                                      "justification":  "No shop_visit event.",
+                                                      "documents":  [
+
+                                                                    ],
+                                                      "citations":  [
+
+                                                                    ]
+                                                  },
+                           "last_repair_ac_csn":  {
+                                                      "value":  null,
+                                                      "unit":  "cy",
+                                                      "method":  "unresolvable",
+                                                      "justification":  "No shop_visit event.",
+                                                      "documents":  [
+
+                                                                    ],
+                                                      "citations":  [
+
+                                                                    ]
+                                                  },
+                           "removal_date":  {
+                                                "value":  "2021-09-10",
+                                                "unit":  null,
+                                                "method":  "confirmed",
+                                                "documents":  [
+                                                                  {
+                                                                      "id":  "fad0018d-d66b-4463-826a-ce378bb5a65d"
+                                                                  }
+                                                              ],
+                                                "citations":  [
+                                                                  {
+                                                                      "document":  7,
+                                                                      "page":  3,
+                                                                      "regions":  [
+                                                                                      {
+                                                                                          "bbox":  null,
+                                                                                          "contribution":  "Removal event for CF34-3B S/N 801538 on 2021-09-10",
+                                                                                          "excerpt":  "MAIN BATTERY P/N OFF/ON: 1756-3 (601R59041-3) S/N OFF/ON: 0905200213796"
+                                                                                      }
+                                                                                  ]
+                                                                  }
+                                                              ]
+                                            },
+                           "removal_tsn":  {
+                                               "value":  null,
+                                               "unit":  "h",
+                                               "method":  "unresolvable",
+                                               "justification":  "Removal event has date but no parsed TSN value.",
+                                               "documents":  [
+
+                                                             ],
+                                               "citations":  [
+
+                                                             ]
+                                           },
+                           "removal_csn":  {
+                                               "value":  null,
+                                               "unit":  "cy",
+                                               "method":  "unresolvable",
+                                               "justification":  "Removal event has date but no parsed CSN value.",
+                                               "documents":  [
+
+                                                             ],
+                                               "citations":  [
+
+                                                             ]
+                                           },
+                           "calendar_months_since_new":  {
+                                                             "value":  null,
+                                                             "unit":  "months",
+                                                             "method":  "unresolvable",
+                                                             "justification":  "Manufacture date not present in graph.",
+                                                             "documents":  [
+
+                                                                           ],
+                                                             "citations":  [
+
+                                                                           ]
+                                                         },
+                           "hours_since_repair":  {
+                                                      "value":  null,
+                                                      "unit":  "h",
+                                                      "method":  "unresolvable",
+                                                      "justification":  "Depends on shop_visit data not present.",
+                                                      "documents":  [
+
+                                                                    ],
+                                                      "citations":  [
+
+                                                                    ]
+                                                  },
+                           "cycles_since_repair":  {
+                                                       "value":  null,
+                                                       "unit":  "cy",
+                                                       "method":  "unresolvable",
+                                                       "justification":  "Depends on shop_visit data not present.",
+                                                       "documents":  [
+
+                                                                     ],
+                                                       "citations":  [
+
+                                                                     ]
+                                                   },
+                           "modification_status":  {
+                                                       "value":  null,
+                                                       "unit":  null,
+                                                       "method":  "unresolvable",
+                                                       "justification":  "No :Modification or :STC edge from this component.",
+                                                       "documents":  [
+
+                                                                     ],
+                                                       "citations":  [
+
+                                                                     ]
+                                                   },
+                           "special_inspections":  [
+
+                                                   ],
+                           "subcomponent_change_history":  [
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-05",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  3,
+                                                                                                            "page":  73,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-05",
+                                                                                                                                "excerpt":  "This engine has been installed on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. The work desc…"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "This engine has been installed on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. The work desc…"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-05",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "db645a73-6e0b-418d-ad71-81a9db619791"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  3,
+                                                                                                            "page":  71,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-05",
+                                                                                                                                "excerpt":  "Engine S/N 801538 installed on aircraft CL-600-2B16 / 6134 at R/H position. Installed with 0.0 TSN and 0 CSN."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Engine S/N 801538 installed on aircraft CL-600-2B16 / 6134 at R/H position. Installed with 0.0 TSN and 0 CSN."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-05",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "aab37df2-d648-4ccf-a115-e70f9e086f4c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  5,
+                                                                                                            "page":  14,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-05",
+                                                                                                                                "excerpt":  "New Installation of General Electric Company CF34-3B engine, S/N 801538, in R/H position."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "New Installation of General Electric Company CF34-3B engine, S/N 801538, in R/H position."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-05",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "d7d271a2-cd0f-42af-afac-47815ce7a394"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  6,
+                                                                                                            "page":  73,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-05",
+                                                                                                                                "excerpt":  "Engine 801538 installed in R/H position on aircraft CL-600-2B16 / 6134. Installed TSN: 0.0, CSN: 0. Hours this installation: 0.0."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Engine 801538 installed in R/H position on aircraft CL-600-2B16 / 6134. Installed TSN: 0.0, CSN: 0. Hours this installation: 0.0."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-05",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "d7d271a2-cd0f-42af-afac-47815ce7a394"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  6,
+                                                                                                            "page":  75,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-05",
+                                                                                                                                "excerpt":  "Engine installation on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. Work performed in accord…"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Engine installation on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. Work performed in accord…"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-05",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "4ea25bc3-b7db-424b-a27e-737ff355359d"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  0,
+                                                                                                            "page":  73,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-05",
+                                                                                                                                "excerpt":  "Engine 801538 installed on aircraft CL-600-2B16 / 6134 at position R/H with TSN 0.0, CSN 0, TSO -, CSO -. Hours this installation: 0.0."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Engine 801538 installed on aircraft CL-600-2B16 / 6134 at position R/H with TSN 0.0, CSN 0, TSO -, CSO -. Hours this installation: 0.0."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2018-12-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "aab37df2-d648-4ccf-a115-e70f9e086f4c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  5,
+                                                                                                            "page":  14,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2018-12-10",
+                                                                                                                                "excerpt":  "New Installation of General Electric Company CF34-3B engine, S/N 801539, in L/H position."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "New Installation of General Electric Company CF34-3B engine, S/N 801539, in L/H position."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2019-02-17",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "d2862729-b323-450a-9def-3506edd84b3b"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  4,
+                                                                                                            "page":  17,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2019-02-17",
+                                                                                                                                "excerpt":  "New Installation of General Electric Company CF34-3B engine, S/N 801539, in L/H position."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "New Installation of General Electric Company CF34-3B engine, S/N 801539, in L/H position."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2019-02-17",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  2,
+                                                                                                            "page":  113,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2019-02-17",
+                                                                                                                                "excerpt":  "Installation of General Electric Company CF34-3B engine, S/N 801539, in L/H position. Reason: New Installation."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Installation of General Electric Company CF34-3B engine, S/N 801539, in L/H position. Reason: New Installation."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2019-02-17",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "4ea25bc3-b7db-424b-a27e-737ff355359d"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  0,
+                                                                                                            "page":  75,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2019-02-17",
+                                                                                                                                "excerpt":  "Engine has been installed on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. The work described…"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Engine has been installed on the right hand side of A/C Model CL-600-2B16 (604 Variant), S/N 6134. Engine and Starter have been serviced with Aeroshell 500 as per FTP # S604-121011. The work described…"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2019-02-17",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  2,
+                                                                                                            "page":  113,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2019-02-17",
+                                                                                                                                "excerpt":  "Installation of General Electric Company CF34-3B engine, S/N 801538, in R/H position. Reason: New Installation."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "Installation of General Electric Company CF34-3B engine, S/N 801538, in R/H position. Reason: New Installation."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2019-02-17",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "d2862729-b323-450a-9def-3506edd84b3b"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  4,
+                                                                                                            "page":  17,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2019-02-17",
+                                                                                                                                "excerpt":  "New Installation of General Electric Company CF34-3B engine, S/N 801538, in R/H position."
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "New Installation of General Electric Company CF34-3B engine, S/N 801538, in R/H position."
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-03-18",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "622b0d2d-4645-4ac8-b569-5ff858767240"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  1,
+                                                                                                            "page":  27,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2021-03-18",
+                                                                                                                                "excerpt":  "REPLACED RIGHT SIDE COCKPIT USB OUTLET IAW AMM 24-61-65"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "REPLACED RIGHT SIDE COCKPIT USB OUTLET IAW AMM 24-61-65"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-09-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  2,
+                                                                                                            "page":  91,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2021-09-10",
+                                                                                                                                "excerpt":  "MAIN BATTERY installation"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "MAIN BATTERY installation"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-09-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  2,
+                                                                                                            "page":  91,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Install on 2021-09-10",
+                                                                                                                                "excerpt":  "APU BATTERY installation"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "install",
+                                                                   "description":  "APU BATTERY installation"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-09-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "fad0018d-d66b-4463-826a-ce378bb5a65d"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  7,
+                                                                                                            "page":  3,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Removal on 2021-09-10",
+                                                                                                                                "excerpt":  "MAIN BATTERY P/N OFF/ON: 1756-3 (601R59041-3) S/N OFF/ON: 0905200213796"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "removal",
+                                                                   "description":  "MAIN BATTERY P/N OFF/ON: 1756-3 (601R59041-3) S/N OFF/ON: 0905200213796"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-09-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "fad0018d-d66b-4463-826a-ce378bb5a65d"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  7,
+                                                                                                            "page":  3,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Removal on 2021-09-10",
+                                                                                                                                "excerpt":  "APU BATTERY P/N OFF/ON: 40178-24 (600-59151-11) S/N OFF/ON: 090520021095E"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "removal",
+                                                                   "description":  "APU BATTERY P/N OFF/ON: 40178-24 (600-59151-11) S/N OFF/ON: 090520021095E"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-09-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  2,
+                                                                                                            "page":  91,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Removal on 2021-09-10",
+                                                                                                                                "excerpt":  "MAIN BATTERY removal"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "removal",
+                                                                   "description":  "MAIN BATTERY removal"
+                                                               },
+                                                               {
+                                                                   "event_date":  {
+                                                                                      "value":  "2021-09-10",
+                                                                                      "unit":  null,
+                                                                                      "method":  "confirmed",
+                                                                                      "documents":  [
+                                                                                                        {
+                                                                                                            "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c"
+                                                                                                        }
+                                                                                                    ],
+                                                                                      "citations":  [
+                                                                                                        {
+                                                                                                            "document":  2,
+                                                                                                            "page":  91,
+                                                                                                            "regions":  [
+                                                                                                                            {
+                                                                                                                                "bbox":  null,
+                                                                                                                                "contribution":  "Removal on 2021-09-10",
+                                                                                                                                "excerpt":  "APU BATTERY removal"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                  },
+                                                                   "event_kind":  "removal",
+                                                                   "description":  "APU BATTERY removal"
+                                                               }
+                                                           ],
+                           "form_1_reference":  {
+                                                    "value":  null,
+                                                    "unit":  null,
+                                                    "method":  "unresolvable",
+                                                    "justification":  "FORM1_MISSING finding raised — 9 search strategies (wo_pages, sn_alone, alt_pn, filename_pn, filename_sn, batch_range, page_neighbourhood, siblings, oem_typical) returned 0 :Form1-[:RELEASES]-\u003ecomponent matches.",
+                                                    "recommended_documents":  [
+                                                                                  "EASA/FAA Form 1 covering CF34-3B S/N 801538"
+                                                                              ],
+                                                    "documents":  [
+
+                                                                  ],
+                                                    "citations":  [
+
+                                                                  ]
+                                                },
+                           "snapshot_date":  {
+                                                 "value":  null,
+                                                 "unit":  null,
+                                                 "method":  "unresolvable",
+                                                 "justification":  "Zero :ComponentSnapshot nodes exist in the graph.",
+                                                 "documents":  [
+
+                                                               ],
+                                                 "citations":  [
+
+                                                               ]
+                                             },
+                           "finding_ids":  [
+                                               "F-0000",
+                                               "F-0001"
+                                           ]
+                       }
+                   ],
+    "dossier_documents":  [
+                              {
+                                  "id":  "4ea25bc3-b7db-424b-a27e-737ff355359d",
+                                  "file_name":  "RH ENGINE LOGBOOK.pdf"
+                              },
+                              {
+                                  "id":  "622b0d2d-4645-4ac8-b569-5ff858767240",
+                                  "file_name":  "CL650-6134_boA_bii_Nov-2020_to_Mar-2021.pdf"
+                              },
+                              {
+                                  "id":  "0e80f9d3-e6a8-4848-808b-aa94f23cb66c",
+                                  "file_name":  "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf"
+                              },
+                              {
+                                  "id":  "db645a73-6e0b-418d-ad71-81a9db619791",
+                                  "file_name":  "CL650-6134_boA_bie_CF34-3B 801538_RH Engine_18-Oct-2022.pdf"
+                              },
+                              {
+                                  "id":  "d2862729-b323-450a-9def-3506edd84b3b",
+                                  "file_name":  "AIRCRAFT TECHNICAL LOGBOOK.pdf"
+                              },
+                              {
+                                  "id":  "aab37df2-d648-4ccf-a115-e70f9e086f4c",
+                                  "file_name":  "190221_HB-JTZ_ATL.pdf"
+                              },
+                              {
+                                  "id":  "d7d271a2-cd0f-42af-afac-47815ce7a394",
+                                  "file_name":  "181126_HB-JTZ_RH_ENGINE_LOGBOOK.pdf"
+                              },
+                              {
+                                  "id":  "fad0018d-d66b-4463-826a-ce378bb5a65d",
+                                  "file_name":  "CL650-6134_bo2_bi8_CL65HBJTZ017MX_6134-21-15_10-Sep-2021.pdf"
+                              }
+                          ],
+    "findings":  [
+                     {
+                         "id":  "F-0000",
+                         "graph_id":  "finding::FORM1_MISSING::CF34-3B::801538",
+                         "severity":  "level_2",
+                         "category":  "FORM1_MISSING",
+                         "title":  "Form 1 not located for CF34-3B/801538",
+                         "description":  "Component component::CF34-3B::801538 is LLP/overhaul-tracked but no :Form1 with a :RELEASES edge attributing release to this component was found. Searched: wo_pages, sn_alone, alt_pn, filename_pn, fil…",
+                         "recommended_action":  "Locate the Form 1 covering the installed serial number."
+                     },
+                     {
+                         "id":  "F-0001",
+                         "graph_id":  "finding::FORM1_MISSING::CF34-3B::801538",
+                         "severity":  "level_2",
+                         "category":  "FORM1_MISSING",
+                         "title":  "Form 1 not located for CF34-3B/801538",
+                         "description":  "Component component::CF34-3B::801538 is LLP/overhaul-tracked but no :Form1 with a :RELEASES edge attributing release to this component was found. Searched: wo_pages, sn_alone, alt_pn, filename_pn, fil…",
+                         "recommended_action":  "Locate the Form 1 covering the installed serial number."
+                     }
+                 ]
+}

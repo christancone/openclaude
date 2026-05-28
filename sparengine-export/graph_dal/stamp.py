@@ -128,6 +128,19 @@ RETURN id(r) AS rid
 """
 
 
+def _binds_to_typed(target_label: str) -> str:
+    return f"""
+MATCH (s:Stamp {{asset_id: $asset_id, value: $stamp_uid}})
+MATCH (t:{target_label} {{asset_id: $asset_id, value: $target_uid}})
+MERGE (s)-[r:BINDS_TO]->(t)
+ON CREATE SET r.confidence = $confidence, r.rule = $rule,
+              r.created_in_phase = $created_in_phase
+ON MATCH  SET r.confidence = coalesce($confidence, r.confidence),
+              r.rule       = coalesce($rule, r.rule)
+RETURN id(r) AS rid
+"""
+
+
 # Closed enum of valid :BINDS_TO targets (Q11d).
 BIND_TARGETS = frozenset({
     "Form1", "JobCard", "NonRoutineCard", "WorkPackage",
@@ -151,9 +164,9 @@ def link_stamp_binds_to(
             f"link_stamp_binds_to: target_label={target_label!r} not in {sorted(BIND_TARGETS)}"
         )
     tx.run(
-        _LINK_BINDS_TO_CYPHER,
+        _binds_to_typed(target_label),
         asset_id=asset_id, stamp_uid=stamp_uid,
-        target_label=target_label, target_uid=target_uid,
+        target_uid=target_uid,
         confidence=confidence, rule=rule,
         created_in_phase=current_phase(),
     ).consume()

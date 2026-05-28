@@ -56,14 +56,46 @@ from ._phase_tag import current_phase
 
 _WRITE_FORM1_CYPHER = """
 MERGE (n:Form1 {asset_id: $asset_id, value: $value})
-ON CREATE SET n.kind             = $kind,
-              n.block_11_status  = $block_11_status,
-              n.block_12_text    = $block_12_text,
-              n.block_13_date    = $block_13_date_iso
-ON MATCH  SET n.kind             = coalesce($kind, n.kind),
-              n.block_11_status  = coalesce($block_11_status, n.block_11_status),
-              n.block_12_text    = coalesce($block_12_text, n.block_12_text),
-              n.block_13_date    = coalesce($block_13_date_iso, n.block_13_date)
+ON CREATE SET n.kind                       = $kind,
+              n.block_3_form_tracking_no   = $block_3_form_tracking_no,
+              n.block_4_issuer_text        = $block_4_issuer_text,
+              n.block_4_part145_number     = $block_4_part145_number,
+              n.block_8_pn                 = $block_8_pn,
+              n.block_9_quantity           = $block_9_quantity,
+              n.block_10_sn                = $block_10_sn,
+              n.block_7_batch              = $block_7_batch,
+              n.block_7_sn_range_text      = $block_7_sn_range_text,
+              n.block_11_status            = $block_11_status,
+              n.block_12_text              = $block_12_text,
+              n.block_12_mod_status        = $block_12_mod_status,
+              n.block_12_tsn_at_release    = $block_12_tsn_at_release,
+              n.block_12_csn_at_release    = $block_12_csn_at_release,
+              n.block_13_date              = $block_13_date_iso,
+              n.block_13a_basis            = $block_13a_basis,
+              n.block_13b_name             = $block_13b_name,
+              n.block_13c_cert_number      = $block_13c_cert_number,
+              n.is_batch_cert              = $is_batch_cert,
+              n.batch_cert_reason          = $batch_cert_reason
+ON MATCH  SET n.kind                       = coalesce($kind, n.kind),
+              n.block_3_form_tracking_no   = coalesce($block_3_form_tracking_no, n.block_3_form_tracking_no),
+              n.block_4_issuer_text        = coalesce($block_4_issuer_text, n.block_4_issuer_text),
+              n.block_4_part145_number     = coalesce($block_4_part145_number, n.block_4_part145_number),
+              n.block_8_pn                 = coalesce($block_8_pn, n.block_8_pn),
+              n.block_9_quantity           = coalesce($block_9_quantity, n.block_9_quantity),
+              n.block_10_sn                = coalesce($block_10_sn, n.block_10_sn),
+              n.block_7_batch              = coalesce($block_7_batch, n.block_7_batch),
+              n.block_7_sn_range_text      = coalesce($block_7_sn_range_text, n.block_7_sn_range_text),
+              n.block_11_status            = coalesce($block_11_status, n.block_11_status),
+              n.block_12_text              = coalesce($block_12_text, n.block_12_text),
+              n.block_12_mod_status        = coalesce($block_12_mod_status, n.block_12_mod_status),
+              n.block_12_tsn_at_release    = coalesce($block_12_tsn_at_release, n.block_12_tsn_at_release),
+              n.block_12_csn_at_release    = coalesce($block_12_csn_at_release, n.block_12_csn_at_release),
+              n.block_13_date              = coalesce($block_13_date_iso, n.block_13_date),
+              n.block_13a_basis            = coalesce($block_13a_basis, n.block_13a_basis),
+              n.block_13b_name             = coalesce($block_13b_name, n.block_13b_name),
+              n.block_13c_cert_number      = coalesce($block_13c_cert_number, n.block_13c_cert_number),
+              n.is_batch_cert              = coalesce($is_batch_cert, n.is_batch_cert),
+              n.batch_cert_reason          = coalesce($batch_cert_reason, n.batch_cert_reason)
 RETURN n.value AS value
 """
 
@@ -72,29 +104,81 @@ def write_form1(
     tx: Any,
     *,
     asset_id: str,
-    value: str,                              # Form 1 number — the canonical natural key
-    evidence_page_uid: str,                  # required (golden rule)
-    evidence_quote: str,                     # required (golden rule)
-    kind: str | None = None,                 # easa | faa | tag
-    block_11_status: str | None = None,      # Serviceable | As-Removed | Inspected | …
-    block_12_text: str | None = None,        # free-text description of work
-    block_13_date_iso: str | None = None,    # issue date
+    value: str,                                 # natural key (preferred: block 3 Form Tracking No)
+    evidence_page_uid: str,                     # required (golden rule)
+    evidence_quote: str,                        # required (golden rule)
+    kind: str | None = None,                    # easa | faa | tcca | dual | tag
+    # Block-level structural fields. Each is optional but every available one
+    # should be passed; Phase 5 reads block_8_pn / block_10_sn to wire the
+    # authoritative Form1 -> Component edge. Phase 6 reads block_12_mod_status
+    # to wire POST_SB_RELEASE. Phase 7 reads block_3_form_tracking_no to detect
+    # merged-cert nodes that need splitting.
+    block_3_form_tracking_no: str | None = None,
+    block_4_issuer_text: str | None = None,
+    block_4_part145_number: str | None = None,
+    block_8_pn: str | None = None,
+    block_9_quantity: int | None = None,        # critical for bulk/batch certs (e.g. 348 hoses)
+    block_10_sn: str | None = None,             # NULL for non-serialised parts — DO NOT write "N/A"
+    block_7_batch: str | None = None,
+    block_7_sn_range_text: str | None = None,
+    block_11_status: str | None = None,         # Serviceable | As-Removed | Overhauled | Repaired | Inspected
+    block_12_text: str | None = None,
+    block_12_mod_status: str | None = None,     # comma-separated SB list e.g. "17,19,20,22,24,32,40"
+    block_12_tsn_at_release: float | None = None,
+    block_12_csn_at_release: int | None = None,
+    block_13_date_iso: str | None = None,
+    block_13a_basis: str | None = None,
+    block_13b_name: str | None = None,
+    block_13c_cert_number: str | None = None,
+    is_batch_cert: bool | None = None,          # true when this cert releases a population/lot, not a serialised unit
+    batch_cert_reason: str | None = None,       # "block_7_batch_ref" | "qty_gt_1_no_sn" | "block_10_sentinel"
 ) -> str:
-    """MERGE :Form1 + :CARRIES from page + :ON_DATE for block 13."""
+    """MERGE :Form1 + :CARRIES from page + :ON_DATE for block 13.
+
+    The ``value`` natural key SHOULD be the block 3 Form Tracking Number
+    (e.g. ``00029737``). Falling back to block 13c (the certifier's approval
+    ref) collapses every cert signed by the same engineer into one node —
+    see CL650-6134 case study. Phase 1 should derive ``value`` as:
+
+        value = block_3_form_tracking_no or f"form1::{page_uid}"
+
+    (NEVER use block 13c / block 14c / approval ref, which is engineer-scoped.)
+    """
     require_evidence(
         label="Form1",
         value=value,
         evidence_page_uid=evidence_page_uid,
         evidence_quote=evidence_quote,
     )
+    # Strip sentinel values out of block_10_sn before writing — never persist
+    # "N/A" / "NA" / "TBD" / etc. as a serial number string. See _normalize.is_noise_identifier.
+    from ._normalize import is_noise_identifier
+    if block_10_sn and is_noise_identifier(block_10_sn):
+        block_10_sn = None
     tx.run(
         _WRITE_FORM1_CYPHER,
         asset_id=asset_id,
         value=value,
         kind=kind,
+        block_3_form_tracking_no=block_3_form_tracking_no,
+        block_4_issuer_text=block_4_issuer_text,
+        block_4_part145_number=block_4_part145_number,
+        block_8_pn=block_8_pn,
+        block_9_quantity=block_9_quantity,
+        block_10_sn=block_10_sn,
+        block_7_batch=block_7_batch,
+        block_7_sn_range_text=block_7_sn_range_text,
         block_11_status=block_11_status,
         block_12_text=block_12_text,
+        block_12_mod_status=block_12_mod_status,
+        block_12_tsn_at_release=block_12_tsn_at_release,
+        block_12_csn_at_release=block_12_csn_at_release,
         block_13_date_iso=block_13_date_iso,
+        block_13a_basis=block_13a_basis,
+        block_13b_name=block_13b_name,
+        block_13c_cert_number=block_13c_cert_number,
+        is_batch_cert=is_batch_cert,
+        batch_cert_reason=batch_cert_reason,
     ).consume()
     link_page_carries(
         tx,

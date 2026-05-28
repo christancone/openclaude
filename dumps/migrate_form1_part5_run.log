@@ -1,0 +1,63 @@
+==== migrate_form1_part5_from_csv.py ====
+     CSV: D:\work\openclaude\csvs\Full challenger dossier.csv
+     Asset: CL650-6134   Neo4j: sparengine-neo4j   tag: migration_form1_csv_2026_05_19
+
+---- 1. Streaming CSV for Form 1 pages ----
+   Form 1 pages found: 185
+   Unique Form Tracking Nos with extracted block 3: 120
+   Form 1 pages without a Form Tracking No: 37
+   Total item rows extracted: 170
+   Total (PN, SN) pairs to bind: 75
+
+---- 2. Updating Form1 block-level properties (per carrier page) ----
+form1s_updated
+111
+
+---- 3a. Writing structural RELEASES_PN edges (csv_table_row) ----
+releases_pn_struct
+58
+
+---- 3b. Writing structural RELEASES_SN edges (csv_table_row) ----
+releases_sn_struct
+74
+
+---- 4. Writing structural RELEASES -> Component edges (PN AND SN match) ----
+releases_struct
+51
+
+---- 5. Tag v7 RELEASES as csv_structural_mismatch where no structural edge exists ----
+tagged_mismatch
+534
+tagged_match
+49
+
+
+==== Verification ====
+-- NiCad battery Form 1 (form1::c608f9ce-aade-468c-9e46-1a5a5686899f) --
+struct_pns, struct_sns, struct_components, tracking_no, signer, disposition
+[], [], [], "00029737", NULL, "overhauled"
+
+-- Bombardier B0462730 Form 1 (was 20 RELEASES, should split per-page) --
+struct_pns, struct_sns, struct_components
+["S4724G30", "604DX2529029AND001"], ["4007", "4006", "4005"], ["component::604DX2529029AND001::4005", "component::604DX2529029AND001::4006", "component::604DX2529029AND001::4007"]
+
+-- v7 RELEASES retag distribution --
+pn_verified_csv, n
+"csv_structural_mismatch", 534
+"csv_structural_match", 49
+
+-- Overall edge counts --
+edge, n
+"RELEASES", 583
+"RELEASES_PN", 173
+"RELEASES_SN", 166
+"ON_DATE", 154
+"SIGNED_BY", 139
+"RELEASES_SN_STRUCT", 74
+"RELEASES_PN_STRUCT", 58
+"RELEASES_STRUCT", 51
+"COVERS_RANGE", 47
+"POST_SB_RELEASE", 3
+
+
+==== migration complete ====

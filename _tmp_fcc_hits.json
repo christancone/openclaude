@@ -1,0 +1,1412 @@
+{
+  "hits": [
+    {
+      "row": 1747,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "58",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": null,
+      "text_preview": "evt_1\ntask_performed\n\"YD 1 INOP\" WHITE CAS MESSAGE - INVESTIGATE AND RECTIFY\ntask_reference\nent_9\nwork_order\nent_10\nTASKCARD 210520-2, CUSTOMER ORK ORDER #: 6134-21-08\nsigned_off\nWorkstep description followed by detailed corrective actions and sign-offs\n2021-05-20\nevt_2\ninspection\nPERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM.\nsigned_off\nStated as 'PERF",
+      "all_text_len": 14018
+    },
+    {
+      "row": 1763,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "59",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": null,
+      "text_preview": "2021-05-22\nevt_1\ntask_performed\nPERFORMED OPERATIONAL TEST OF THE LIGHTNING/HIRF PROTECTOR (LHP). REMOVED AND RE-INSTALLED MAINTENANCE DIAGNOSTIC COMPUTER (MDC). PERFORMED OPERATIONAL TEST OF THE MAINTENANCE DIAGNOSTIC COMPUTER. REMOVED AND RE-INSTALLED SERVO SWITCHING MODULES (SSM).\nstamp_1\nstamp_2\ntask_reference\nent_5\ntask_reference\nent_7\ntask_reference\nent_8\ntask_reference\nent_10\nperformer\nent_",
+      "all_text_len": 11257
+    },
+    {
+      "row": 1766,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "21",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "WC -Summary (AMAC)",
+      "text_preview": "WC -Summary (AMAC)\n2021-05-20\nevt_1\nrepair\nWorkstep Text: \"YD 1 INOP\" WHITE CAS MESSAGE - INVESTIGATE AND RECTIFY. REFER TO TASKCARD 210520-2 AND CUSTOMER ORK ORDER #: 6134-21-08 - REV: 1. Action Text: PERFORMED ACCESS TO MDC ACTIVE FAULTS. FOUND NO ACTIVE FAULTS RELATED TO YAW DAMPER SYSTEM. PERFORMED ACCESS TO MDC HISTORICAL FAULTS AND FOUND FCC-1A/B REPORTED YD DISENGAGE CODE \"ID#=BE-003058\" ON",
+      "all_text_len": 9319
+    },
+    {
+      "row": 1783,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "61",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2021-05-27\nevt_1\ntask_performed\nNO. 1 1A FLIGHT CONTROL COMPUTER task performed.\nstamp_1\nstamp_2\nsubject\nent_5\nperformer\nent_10\n22-12-10-900-801\nsigned_off\nTechnician and Inspector signatures present for the overall task.\n2021-05-27\nevt_2\ncomponent_removal\nRemoval of Flight Control Computer P/N 822-0809-810 S/N 486DY1 due to swap/troubleshoot.\nstamp_3\nstamp_4\npart_removed\nent_13\npart_removed\nent_1",
+      "all_text_len": 3654
+    },
+    {
+      "row": 1818,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "64",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "HB-JTZ/SRO/WO:984356/LFSB",
+      "text_preview": "HB-JTZ/SRO/WO:984356/LFSB\n2021-05-27\nevt_1\nmodification\nSwap of NO. 4 2B FLIGHT CONTROL COMPUTER. Removed P/N 822-0809-810 S/N 4F1KNY, Installed P/N 822-0809-810 S/N 4F1KNX.\nstamp_1\nstamp_2\nstamp_3\nstamp_4\nsubject\nent_1\nsubject\nent_2\nsubject\nent_4\nauthorizer\nent_3\nreference\nent_5\nreference\nent_6\ndate\nent_7\nperformer\nent_8\ncertifier_authority\nent_9\ncertifier_authority\nent_10\nreference\nent_11\npart_r",
+      "all_text_len": 3065
+    },
+    {
+      "row": 1820,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "63",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "UNSCHEDULED",
+      "text_preview": "UNSCHEDULED\n2021-05-27\nevt_1\nmodification\nRemoval and installation of No. 3 2A Flight Control Computer due to swap/troubleshoot.\nsig_1\nsig_2\nsig_3\nsig_4\nsubject\nent_6\npart_removed\nent_14\npart_removed\nent_15\npart_installed\nent_14\npart_installed\nent_16\nperformer\nent_10\nperformer\nent_17\n22-12-10-900-801\nsigned_off\nMultiple signatures present for Technician and Inspector, both in header and component ",
+      "all_text_len": 3595
+    },
+    {
+      "row": 1823,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "62",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "UNSCHEDULED",
+      "text_preview": "UNSCHEDULED\n2021-05-27\nevt_1\ncomponent_installation\nRemoval and installation of NO. 2 1B FLIGHT CONTROL COMPUTER due to swap/troubleshoot.\nsig_1\nsig_2\nsig_3\nsig_4\nsubject\nent_2\npart_removed\nent_9\npart_removed\nent_10\npart_installed\nent_9\npart_installed\nent_11\nperformer\nent_6\nauthorizer\nent_6\n22-12-10-900-801\nsigned_off\nTechnician and Inspector signatures present with certificate numbers.\nHB-JTZ\npri",
+      "all_text_len": 2911
+    },
+    {
+      "row": 1825,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "4",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+      "text_preview": "Release to Service Certificate - Airframe Inspection / Maintenance Record\nevt_1\ntask_performed\n100 HOUR CHECK\nsubject\nent_20\n05H0100\nsigned_off\nimplied by document title 'Release to Service Certificate' and introductory text 'work has been accomplished'\nevt_2\ninspection\nNO. 1 ENGINE - DETAILED INSPECTION ENGINE MASTER CHIP DETECTOR INDICATOR\nsubject\nent_21\n72-20-00-207\nsigned_off\nimplied by docume",
+      "all_text_len": 8998
+    },
+    {
+      "row": 1833,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "23",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "WC -Summary (AMAC)",
+      "text_preview": "WC -Summary (AMAC)\n2021-05-27\nevt_1\ntask_performed\nRE-INSTALLED JB 14 AND PERFORMED OPERATIONAL TEST OF JUNCTION BOX JB 14 SYSTEMS I.A.W. CL-650 AMM 24-01-14-710-801 REV. 21. RELAY P/N OFF/ON: M83536-10-024M S/N: N/A. YAW DAMPER NO.2 OPERATIONAL TEST NOT PASSED. AS PER BOMBARDIER REQUEST SWAPPED FCC 2A CARD WITH 2B CARD AND FOUND YD 2 STILL FAIL. FCC 2A P/N: 822-0809-810 S/N OFF: 4F1KNY S/N ON: 4F",
+      "all_text_len": 7617
+    },
+    {
+      "row": 1835,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "5",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+      "text_preview": "Release to Service Certificate - Airframe Inspection / Maintenance Record\nevt_1\ncomponent_installation\nReplaced both Yaw Damper Linear Actuators as per AMM 22-22-01-000/400-801 REV. 21.\nsubject\nent_3\npart_removed\nent_4\npart_installed\nent_5\npart_removed\nent_6\npart_installed\nent_7\nAMM 22-22-01-000/400-801 REV. 21\nsigned_off\nWork described as completed on a Release to Service Certificate.\nevt_2\nrepai",
+      "all_text_len": 7284
+    },
+    {
+      "row": 1859,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "3",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mel_entry",
+      "title": "Hold Item List",
+      "text_preview": "Hold Item List\n2020-12-06\nevt_1\ndefect_cleared\nYD 2 INOP. BOMBARDIER CONFIRMED FCC 2A AT FAULT & TO BE REPLACED - PNA -\nsig_1\nstamp_1\nsubject\nent_3\npart_removed\nent_4\nreference\nent_6\ndate\nent_5\ndate\nent_9\n13506\nsigned_off\nCRS issued and signed off\n2021-05-28\nevt_2\ndefect_cleared\nLH PACK HI-TEMP CONFIRMED COOLING TURBINE TO BE REPLACE\nsig_2\nstamp_2\nsubject\nent_12\npart_removed\nent_13\npart_installed\n",
+      "all_text_len": 4754
+    },
+    {
+      "row": 1899,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "101",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "non_routine_card",
+      "title": null,
+      "text_preview": "2021-04-12\nevt_1\ninspection\nALTITUDE SELECT ADJUSTER FOUND TO OPERATE ON AP1 AND AP2 WITH CO PILOT AS DATA SOURCE, ALTITUDE SELECT DOES NOT OPERATE WITH CAPTAIN AS SOURCE DATA. (NO REF)\nstamp_1\nsig_1\nstamp_2\nsig_2\nsubject\nent_10\nmro\nent_18\nperformer\nent_20\nauthorizer\nent_20\nsigned_off\nhas mechanic stamp and signature in Performed by and Supervised by columns\n2021-04-12\nevt_2\ninspection\nFLIGHT CONT",
+      "all_text_len": 9662
+    },
+    {
+      "row": 1930,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "3",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\n2021-04-19\nevt_1\ntask_performed\nPERFORM AMM TASK 28-10-00-620-802 PART D AFTER BIOCIDE TREATMENT. LH & RH ENG & APU FUEL FILTER REPLACED IAW 28-10-00-620-802. LEAK CHECK OF LH & RH ENG & APU FUEL FILTERS C/OUT IAW EMM 72-00-00 & 49-30-52, NIL LEAKS.\nsubject\nent_29\nreference\nent_30\nreference\nent_31\n28-10-00-620-802\nsigned_off\nWork listed under 'work has been accomp",
+      "all_text_len": 13784
+    },
+    {
+      "row": 1940,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "79",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "non_routine_card",
+      "title": "Defect Rectification Record",
+      "text_preview": "Defect Rectification Record\nevt_1\nother\nYAW DAMPER 1 IS PERIODICALLY DROPPING OUT DURING FLIGHT INVESTIGATE AND RECTIFY\nsubject\nent_21\ntask_reference\nent_1\nwork_order\nent_2\nauthorizer\nent_3\n30004\nsigned_off\nOverall card signed off by release to service.\n2021-04-12\nevt_2\nrepair\nSUPPLIED FAULT HISTORY INDICATES THAT YD2 WAS ORIGINAL FAULT, BUT AFTER SWOPPING, FCC 1A WITH FCC 2A AND FCC 1B WITH FCC 2",
+      "all_text_len": 13224
+    },
+    {
+      "row": 1941,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "109",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2021-04-15\nevt_1\ntask_performed\nAUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. Corrective action: FGP REPLACED.\nstamp_1\nstamp_2\nstamp_3\nstamp_4\nsubject\nent_12\npart_removed\nent_13\nserial_number_removed\nent_14\npart_installed\nent_15\nperformer\nent_16\nmro\nent_17\ncertificate_number\nent",
+      "all_text_len": 3997
+    },
+    {
+      "row": 1961,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "82",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "faa_form_8130",
+      "title": "AUTHORIZED RELEASE CERTIFICATE\nFAA Form 8130-3, AIRWORTHINESS APPROVAL TAG",
+      "text_preview": "AUTHORIZED RELEASE CERTIFICATE\nFAA Form 8130-3, AIRWORTHINESS APPROVAL TAG\n2021-02-26\nevt_1\nrepair\nOverhaul of FLIGHT CONTROL COMPUTER - FCC-4006, P/N 822-0809-810, S/N 4CX4R4. Inspected/tested by CMM 523-0777245 REV: 19, Dated 10/26/2015. Service Bulletins installed: None. Airworthiness Directive Complied with: N/A.\nstamp_1\nstamp_2\nsubject\nent_8\nsubject\nent_9\nperformer\nent_10\nperformer\nent_11\naut",
+      "all_text_len": 6219
+    },
+    {
+      "row": 1969,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "84",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "shop_visit_report",
+      "title": "Service Memorandum",
+      "text_preview": "Service Memorandum\n2021-12-02\nevt_1\nother\nCustomer complaint: DOA \"Afcs 2 Inop\" Eicas posted, Intalled in .B position.\nsubject\nent_11\nsubject\nent_12\nsubject\nent_13\nsubject\nent_14\nlisted_but_not_signed\nThis is a reported complaint, not a task to be signed off as complete.\nevt_2\nshop_visit\nLevel of Work Required: OVERHAUL.\nlisted_but_not_signed\nThis is a stated requirement, not yet signed off as com",
+      "all_text_len": 4395
+    },
+    {
+      "row": 1976,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "83",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "other",
+      "title": "CERTIFICATE OF CONFORMANCE",
+      "text_preview": "CERTIFICATE OF CONFORMANCE\n2021-02-26\nevt_1\nother\nIssuance of Certificate of Conformance for FLIGHT CONTROL COMPUTER - FCC-4006, S/N 4CX4R4, P/N 822-0809-810. The component was serviced in accordance with Rockwell Collins, Inc. approved procedures and current civil aviation regulations, and found to conform to applicable requirements.\nsig_1\nsubject\nent_7\nsubject\nent_9\nperformer\nent_10\nauthorizer\ne",
+      "all_text_len": 3515
+    },
+    {
+      "row": 1979,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "80",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": false,
+      "family_hit": false,
+      "family_dashes": [],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2021-04-12\nevt_1\nmodification\nFCC 2A INTERCHANGED WITH FCC 2B IAW AMM 22-12-10-000-801. FCC 2A NOW # 4F1KNY. FCC 2B NOW # 4FMACT.\nstamp_1\nstamp_2\nreference\nent_5\npart_installed\nent_6\npart_installed\nent_7\ntask_reference\nent_4\nwork_order\nent_3\nperformer\nent_11\n30004-1\nsigned_off\nmechanic signature and date present in 'Performed By' and 'Supervised Checked By' columns\n2021-04-13\nevt_2\ninspection\nOPER",
+      "all_text_len": 6186
+    },
+    {
+      "row": 1984,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "81",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "easa_form_one",
+      "title": "AUTHORISED RELEASE CERTIFICATE",
+      "text_preview": "AUTHORISED RELEASE CERTIFICATE\n2021-02-26\nevt_1\noverhaul\nOverhaul of FLIGHT CONTROL COMPUTER - FCC-4006, Part No. 822-0809-810, Serial No. 4CX4R4. Work performed in compliance with Part-145.A.50 and Service Memorandum 105990083. Inspected/tested by CMM 523-0777245 REV: 19, Dated 10/26/2015. Service Bulletins installed: None. Airworthiness Directive Complied with: N/A.\nsubject\nent_6\npart_installed\n",
+      "all_text_len": 5295
+    },
+    {
+      "row": 1985,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "87",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "Work Card",
+      "text_preview": "Work Card\n2021-04-15\nevt_1\ntask_performed\nYAW DAMPER 1 IS PERIODICALLY DROPPING OUT DURING FLIGHT - INVESTIGATE AND RECTIFY. Part 822-0809-810, S/N 4CX4R4 fitted in FCC 1B.\nsignature_1\nstamp_1\nsignature_2\nstamp_2\npart_installed\nent_12\npart_installed\nent_13\nlocation\nent_15\nmro\nent_14\nmro\nent_16\n210406-4\nsigned_off\nTechnician and Inspector signatures with associated stamps are present, and accomplis",
+      "all_text_len": 3272
+    },
+    {
+      "row": 1988,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "86",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "correspondence",
+      "title": "AW: HB-JTZ CL-650 6134 Flight level issue {{{11/04/21 Support Request}}}",
+      "text_preview": "AW: HB-JTZ CL-650 6134 Flight level issue {{{11/04/21 Support Request}}}\n2021-04-09\nevt_1\ninspection\nRequest for troubleshooting steps regarding Autopilot malfunctions and suggestion to swap FCC Cards from B to A.\nauthorizer\nent_3\nsubject\nent_12\nsubject\nent_13\npart_installed\nent_14\npart_installed\nent_15\npart_installed\nent_16\npart_installed\nent_17\npart_installed\nent_18\nsubject\nent_25\nsubject\nent_26",
+      "all_text_len": 4789
+    },
+    {
+      "row": 1991,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "88",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "parts_identification_tag",
+      "title": null,
+      "text_preview": "2021-02-26\nevt_1\ninspection\nComponent inspection and certification, resulting in serviceable status.\nstamp_1\nsubject\nent_3\nsubject\nent_4\nauthorizer\nent_8\nperformer\nent_9\nmro\nent_10\nperformer\nent_12\nsigned_off\nComponent tagged as SERVICEABLE with certification details and inspector signature.\n112481\nprinted\nent_1\nhigh\nother\nCrtl# field\nprinted and clear\n1\nprinted\nent_2\nhigh\nother\nCrtlID field\nprint",
+      "all_text_len": 2043
+    },
+    {
+      "row": 2041,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "4",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\n2021-04-19\nevt_1\nrepair\nAUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE. INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC PN 822-0809-810. ALTITUDE SELECT ADJUSTER FOUND TO OPERATE ON AP1 & AP2 WITH CO-PILOT AS SOURCE DATA. ALTITUDE SELECT DOES NOT OPERTE WITH CAPTAIN AS SOU",
+      "all_text_len": 4830
+    },
+    {
+      "row": 2042,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "8",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service Aircraft Flight Technical Log",
+      "text_preview": "Certificate of Release to Service Aircraft Flight Technical Log\n2021-04-19\nevt_1\ntask_performed\n28-10-00-620-802 PERFORM AMM TASK 28-10-00-620-802 PART D AFTER BIOCIDE TREATMENT\nsubject\nent_20\n28-10-00-620-802\nsigned_off\nStatus column indicates 'Performed'\n2021-04-19\nevt_2\ninspection\nWALKAROUND CHECK IAW MPD 3.1\nreference\nent_21\nMPD 3.1\nsigned_off\nStatus column indicates 'Performed'\n2021-04-19\nevt",
+      "all_text_len": 7251
+    },
+    {
+      "row": 2056,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "6",
+      "original_path": "CL650-6134/4. Compliance Records/Box 2/Binder 6/CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "work_order_contents_report",
+      "title": "Maintenance Work Report",
+      "text_preview": "Maintenance Work Report\nevt_1\ntask_performed\nDEAD FLY IN THE VOID ON THE SECOND FROM FRONT CABIN WINDOW ON THE LEFT HAND SIDE - INVESTIGATE AND RECIFY\nsubject\nent_5\nlocation\nent_6\n30003\nsigned_off\naction described in 'Action' field\nevt_2\ntask_performed\nYAW DAMPER 1 IS PERODICALLY DROPPING OUT DURING FLIGHT - INVESTIGATE AND RECTIFY\nsubject\nent_7\nlocation\nent_8\npart_installed\nent_9\npart_installed\ne",
+      "all_text_len": 5911
+    },
+    {
+      "row": 2443,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "203",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": null,
+      "text_preview": "2020-11-26\nevt_1\ntask_performed\nPERFORM TASK 201125-3 YD 2 INOP. MESSAGE CAME ON 2 FLIGHTS. FIRST, INFLIGHT UNABLE TO REENGAGE BUT CLEARED ITSELF AFTER 20 MINS // SECOND FLIGHT ON GROUND AND INFLIGHT - INVESTIGATE AND RECTIFY\nstamp_1\nsubject\nent_14\nauthorizer\nent_15\nlocation\nent_10\n201125-3\nsigned_off\nSignature present for Issue Sign SRO\n2020-11-27\nevt_2\nrepair\nPERFORMED TROUBLESHOOTING I.A.W. WM ",
+      "all_text_len": 6923
+    },
+    {
+      "row": 2452,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "206",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2020-12-22\nevt_1\ntask_performed\nPERFORM CUSTOMER TASKARD 201222-2 AUTO PILOT DISCONNECTED SEVERAL TIMES - SWITCHED TO AFCS 2 AND OK - INVESTIGATE AND RECTIFY\nstamp_1\ntask_card_number\nent_9\nauthorizer\nent_8\n201222-2\nlisted_but_not_signed\nOverall task listed, but specific sign-off for this top-level task is not present, sub-actions are signed separately.\n2020-12-30\nevt_2\ntask_performed\nPERFORMED TRO",
+      "all_text_len": 8632
+    },
+    {
+      "row": 2465,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "205",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "WORK CARD \u0420\u0430\u0431\u043e\u0447\u0430\u044f \u043a\u0430\u0440\u0442\u0430",
+      "text_preview": "WORK CARD \u0420\u0430\u0431\u043e\u0447\u0430\u044f \u043a\u0430\u0440\u0442\u0430\n2020-12-08\nevt_1\ntask_performed\nFCC MALFUNCTION - INVESTIGATE AND RECTIFY. FCC1A is replaced IAW Bombardier recommendation, ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC) TASK 22-11-00-710-802 Operational Test of the Flight Control Computer(FCC) passed satisfactory.On/Off PNR 822-0809-810, off SNR 4FM4CV, on SNR 1262\nstamp_1\nstamp_2\n",
+      "all_text_len": 5763
+    },
+    {
+      "row": 2472,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "204",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "routine_task_card",
+      "title": "WORK CARD",
+      "text_preview": "WORK CARD\n2020-12-05\nevt_1\ntask_performed\nYD 2 INTERMITTENT FAULT - INVESTIGATE AND RECTIFY. Operational Test of the Yaw Damper Linear Actuators c/out.No fault found. FCC 1A card swapped with FCC2A and FCC1B swapped with FCC2B i.aw.BBD Smart Fix Plus recommendation. Operational Test of the Flight Control Computers (FCC) c/out.satis.HIL ITEM Page 1 Item 1 is cleared. Current position: FCC 1A:PNR 82",
+      "all_text_len": 5631
+    },
+    {
+      "row": 2473,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "200",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "inspection_report",
+      "title": "Service Memorandum",
+      "text_preview": "Service Memorandum\n2020-09-28\nevt_1\ninspection\nService Notification 10593785 for FCC-4006, S/N 486F99. Customer complaint: Card causes AP failures. Level of Work Required: Overhaul. Preliminary Inspection Results: Installation marks and warranty seal ok. Hidden Damage Inspection Results: N/A. Complaint Verified? NO. Defects Found? NO. Description of What Was Wrong with the Equipment: No Faults Fou",
+      "all_text_len": 3136
+    },
+    {
+      "row": 2479,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "190",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "Material to Job Card",
+      "text_preview": "Material to Job Card\n2021-02-16\nevt_1\ncomponent_installation\nInstallation of LINEAR ACTUATOR SLV-4000, S/N 4N0NV\npart_installed\nent_11\nserial_number\nent_12\nwork_order\nent_6\n182684.043\nambiguous\nlisted as 'on' in material list, no explicit sign-off\n2021-02-16\nevt_2\ncomponent_removal\nRemoval of LINEAR ACTUATOR SLV-4000, S/N 4R7YY\npart_removed\nent_11\nserial_number\nent_13\nwork_order\nent_6\n182684.043\na",
+      "all_text_len": 4124
+    },
+    {
+      "row": 2483,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "199",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "faa_form_8130",
+      "title": "AUTHORIZED RELEASE CERTIFICATE",
+      "text_preview": "AUTHORIZED RELEASE CERTIFICATE\n2020-10-01\nevt_1\nrepair\nOverhaul of FLIGHT CONTROL COMPUTER - FCC-4006, P/N 822-0809-810, S/N 486F99. Work performed in accordance with Service Memorandum 105937825 and inspected/tested by CMM 523-0777245 Rev: 19, Dated: 10/26/2015.\npart_installed\nent_4\nsubject\nent_5\nwork_order\nent_3\nreference\nent_6\nreference\nent_7\ndate\nent_8\nreference\nent_9\n3315558/001000/POOL\nsigne",
+      "all_text_len": 4828
+    },
+    {
+      "row": 2485,
+      "file_name": "CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "page_index": "202",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 5/CL650-6134_bo1_bi5_182684 2of 2_6134-21-01_02-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "easa_form_one",
+      "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+      "text_preview": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1\n2020-10-01\nevt_1\nrelease_to_service\nCertifies that the work identified in block 11 and described in block 12 was accomplished in accordance with Part 145 and in respect to that work the items are considered ready for release to service.\nsig_1\nauthorizer\nent_1\nperformer\nent_9\nperformer\nent_10\ndate\nent_11\nsigned_off\nSignature and date present in Block 14 fo",
+      "all_text_len": 4081
+    },
+    {
+      "row": 3114,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "7",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "WO-Summary (AMAC)",
+      "text_preview": "WO-Summary (AMAC)\n2021-01-27\nevt_1\ntask_performed\nFINDING (NRC) W/O 970148 DUE TO PARKING PERFORM WATER AND TOILET SERVICING BEFORE DEPARTURE. WATER SERVICING PERFORMED IAW AIRCRAFT PLACARD INSTRUCTIONS. INSPECTED. TOILET SERVICING PERFORMED IAW AIRCRAFT PLACARD INSTRUCTIONS. INSPECTED.\nauthorizer\nent_1\nsubject\nent_2\ndate\nent_4\nlocation\nent_5\ntask_reference\nent_6\n970148\nsigned_off\nWork order statu",
+      "all_text_len": 7422
+    },
+    {
+      "row": 3120,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "47",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2020-12-22\nevt_1\ntask_performed\nPERFORM CUSTOMER TASKARD 201222-2 AUTO PILOT DISCONNECTED SEVERAL TIMES - SWITCHED TO AFCS 2 AND OK - INVESTIGATE AND RECTIFY\nsign_2\nwork_order\nent_1\ntask_reference\nent_19\nlocation\nent_7\nperformer\nent_8\n201222-2\nsigned_off\nSigned off by Boris Fricker (BFR) on 22.Dec.2020\n2020-12-30\nevt_2\ninspection\nPERFORMED TROUBLESHOOTING I.A.W. CL-650 AMM REV. 20. CHECKED MDC FOR",
+      "all_text_len": 6858
+    },
+    {
+      "row": 3129,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "49",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "HB-JTZ /WO 970629 /LFSB/BFR",
+      "text_preview": "HB-JTZ /WO 970629 /LFSB/BFR\n2021-01-04\nevt_1\ncomponent_installation\nRemoval of NO. 1 1A FLIGHT CONTROL COMPUTER P/N 822-0809-810 S/N 1262 and installation of P/N 822-0809-810 S/N 4FM601 due to failure.\nstamp_3\nstamp_4\npart_removed\nent_11\nserial_number_removed\nent_12\npart_installed\nent_11\nserial_number_installed\nent_13\nperformer\nent_8\nauthorizer\nent_8\nwork_order\nent_6\nwork_order\nent_2\n22-12-10-900-",
+      "all_text_len": 3199
+    },
+    {
+      "row": 3136,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "50",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "faa_form_8130",
+      "title": "AUTHORIZED RELEASE CERTIFICATE FAA Form 8130-3, AIRWORTHINESS APPROVAL TAG",
+      "text_preview": "AUTHORIZED RELEASE CERTIFICATE FAA Form 8130-3, AIRWORTHINESS APPROVAL TAG\n2020-06-17\nevt_1\nrelease_to_service\nCertifies that unless otherwise specified in block 12, the work identified in Block 11 and described in Block 12 was accomplished in accordance with Title 14, Code of Federal Regulations, part 43 and in respect to that work, the items are approved for return to service.\nsig_1\nperformer\nen",
+      "all_text_len": 4731
+    },
+    {
+      "row": 3140,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "54",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "other",
+      "title": "CERTIFICATE OF CONFORMANCE",
+      "text_preview": "CERTIFICATE OF CONFORMANCE\n2020-06-17\nevt_1\nrelease_to_service\nCertification of Conformance for aircraft appliance or part serviced in accordance with Rockwell Collins, Inc. approved procedures and current civil aviation regulations, found to conform to applicable requirements.\nsignature_1\nsubject\nent_5\nsubject\nent_7\nperformer\nent_8\n105907240\nsigned_off\nCertificate of Conformance with signature re",
+      "all_text_len": 2758
+    },
+    {
+      "row": 3141,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ008_6134-20-15_03-Dec-2020.pdf",
+      "page_index": "63",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ008_6134-20-15_03-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2020-11-26\nevt_1\nmaintenance_work_authorisation\nCO-6-A // PERFORM TASK 20112S-3: YD 2 INOP: MESSAGE CAME ON 2 FLIGHTS. FIRST, INFLIGHT UNABLE TO REENGAGE BUT CLEARED ITSELF AFTER 20 MINS // SECOND FLIGHT ON GROUND AND INFLIGHT - INVESTIGATE AND RECTIFY\nstamp_1\nauthorizer\nent_11\nsubject\nent_13\n20112S-3\nsigned_off\nTask description is part of a work package that has subsequent troubleshooting and sig",
+      "all_text_len": 7932
+    },
+    {
+      "row": 3142,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "52",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "shop_visit_report",
+      "title": "Service Memorandum",
+      "text_preview": "Service Memorandum\nevt_1\nrepair\nYAW DAMPER #1 DROPS OFF FROM TIME TO TIME - OVERHAUL required. No fault found during electrical test.\nsubject\nent_5\nsubject\nent_6\nsubject\nent_7\nother\nent_15\nsigned_off\nComplaint verified as NO, Defects found as NO, and description states 'No fault was found during the electrical test.' indicating the complaint was investigated and resolved as no fault.\nevt_2\ninspect",
+      "all_text_len": 3438
+    },
+    {
+      "row": 3146,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "51",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "easa_form_one",
+      "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+      "text_preview": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1\n2020-06-17\nevt_1\nrelease_to_service\nRelease to service for FLIGHT CONTROL COMPUTER - FCC-4006, Part No. 822-0809-810, Serial No. 4FM601, which was OVERHAULED.\nsignature_1\nsubject\nent_4\nsubject\nent_5\nperformer\nent_9\nauthorizer\nent_1\nsigned_off\nSignature and date present in Block 14 for release to service.\n1\nFLIGHT CONTROL COMPUTER - FCC-4006\n822-0809-810\n1",
+      "all_text_len": 3462
+    },
+    {
+      "row": 3149,
+      "file_name": "CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "page_index": "12",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_CL65HBJTZ009_6134-20-18_04-Jan-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+      "text_preview": "Release to Service Certificate - Airframe Inspection / Maintenance Record\n2021-01-04\nevt_1\ntask_performed\nAUTO PILOT DISCONNECTED SEVERAL TIMES - SWITCHED TO AFCS 2 AND OK - INVESTIGATE AND RECTIFY. REPLACED FAULTY FCC 1A CARD AS PER AMM 22-12-10 REV.20\nsubject\nent_22\npart_removed\nent_23\npart_removed\nent_24\npart_installed\nent_23\npart_installed\nent_25\nreference\nent_26\nTASK 201222-2\nsigned_off\nliste",
+      "all_text_len": 8812
+    },
+    {
+      "row": 3276,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "page_index": "5",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "CERTIFICATE OF RELEASE TO SERVICE",
+      "text_preview": "CERTIFICATE OF RELEASE TO SERVICE\n2020-12-05\nevt_1\ntask_performed\nYD 2 INTERMITTENT FAULT - INVESTIGATE AND RECTIFY. Operational Test of the Yaw Damper Linear Actuators c/out.No fault found..FCC 1A card swapped with FCC2A and FCC1B swapped with FCC2B i.a.w.BBD Smart Fix Plus recommendation. Operational Test of the Flight Control Computers (FCC) c/out.satis.HIL ITEM Page 1 Item 1 is cleared. Curren",
+      "all_text_len": 9736
+    },
+    {
+      "row": 3290,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "page_index": "17",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "routine_task_card",
+      "title": "WORK CARD",
+      "text_preview": "WORK CARD\n2020-12-05\nevt_1\ntask_performed\nYD 2 INTERMITTENT FAULT - INVESTIGATE AND RECTIFY. Operational Test of the Yaw Damper Linear Actuators c/out.No fault found..FCC 1A card swapped with FCC2A and FCC1B swapped with FCC2B i.aw.BBD Smart Fix Plus recommendation. Operational Test of the Flight Control Computers (FCC) c/out.satis.HIL ITEM Page 1 Item 1 is cleared. Current position: FCC 1A:PNR 82",
+      "all_text_len": 6196
+    },
+    {
+      "row": 3300,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "page_index": "4",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "CERTIFICATE OF RELEASE TO SERVICE",
+      "text_preview": "CERTIFICATE OF RELEASE TO SERVICE\n2020-12-08\nevt_1\nrelease_to_service\nAircraft CL650, registration HB-JTZ, serial number 6134, released to service after FCC malfunction investigation and rectification, including replacement of FCC1A (P/N 822-0809-810, S/N 4FM4CV removed, S/N 1262 installed) and operational test of FCC.\nstamp_1\nstamp_2\nsubject\nent_5\nsubject\nent_6\nsubject\nent_7\nperformer\nent_18\nauth",
+      "all_text_len": 4747
+    },
+    {
+      "row": 3307,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "page_index": "12",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "faa_form_8130",
+      "title": "AUTHORIZED RELEASE CERTIFICATE",
+      "text_preview": "AUTHORIZED RELEASE CERTIFICATE\n2020-09-29\nevt_1\nrepair\nOverhaul of FLIGHT CONTROL COMPUTER - FCC-4006 (P/N 822-0809-810, S/N 1262). Work performed in compliance with Federal Aviation Administration Regulation 43.3(e) and inspected/tested by CMM 523-0777245 Rev: 19, dated 2015-10-26. Service Bulletins Installed: None. Overhaul performed in accordance with Service Memorandum 105935801. Airworthiness",
+      "all_text_len": 5784
+    },
+    {
+      "row": 3318,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "page_index": "7",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mel_entry",
+      "title": "Hold Item List",
+      "text_preview": "Hold Item List\n2020-12-03\nevt_1\ndefect_entry\nYD 2 INOP. BOMBARDIER CONFIRMED FCC 2A AT FAULT & TO BE REPLACED\nstamp_1\nstamp_2\nsubject\nent_3\nwork_order\nent_4\npart_removed\nent_5\nreference\nent_14\ndue_date\nent_15\ncategory\nent_16\nperformer\nent_8\nperformer_approval\nent_7\napprover\nent_10\napprover_approval\nent_11\napprover_approval\nent_12\nreference\nent_9\nOper test YD Liner Actuators c/out. NFF FCC1A swappe",
+      "all_text_len": 3562
+    },
+    {
+      "row": 3323,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "page_index": "10",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "parts_identification_tag",
+      "title": "PARTS TAG RETURN LABEL",
+      "text_preview": "PARTS TAG RETURN LABEL\n2020-12-08\nevt_1\ncomponent_removal\nRemoval of FLIGHT CONTROL COMPUTER P/N 822-0809-810 S/N 4PM4CV from aircraft HB-JT2 (MSN 6134, 255:25 hours, 706 cycles) at position FCC 1A due to intermittent fault and Bombardier recommendation, under project 2020-12-08-406-HBJT2.\nstamp_2\npart_removed\nent_6\npart_removed\nent_16\nlocation\nent_11\nlocation\nent_12\nlocation\nent_13\nlocation\nent_1",
+      "all_text_len": 4584
+    },
+    {
+      "row": 3324,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "page_index": "11",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "easa_form_one",
+      "title": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1",
+      "text_preview": "AUTHORISED RELEASE CERTIFICATE EASA FORM 1\n2020-09-29\nevt_overhaul\nrepair\nOverhaul of FLIGHT CONTROL COMPUTER - FCC-4006 (P/N 822-0809-810, S/N 1262) performed in accordance with Service Memorandum 105935801 and inspected/tested by CMM 523-0777245 Rev: 19, Dated: 10/26/2015. Service Bulletins Installed: None. Airworthiness Directive complied with: N/A.\nsubject\nent_part_num\nsubject\nent_serial_num\np",
+      "all_text_len": 5231
+    },
+    {
+      "row": 3327,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "page_index": "8",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "201",
+        "810",
+        "822"
+      ],
+      "doc_type": "mis_task_card",
+      "title": null,
+      "text_preview": "2020-12-08\nevt_1\nrepair\nFCC MALFUNCTION - INVESTIGATE AND RECTIFY. FCC 1A IS REPLACED IAW BOMBARDIER RECOMMENDATION REF AMM PART II TASK 22-12-00-000/400-801 REMOVAL/ INSTALLATION OF THE FCC. FCC DPS TEST PASSED SATISF. REF AMM PART II TASK 22-11-00-710-802 ON /OFF PNR 822-0809-810, OFF SNR 4FM4CV ON SNR 1262\nstamp_1\nstamp_2\nsubject\nent_2\nsubject\nent_3\nsubject\nent_4\nreference\nent_6\nreference\nent_7",
+      "all_text_len": 3384
+    },
+    {
+      "row": 3330,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "page_index": "9",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-08-406_6134-20-17_08-Dec-2020.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "routine_task_card",
+      "title": "WORK CARD",
+      "text_preview": "WORK CARD\n2020-12-08\nevt_1\ncomponent_installation\nFCC1A is replaced IAW Bombardier recommendation, ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC). TASK 22-12-10-000-710-802 Operational Test of the Flight Control Computer (FCC) passed satisfactory.\nstamp_1\nstamp_2\nperformer\nent_13\npart_installed\nent_10\npart_removed\nent_11\npart_installed\nent_12\ntask_reference",
+      "all_text_len": 5297
+    },
+    {
+      "row": 3351,
+      "file_name": "CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "page_index": "11",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_2020-12-05-397_6134-20-16_05-Dec-2020.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "UNSCHEDULED",
+      "text_preview": "UNSCHEDULED\n2020-12-05\nevt_1\ntask_performed\nYD 2 INTERMITTENT FAULT - INVESTIGATE AND RECTIFY. Corrective action: FCC1A SWAPPED WITH FCC2A, FCC1B SWAPPED WITH FCC2B, IAW BOMBARDIER RECOMMEND, SMART PIX PLUS, OPS TEST C/OUT ROP. AMM 22-11-00-710-802, 22-22-07-710-801, SATISFACTORY FOR SERVICE, HIL PAGE #1 ITEM #1 IS CLEARED CURRENT POSITIONS, FCC1A SNR 4FM4CV, FCC2A SNR 4FM4CT, FCC1B SNR 4F14NX, FC",
+      "all_text_len": 4447
+    },
+    {
+      "row": 3415,
+      "file_name": "CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "page_index": "20",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "faa_form_8130",
+      "title": "AUTHORIZED RELEASE CERTIFICATE",
+      "text_preview": "AUTHORIZED RELEASE CERTIFICATE\n2020-10-16\nevt_1\nrepair\nOverhaul of FLIGHT CONTROL COMPUTER - FCC-4006 in compliance with Federal Aviation Administration Regulation 43.3(e), inspected/tested by CMM 523-0777245 Rev. 19, Dated: 10/26/2015, and performed in accordance with Service Memorandum 105937826. No Service Bulletins installed and Airworthiness Directives complied with: N/A.\nsubject\nent_8\npart_i",
+      "all_text_len": 5516
+    },
+    {
+      "row": 3419,
+      "file_name": "CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "page_index": "24",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "other",
+      "title": "CERTIFICATE OF CONFORMANCE",
+      "text_preview": "CERTIFICATE OF CONFORMANCE\n2020-10-16\nevt_1\nrelease_to_service\nAircraft appliance or part serviced and found to conform to applicable requirements.\nsig_1\npart_installed\nent_5\nsubject\nent_8\nperformer\nent_9\nauthorizer\nent_12\nsigned_off\nStatement of conformance with signature present.\n10\n1 EA\n822-0809-810\nFCC-4006\nFCC-4006 / FLIGHT CONTROL COMPUTER - FCC\nInternal tracking #: 486DY1\nNameplate Serial #",
+      "all_text_len": 3084
+    },
+    {
+      "row": 3426,
+      "file_name": "CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "page_index": "2",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\n2021-03-09\nevt_1\ntask_performed\nOPERATIONAL TEST OF THE AIR DRIVEN GENERATOR (ADG)\nsubject\nent_20\n24-23-00-101\nsigned_off\nimplied by Certificate of Release to Service\n2021-03-09\nevt_2\nrepair\nAUTOPILOT DURING ADG FLIGHT PROCEDURE - REPLACED FCC 1A CARD IAW AMM 22-12-10 - OPS TEST PERFORMED IAW AMM 22-11-00 - FOUND SATIS.\ntask_reference\nent_21\npart_removed\nent_24\nse",
+      "all_text_len": 5928
+    },
+    {
+      "row": 3428,
+      "file_name": "CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "page_index": "21",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "shop_visit_report",
+      "title": "Service Memorandum",
+      "text_preview": "Service Memorandum\nevt_1\nother\nCustomer complaint: Card causes AP failures.\nambiguous\nThis is a reported complaint, not an action with a clear compliance status on this page.\nevt_2\nshop_visit\nOverhaul required for equipment.\nlisted_but_not_signed\nStated as 'Level of Work Required', indicating a planned action, not yet completed or signed off on this page.\nevt_3\ninspection\nPreliminary Inspection Re",
+      "all_text_len": 4136
+    },
+    {
+      "row": 3438,
+      "file_name": "CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "page_index": "19",
+      "original_path": "CL650-6134/4. Compliance Records/Box 1/Binder 3/CL650-6134_bo1_bi3_182703_6134-21-01-ADG_09-Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_task_card",
+      "title": "Material to Job Card",
+      "text_preview": "Material to Job Card\n2021-03-04\nevt_1\ncomponent_removal\nRemoval of FCC-4006, FLIGHT CONTROL COMPUTER (P/N 822-0809-810, S/N 486F99) as part of Work Order 182703.\nsubject\nent_10\npart_removed\nent_12\nauthorizer\nent_1\nreference\nent_5\n182703.006\nambiguous\nMaterial list indicates component was 'off', but no explicit sign-off for removal event.\n2021-03-04\nevt_2\ncomponent_installation\nInstallation of FCC-",
+      "all_text_len": 2464
+    },
+    {
+      "row": 4410,
+      "file_name": "CL650-6134_boA_bii_Nov-2020_to_Mar-2021.pdf",
+      "page_index": "25",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Techlogs/Binder i_Techlog/CL650-6134_boA_bii_Nov-2020_to_Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "technical_journey_log",
+      "title": "Technical / Journey Log No. 13521",
+      "text_preview": "Technical / Journey Log No. 13521\n2021-03-09\nevt_1\ntask_performed\nPERFORM MAINTENANCE IAW CUST. PO 6134-21-03\nauthorizer\nent_10\nwork_order\nent_3\n6134-21-03\nsigned_off\nCorrective action provided and work order referenced, implied by CRS\n2021-03-09\nevt_2\ntask_performed\nOPERATIONAL TEST OF THE AIR DRIVEN GENERATOR (ADG)\ntask_reference\nent_11\n24-23-00-101\nsigned_off\nListed in Scheduled Maintenance and",
+      "all_text_len": 6860
+    },
+    {
+      "row": 4415,
+      "file_name": "CL650-6134_boA_bii_Nov-2020_to_Mar-2021.pdf",
+      "page_index": "20",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Techlogs/Binder i_Techlog/CL650-6134_boA_bii_Nov-2020_to_Mar-2021.pdf",
+      "sn_hit": false,
+      "pn_hit": false,
+      "family_hit": true,
+      "family_dashes": [
+        "610"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Technical / Journey Log No. 13519",
+      "text_preview": "Technical / Journey Log No. 13519\n2021-03-02\nevt_1\ntask_performed\nPERFORM MAINTENANCE IAW. CUST. PO6134-21-01 REV. 01\nauthorizer\nent_7\nwork_order\nent_8\nPO6134-21-01\nsigned_off\nCorrective action is filled, and work is released via CRS on the same page.\n2021-03-02\nevt_2\nrelease_to_service\nCertifies that the work specified, except as otherwise specified, was carried out in accordance with Part-145 an",
+      "all_text_len": 5763
+    },
+    {
+      "row": 8928,
+      "file_name": "AVIONIC_RADIO LIST.pdf",
+      "page_index": "0",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/Certification Data Disc/9-Avionic_Radio Equipement List/AVIONIC_RADIO LIST.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "Avionic Equipment List for S/N: 6134 rev 2",
+      "text_preview": "Avionic Equipment List for S/N: 6134 rev 2\nAvionic Equipment List\nAdaptive Flight Display\nAFD-5220E\nRockwell Collins\n822-1917-227\n4\nAir Data Computer\nADC-850E\nRockwell Collins\n822-0842-621\n2\nAirplane Personality Module\nAPM\nHoneywell\n90401121\n1\nClock Digital\nCLK\nGE Aviation Systems\n2619-02-2\n1\nCockpit Voice Recorder (CVR)\nCVR\nL3 Communications\n2100-1225-22\n1\nCombiner Unit\nM 660x\nRockwell Collins\n15",
+      "all_text_len": 4140
+    },
+    {
+      "row": 9145,
+      "file_name": "PART NUMBERS.pdf",
+      "page_index": "20",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/Certification Data Disc/56-Aircraft Serialization Listing/PART NUMBERS.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "AIRCRAFT SERIALIZATION LISTING",
+      "text_preview": "AIRCRAFT SERIALIZATION LISTING\n768965-1B\nPROBE NO.1, FUEL, CENTER TANK NO.1\n3639\n28-41-04\nCENTRE TANK NO.1 LH\n768966-1B\nPROBE NO.2, FUEL, CENTER TANK NO.1\n961\n28-41-04\nCENTRE TANK NO.2 LH\n768967-1B\nPROBE NO.3, FUEL, CENTER TANK NO.1\n1879\n28-41-04\nCENTRE TANK NO.3 RH\n798976-1-1\nPANEL, REFUEL/DEFUEL\n798976IN00680\n28-41-51\nCOCKPIT\n7G1140\nSWITCH, PRESSURE, FUEL PUMP\n5446A\n73-31-07\nRH ENGINE\n7G1140\nSWI",
+      "all_text_len": 9932
+    },
+    {
+      "row": 9149,
+      "file_name": "PART NUMBERS.pdf",
+      "page_index": "21",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/Certification Data Disc/56-Aircraft Serialization Listing/PART NUMBERS.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "AIRCRAFT SERIALIZATION LISTING",
+      "text_preview": "AIRCRAFT SERIALIZATION LISTING\nAircraft Serialization Listing\n822-0809-810\nFCC-4006, FLIGHT CONTROL COMPUTER\n4FM4CV\n22-12-10\nIAPS #2A\n17,19,20,22,24,32\n822-0842-621\nCOMPUTER, AIR DATA (ADC850E)\n4DL8YD\n34-13-01\nADC #1 LH\n40,42,43,45,49,50,55,56,59,60,62,63,68,70\n822-0842-621\nCOMPUTER, AIR DATA (ADC850E)\n4DL9XM\n34-13-01\nADC #2 RH\n40,42,43,45,49,50,55,56,59,60,62,63,68,70\n822-0845-001\nBOX, JUNCTION, ",
+      "all_text_len": 9467
+    },
+    {
+      "row": 9243,
+      "file_name": "ATA CHAPTERS.pdf",
+      "page_index": "1",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/Certification Data Disc/56-Aircraft Serialization Listing/ATA CHAPTERS.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "AIRCRAFT SERIALIZATION LISTING",
+      "text_preview": "AIRCRAFT SERIALIZATION LISTING\n21-61-16\n627962-2\nSENSOR, DUCT TEMPERATURE\n627962-27868\nRH TEMP CNTL\n21-61-16\n627962-2\nSENSOR, DUCT TEMPERATURE\n627962-27876\nRH LOW LIMIT\n21-61-16\n627962-2\nSENSOR, DUCT TEMPERATURE\n627962-27877\nLH LOW LIMIT\n21-61-19\n604DX2127001-001\nSENSOR,FAN\n625692-02462\nTEMP FAN SENSOR\n21-61-19\n625692-2\nSENSOR, FAN\n625692-02312\nCOCKPIT\n21-61-25\n124904-1-1\nMOTOR, TORQUE\n8720\nLH PNE",
+      "all_text_len": 9046
+    },
+    {
+      "row": 14470,
+      "file_name": "SOFTWARE DESIGN.pdf",
+      "page_index": "0",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/Certification Data Disc/3-Aircraft Software Design Compliance Report/SOFTWARE DESIGN.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "other",
+      "title": "Avionic Equipment List S/N 6134",
+      "text_preview": "Avionic Equipment List S/N 6134\nAvionic Equipment List\nAdaptive Flight Display\nAFD-5220E\nRockwell Collins\n822-1917-227\n4\nDO178B, level A,C,D\nAir Data Computer\nADC-850E\nRockwell Collins\n822-0842-621\n2\nDO178B, level A,D\nAirplane Personality Module\nAPM\nHoneywell\n90401121\n1\nNot Under EEDA\nClock Digital\nCLK\nGE Aviation Systems\n2619-02-2\n1\nDO178B, level C\nCockpit Voice Recorder (CVR)\nCVR\nL3 Communicatio",
+      "all_text_len": 10096
+    },
+    {
+      "row": 15369,
+      "file_name": "211101_HB-JTZ_SOFTWARE_DESIGN.pdf",
+      "page_index": "0",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/BBD_COMPLETION_DOCS/211101_HB-JTZ_SOFTWARE_DESIGN.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "Avionic Equipment List S/N 6134",
+      "text_preview": "Avionic Equipment List S/N 6134\nAvionic Equipment List\nAdaptive Flight Display\nAFD-5220E\nRockwell Collins\n822-1917-227\n4\nDO178B, level A,C,D\nAir Data Computer\nADC-850E\nRockwell Collins\n822-0842-621\n2\nDO178B, level A,D\nAirplane Personality Module\nAPM\nHoneywell\n90401121\n1\nNot Under EEDA\nAPU Data Concentrator Unit\nDCU-850E\nRockwell Collins\n822-0179-206\n1\nNot Under EEDA\nClock Digital\nCLK\nGE Aviation S",
+      "all_text_len": 8395
+    },
+    {
+      "row": 15408,
+      "file_name": "190803_HB-JTZ_AVIONIC_RADIO LIST.pdf",
+      "page_index": "0",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/BBD_COMPLETION_DOCS/190803_HB-JTZ_AVIONIC_RADIO LIST.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "Avionic Equipment List for S/N: 6134 rev 2",
+      "text_preview": "Avionic Equipment List for S/N: 6134 rev 2\nAvionic Equipment List\nAdaptive Flight Display\nAFD-5220E\nRockwell Collins\n822-1917-227\n4\nAir Data Computer\nADC-850E\nRockwell Collins\n822-0842-621\n2\nAirplane Personality Module\nAPM\nHoneywell\n90401121\n1\nClock Digital\nCLK\nGE Aviation Systems\n2619-02-2\n1\nCockpit Voice Recorder (CVR)\nCVR\nL3 Communications\n2100-1225-22\n1\nCombiner Unit\nM 660x\nRockwell Collins\n15",
+      "all_text_len": 3916
+    },
+    {
+      "row": 15428,
+      "file_name": "190228_HB-JTZ_AVIONIC_LIST_REV1.pdf",
+      "page_index": "0",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/BBD_COMPLETION_DOCS/190228_HB-JTZ_AVIONIC_LIST_REV1.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "other",
+      "title": "Avionic Equipment List for S/N: 6134 rev 1",
+      "text_preview": "Avionic Equipment List for S/N: 6134 rev 1\nAvionic Equipment List\nAdaptive Flight Display\nAFD-5220E\nRockwell Collins\n822-1917-227\n4\nAir Data Computer\nADC-850E\nRockwell Collins\n822-0842-621\n2\nAirplane Personality Module\nAPM\nHoneywell\n90401121\n1\nClock Digital\nCLK\nGE Aviation Systems\n2619-02-2\n1\nCockpit Voice Recorder (CVR)\nCVR\nL3 Communications\n2100-1225-22\n1\nCombiner Unit\nM 660x\nRockwell Collins\n15",
+      "all_text_len": 4241
+    },
+    {
+      "row": 15521,
+      "file_name": "190220_HB-JTZ_PART_NUMBERS.pdf",
+      "page_index": "16",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Manuals/Binder a_Completion Data/BBD_COMPLETION_DOCS/190220_HB-JTZ_PART_NUMBERS.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "mis_export",
+      "title": "AIRCRAFT SERIALIZATION LISTING",
+      "text_preview": "AIRCRAFT SERIALIZATION LISTING\nAircraft Serialization Listing\n822-0288-001\nCONTROLLER, ENVIR IAPS\n4F1G3K\n22-12-19\nIAPS #2B\n1,3\n822-0288-001\nCONTROLLER, ENVIR IAPS\n4F1M5R\n22-12-19\nIAPS #1B\n1,3\n822-0332-702\nPROTECTOR, LIGHTNING\n4FM5PD\n22-12-22\nIAPS #2A\n2\n822-0615-206\nRADIO ALTIMETER, ALT-4000\n4C580X\n34-44-01\nAFT BAY EQUIP. #1 (HAUT)\n1-10,12-13\n822-0615-206\nRADIO ALTIMETER, ALT-4000\n4FLGHL\n34-44-01\nA",
+      "all_text_len": 8738
+    },
+    {
+      "row": 15586,
+      "file_name": "CL650-6134_boA_bif_Engine Log Book_APU_19-Feb-2022.pdf",
+      "page_index": "13",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder f_APU Logbook/CL650-6134_boA_bif_Engine Log Book_APU_19-Feb-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\nevt_1\nrepair\nAUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE. ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE. INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC P/N 822-0809-810. WORK PERFORMED IAW BBD AMM 22-11-01-000/400-801. FCCS WITH P/N 822-0809-810. DATA SOURCE FLIGHT CONTROL PANEL OPERATIONAL TEST C/OUT IAW 22-11-01-",
+      "all_text_len": 3164
+    },
+    {
+      "row": 15786,
+      "file_name": "CL650-6134_boA_bif_Engine Log Book_APU_19-Feb-2022.pdf",
+      "page_index": "12",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder f_APU Logbook/CL650-6134_boA_bif_Engine Log Book_APU_19-Feb-2022.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\n2021-04-19\nevt_1\ntask_performed\nPERFORM AMM TASK 28-10-00-620-802 PART D AFTER BIOCIDE TREATMENT PERFORM AMM TASK 28-10-00-620-802. LEAK CHECK OF LH & RH ENG & APU FUEL FILTERS C/OUT IAW EMM 72-00-00 & 49-30-52. NIL LEAKS.\nsubject\nent_16\nreference\nent_18\nreference\nent_19\n28-10-00-620-802\nsigned_off\nlisted in 'work has been accomplished' section\n2021-04-19\nevt_2\nin",
+      "all_text_len": 13896
+    },
+    {
+      "row": 15882,
+      "file_name": "CL650-6134_boA_bif_Engine Log Book_APU_19-Feb-2022.pdf",
+      "page_index": "10",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder f_APU Logbook/CL650-6134_boA_bif_Engine Log Book_APU_19-Feb-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\nevt_1\nsb_compliance\nSB 650-34-019 PART A REV. BASIC - SPECIAL CHECK/MODIFICATION - GLOBAL POSITIONING SYSTEM (GPS) - INTRODUCTION OF NEW GPS-4000S PART NUMBER 822-2189-101\nsubject\nent_4\npart_installed\nent_5\nSB 650-34-019\nsigned_off\nMarked C/W\nevt_2\nsb_compliance\nSB 650-27-003 PART A REV. BASIC - SPECIAL CHECK/MODIFICATION - RUDDER CONTROL SYSTEM - INSPECTION OF RU",
+      "all_text_len": 13164
+    },
+    {
+      "row": 16294,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "78",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+      "text_preview": "Release to Service Certificate - Airframe Inspection / Maintenance Record\n2021-05-28\nevt_1\ntask_performed\n100 HOUR CHECK\ntask_reference\nent_24\n05H0100\nsigned_off\nTask listed under 'DUE MAINTENANCE COMPLIED WITH' on a Release to Service Certificate\n2021-05-28\nevt_2\ninspection\nNO. 1 ENGINE - DETAILED INSPECTION ENGINE MASTER CHIP DETECTOR INDICATOR\nata_chapter\nent_25\nsubject\nent_14\n72-20-00-207\nsign",
+      "all_text_len": 10346
+    },
+    {
+      "row": 16311,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "67",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\nevt_1\nsb_compliance\nSB 650-34-019 PART A REV. BASIC - SPECIAL CHECK/MODIFICATION - GLOBAL POSITIONING SYSTEM (GPS) - INTRODUCTION OF NEW GPS-4000S PART NUMBER 822-2189-101\nsubject\nent_3\npart_installed\nent_4\n650-34-019\nsigned_off\nMarked C/W\nevt_2\nsb_compliance\nSB 650-27-003 PART A REV. BASIC - SPECIAL CHECK/MODIFICATION - RUDDER CONTROL SYSTEM - INSPECTION OF RUDDE",
+      "all_text_len": 13497
+    },
+    {
+      "row": 16319,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "79",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+      "text_preview": "Release to Service Certificate - Airframe Inspection / Maintenance Record\nevt_1\ncomponent_installation\nReplaced Yaw Damper Linear Actuator NO.1 as per AMM 22-22-01-000/400-801 REV. 21.\npart_removed\nent_3\npart_removed\nent_4\npart_installed\nent_3\npart_installed\nent_5\nreference\nent_23\nAMM 22-22-01-000/400-801 REV. 21\nlisted_but_not_signed\ntask listed in work package but no stamp in Cleared column\nevt_",
+      "all_text_len": 9143
+    },
+    {
+      "row": 16331,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "71",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service",
+      "text_preview": "Certificate of Release to Service\n2021-03-09\nevt_1\ntask_performed\nOPERATIONAL TEST OF THE AIR DRIVEN GENERATOR (ADG)\ntask_reference\nent_21\n24-23-00-101\nsigned_off\nImplied by Certificate of Release to Service\n2021-03-09\nevt_2\ntask_performed\nAUTOPILOT DURING ADG FLIGHT PROCEDURE - REPLACED FCC 1A CARD IAW AMM 22-12-10 - OPS TEST PERFORMED IAW AMM 22-11-00 - FOUND SATIS; SWAPED IOC 1A WITH 2A AND 1B ",
+      "all_text_len": 7075
+    },
+    {
+      "row": 16333,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "73",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service AIRCRAFT",
+      "text_preview": "Certificate of Release to Service AIRCRAFT\n2021-04-19\nevt_1\ntask_performed\nPERFORM AMM TASK 28-10-00-620-802 PART D AFTER BIOCIDE TREATMENT. LH & RH ENG & APU FUEL FILTER REPLACED IAW 28-10-00-620-802. LEAK CHECK OF LH & RH ENG & APU FUEL FILTERS C/OUT IAW EMM 72-00-00 & 49-30-52. NIL LEAKS.\ntask_reference\nent_24\nreference\nent_25\nreference\nent_26\n28-10-00-620-802\nsigned_off\nWork listed in 'work ha",
+      "all_text_len": 13663
+    },
+    {
+      "row": 16370,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "59",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": true,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "CERTIFICATE OF RELEASE TO SERVICE",
+      "text_preview": "CERTIFICATE OF RELEASE TO SERVICE\n2020-12-05\nevt_1\nrepair\nYD 2 INTERMITTENT FAULT - INVESTIGATE AND RECTIFY\npart_number\nent_11\npart_installed\nent_12\npart_installed\nent_13\npart_installed\nent_14\npart_installed\nent_15\nsigned_off\nWork described in 'Works description' section and covered by overall Release to Service\n2020-12-05\nevt_2\ninspection\nOPERATIONAL TEST OF THE EMERGENCY LOCATOR TRANSMITTER (ELT",
+      "all_text_len": 8944
+    },
+    {
+      "row": 16378,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "74",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Certificate of Release to Service AIRCRAFT",
+      "text_preview": "Certificate of Release to Service AIRCRAFT\n2021-04-19\nevt_1\nrepair\nAUTOPILOT/FLIGHT DIRECTOR TRANSFERRED TO THE LEFT SIDE, ATTEMPTING TO SET A NEW PRESELECTED ALTITUDE RESULTS IN EITHER ERRATIC OR NO CHANGE - INVESTIGATE AND RECTIFY. BBD ADVICE REPLACE FCC. PN 822-0809-810. FCC REPLACED. AIRCRAFT FUNCTIONAL OPERATIONAL TEST CARRIED OUT IAW AMM 22-11-01-000/400-801. ALTITUDE SELECT DOES NOT OPERTE ",
+      "all_text_len": 5252
+    },
+    {
+      "row": 16381,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "60",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "CERTIFICATE OF RELEASE TO SERVICE",
+      "text_preview": "CERTIFICATE OF RELEASE TO SERVICE\n2020-12-08\nevt_1\ndefect_rectification\nFCC MALFUNCTION - INVESTIGATE AND RECTIFY\nstamp_1\nstamp_2\n201207-1\nsigned_off\nWork described on a CRS document, implying completion and sign-off.\n2020-12-08\nevt_2\ncomponent_installation\nFCC1A is replaced IAW Bombardier recommendation, ref TASK 22-12-10-000/400-801 Removal/Installation of the Flight Control Computer (FCC)\nstamp",
+      "all_text_len": 5359
+    },
+    {
+      "row": 16387,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "61",
+      "original_path": "CL650-6134/3. Logbooks & Manuals/Box A_Logbooks/Binder b_Airframe Logbook/CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "sn_hit": false,
+      "pn_hit": true,
+      "family_hit": true,
+      "family_dashes": [
+        "810"
+      ],
+      "doc_type": "certificate_of_release_to_service",
+      "title": "Release to Service Certificate - Airframe Inspection / Maintenance Record",
+      "text_preview": "Release to Service Certificate - Airframe Inspection / Maintenance Record\n2020-12-22\nevt_1\nrepair\nAUTO PILOT DISCONNECTED SEVERAL TIMES - SWITCHED TO AFCS 2 AND OK - INVESTIGATE AND RECTIFY\ntask_card_number\nent_17\npart_removed\nent_18\npart_removed\nent_19\npart_installed\nent_20\npart_installed\nent_21\n201222-2\nsigned_off\nWork listed on a Release to Service Certificate\n2020-12-22\nevt_2\nrepair\nCOCKPIT RE",
+      "all_text_len": 6750
+    }
+  ],
+  "sib_hits": [
+    {
+      "row": 1747,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "58"
+    },
+    {
+      "row": 1763,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "59"
+    },
+    {
+      "row": 1766,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "21"
+    },
+    {
+      "row": 1820,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "63"
+    },
+    {
+      "row": 1825,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "4"
+    },
+    {
+      "row": 1833,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "23"
+    },
+    {
+      "row": 1835,
+      "file_name": "CL650-6134_bo2_bi6_CL65HBJTZ011MX_6134-21-08_28-May-2021.pdf",
+      "page_index": "5"
+    },
+    {
+      "row": 1930,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "3"
+    },
+    {
+      "row": 1940,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "79"
+    },
+    {
+      "row": 1961,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "82"
+    },
+    {
+      "row": 1969,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "84"
+    },
+    {
+      "row": 1976,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "83"
+    },
+    {
+      "row": 1984,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "81"
+    },
+    {
+      "row": 1985,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "87"
+    },
+    {
+      "row": 1988,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "86"
+    },
+    {
+      "row": 1991,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "88"
+    },
+    {
+      "row": 2042,
+      "file_name": "CL650-6134_bo2_bi6_46219_6134-21-04_19-Apr-2021.pdf",
+      "page_index": "8"
+    },
+    {
+      "row": 16294,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "78"
+    },
+    {
+      "row": 16319,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "79"
+    },
+    {
+      "row": 16333,
+      "file_name": "CL650-6134_boA_bib_Technical Log_Airframe_29-Dec-2022.pdf",
+      "page_index": "73"
+    }
+  ],
+  "family_other_hits": [
+    {
+      "row": 4415,
+      "file_name": "CL650-6134_boA_bii_Nov-2020_to_Mar-2021.pdf",
+      "page_index": "20",
+      "dashes": [
+        "610"
+      ]
+    }
+  ]
+}

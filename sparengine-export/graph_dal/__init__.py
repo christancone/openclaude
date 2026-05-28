@@ -19,6 +19,10 @@ Module layout
 - ``organization``   — ``:Organization``, ``:Person``, regulatory authorities.
 - ``finding``        — ``:Finding``, ``:PriorityItem``, ``:AuditRun``.
 - ``stamp``          — ``:Stamp`` + ``:BINDS_TO`` logic.
+- ``form1_edges``    — Form 1 structural edge writers (RELEASES_PN, RELEASES_SN,
+                       COVERS_RANGE, POST_SB_RELEASE, PAIRED_WITH).
+- ``_normalize``     — Shared ``normalize_identifier()`` used by Phase 1 writers,
+                       Phase 6 alias detection, and Phase 7 fulltext search.
 - ``fulltext``       — Lucene-syntax wrappers around the ``:Page.text`` fulltext index.
 - ``verify``         — Per-phase verifiers + universal "no fact without evidence" check.
 - ``export``         — Phase 10 read queries + APOC export helpers.
@@ -51,9 +55,24 @@ import os
 from neo4j import Driver, GraphDatabase
 
 from .errors import GoldenRuleViolation, VerificationFailed
+from ._normalize import (
+    normalize_identifier,
+    normalize_identifier_aggressive,
+    normalize_for_fulltext,
+    normalize_date,
+    is_noise_identifier,
+)
+from .form1_edges import (
+    link_form1_releases_pn,
+    link_form1_releases_sn,
+    link_form1_covers_range,
+    link_form1_post_sb_release,
+    link_crs_paired_with_form1,
+)
 
 __all__ = [
     "connect",
+    "database_name",
     "GoldenRuleViolation",
     "VerificationFailed",
     "AssetKind",
@@ -62,6 +81,18 @@ __all__ = [
     "FindingSeverity",
     "BindingStatus",
     "EvidenceClass",
+    # Shared helpers
+    "normalize_identifier",
+    "normalize_identifier_aggressive",
+    "normalize_for_fulltext",
+    "normalize_date",
+    "is_noise_identifier",
+    # Form 1 structural edge writers
+    "link_form1_releases_pn",
+    "link_form1_releases_sn",
+    "link_form1_covers_range",
+    "link_form1_post_sb_release",
+    "link_crs_paired_with_form1",
 ]
 
 
